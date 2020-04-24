@@ -7,11 +7,7 @@ const Attachment = require("./misc/attachment.js")
 */
 
 const todoCardSchema = new Schema({
-    id: {
-        type: String,
-        required: true
-    },
-    travelers: [String], //same as traveler.id type
+    travelers: [ObjectId],
     isDone: {
         type: Boolean,
         default: false

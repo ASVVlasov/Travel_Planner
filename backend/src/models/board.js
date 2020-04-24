@@ -10,9 +10,6 @@ const TodoCard = require("./todo.js")
 */
 
 const boardSchema = new Schema({
-    id: {
-        type: String,
-    },
     name: {
         type: String,
     },
@@ -22,15 +19,11 @@ const boardSchema = new Schema({
     endDate: {
         type: Date,
     },
-    status: { //Статусы: "Подготовка / В процессе / Завершена / Рассчитана / Отменена"
+    status: { //Статусы, пока: "Активная / Архивная"
         type: String,
-        default: "Подготовка"
+        default: "Активная"
     },
-    backgroundImagePath: {
-        type: String,
-        /*TODO - default: "PATH to default background image" */
-    },
-    travelers: [String], //same as traveler.id type
+    travelers: [ObjectId],
     transportCards: [TransportCard],
     accomodationCards: [AccomodationCard],
     entertaimentCards: [EntertaimentCard],

@@ -13,10 +13,6 @@ let personalInfoSchema = new Schema({ // Паспорта, загран пасп
 Основные данные путешественника, его контакты и доски
 */
 const travelerSchema = new Schema({
-    id: {
-        type: String,
-        required: true
-    },
     login: {
         type: String,
     },
@@ -30,8 +26,8 @@ const travelerSchema = new Schema({
         type: String,
         /*TODO - default: "PATH to default avatar image" */
     },
-    contacts: [String], //same as traveler.id type
-    boards: [String], // same as board.id type
+    contacts: [ObjectId],
+    boards: [ObjectId],
     profile: profileSchema,
     personalInfo: personalInfoSchema
 });
