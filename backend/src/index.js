@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 mongoose.connect('mongodb+srv://gt_root:greenteam@cluster0-jubqy.azure.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -23,6 +25,6 @@ const router = require(path.resolve(__dirname, '.', 'routes'));
 
 app.use(router);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('server has been started');
 });
