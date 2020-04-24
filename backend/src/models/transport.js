@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Attachment = require("./misc/attachment.js")
+const Cost = require("./misc/cost.js")
 
 // Заглушки пока не определимся с составом информации
 let attachmentSchema = new Schema({ //Прикрепленные файлы
@@ -10,7 +12,7 @@ let costSchema = new Schema({
     currency: String
 })
 /*
-Основные данные путешественника, его контакты и доски
+Основные данные по транспорту: какой, компания-перевозчик, откуда/куда/когда перемещаемся
 */
 const transportCardSchema = new Schema({
     id: {
@@ -21,7 +23,7 @@ const transportCardSchema = new Schema({
     payer: {
         type: String, // traveler.id who payed
     },
-    cost: costSchema,
+    cost: Cost,
     transport: {
         type: String,
     },
@@ -43,7 +45,7 @@ const transportCardSchema = new Schema({
     comment: {
         type: String,
     },
-    attachments: [attachmentSchema],
+    attachments: [Attachment],
 
 });
 

@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const TransportCard = require("./transport.js")
+const AccomodationCard = require("./accomodation.js")
+const EntertaimentCard = require("./entertaiment.js")
+const TodoCard = require("./todo.js")
 
 // Заглушки пока не определимся с составом информации
 let transportCardSchema = new Schema({ //
@@ -37,10 +41,10 @@ const boardSchema = new Schema({
         /*TODO - default: "PATH to default background image" */
     },
     travelers: [String], //same as traveler.id type
-    transportCards: [transportCardSchema],
-    accomodationCards: [accomodationCardSchema],
-    entertaimentCards: [entertaimentCardSchema],
-    todoCards: [todoCardSchema]
+    transportCards: [TransportCard],
+    accomodationCards: [AccomodationCard],
+    entertaimentCards: [EntertaimentCard],
+    todoCards: [TodoCard]
 });
 
 module.exports = mongoose.model("board", boardSchema);

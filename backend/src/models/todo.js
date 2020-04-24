@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Attachment = require("./misc/attachment.js")
 
-// Заглушки пока не определимся с составом информации
-let attachmentSchema = new Schema({ //Прикрепленные файлы
-    name: String,
-    path: String
-})
 /*
 Основные данные по списку дел: заголовок, детальное описане, когда нужно сделать.
 */
@@ -28,7 +24,7 @@ const todoCardSchema = new Schema({
     todoDate: {
         type: Date,
     },
-    attachments: [attachmentSchema],
+    attachments: [Attachment],
 
 });
 
