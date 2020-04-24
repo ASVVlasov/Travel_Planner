@@ -5,20 +5,10 @@ const AccomodationCard = require("./accomodation.js")
 const EntertaimentCard = require("./entertaiment.js")
 const TodoCard = require("./todo.js")
 
-// Заглушки пока не определимся с составом информации
-let transportCardSchema = new Schema({ //
-    name: String
-})
-let accomodationCardSchema = new Schema({ // 
-    name: String
-})
-let entertaimentCardSchema = new Schema({ // 
-    name: String
-})
-
 /*
 Основная информация о доске, ее карточки
 */
+
 const boardSchema = new Schema({
     id: {
         type: String,

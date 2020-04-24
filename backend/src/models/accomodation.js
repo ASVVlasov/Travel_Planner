@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Attachment = require("./misc/attachment.js")
-const Cost = require("./misc/cost.js")
 
 /*
 Основные данные по размещению: тип, название, компания, въезд/выезд.
 */
+
 const accomodationCardSchema = new Schema({
     id: {
         type: String,
@@ -15,7 +15,7 @@ const accomodationCardSchema = new Schema({
     payer: {
         type: String, // traveler.id who payed
     },
-    cost: Cost,
+    cost: mongoose.Decimal128,
     type: {
         type: String,
     },

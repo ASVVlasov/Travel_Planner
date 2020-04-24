@@ -5,6 +5,7 @@ const Attachment = require("./misc/attachment.js")
 /*
 Основные данные по списку дел: заголовок, детальное описане, когда нужно сделать.
 */
+
 const todoCardSchema = new Schema({
     id: {
         type: String,
@@ -25,7 +26,6 @@ const todoCardSchema = new Schema({
         type: Date,
     },
     attachments: [Attachment],
-
 });
 
 module.exports = mongoose.model("todoCard", todoCardSchema);
