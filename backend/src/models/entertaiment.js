@@ -36,10 +36,10 @@ const entertaimentCardSchema = new Schema({
         type: String,
     },
     beginDate: {
-        type: String,
+        type: Date,
     },
     endDate: {
-        type: String,
+        type: Date,
     },
     comment: {
         type: String,

@@ -26,7 +26,7 @@ const todoCardSchema = new Schema({
         type: String,
     },
     todoDate: {
-        type: String,
+        type: Date,
     },
     attachments: [attachmentSchema],
 

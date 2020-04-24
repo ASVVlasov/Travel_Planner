@@ -32,13 +32,13 @@ const transportCardSchema = new Schema({
         type: String,
     },
     departureDate: {
-        type: String,
+        type: Date,
     },
     arrivalPlace: {
         type: String,
     },
     arrivalDate: {
-        type: String,
+        type: Date,
     },
     comment: {
         type: String,

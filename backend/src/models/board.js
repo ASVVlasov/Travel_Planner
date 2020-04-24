@@ -23,10 +23,10 @@ const boardSchema = new Schema({
         type: String,
     },
     beginDate: {
-        type: String,
+        type: Date,
     },
     endDate: {
-        type: String,
+        type: Date,
     },
     status: { //Статусы: "Подготовка / В процессе / Завершена / Рассчитана / Отменена"
         type: String,

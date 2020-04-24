@@ -32,10 +32,10 @@ const accomodationCardSchema = new Schema({
         type: String,
     },
     checkIn: {
-        type: String,
+        type: Date,
     },
     checkOut: {
-        type: String,
+        type: Date,
     },
     comment: {
         type: String,
