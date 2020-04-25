@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 
 import styles from './Header.module.scss';
-import backBtnPic from './images/back-btn.svg';
-import editBtnPic from './images/edit-pencil.svg';
-import userProfilePic from './images/user-profile.svg';
+import { ReactComponent as BackBtnSVG } from './images/back-btn.svg';
+import { ReactComponent as EditBtnSVG } from './images/edit-pencil.svg';
+import { ReactComponent as UserProfileSVG } from './images/user-profile.svg';
 
 class Header extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Header extends React.Component {
       <div className={styles.container}>
         <div className={styles["header-row"]}>
           <div className={styles["back-btn"]}>
-            <img src={backBtnPic} alt="back-btn" />
+              <BackBtnSVG />
           </div>
           <div className={styles["trip-data"]}>
             <div className={styles["trip-data__item"]}>
@@ -31,7 +31,7 @@ class Header extends React.Component {
                 Евротур’2020
               </div>
               <div className={styles["trip-data__edit-btn"]}>
-                <img src={editBtnPic} alt="edit-btn" />
+                <EditBtnSVG />
               </div>
             </div>
             <div className={styles["trip-data__item"]}>
@@ -39,7 +39,7 @@ class Header extends React.Component {
                 24 июня, ПТ – 10 июля, ВС  |  14 дней
               </div>
               <div className={styles["trip-data__edit-btn"]}>
-                <img src={editBtnPic} alt="edit-btn" />
+                <EditBtnSVG />
               </div>
             </div>
           </div>
@@ -62,8 +62,8 @@ class Header extends React.Component {
             </div>
           </div>
           
-          <div className={styles["userProfile"]}>
-            <img src={userProfilePic} alt="user-profile" />
+          <div className={styles["user-profile"]}>
+            <UserProfileSVG />
           </div>
 
         </div>
