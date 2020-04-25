@@ -2,6 +2,25 @@
 @import '../../styles/mixins';
 $width: 1440px;
 
+@mixin hover-active {
+  &:hover {
+    transform: scale(1.1);
+    color: $color-gray-2;
+  }
+  &:active {
+    transform: none;
+    color: $color-gray-2;
+  }
+  &:hover, 
+  &:active {
+    cursor: pointer;
+  }
+  &:hover svg rect,
+  &:active svg rect {
+    fill-opacity: 0.75;
+  }
+}
+
 .container {
   max-width: $width;
   margin: 0px auto;
@@ -17,6 +36,9 @@ $width: 1440px;
   display: flex;
   align-items: center;
   height: 45px;
+}
+.back-btn {
+  @include hover-active;
 }
 .trip-data {
   @include Body1;
@@ -37,6 +59,7 @@ $width: 1440px;
   }
   &__period-text {}
   &__edit-btn {
+    @include hover-active;
     margin: 0px 0px 0px 12px;
   }
 }
@@ -75,11 +98,12 @@ $width: 1440px;
     color: $color-gray-2;
   }
 }
-.userProfile {
+.user-profile {
+  @include hover-active;
   margin: 0 0 0 100px;
 }
 @media (max-width: 1170px) {
-  .userProfile {
+  .user-profile {
     margin: 0 0 0 10px;
   }
 }
