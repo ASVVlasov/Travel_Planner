@@ -1,0 +1,26 @@
+// Fonts
+@mixin H1 () {
+   font-weight: 600;
+   font-size: 24px;
+   line-height: 49px;
+}
+@mixin H2 () {
+   font-weight: 600;
+   font-size: 20px;
+   line-height: 24px;
+}
+@mixin Body1 () {
+   font-weight: 600;
+   font-size: 18px;
+   line-height: 22px;
+}
+@mixin Body2 () {
+   font-weight: 400;
+   font-size: 18px;
+   line-height: 20px;
+}
+@mixin Body3 () {
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 20px;
+}
