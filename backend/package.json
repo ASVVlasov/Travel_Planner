@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build-front && npm run serve",
-    "build-front": "cd ../frontend && npm run build && cd ../backend",
+    "build-front": "cd ../frontend && npm run heroku-build && cd ../backend",
     "serve": "node src/index.js",
     "nodemon": "nodemon src/index.js"
   },
