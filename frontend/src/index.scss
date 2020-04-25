@@ -1,0 +1,7 @@
+@import-normalize;
+@import 'styles/colors', 'styles/mixins';
+
+body {
+   font-family: 'Montserrat', sans-serif;
+   color: $color-gray-2;
+}
