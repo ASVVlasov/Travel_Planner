@@ -26,8 +26,8 @@ const travelerSchema = new Schema({
         type: String,
         /*TODO - default: "PATH to default avatar image" */
     },
-    contacts: [ObjectId],
-    boards: [ObjectId],
+    contacts: [mongoose.ObjectId],
+    boards: [mongoose.ObjectId],
     profile: profileSchema,
     personalInfo: personalInfoSchema
 });
