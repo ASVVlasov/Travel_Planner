@@ -1,0 +1,85 @@
+@import '../../styles/colors';
+@import '../../styles/mixins';
+$width: 1440px;
+
+.container {
+  max-width: $width;
+  margin: 0px auto;
+  padding: 0px 33.75px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  height: 45px;
+}
+.trip-data {
+  @include Body1;
+  color: $color-gray-2;
+  flex: 1 1 auto;
+  display: flex;
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 0px 0px 0px 50px;
+  }
+  &__title {
+    display: flex;
+  }
+  &__title-text {}
+  &__period {
+    display: flex;
+  }
+  &__period-text {}
+  &__edit-btn {
+    margin: 0px 0px 0px 12px;
+  }
+}
+.travellers {
+  display: flex;
+}
+.travellers-item {
+  width: 45px;
+  height: 45px;
+  background: $color-gray-6;
+  border: 1px solid $color-gray-5;
+  box-sizing: border-box;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  &:nth-child(2) {
+    right: 12px;
+  }
+  &:nth-child(3) {
+    right: 24px;
+  }
+  &:nth-child(n+4) {
+    right: 36px;
+  }
+}
+.travellers-else {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 36px;
+  & span {
+    @include Body1;
+    color: $color-gray-2;
+  }
+}
+.userProfile {
+  margin: 0 0 0 100px;
+}
+@media (max-width: 1170px) {
+  .userProfile {
+    margin: 0 0 0 10px;
+  }
+}
