@@ -1,0 +1,19 @@
+{
+  "name": "travel_planner",
+  "version": "1.0.0",
+  "description": "### Идея: Когда собираешься в путешествие (особенно если не один-вдвоем, а группой), нет инструмента, где можно наглядно собрать всю информацию по поездке (купленные билеты, забронированные отели, машины, экскурсии, интересные места) и управлять бюджетом. На практике часто вся информация собирается где-то в чате телеги или в таких же гугл-доках.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd backend && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASVVlasov/Travel_Planner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ASVVlasov/Travel_Planner/issues"
+  },
+  "homepage": "https://github.com/ASVVlasov/Travel_Planner#readme"
+}
