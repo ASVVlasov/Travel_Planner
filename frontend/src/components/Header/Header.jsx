@@ -52,10 +52,10 @@ class Header extends React.Component {
               <img src="" alt="user-pic" />
             </div>
             <div className={styles["travellers-else"]}>
-              <span>+2</span>
+              +2
             </div>
           </div>
-          
+
           <UserProfileSVG className={styles["user-profile"]} />
 
         </div>

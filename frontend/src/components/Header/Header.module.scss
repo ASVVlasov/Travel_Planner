@@ -94,10 +94,8 @@ $width: 1440px;
   align-items: center;
   position: relative;
   right: 36px;
-  & span {
-    @include Body1;
-    color: $color-gray-2;
-  }
+  @include Body1;
+  color: $color-gray-2;
 }
 .user-profile {
   @include hover-active;
