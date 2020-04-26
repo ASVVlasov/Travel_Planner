@@ -1,13 +1,10 @@
-@import-normalize;
 @import '../../styles/colors', '../../styles/mixins';
 
-* {
-    padding: 0;
-    margin: 0;
-}
+$width: 1440px;
+
 .container {
     height: 100vh;
-    width: 100%;
+    max-width: $width;
     margin: 0px auto;
     position: relative;
 }
