@@ -1,0 +1,65 @@
+@import '../../styles/colors';
+@import '../../styles/mixins';
+
+.header {
+  height: 85px;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.back-btn {
+}
+.trip-data {
+  @include Body1;
+  color: $color-gray-2;
+  flex: 1 1 auto;
+  display: flex;
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 0px 0px 0px 50px;
+  }
+  &__title {
+    display: flex;
+  }
+  &__title-text {}
+  &__period {
+    display: flex;
+  }
+  &__period-text {}
+  &__edit-btn {
+    margin: 0px 0px 0px 12px;
+  }
+}
+.travellers {
+  display: flex;
+}
+.travellers-item {
+  width: 45px;
+  height: 45px;
+  background: $color-gray-6;
+  border: 1px solid $color-gray-5;
+  box-sizing: border-box;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px -12px 0px 0px;
+}
+.travellers-else {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 0px 0px 12px;
+  @include Body1;
+  color: $color-gray-2;
+}
+.user-profile {
+  margin: 0 0 0 100px;
+}
+@media (max-width: 1170px) {
+  .user-profile {
+    margin: 0 0 0 10px;
+  }
+}
