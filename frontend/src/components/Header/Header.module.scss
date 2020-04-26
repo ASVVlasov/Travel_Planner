@@ -70,23 +70,13 @@ $width: 1440px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  &:nth-child(2) {
-    right: 12px;
-  }
-  &:nth-child(3) {
-    right: 24px;
-  }
-  &:nth-child(n+4) {
-    right: 36px;
-  }
+  margin: 0px -12px 0px 0px;
 }
 .travellers-else {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  right: 36px;
+  margin: 0px 0px 0px 12px;
   @include Body1;
   color: $color-gray-2;
 }
