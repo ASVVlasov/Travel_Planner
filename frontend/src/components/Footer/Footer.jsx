@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './footer.module.scss'
-import Switch from './Switch/Switch.jsx'
+import Switch from '../../controls/Switch/Switch.jsx'
 
 export default class Footer extends React.Component {
     constructor() {
