@@ -7,7 +7,7 @@
     height: 90px;
 }
 
-.footer__payment-info{
+.footer__paymentInfo{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,23 +17,23 @@
 }
 
 .footer__paid,
-.footer__to-pay,
-.footer__total-budget{
+.footer__toPpay,
+.footer__totalBudget{
     text-align: center;
 }
 
-.footer__paid-value,
-.footer__to-pay-value{
+.footer__paidValue,
+.footer__toPayValue{
     @include Body2;
 }
 
-.footer__paid-description,
-.footer__to-pay-description,
-.footer__total-budget-description{
+.footer__paidDescription,
+.footer__toPayDescription,
+.footer__totalBudgetDescription{
     @include Body3;
 }
 
-.footer__total-budget-value{
+.footer__totalBudgetValue{
     font-weight: 600;
     font-size: 24px;
     line-height: 20px;

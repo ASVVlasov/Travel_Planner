@@ -4,15 +4,15 @@ import styles from './switch.module.scss'
 export default class Switch extends React.Component {
     render() {
         return (
-            <label className={styles["footer-travel-page-switch__label"]}>
-                <div className={styles["footer-travel-page-switch__toggle"]}>
-                    <input className={styles["footer-travel-page-switch__toggle-state"]} type="checkbox" name="check" value="check" />
-                    <div className={styles["footer-travel-page-switch__toggle-inner"]}>
-                    <div className={styles["footer-travel-page-switch__indicator"]}></div>
+            <label className={styles.switch__label}>
+                <div className={styles.switch__toggle}>
+                    <input className={styles.switch__toggleState} type="checkbox" name="check" value="check" />
+                    <div className={styles.switch__toggleInner}>
+                    <div className={styles.switch__indicator}></div>
                     </div>
-                    <div className={styles["footer-travel-page-switch__active-bg"]}></div>
+                    <div className={styles.switch__activeBg}></div>
                 </div>
-                <div className={styles["footer-travel-page-switch__label-text"]}>то, что относится ко мне</div>
+                <div className={styles.switch__labelText}>то, что относится ко мне</div>
             </label>
         )
     }

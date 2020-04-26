@@ -1,14 +1,14 @@
-.footer-travel-page-switch__label {
+.switch__label {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
 }
 
-.footer-travel-page-switch__label-text {
+.switch__labelText {
   margin-left: 8px;
 }
 
-.footer-travel-page-switch__toggle {
+.switch__toggle {
   isolation: isolate;
   position: relative;
   height: 24px;
@@ -18,7 +18,7 @@
   overflow: hidden;
 }
 
-.footer-travel-page-switch__toggle-inner {
+.switch__toggleInner {
   z-index: 2;
   position: absolute;
   top: 1px;
@@ -29,7 +29,7 @@
   overflow: hidden;
 }
 
-.footer-travel-page-switch__active-bg {
+.switch__activeBg {
   position: absolute;
   top: 0;
   left: 0;
@@ -40,11 +40,11 @@
   transition: transform 0.05s linear 0.17s;
 }
 
-.footer-travel-page-switch__toggle-state {
+.switch__toggleState {
   display: none;
 }
 
-.footer-travel-page-switch__indicator {
+.switch__indicator {
   height: 100%;
   width: 200%;
   background: white;
@@ -53,10 +53,10 @@
   transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
 }
 
-.footer-travel-page-switch__toggle-state:checked ~ .footer-travel-page-switch__active-bg {
+.switch__toggleState:checked ~ .switch__activeBg {
    transform: translate3d(-50%, 0, 0);
 }
 
-.footer-travel-page-switch__toggle-state:checked ~ .footer-travel-page-switch__toggle-inner .footer-travel-page-switch__indicator {
+.switch__toggleState:checked ~ .switch__toggleInner .switch__indicator {
    transform: translate3d(25%, 0, 0);
 }
