@@ -1,14 +1,13 @@
 @import-normalize;
 @import '../../styles/_colors.scss', '../../styles/_mixins.scss';
 
-.footer-travel-page{
+.footer{
     display: flex;
     justify-content: space-between;
-    width: 1320px;
     height: 90px;
 }
 
-.footer-travel-page__payment-info{
+.footer__payment-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,24 +16,24 @@
     padding-left: 40px;
 }
 
-.footer-travel-page__paid,
-.footer-travel-page__to-pay,
-.footer-travel-page__total-budget{
+.footer__paid,
+.footer__to-pay,
+.footer__total-budget{
     text-align: center;
 }
 
-.footer-travel-page__paid-value,
-.footer-travel-page__to-pay-value{
+.footer__paid-value,
+.footer__to-pay-value{
     @include Body2;
 }
 
-.footer-travel-page__paid-description,
-.footer-travel-page__to-pay-description,
-.footer-travel-page__total-budget-description{
+.footer__paid-description,
+.footer__to-pay-description,
+.footer__total-budget-description{
     @include Body3;
 }
 
-.footer-travel-page__total-budget-value{
+.footer__total-budget-value{
     font-weight: 600;
     font-size: 24px;
     line-height: 20px;
