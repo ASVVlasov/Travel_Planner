@@ -1,0 +1,35 @@
+import React from 'react'
+import styles from './footer.module.scss'
+import Switch from './Switch/Switch.jsx'
+
+export default class Footer extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            paid: '30000',
+            toPay: '110000',
+            totalBudget: '140000',
+        }
+    }
+    render() {
+        return (
+            <footer className={styles["footer-travel-page"]}>
+                <Switch/>
+                <div className={styles["footer-travel-page__payment-info"]}>
+                    <div className={styles["footer-travel-page__paid"]}>
+                        <div className={styles["footer-travel-page__paid-value"]}>{ this.state.paid }</div>
+                        <div className={styles["footer-travel-page__paid-description"]}>Оплачено</div>
+                    </div>
+                    <div className={styles["footer-travel-page__to-pay"]}>
+                        <div className={styles["footer-travel-page__to-pay-value"]}>{ this.state.toPay }</div>
+                        <div className={styles["footer-travel-page__to-pay-description"]}>К оплате</div>
+                    </div>
+                    <div className={styles["footer-travel-page__total-budget"]}>
+                        <div className={styles["footer-travel-page__total-budget-value"]}>{ this.state.totalBudget }</div>
+                        <div className={styles["footer-travel-page__total-budget-description"]}>Общий бюджет</div>
+                    </div>
+                </div>
+            </footer>
+        )
+    }
+}
