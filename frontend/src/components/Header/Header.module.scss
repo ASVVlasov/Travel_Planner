@@ -21,19 +21,17 @@ $width: 1440px;
   }
 }
 
-.container {
+.header {
+  width: 100%;
   max-width: $width;
   margin: 0px auto;
-  padding: 0px 33.75px;
-}
-
-.header-row {
+  height: 85px;
+  padding: 20px 30px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  height: 45px;
 }
 .back-btn {
-  min-width: fit-content;
   @include hover-active;
 }
 .trip-data {

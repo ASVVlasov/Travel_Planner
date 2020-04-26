@@ -20,46 +20,44 @@ class Header extends React.Component {
   render() {
     return (
     <header className={styles.header}>
-      <div className={styles.container}>
-        <div className={styles["header-row"]}>
-              <BackBtnSVG className={styles["back-btn"]} />
-          <div className={styles["trip-data"]}>
-            <div className={styles["trip-data__item"]}>
-              <div className={styles["trip-data__title-text"]}>
-                Евротур’2020
-              </div>
-                <EditBtnSVG className={styles["trip-data__edit-btn"]} />
-            </div>
-            <div className={styles["trip-data__item"]}>
-              <div className={styles["trip-data__period-text"]}>
-                24 июня, ПТ – 10 июля, ВС  |  14 дней
-              </div>
-                <EditBtnSVG className={styles["trip-data__edit-btn"]} />
-            </div>
+      <div className={styles["back-btn"]}>
+        <BackBtnSVG />
+      </div>
+      <div className={styles["trip-data"]}>
+        <div className={styles["trip-data__item"]}>
+          <div className={styles["trip-data__title-text"]}>
+            Евротур’2020
           </div>
-
-          <div className={styles["travellers"]}>
-            <div className={styles["travellers-item"]}>
-              <img src="" alt="user-pic" />
-            </div>
-            <div className={styles["travellers-item"]}>
-              <img src="" alt="user-pic" />
-            </div>
-            <div className={styles["travellers-item"]}>
-              <img src="" alt="user-pic" />
-            </div>
-            <div className={styles["travellers-item"]}>
-              <img src="" alt="user-pic" />
-            </div>
-            <div className={styles["travellers-else"]}>
-              +2
-            </div>
-          </div>
-
-          <UserProfileSVG className={styles["user-profile"]} />
-
+            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
         </div>
-      </div>  
+        <div className={styles["trip-data__item"]}>
+          <div className={styles["trip-data__period-text"]}>
+            24 июня, ПТ – 10 июля, ВС  |  14 дней
+          </div>
+            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
+        </div>
+      </div>
+
+      <div className={styles["travellers"]}>
+        <div className={styles["travellers-item"]}>
+          <img src="" alt="user-pic" />
+        </div>
+        <div className={styles["travellers-item"]}>
+          <img src="" alt="user-pic" />
+        </div>
+        <div className={styles["travellers-item"]}>
+          <img src="" alt="user-pic" />
+        </div>
+        <div className={styles["travellers-item"]}>
+          <img src="" alt="user-pic" />
+        </div>
+        <div className={styles["travellers-else"]}>
+          +2
+        </div>
+      </div>
+      <div className={styles["user-profile"]}>
+        <UserProfileSVG />
+      </div>
     </header>
     )
   }
