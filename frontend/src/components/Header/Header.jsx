@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 
 import styles from './Header.module.scss';
-import { ReactComponent as BackBtnSVG } from './images/back-btn.svg';
-import { ReactComponent as EditBtnSVG } from './images/edit-pencil.svg';
-import { ReactComponent as UserProfileSVG } from './images/user-profile.svg';
+import { ReactComponent as BackBtnSVG } from '../../static/images/backArrow.svg';
+import { ReactComponent as EditBtnSVG } from '../../static/images/pencil.svg';
+import { ReactComponent as UserProfileSVG } from '../../static/images/avatar.svg';
 
 class Header extends React.Component {
   constructor(props) {
@@ -22,25 +22,19 @@ class Header extends React.Component {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles["header-row"]}>
-          <div className={styles["back-btn"]}>
-              <BackBtnSVG />
-          </div>
+              <BackBtnSVG className={styles["back-btn"]} />
           <div className={styles["trip-data"]}>
             <div className={styles["trip-data__item"]}>
               <div className={styles["trip-data__title-text"]}>
                 Евротур’2020
               </div>
-              <div className={styles["trip-data__edit-btn"]}>
-                <EditBtnSVG />
-              </div>
+                <EditBtnSVG className={styles["trip-data__edit-btn"]} />
             </div>
             <div className={styles["trip-data__item"]}>
               <div className={styles["trip-data__period-text"]}>
                 24 июня, ПТ – 10 июля, ВС  |  14 дней
               </div>
-              <div className={styles["trip-data__edit-btn"]}>
-                <EditBtnSVG />
-              </div>
+                <EditBtnSVG className={styles["trip-data__edit-btn"]} />
             </div>
           </div>
 
@@ -62,9 +56,7 @@ class Header extends React.Component {
             </div>
           </div>
           
-          <div className={styles["user-profile"]}>
-            <UserProfileSVG />
-          </div>
+          <UserProfileSVG className={styles["user-profile"]} />
 
         </div>
       </div>  
