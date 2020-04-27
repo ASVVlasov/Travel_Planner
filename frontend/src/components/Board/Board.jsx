@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
+import styles from './Board.module.scss'
 
+import BoardSlider from './BoardSlider'
+import Button from '../../controls/Button/Button'
+ 
 export default class Board extends Component {
    FAKEprops = {     // TODO remove object after the real data appears
       tabs: [
@@ -48,7 +53,10 @@ export default class Board extends Component {
 
          tabsList.push(
             <a                                    // TODO replace with Router(?) later
-               className={`board__tabs-link`}     // TODO add a dependency on chosen link
+               className={ classNames(
+                  styles["board__tabsLink"], 
+                  activeTab && styles["board__tabsLink_active"],
+               )}
                href={ tab.link }
                children = { tab.title }
                key={ index }
@@ -78,20 +86,19 @@ export default class Board extends Component {
       const { tabs, cards } = this.state
 
       return (
-         <div className="board">
+         <div className={ styles.board }>
 
-            <nav className="board__tabs">
+            <div className={ styles["board__controlPanel"] }>
+               <nav className={ styles["board__tabs"] }>
                { tabs }
             </nav>
 
             { cards.length > 2 &&
-               <div className="button">+</div>     // TODO replace with Button component
+                  <Button size="small" text="+"/>
             }
-
-            {/* TODO Replace with Slider component */}
-            <div className="board__cards">
-               { cards } 
             </div>
+
+            <BoardSlider className={ styles["board__cards"] } slides={ cards }/>
          </div>
       )
    }

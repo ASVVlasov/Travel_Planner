@@ -1,0 +1,31 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.board {
+   padding: 45px 0 10px 0;
+}
+
+.board__controlPanel {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-end;
+   padding: 0 120px;
+}
+
+.board__tabs {
+   height: 42px;
+}
+
+.board__tabsLink {
+   display: inline-block;
+   margin-right: 40px;
+   @include H1;
+   color: $color-gray-4;
+   text-decoration: none;
+   &_active {
+      color: $color-gray-1;
+   }
+}
+
+.board__cards {
+   height: 78%;
+}
