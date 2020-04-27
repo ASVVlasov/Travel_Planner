@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Swiper from 'react-id-swiper'
 import 'swiper/swiper.scss'
+import './BoardSlider.scss'
 
 export default class BoardSlider extends Component {
    static propTypes = {
@@ -10,14 +11,20 @@ export default class BoardSlider extends Component {
 
    render() {
       const params = {
-         slidesPerView: 3,
+         shouldSwiperUpdate: true,
+         watchOverflow: true,
+         slidesPerView: 'auto',
          spaceBetween: 25,
-         freeMode: true,
+         slidesOffsetBefore: 120,
+         slidesOffsetAfter: 120,
          navigation: {
-            nextEl: '.swiper-button-next',
+            nextEl: '.swiper-button-next', 
             prevEl: '.swiper-button-prev',
          },
-         shouldSwiperUpdate: true,
+         keyboard: {
+            enabled: true,
+            onlyInViewport: false,
+         },
          children: this.props.slides,
       }
 
