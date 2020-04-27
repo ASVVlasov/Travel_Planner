@@ -10,7 +10,7 @@ export default class Board extends Component {
       tabs: [
          {
             title: 'Транспорт',
-            link: '/transport',
+            link: '/',
             cards: [
                {
                   transport: 'card1' 
@@ -22,20 +22,6 @@ export default class Board extends Component {
                   transport: 'card3' 
                },
             ],
-         },
-         {
-            title: 'Авиа',
-            link: '/transport/planes',
-            cards: [
-               {
-                  transport: 'card777' 
-               },
-            ],
-         },
-         {
-            title: 'Машины',
-            link: '/transport/cars',
-            cards: [],
          },
       ]
    }
@@ -63,15 +49,18 @@ export default class Board extends Component {
             />
          )
 
-         if (activeTab && tab.cards.length > 0) {
-            tab.cards.forEach( (card, index) => {
-               cardsList.push(
-                  <div              // TODO replace with Card component later
-                     key={ index } 
-                     children={ card.transport }
-                  />
-               )
-            })
+         if (activeTab) {
+            if (tab.cards.length > 0) {
+               tab.cards.forEach( (card, index) => {
+                  cardsList.push(
+                     <div              // TODO replace with Card component later
+                        key={ index } 
+                        children={ card.transport }
+                     />
+                  )
+               })
+            }
+            cardsList.push(<div key={1}/>)      // TODO replace with AddCardButton(?) control later
          }
       })
 
@@ -94,7 +83,7 @@ export default class Board extends Component {
             </nav>
 
             { cards.length > 2 &&
-                  <Button size="small" text="+"/>
+               <Button size="small" text="+"/>
             }
             </div>
 
