@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-front && npm run serve",
-    "build-front": "cd ../frontend && npm run build && cd ../backend",
+    "start": "npm run serve",
     "serve": "node src/index.js",
     "nodemon": "nodemon src/index.js"
   },

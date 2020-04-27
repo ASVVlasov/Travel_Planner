@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Attachment = require("./misc/attachment.js")
+const Attachment = require("./misc/attachment.js").schema
 
 /*
 Основные данные по транспорту: какой, компания-перевозчик, откуда/куда/когда перемещаемся
 */
 const transportCardSchema = new Schema({
-    travelers: [ObjectId],
+    travelers: [mongoose.ObjectId],
     payer: {
-        type: ObjectId, // traveler.id who payed
+        type: mongoose.ObjectId, // traveler.id who payed
     },
-    cost: mongoose.Decimal128,
+    cost: Number,
     transport: {
         type: String,
     },
