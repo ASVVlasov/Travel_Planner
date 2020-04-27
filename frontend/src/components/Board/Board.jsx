@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Board.module.scss'
 
@@ -6,6 +7,10 @@ import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
  
 export default class Board extends Component {
+   static propTypes = {
+      tabs: PropTypes.array,      // add .isRequired
+   }
+
    FAKEprops = {     // TODO remove object after the real data appears
       tabs: [
          {
@@ -25,6 +30,7 @@ export default class Board extends Component {
          },
       ]
    }
+   
    state = {
       tabs: [],
       cards: [],
@@ -40,8 +46,8 @@ export default class Board extends Component {
          tabsList.push(
             <a                                    // TODO replace with Router(?) later
                className={ classNames(
-                  styles["board__tabsLink"], 
-                  activeTab && styles["board__tabsLink_active"],
+                  styles.board__tabsLink, 
+                  activeTab && styles.board__tabsLink_active,
                )}
                href={ tab.link }
                children = { tab.title }
@@ -60,7 +66,7 @@ export default class Board extends Component {
                   )
                })
             }
-            cardsList.push(<div key={1}/>)      // TODO replace with AddCardButton(?) control later
+            cardsList.push(<div key={1000}/>)      // TODO replace with AddCardButton(?) control later
          }
       })
 
@@ -77,8 +83,8 @@ export default class Board extends Component {
       return (
          <div className={ styles.board }>
 
-            <div className={ styles["board__controlPanel"] }>
-               <nav className={ styles["board__tabs"] }>
+            <div className={ styles.board__controlPanel }>
+               <nav className={ styles.board__tabs }>
                { tabs }
             </nav>
 
@@ -87,7 +93,7 @@ export default class Board extends Component {
             }
             </div>
 
-            <BoardSlider className={ styles["board__cards"] } slides={ cards }/>
+            <BoardSlider className={ styles.board__cards } slides={ cards }/>
          </div>
       )
    }
