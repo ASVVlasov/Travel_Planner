@@ -1,6 +1,7 @@
 @import '../../styles/colors', '../../styles/mixins';
 
 .board {
+   height: calc(100vh - 175px);
    padding: 45px 0 10px 0;
 }
 
@@ -24,8 +25,4 @@
    &_active {
       color: $color-gray-1;
    }
-}
-
-.board__cards {
-   height: 78%;
 }
