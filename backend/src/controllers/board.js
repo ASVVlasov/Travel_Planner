@@ -1,19 +1,21 @@
-const Traveler = require("../models/traveler.js");
+const Board = require("../models/board.js");
 
 const create = async (req, res) => {
     const {
-        login,
-        password,
-        mail
+        name,
+        beginDate,
+        endDate,
+        travelers
     } = req.body;
-
+    travelers.push(req.body.userID)
     try {
-        const newTraveler = await Traveler.create({
-            login: login,
-            password: password,
-            mail: mail,
+        const newBoard = await Board.create({
+            name: name,
+            beginDate: beginDate,
+            endDate: endDate,
+            travelers: [travelers]
         });
-        res.json(newTraveler._id);
+        res.json(newBoard._id);
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't create entry",
@@ -23,14 +25,14 @@ const create = async (req, res) => {
 };
 
 const read = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.baordID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
         });
     try {
-        let traveler = await Traveler.findById(id);
-        res.json(traveler);
+        let board = await Board.findById(id);
+        res.json(board);
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't read entry / entry doesn't exist",
@@ -40,36 +42,36 @@ const read = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.boardID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
         });
-    if (await Traveler.findById(id) === null)
+    if (await Board.findById(id) === null)
         res.status(400).json({
             status: "Request error: wrong id",
         });
     try {
         let updatedFields = {};
-        if (req.body.login !== undefined) updatedFields.login = req.body.login;
-        if (req.body.password !== undefined)
-            updatedFields.password = req.body.password;
-        if (req.body.mail !== undefined) updatedFields.mail = req.body.mail;
-        if (req.body.avatarPath !== undefined)
-            updatedFields.avatarPath = req.body.avatarPath;
+        if (req.body.name !== undefined) updatedFields.name = req.body.name;
+        if (req.body.beginDate !== undefined)
+            updatedFields.beginDate = req.body.beginDate;
+        if (req.body.endDate !== undefined) updatedFields.endDate = req.body.endDate;
+        if (req.body.status !== undefined)
+            updatedFields.status = req.body.status;
         console.log(updatedFields)
         if (Object.keys(updatedFields).length == 0) {
             res.status(400).json({
                 status: "nothing to update"
             })
         }
-        await Traveler.updateOne({
+        await Board.updateOne({
             _id: id
         }, {
             $set: updatedFields
         })
-        let updatedTraveler = await Traveler.findById(id)
-        res.json(updatedTraveler)
+        let updatedBoard = await Board.findById(id)
+        res.json(updatedBoard)
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't update entry / entry doesn't exist",
@@ -79,22 +81,22 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.boardID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
         });
-    let deletedTraveler = await Traveler.findById(id)
-    if (deletedTraveler === null)
+    let deletedBoard = await Board.findById(id)
+    if (deletedBoard === null)
         res.status(400).json({
             status: "Request error: wrong id",
         });
     try {
-        await Traveler.deleteOne({
+        await Board.deleteOne({
             _id: id
         })
         res.status(200).json({
-            status: `Traveler ${deletedTraveler.login} deleted`
+            status: `Traveler ${deletedBoard.name} deleted`
         })
     } catch (err) {
         res.status(500).json({
