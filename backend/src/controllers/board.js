@@ -7,8 +7,8 @@ const create = async (req, res) => {
         endDate,
     } = req.body;
     let travelers = req.body.travelers
-    if (travelers !== undefined) travelers.push(req.body.userID)
-    else travelers = [req.body.userID];
+    if (travelers !== undefined) travelers.push(req.body.travelerID)
+    else travelers = [req.body.travelerID];
     try {
         const newBoard = await Board.create({
             name: name,
@@ -61,7 +61,8 @@ const update = async (req, res) => {
         if (req.body.endDate !== undefined) updatedFields.endDate = req.body.endDate;
         if (req.body.status !== undefined)
             updatedFields.status = req.body.status;
-        console.log(updatedFields)
+        if (req.body.travelers !== undefined &&
+            req.body.travelers.length !== 0) updatedFields.travelers = req.body.travelers;
         if (Object.keys(updatedFields).length == 0) {
             res.status(400).json({
                 status: "nothing to update"

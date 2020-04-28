@@ -108,8 +108,10 @@ app.get('/board/update_nothing', (req, res) => {
 })
 
 app.get('/board/update', (req, res) => {
-    req.body.boardID = mongoose.Types.ObjectId("5ea6d88f8bd8ff3f94df646b")
-    req.body.name = "Foo Bar"
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.name = "EuroTour"
+    req.body.travelers = []
+    req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
     Board.update(req, res)
 })
 
