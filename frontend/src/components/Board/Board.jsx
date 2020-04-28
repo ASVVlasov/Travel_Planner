@@ -42,7 +42,7 @@ export default class Board extends Component {
 
       const tabsList = this.FAKEprops.tabs.map(tab => {     // TODO remove 'FAKE' after the real data appears
          const { title, link, cards } = tab
-         const activeTab = link === window.location.pathname ? true : false
+         const activeTab = link === window.location.pathname
 
          if (activeTab) {
             this.setState({ activeTabLink: link }) 
@@ -59,7 +59,7 @@ export default class Board extends Component {
 
    mapTabsToRender = () => {
       return this.state.tabs.map( (tab, index) => {
-         const activeTab = tab.link === this.state.activeTabLink ? true : false
+         const activeTab = tab.link === this.state.activeTabLink
          return (
             <a key={ index }                   // TODO replace with Router(?) later
                className={ classNames(
