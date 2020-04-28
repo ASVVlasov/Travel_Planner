@@ -9,6 +9,9 @@
    @include Body1;
    color: $color-white;
    cursor: pointer;
+   &:focus {
+      outline: none;
+   }
    &_small {
       padding: 9px 17px;
    }
