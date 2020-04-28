@@ -13,7 +13,7 @@ const create = async (req, res) => {
             password: password,
             mail: mail,
         });
-        res.json(newTraveler._id);
+        res.json(newTraveler);
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't create entry",
@@ -23,13 +23,14 @@ const create = async (req, res) => {
 };
 
 const read = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.userID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
         });
     try {
         let traveler = await Traveler.findById(id);
+        if (traveler === null) throw (err)
         res.json(traveler);
     } catch (err) {
         res.status(500).json({
@@ -40,7 +41,7 @@ const read = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.userID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
@@ -79,7 +80,7 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const id = req.body._id;
+    const id = req.body.userID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
