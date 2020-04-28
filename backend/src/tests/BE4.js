@@ -8,6 +8,7 @@ const Accomodation = require("../controllers/accomodation.js")
 const Entertaiment = require("../controllers/entertaiment.js")
 const Todo = require("../controllers/todo.js")
 const Transport = require("../controllers/transport.js")
+const Attachment = require("../controllers/attachment.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
@@ -405,6 +406,22 @@ app.get('/transport/delete', (req, res) => {
     req.body.cardID = mongoose.Types.ObjectId("5ea83482832cd736c42786a3")
     Transport.destroy(req, res)
 })
+/*ATTACHMENT CRUD TEST */
+app.get("/attachment/attach", (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea829842e77b03c505e494a")
+    req.body.name = "Test.pdf"
+    Attachment.attach(req, res)
+})
+app.get("/attachment/deattach", (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea829842e77b03c505e494a")
+    req.body.attachmentID = mongoose.Types.ObjectId("5ea83a355731582cc8a891c8")
+    req.body.name = "Test.pdf"
+    Attachment.deattach(req, res)
+})
+
+
 // TEST END
 app.listen(3404, () => {
     console.log('server has been started');
