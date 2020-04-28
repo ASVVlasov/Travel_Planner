@@ -23,7 +23,7 @@ const create = async (req, res) => {
 };
 
 const read = async (req, res) => {
-    const id = req.body.userID;
+    const id = req.body.travelerID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
@@ -41,7 +41,7 @@ const read = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const id = req.body.userID;
+    const id = req.body.travelerID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
@@ -80,7 +80,7 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const id = req.body.userID;
+    const id = req.body.travelerID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",

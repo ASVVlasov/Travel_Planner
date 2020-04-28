@@ -34,12 +34,12 @@ app.get('/traveler/read_empty', (req, res) => {
     Traveler.read(req, res)
 })
 app.get('/traveler/read_wrong', (req, res) => {
-    req.body._id = "11111"
+    req.body.travelerID = "11111"
     Traveler.read(req, res)
 })
 
 app.get('/traveler/read', (req, res) => {
-    req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     Traveler.read(req, res)
 })
 
@@ -48,23 +48,23 @@ app.get('/traveler/update_empty', (req, res) => {
 })
 
 app.get('/traveler/update_wrong', (req, res) => {
-    req.body._id = mongoose.Types.ObjectId("5ea44edd700f733504311111")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f733504311111")
     Traveler.update(req, res)
 })
 
 app.get('/traveler/update_nothing', (req, res) => {
-    req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     Traveler.update(req, res)
 })
 
 app.get('/traveler/update', (req, res) => {
-    req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     req.body.login = "Foo Bar"
     Traveler.update(req, res)
 })
 
 app.get('/traveler/delete', (req, res) => {
-    req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     Traveler.destroy(req, res)
 })
 
@@ -75,7 +75,7 @@ app.get('/board/create', (req, res) => {
     req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
     req.body.beginDate = Date.now()
     req.body.endDate = Date.now()
-    req.body.userID = mongoose.Types.ObjectId("5ea451aeef29893f0c51c597")
+    req.body.travelerID = mongoose.Types.ObjectId("5ea451aeef29893f0c51c597")
     Board.create(req, res)
 });
 
