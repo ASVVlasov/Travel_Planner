@@ -26,3 +26,17 @@
     align-items: center;
     justify-content: center;
 }
+
+.sidebar__link svg { 
+    fill: $color-gray-4;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar__link svg:hover { 
+    fill: $color-gray-1;
+}
+
+.sidebar__link_active svg{
+    fill: $color-gray-1;
+}
