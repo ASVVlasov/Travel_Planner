@@ -10,10 +10,18 @@ export default class Sidebar extends React.Component {
     render() {
         return (
             <div className={styles.sidebar}>
-                <div><TransportBtnSVG /></div>
-                <div><AccomodationBtnSVG /></div>
-                <div><EntertainmentBtnSVG /></div>
-                <div><ToDoBtnSVG /></div>
+                <div className={styles.sidebar__wrapperTransportBtnSVG}>
+                    <a href="#"><TransportBtnSVG/></a>
+                </div>
+                <div className={styles.sidebar__wrapperAccomodationBtnSVG}>
+                    <a href="#"><AccomodationBtnSVG/></a>
+                </div>
+                <div className={styles.sidebar__wrapperEntertainmentBtnSVG}>
+                    <a href="#"><EntertainmentBtnSVG/></a>
+                </div>
+                <div className={styles.sidebar__wrapperEntertainmentBtnSVG}>
+                    <a href="#"><ToDoBtnSVG/></a>
+                </div>
             </div>
         )
     }

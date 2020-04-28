@@ -3,4 +3,26 @@
 .sidebar{
     height: 280px;
     width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.sidebar__wrapperTransportBtnSVG,
+.sidebar__wrapperAccomodationBtnSVG,
+.sidebar__wrapperEntertainmentBtnSVG,
+.sidebar__wrapperEntertainmentBtnSVG{
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.sidebar__wrapperTransportBtnSVG a{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
