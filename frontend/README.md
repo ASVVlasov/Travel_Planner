@@ -12,6 +12,7 @@ frontend
     ├── components
     ├── middlewares
     ├── pages
+    ├── controls
     ├── redux
     │   ├── actions
     │   ├── reducers
