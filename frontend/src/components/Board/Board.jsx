@@ -55,7 +55,6 @@ export default class Board extends Component {
       })
 
       this.setState({ tabs: tabsList, cards: cardsList })
-      
    }
 
    mapTabsToRender = () => {
@@ -75,15 +74,11 @@ export default class Board extends Component {
    }
 
    mapCardsToRender = () => {
-      const cardsList = this.state.cards.map( (card, index) => {
-         return (
-            <div key={ index }                 // TODO replace with Card component later
-               children={ card.transport }
-            />
-         )
-      })
-      cardsList.push( <div key={ 1000 }/> )    // TODO replace with AddCardButton(?) control later
-      return cardsList
+      return this.state.cards.map( (card, index) => (
+         <div key={ index }                 // TODO replace with Card component later
+            children={ card.transport }
+         />
+      ))
    }
 
    componentDidMount () {
@@ -106,7 +101,10 @@ export default class Board extends Component {
 
             <BoardSlider 
                className={ styles.board__cards } 
-               slides={ this.mapCardsToRender() }
+               slides={ [
+                  ...this.mapCardsToRender(), 
+                  <div key={ 1000 }/>       // TODO replace with AddCardButton(?) control later
+               ] }
             />
          </div>
       )
