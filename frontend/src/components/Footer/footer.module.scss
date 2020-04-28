@@ -1,0 +1,40 @@
+@import-normalize;
+@import '../../styles/_colors.scss', '../../styles/_mixins.scss';
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    height: 90px;
+}
+
+.footer__paymentInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.footer__paid,
+.footer__toPpay,
+.footer__totalBudget{
+    text-align: center;
+}
+
+.footer__paidValue,
+.footer__toPayValue{
+    @include Body2;
+}
+
+.footer__paidDescription,
+.footer__toPayDescription,
+.footer__totalBudgetDescription{
+    @include Body3;
+}
+
+.footer__totalBudgetValue{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 20px;
+}
