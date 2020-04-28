@@ -6,6 +6,7 @@ const Traveler = require("../controllers/traveler.js")
 const Board = require("../controllers/board.js")
 const Accomodation = require("../controllers/accomodation.js")
 const Entertaiment = require("../controllers/entertaiment.js")
+const Todo = require("../controllers/todo.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
@@ -263,7 +264,72 @@ app.get('/entertaiment/delete', (req, res) => {
     req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
     Entertaiment.destroy(req, res)
 })
+/*TODO CRUD TEST  */
+app.get('/todo/create', (req, res) => {
+    req.body.travelerID = mongoose.Types.ObjectId("5ea6cf0819c47629e49f8618")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.travelers = []
+    req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
+    req.body.header = "Test"
+    req.body.details = "test details"
+    req.body.todoDate = Date.now()
+    Todo.create(req, res)
+});
 
+app.get('/todo/read_empty', (req, res) => {
+    Todo.read(req, res)
+})
+
+app.get('/todo/read_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    Todo.read(req, res)
+})
+
+app.get('/todo/read_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Todo.read(req, res)
+})
+
+app.get('/todo/read', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    Todo.read(req, res)
+})
+
+app.get('/todo/update_empty', (req, res) => {
+    Todo.update(req, res)
+})
+
+app.get('/todo/update_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    Todo.read(req, res)
+})
+
+app.get('/todo/update_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Todo.update(req, res)
+})
+
+app.get('/todo/update_nothing', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    Todo.update(req, res)
+})
+
+app.get('/todo/update', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    req.body.isDone = true
+    Todo.update(req, res)
+})
+
+app.get('/todo/delete', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
+    Todo.destroy(req, res)
+})
 // TEST END
 app.listen(3404, () => {
     console.log('server has been started');
