@@ -1,21 +1,22 @@
 const Board = require("../models/board.js");
 
 const create = async (req, res) => {
-    const {
+    let {
         name,
         beginDate,
         endDate,
-        travelers
     } = req.body;
-    travelers.push(req.body.userID)
+    let travelers = req.body.travelers
+    if (travelers !== undefined) travelers.push(req.body.userID)
+    else travelers = [req.body.userID];
     try {
         const newBoard = await Board.create({
             name: name,
             beginDate: beginDate,
             endDate: endDate,
-            travelers: [travelers]
+            travelers: travelers
         });
-        res.json(newBoard._id);
+        res.json(newBoard);
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't create entry",
@@ -25,13 +26,14 @@ const create = async (req, res) => {
 };
 
 const read = async (req, res) => {
-    const id = req.body.baordID;
+    const id = req.body.boardID;
     if (id === undefined)
         res.status(400).json({
             status: "Request error: empty id",
         });
     try {
         let board = await Board.findById(id);
+        if (board === null) throw (err)
         res.json(board);
     } catch (err) {
         res.status(500).json({
@@ -87,23 +89,24 @@ const destroy = async (req, res) => {
             status: "Request error: empty id",
         });
     let deletedBoard = await Board.findById(id)
-    if (deletedBoard === null)
+    if (deletedBoard === null) {
         res.status(400).json({
             status: "Request error: wrong id",
         });
+        return
+    }
     try {
         await Board.deleteOne({
             _id: id
         })
         res.status(200).json({
-            status: `Traveler ${deletedBoard.name} deleted`
+            status: `Board ${deletedBoard.name} deleted`
         })
     } catch (err) {
         res.status(500).json({
             status: "Database error: can't delete entry / entry doesn't exist",
             error: err,
         });
-
     }
 };
 
