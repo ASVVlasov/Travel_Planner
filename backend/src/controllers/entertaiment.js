@@ -153,7 +153,7 @@ const destroy = async (req, res) => {
         await board.entertaimentCards.id(id).remove();
         await board.save();
         res.status(200).json({
-            status: `AccomodationCard ${deletedEntertaiment.name} deleted`
+            status: `EntertaimentCard ${deletedEntertaiment.name} deleted`
         })
     } catch (err) {
         res.status(500).json({
