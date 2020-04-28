@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 
 import styles from './Header.module.scss';
-import { ReactComponent as BackBtnSVG } from '../../static/images/backArrow.svg';
-import { ReactComponent as EditBtnSVG } from '../../static/images/pencil.svg';
-import { ReactComponent as UserProfileSVG } from '../../static/images/avatar.svg';
+import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg';
+import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg';
+import { ReactComponent as UserProfileSVG } from '../../assets/images/icons/avatar.svg';
 
 class Header extends React.Component {
   constructor(props) {
