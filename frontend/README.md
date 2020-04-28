@@ -5,6 +5,10 @@ frontend
 ├── public
 │   └── index.html
 └── src
+    ├── assets
+    │   ├── fonts
+    │   └── images
+    │       └── icons
     ├── components
     ├── middlewares
     ├── pages
