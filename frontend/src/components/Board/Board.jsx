@@ -8,7 +8,7 @@ import Button from '../../controls/Button/Button'
  
 export default class Board extends Component {
    static propTypes = {
-      tabs: PropTypes.array,      // add .isRequired
+      tabs: PropTypes.array,      // TODO add .isRequired after the real data appears
    }
 
    FAKEprops = {     // TODO remove object after the real data appears
@@ -32,45 +32,58 @@ export default class Board extends Component {
    }
    
    state = {
+      activeTabLink: '',
       tabs: [],
       cards: [],
    }
 
    parsePropsToState = () => {
-      const tabsList = []
       const cardsList = []
 
-      this.FAKEprops.tabs.forEach( (tab, index) => {     // TODO remove 'FAKE' after the real data appears
-         let activeTab = tab.link === window.location.pathname ? true : false
+      const tabsList = this.FAKEprops.tabs.map(tab => {     // TODO remove 'FAKE' after the real data appears
+         const { title, link, cards } = tab
+         const activeTab = link === window.location.pathname ? true : false
 
-         tabsList.push(
-            <a                                    // TODO replace with Router(?) later
+         if (activeTab) {
+            this.setState({ activeTabLink: link }) 
+         }
+         if (activeTab && cards.length > 0) {
+            cardsList.push(...cards) 
+         }
+
+         return { title, link }
+      })
+
+      this.setState({ tabs: tabsList, cards: cardsList })
+      
+   }
+
+   mapTabsToRender = () => {
+      return this.state.tabs.map( (tab, index) => {
+         const activeTab = tab.link === this.state.activeTabLink ? true : false
+         return (
+            <a key={ index }                   // TODO replace with Router(?) later
                className={ classNames(
                   styles.board__tabsLink, 
                   activeTab && styles.board__tabsLink_active,
                )}
                href={ tab.link }
-               children = { tab.title }
-               key={ index }
+               children={ tab.title }
             />
          )
-
-         if (activeTab) {
-            if (tab.cards.length > 0) {
-               tab.cards.forEach( (card, index) => {
-                  cardsList.push(
-                     <div              // TODO replace with Card component later
-                        key={ index } 
-                        children={ card.transport }
-                     />
-                  )
-               })
-            }
-            cardsList.push(<div key={1000}/>)      // TODO replace with AddCardButton(?) control later
-         }
       })
+   }
 
-      this.setState({ tabs: tabsList, cards: cardsList })
+   mapCardsToRender = () => {
+      const cardsList = this.state.cards.map( (card, index) => {
+         return (
+            <div key={ index }                 // TODO replace with Card component later
+               children={ card.transport }
+            />
+         )
+      })
+      cardsList.push( <div key={ 1000 }/> )    // TODO replace with AddCardButton(?) control later
+      return cardsList
    }
 
    componentDidMount () {
@@ -78,22 +91,23 @@ export default class Board extends Component {
    }
 
    render () {
-      const { tabs, cards } = this.state
-
       return (
          <div className={ styles.board }>
 
             <div className={ styles.board__controlPanel }>
                <nav className={ styles.board__tabs }>
-               { tabs }
-            </nav>
+                  { this.mapTabsToRender() }
+               </nav>
 
-            { cards.length > 2 &&
-               <Button size="small" text="+"/>
-            }
+               { this.state.cards.length > 2 &&
+                  <Button size="small" text="+"/>
+               }
             </div>
 
-            <BoardSlider className={ styles.board__cards } slides={ cards }/>
+            <BoardSlider 
+               className={ styles.board__cards } 
+               slides={ this.mapCardsToRender() }
+            />
          </div>
       )
    }
