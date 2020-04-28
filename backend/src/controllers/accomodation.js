@@ -110,6 +110,8 @@ const update = async (req, res) => {
         if (req.body.checkIn !== undefined) accomodation.checkIn = req.body.checkIn;
         if (req.body.checkOut !== undefined) accomodation.checkOut = req.body.checkOut;
         if (req.body.comment !== undefined) accomodation.comment = req.body.comment;
+        if (req.body.travelers !== undefined &&
+            req.body.travelers.length !== 0) accomodation.travelers = req.body.travelers;
         await board.save()
         updatedAccomodation = board.accomodationCards.id(id);
         res.json(updatedAccomodation)
