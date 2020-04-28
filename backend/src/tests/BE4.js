@@ -7,6 +7,7 @@ const Board = require("../controllers/board.js")
 const Accomodation = require("../controllers/accomodation.js")
 const Entertaiment = require("../controllers/entertaiment.js")
 const Todo = require("../controllers/todo.js")
+const Transport = require("../controllers/transport.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
@@ -165,7 +166,7 @@ app.get('/accomodation/update_empty', (req, res) => {
 
 app.get('/accomodation/update_emptyBoard', (req, res) => {
     req.body.cardID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
-    Accomodation.read(req, res)
+    Accomodation.update(req, res)
 })
 
 app.get('/accomodation/update_wrong', (req, res) => {
@@ -237,7 +238,7 @@ app.get('/entertaiment/update_empty', (req, res) => {
 
 app.get('/entertaiment/update_emptyBoard', (req, res) => {
     req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
-    Entertaiment.read(req, res)
+    Entertaiment.update(req, res)
 })
 
 app.get('/entertaiment/update_wrong', (req, res) => {
@@ -303,7 +304,7 @@ app.get('/todo/update_empty', (req, res) => {
 
 app.get('/todo/update_emptyBoard', (req, res) => {
     req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
-    Todo.read(req, res)
+    Todo.update(req, res)
 })
 
 app.get('/todo/update_wrong', (req, res) => {
@@ -329,6 +330,80 @@ app.get('/todo/delete', (req, res) => {
     req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
     req.body.cardID = mongoose.Types.ObjectId("5ea82bd80b402c3b74fefdd4")
     Todo.destroy(req, res)
+})
+
+/*TRANSPORT CRUD TEST */
+app.get('/transport/create', (req, res) => {
+    req.body.travelerID = mongoose.Types.ObjectId("5ea6cf0819c47629e49f8618")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.travelers = []
+    req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
+    req.body.payer = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.cost = 250
+    req.body.transport = "Такси"
+    req.body.company = "Yandex"
+    req.body.departureDate = Date.now()
+    req.body.departurePlace = "Самара, ул. Победы, 10"
+    req.body.arrivalDate = Date.now()
+    req.body.arrivalPlace = "Самара, Волжский проспект, 4"
+    req.body.comment = "Съездить за пивом"
+    Transport.create(req, res)
+});
+
+app.get('/transport/read_empty', (req, res) => {
+    Transport.read(req, res)
+})
+
+app.get('/transport/read_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    Transport.read(req, res)
+})
+
+app.get('/transport/read_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Transport.read(req, res)
+})
+
+app.get('/transport/read', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    Transport.read(req, res)
+})
+
+app.get('/transport/update_empty', (req, res) => {
+    Transport.update(req, res)
+})
+
+app.get('/transport/update_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    Transport.update(req, res)
+})
+
+app.get('/transport/update_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Transport.update(req, res)
+})
+
+app.get('/transport/update_nothing', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea832ad6702e03b087d854a")
+    Transport.update(req, res)
+})
+
+app.get('/transport/update', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea83482832cd736c42786a3")
+    req.body.transport = "Другое такси"
+    req.body.company = "Uber"
+    Transport.update(req, res)
+})
+
+app.get('/transport/delete', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea83482832cd736c42786a3")
+    Transport.destroy(req, res)
 })
 // TEST END
 app.listen(3404, () => {
