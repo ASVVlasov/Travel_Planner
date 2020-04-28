@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 const Traveler = require("../controllers/traveler.js")
 const Board = require("../controllers/board.js")
+const Accomodation = require("../controllers/accomodation.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
@@ -21,13 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-
+/*TRAVELER CRUD TEST */
 app.get('/traveler/create', (req, res) => {
     req.body.login = "Vasya"
     req.body.password = "password"
     req.body.mail = "example@mail.ru"
     Traveler.create(req, res)
 });
+
 app.get('/traveler/read_empty', (req, res) => {
     Traveler.read(req, res)
 })
@@ -35,6 +37,7 @@ app.get('/traveler/read_wrong', (req, res) => {
     req.body._id = "11111"
     Traveler.read(req, res)
 })
+
 app.get('/traveler/read', (req, res) => {
     req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     Traveler.read(req, res)
@@ -59,11 +62,13 @@ app.get('/traveler/update', (req, res) => {
     req.body.login = "Foo Bar"
     Traveler.update(req, res)
 })
+
 app.get('/traveler/delete', (req, res) => {
     req.body._id = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
     Traveler.destroy(req, res)
 })
 
+/*BOARD CRUD TEST */
 app.get('/board/create', (req, res) => {
     req.body.name = "EuroTour'2020"
     req.body.travelers = []
@@ -73,13 +78,16 @@ app.get('/board/create', (req, res) => {
     req.body.userID = mongoose.Types.ObjectId("5ea451aeef29893f0c51c597")
     Board.create(req, res)
 });
+
 app.get('/board/read_empty', (req, res) => {
     Board.read(req, res)
 })
+
 app.get('/board/read_wrong', (req, res) => {
     req.body.boardID = "11111"
     Board.read(req, res)
 })
+
 app.get('/board/read', (req, res) => {
     req.body.boardID = mongoose.Types.ObjectId("5ea6d88f8bd8ff3f94df646b")
     Board.read(req, res)
@@ -104,13 +112,84 @@ app.get('/board/update', (req, res) => {
     req.body.name = "Foo Bar"
     Board.update(req, res)
 })
+
 app.get('/board/delete', (req, res) => {
     req.body.boardID = mongoose.Types.ObjectId("5ea7e6e85a24d2161495d6ab")
     Board.destroy(req, res)
 })
 
+/*ACCOMODATION CRUD TEST */
+app.get('/accomodation/create', (req, res) => {
+    req.body.travelerID = mongoose.Types.ObjectId("5ea6cf0819c47629e49f8618")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.travelers = []
+    req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
+    req.body.payer = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.cost = 10000
+    req.body.type = "Отель"
+    req.body.name = 'Отель "Лучший"'
+    req.body.company = "Best company"
+    req.body.checkIn = Date.now()
+    req.body.checkOut = Date.now()
+    Accomodation.create(req, res)
+});
 
+app.get('/accomodation/read_empty', (req, res) => {
+    Accomodation.read(req, res)
+})
 
+app.get('/accomodation/read_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    Accomodation.read(req, res)
+})
+
+app.get('/accomodation/read_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb47c69c2")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Accomodation.read(req, res)
+})
+
+app.get('/accomodation/read', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb47c69c2")
+    Accomodation.read(req, res)
+})
+
+app.get('/accomodation/update_empty', (req, res) => {
+    Accomodation.update(req, res)
+})
+
+app.get('/accomodation/update_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    Accomodation.read(req, res)
+})
+
+app.get('/accomodation/update_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb47c69c2")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Accomodation.update(req, res)
+})
+
+app.get('/accomodation/update_nothing', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb47c69c2")
+    Accomodation.update(req, res)
+})
+
+app.get('/accomodation/update', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea81d2a8f09db3e700abdee")
+    req.body.name = "Foo Bar 2"
+    Accomodation.update(req, res)
+})
+
+app.get('/accomodation/delete', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea81fddebd5731e0445230c")
+    Accomodation.destroy(req, res)
+})
+
+// TEST END
 app.listen(3404, () => {
     console.log('server has been started');
 });
