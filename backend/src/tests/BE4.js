@@ -5,6 +5,7 @@ const app = express();
 const Traveler = require("../controllers/traveler.js")
 const Board = require("../controllers/board.js")
 const Accomodation = require("../controllers/accomodation.js")
+const Entertaiment = require("../controllers/entertaiment.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
@@ -189,6 +190,78 @@ app.get('/accomodation/delete', (req, res) => {
     req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
     req.body.cardID = mongoose.Types.ObjectId("5ea81fddebd5731e0445230c")
     Accomodation.destroy(req, res)
+})
+/*ENTERTAIMENT CRUD TEST  */
+app.get('/entertaiment/create', (req, res) => {
+    req.body.travelerID = mongoose.Types.ObjectId("5ea6cf0819c47629e49f8618")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.travelers = []
+    req.body.travelers.push(mongoose.Types.ObjectId("5ea44edd700f73350430d726"))
+    req.body.payer = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.cost = 20000
+    req.body.type = "Бар"
+    req.body.name = "На дне"
+    req.body.company = "Жигулевский пивзавод"
+    req.body.place = "Самара, Волжский проспект, 4"
+    req.body.beginDate = Date.now()
+    req.body.endDate = Date.now()
+    req.body.comment = "Самое вкусное Жигулевское в России!"
+    Entertaiment.create(req, res)
+});
+
+app.get('/entertaiment/read_empty', (req, res) => {
+    Entertaiment.read(req, res)
+})
+
+app.get('/entertaiment/read_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    Entertaiment.read(req, res)
+})
+
+app.get('/entertaiment/read_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Entertaiment.read(req, res)
+})
+
+app.get('/entertaiment/read', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    Entertaiment.read(req, res)
+})
+
+app.get('/entertaiment/update_empty', (req, res) => {
+    Entertaiment.update(req, res)
+})
+
+app.get('/entertaiment/update_emptyBoard', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    Entertaiment.read(req, res)
+})
+
+app.get('/entertaiment/update_wrong', (req, res) => {
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    req.body.boardID = mongoose.Types.ObjectId("5ea7ff2c1bb3813bb4711111")
+    Entertaiment.update(req, res)
+})
+
+app.get('/entertaiment/update_nothing', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    Entertaiment.update(req, res)
+})
+
+app.get('/entertaiment/update', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    req.body.place = "Самара, Волжский проспект, 4, 2-й этаж"
+    Entertaiment.update(req, res)
+})
+
+app.get('/entertaiment/delete', (req, res) => {
+    req.body.boardID = mongoose.Types.ObjectId("5ea7e8133d09ef3d289b717b")
+    req.body.cardID = mongoose.Types.ObjectId("5ea826ad7d875811201dce02")
+    Entertaiment.destroy(req, res)
 })
 
 // TEST END
