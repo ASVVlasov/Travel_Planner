@@ -8,29 +8,16 @@
     justify-content: space-evenly;
     align-items: center;
 }
-.sidebar__wrapperTransportBtnSVG,
-.sidebar__wrapperAccomodationBtnSVG,
-.sidebar__wrapperEntertainmentBtnSVG,
-.sidebar__wrapperEntertainmentBtnSVG{
+
+.sidebar__link{ 
     height: 40px;
     width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:block;
     cursor: pointer;
-}
-.sidebar__wrapperTransportBtnSVG a{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .sidebar__link svg { 
     fill: $color-gray-4;
-    width: 100%;
-    height: 100%;
 }
 
 .sidebar__link svg:hover { 
