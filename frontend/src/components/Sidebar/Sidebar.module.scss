@@ -1,0 +1,29 @@
+@import '../../styles/_colors.scss', '../../styles/_mixins.scss';
+
+.sidebar{
+    height: 280px;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.sidebar__link{ 
+    height: 40px;
+    width: 40px;
+    display:block;
+    cursor: pointer;
+}
+
+.sidebar__link svg { 
+    fill: $color-gray-4;
+}
+
+.sidebar__link svg:hover { 
+    fill: $color-gray-1;
+}
+
+.sidebar__link_active svg{
+    fill: $color-gray-1;
+}
