@@ -19,4 +19,4 @@ const update = async (req, res) => {
     }
 }
 
-module.exports = read;
+module.exports = update;
