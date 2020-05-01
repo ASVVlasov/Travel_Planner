@@ -1,6 +1,23 @@
 @import '../../styles/colors';
 @import '../../styles/mixins';
 
+@mixin flexCenter {// TODO Move to styles/mixins
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin clickableSvgContainer {// TODO Move to styles/mixins
+  cursor: pointer;
+  & svg {
+    fill: $color-gray-4;
+  }
+  &:hover {
+    & svg {
+      fill: $color-gray-1;
+    }
+  }
+}
+
 .header {
   height: 85px;
   padding: 20px 30px;
@@ -9,7 +26,14 @@
   align-items: center;
 }
 .back-btn {
-  
+  width: 40px;
+  height: 40px;
+  @include flexCenter;
+  @include clickableSvgContainer;
+  & svg {
+    width: 22.5px;
+    height: 22.5px;
+  }
 }
 .trip-data {
   @include Body1;
