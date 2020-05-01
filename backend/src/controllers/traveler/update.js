@@ -1,11 +1,11 @@
 const Traveler = require("../../models/traveler.js");
 const ErrorHandler = require("../errorHandler.js")
-const RequestCheck = require("../requestCheck.js")
+const Request = require("../requestCheck.js")
 
 const update = async (req, res) => {
-    if (!(RequestCheck.travelerID(req, res) &&
-            RequestCheck.travelerExists(req, res) &&
-            RequestCheck.travelerCanUpdate(req, res))) return;
+    if (!(Request.haveID(req.body.travelerID, res) &&
+            await Request.recordExists(res, req.body.travelerID, Traveler) &&
+            Request.canUpdate(req.body.traveler, res))) return;
     try {
         await Traveler.updateOne({
             _id: req.body.travelerID
