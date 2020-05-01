@@ -1,5 +1,5 @@
-const Attachment = require("../models/misc/attachment.js");
-const Board = require("../models/board.js")
+const Attachment = require("../../models/misc/attachment.js");
+const Board = require("../../models/board.js")
 
 function attachFile(req) {
     //TODO выкладка файл на сервер

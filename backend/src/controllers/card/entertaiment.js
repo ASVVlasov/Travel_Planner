@@ -1,5 +1,5 @@
-const Entertaiment = require("../models/entertaiment.js");
-const Board = require("../models/board.js")
+const Entertaiment = require("../../models/entertaiment.js");
+const Board = require("../../models/board.js")
 
 const create = async (req, res) => {
     let {

@@ -5,6 +5,14 @@ const createError = (req, res, err) => {
     });
 }
 
+const readError = (req, res, err) => {
+    res.status(500).json({
+        status: "Database error: can't read entry / entry doesn't exist",
+        error: err,
+    });
+}
+
 module.exports = {
     createError,
+    readError,
 }

@@ -2,13 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-const Traveler = require("../controllers/traveler.js")
-const Board = require("../controllers/board.js")
-const Accomodation = require("../controllers/accomodation.js")
-const Entertaiment = require("../controllers/entertaiment.js")
-const Todo = require("../controllers/todo.js")
-const Transport = require("../controllers/transport.js")
-const Attachment = require("../controllers/attachment.js")
+const Traveler = require("../controllers/traveler/traveler.js")
+const Board = require("../controllers/board/board.js")
+const Accomodation = require("../controllers/card/accomodation.js")
+const Entertaiment = require("../controllers/card/entertaiment.js")
+const Todo = require("../controllers/card/todo.js")
+const Transport = require("../controllers/card/transport.js")
+const Attachment = require("../controllers/card/attachment.js")
 
 mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,

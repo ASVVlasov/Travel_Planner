@@ -1,4 +1,4 @@
-const Traveler = require("../models/traveler.js");
+const Traveler = require("../../models/traveler.js");
 
 const create = async (req, res) => {
     const {

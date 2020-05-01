@@ -1,5 +1,5 @@
-const Todo = require("../models/todo.js");
-const Board = require("../models/board.js")
+const Todo = require("../../models/todo.js");
+const Board = require("../../models/board.js")
 
 const create = async (req, res) => {
     let {

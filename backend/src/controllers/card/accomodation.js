@@ -1,5 +1,5 @@
-const Accomodation = require("../models/accomodation.js");
-const Board = require("../models/board.js")
+const Accomodation = require("../../models/accomodation.js");
+const Board = require("../../models/board.js")
 
 const create = async (req, res) => {
     let {
