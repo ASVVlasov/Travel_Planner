@@ -19,9 +19,16 @@ const updateError = (req, res, err) => {
     });
 
 }
+const deleteError = (req, res, err) => {
+    res.status(500).json({
+        status: "Database error: can't delete entry / entry doesn't exist",
+        error: err,
+    });
+}
 
 module.exports = {
     createError,
     readError,
     updateError,
+    deleteError
 }
