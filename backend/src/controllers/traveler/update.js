@@ -3,9 +3,18 @@ const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
 const update = async (req, res) => {
-    if (!(Request.haveID(req.body.travelerID, res) &&
-            await Request.recordExists(res, req.body.travelerID, Traveler) &&
-            Request.canUpdate(req.body.traveler, res))) return;
+    if (!Request.haveID(req.body.travelerID)) {
+        ErrorHandler.emptyID(req, res, "traveler");
+        return;
+    }
+    if (!Request.recordExists(req.body.travelerID, Traveler)) {
+        ErrorHandler.wrongID(req, res, "traveler");
+        return;
+    }
+    if (!Request.canUpdate(req.body.traveler)) {
+        ErrorHandler.emptyUpdate(req, res, "traveler");
+        return;
+    }
     try {
         await Traveler.updateOne({
             _id: req.body.travelerID
