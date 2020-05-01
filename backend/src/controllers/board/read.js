@@ -7,8 +7,8 @@ const read = async (req, res) => {
         ErrorHandler.emptyID(req, res, "board");
         return;
     }
-    if (!Request.recordExists(req.body.boardID, Board)) {
-        ErrorHandler.wrongID(req, res, "traveler");
+    if (!(await Request.recordExists(req.body.boardID, Board))) {
+        ErrorHandler.wrongID(req, res, "board");
         return;
     }
     try {
