@@ -25,21 +25,7 @@ const read = async (req, res) => {
     }
     try {
         let board = await Board.findById(boardID)
-        let card;
-        switch (req.body.cardType) {
-            case "transport":
-                card = board.transportCards.id(req.body.cardID);
-                break;
-            case "entertaiment":
-                card = board.entertaimentCards.id(req.body.cardID);
-                break;
-            case "accomodation":
-                card = board.accomodationCards.id(req.body.cardID);
-                break;
-            case "todo":
-                card = board.todoCards.id(req.body.cardID);
-                break;
-        }
+        let card = board[req.body.cardType + "Cards"].id(req.body.cardID);
         if (card === null) throw (err)
         res.json(card);
     } catch (err) {
