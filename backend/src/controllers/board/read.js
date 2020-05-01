@@ -12,7 +12,7 @@ const read = async (req, res) => {
         return;
     }
     try {
-        let board = await Traveler.findById(req.body.boardID);
+        let board = await Board.findById(req.body.boardID);
         if (board === null) throw (err)
         res.json(board);
     } catch (err) {

@@ -7,7 +7,7 @@ const destroy = async (req, res) => {
         ErrorHandler.emptyID(req, res, "traveler");
         return;
     }
-    if (!Request.recordExists(req.body.travelerID, Traveler)) {
+    if (!(await Request.recordExists(req.body.travelerID, Traveler))) {
         ErrorHandler.wrongID(req, res, "traveler");
         return;
     }
