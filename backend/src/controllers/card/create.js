@@ -20,6 +20,9 @@ const create = async (req, res) => {
         ErrorHandler.emptyID(req, res, req.body.cardType);
         return;
     }
+    if (!Request.typeExists(req.body.cardType)) {
+        ErrorHandler.wrongType(req, res, req.body.cardType)
+    }
     try {
         let board = await Board.findById(boardID)
         let newCard;

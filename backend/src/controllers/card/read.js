@@ -16,6 +16,9 @@ const read = async (req, res) => {
         ErrorHandler.emptyID(req, res, req.body.cardType);
         return;
     }
+    if (!Request.typeExists(req.body.cardType)) {
+        ErrorHandler.wrongType(req, res, req.body.cardType)
+    }
     if (!Request.haveID(req.body.cardID)) {
         ErrorHandler.emptyID(req, res, "card");
         return;
