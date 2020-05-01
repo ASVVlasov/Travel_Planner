@@ -91,7 +91,11 @@
   color: $color-gray-2;
 }
 .user-profile {
+  width: 45px;
+  height: 45px;
   margin: 0 0 0 100px;
+  @include clickableSvgContainer;
+  fill: $color-gray-5;
 }
 @media (max-width: 1170px) {
   .user-profile {
