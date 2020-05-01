@@ -12,6 +12,14 @@ const readError = (req, res, err) => {
     });
 }
 
+const updateError = (req, res, err) {
+    res.status(500).json({
+        status: "Database error: can't update entry / entry doesn't exist",
+        error: err,
+    });
+
+}
+
 module.exports = {
     createError,
     readError,
