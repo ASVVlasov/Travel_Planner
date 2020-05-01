@@ -6,15 +6,17 @@ export default class Footer extends React.Component {
     constructor() {
         super()
         this.state = {
-            paid: '30000',
-            toPay: '110000',
-            totalBudget: '140000',
+            paid: '30000 Р',
+            toPay: '110000 Р',
+            totalBudget: '140000 Р',
         }
     }
     render() {
         return (
             <footer className={styles.footer}>
-                <Switch/>
+                <div className={styles.footer__switch}>
+                    <Switch/>        
+                </div>
                 <div className={styles.footer__paymentInfo}>
                     <div className={styles.footer__paid}>
                         <div className={styles.footer__paidValue}>{ this.state.paid }</div>
