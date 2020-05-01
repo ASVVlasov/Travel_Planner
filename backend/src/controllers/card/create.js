@@ -29,21 +29,18 @@ const create = async (req, res) => {
         switch (req.body.cardType) {
             case "transport":
                 newCard = new Transport(req.body.card)
-                board.transportCards.push(newCard)
                 break;
             case "entertaiment":
                 newCard = new Entertaiment(req.body.card)
-                board.entertaimentCards.push(newCard)
                 break;
             case "accomodation":
                 newCard = new Accomodation(req.body.card)
-                board.accomodationCards.push(newCard)
                 break;
             case "todo":
                 newCard = new Todo(req.body.card)
-                board.todoCards.push(newCard)
                 break;
         }
+        board[req.body.cardType + "Cards"].push(newCard);
         await board.save()
         res.json(newCard);
     } catch (err) {
