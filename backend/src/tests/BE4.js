@@ -2,12 +2,37 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-const Traveler = require("../controllers/traveler/traveler.js")
-const Board = require("../controllers/board/board.js")
-const Accomodation = require("../controllers/card/accomodation.js")
-const Entertaiment = require("../controllers/card/entertaiment.js")
-const Todo = require("../controllers/card/todo.js")
-const Transport = require("../controllers/card/transport.js")
+const Traveler = {}
+Traveler.create = require("../controllers/traveler/create.js")
+Traveler.read = require("../controllers/traveler/read.js")
+Traveler.update = require("../controllers/traveler/update.js")
+Traveler.delete = require("../controllers/traveler/delete.js")
+const Board = {}
+Board.create = require("../controllers/board/create.js")
+Board.read = require("../controllers/board/read.js")
+Board.update = require("../controllers/board/update.js")
+Board.delete = require("../controllers/board/delete.js")
+const Accomodation = {}
+Accomodation.create = require("../controllers/card/create.js")
+Accomodation.read = require("../controllers/card/read.js")
+Accomodation.update = require("../controllers/card/update.js")
+Accomodation.delete = require("../controllers/card/delete.js")
+const Entertaiment = {}
+Entertaiment.create = require("../controllers/card/create.js")
+Entertaiment.read = require("../controllers/card/read.js")
+Entertaiment.update = require("../controllers/card/update.js")
+Entertaiment.delete = require("../controllers/card/delete.js")
+const Todo = {}
+Todo.create = require("../controllers/card/create.js")
+Todo.read = require("../controllers/card/read.js")
+Todo.update = require("../controllers/card/update.js")
+Todo.delete = require("../controllers/card/delete.js")
+const Transport = {}
+Transport.create = require("../controllers/card/create.js")
+Transport.read = require("../controllers/card/read.js")
+Transport.update = require("../controllers/card/update.js")
+Transport.delete = require("../controllers/card/delete.js")
+
 const Attachment = require("../controllers/card/attachment.js")
 
 mongoose.connect('mongodb://localhost:27017', {
@@ -28,9 +53,9 @@ app.use(express.urlencoded({
 }));
 /*TRAVELER CRUD TEST */
 app.get('/traveler/create', (req, res) => {
-    req.body.login = "Vasya"
-    req.body.password = "password"
-    req.body.mail = "example@mail.ru"
+    req.body.traveler.login = "Vasya"
+    req.body.traveler.password = "password"
+    req.body.traveler.mail = "example@mail.ru"
     Traveler.create(req, res)
 });
 

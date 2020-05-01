@@ -4,6 +4,12 @@ const emptyID = (req, res, entity) => {
         status: `Request error: empty ${entity}ID`,
     });
 }
+const emptyFileName = (req, res) => {
+    res.status(400).json({
+        status: "Request error: empty file name",
+    });
+
+}
 const wrongID = (req, res, entity) => {
     res.status(400).json({
         status: `Request error: wrong ${entity}ID`,
@@ -48,9 +54,24 @@ const deleteError = (req, res, err) => {
     });
 }
 
+const fileUploadError = (req, res) => {
+    res.status(500).json({
+        status: "Server error: can't upload file",
+    });
+}
+
+const fileDeleteError = (req, res, err) => {
+    res.status(500).json({
+        status: "Server error: can't delete file on server",
+    });
+    console.log("Server error: can't delete file on server")
+    console.log("Path is: " + err)
+}
+
 module.exports = {
     /*Request errors*/
     emptyID,
+    emptyFileName,
     wrongID,
     wrongType,
     emptyUpdate,
@@ -58,5 +79,7 @@ module.exports = {
     createError,
     readError,
     updateError,
-    deleteError
+    deleteError,
+    fileUploadError,
+    fileDeleteError
 }

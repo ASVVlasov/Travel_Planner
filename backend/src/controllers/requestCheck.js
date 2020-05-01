@@ -2,6 +2,7 @@ const haveID = (id) => {
     return (!!id) ? true : false;
 };
 const haveType = haveID;
+const haveFileName = haveID;
 const recordExists = async (id, Model) => {
     return (await Model.findById(id) !== null) ? true : false
 }
@@ -22,6 +23,7 @@ const canUpdate = (updatedFields) => {
 
 module.exports = {
     haveType,
+    haveFileName,
     haveID,
     recordExists,
     typeExists,
