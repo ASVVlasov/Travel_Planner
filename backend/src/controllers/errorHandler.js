@@ -1,3 +1,23 @@
+/*Request errors*/
+const emptyID = (req, res, entity) => {
+    res.status(400).json({
+        status: `Request error: empty ${entity}ID`,
+    });
+}
+
+const wrongID = (req, res, entity) => {
+    res.status(400).json({
+        status: `Request error: wrong ${entity}ID`,
+    });
+}
+
+const emptyUpdate = (req, res, entity) => {
+    res.status(400).json({
+        status: `Request error: nothing to update in ${entity}`
+    })
+}
+
+/*Response errors*/
 const createError = (req, res, err) => {
     res.status(500).json({
         status: "Database error: can't create entry",
@@ -27,6 +47,11 @@ const deleteError = (req, res, err) => {
 }
 
 module.exports = {
+    /*Request errors*/
+    emptyID,
+    wrongID,
+    emptyUpdate,
+    /*Response errors*/
     createError,
     readError,
     updateError,
