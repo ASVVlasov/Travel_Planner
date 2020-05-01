@@ -12,7 +12,7 @@ const destroy = async (req, res) => {
         return;
     }
     try {
-        let deletedTraveler = await Traveler.findById(id)
+        let deletedTraveler = await Traveler.findById(req.body.travelerID)
         await Traveler.deleteOne({
             _id: req.body.travelerID
         })
