@@ -17,6 +17,13 @@
     }
   }
 }
+@mixin clickableSvg {// TODO Move to styles/mixins
+  cursor: pointer;
+  fill: $color-gray-4;
+  &:hover {
+    fill: $color-gray-1;
+  }
+}
 
 .header {
   height: 85px;
@@ -54,6 +61,9 @@
   }
   &__period-text {}
   &__edit-btn {
+    width: 14px;
+    height: 14px;
+    @include clickableSvg;
     margin: 0px 0px 0px 12px;
   }
 }
