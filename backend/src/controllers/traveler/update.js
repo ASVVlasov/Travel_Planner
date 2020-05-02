@@ -4,7 +4,7 @@ const Request = require("../requestCheck.js")
 
 const update = async (req, res) => {
     if (!Request.haveID(req.body.travelerID)) {
-        ErrorHandler.emptyID(req, res, "traveler");
+        ErrorHandler.emptyField(req, res, "travelerID");
         return;
     }
     if (!(await Request.recordExists(req.body.travelerID, Traveler))) {

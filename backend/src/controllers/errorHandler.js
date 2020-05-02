@@ -1,15 +1,10 @@
 /*Request errors*/
-const emptyID = (req, res, entity) => {
+const emptyField = (req, res, field) => {
     res.status(400).json({
-        status: `Request error: empty ${entity}ID`,
+        status: `Request error: empty ${field}`,
     });
 }
-const emptyFileName = (req, res) => {
-    res.status(400).json({
-        status: "Request error: empty file name",
-    });
 
-}
 const wrongID = (req, res, entity) => {
     res.status(400).json({
         status: `Request error: wrong ${entity}ID`,
@@ -70,6 +65,7 @@ const fileDeleteError = (req, res, err) => {
 
 module.exports = {
     /*Request errors*/
+    emptyField,
     emptyID,
     emptyFileName,
     wrongID,

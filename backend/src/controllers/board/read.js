@@ -4,7 +4,7 @@ const Request = require("../requestCheck.js")
 
 const read = async (req, res) => {
     if (!Request.haveID(req.body.boardID)) {
-        ErrorHandler.emptyID(req, res, "board");
+        ErrorHandler.emptyField(req, res, "boardID");
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {

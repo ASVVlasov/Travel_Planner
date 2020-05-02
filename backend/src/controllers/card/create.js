@@ -9,7 +9,7 @@ const Request = require("../requestCheck.js")
 
 const create = async (req, res) => {
     if (!Request.haveID(req.body.boardID)) {
-        ErrorHandler.emptyID(req, res, "board");
+        ErrorHandler.emptyField(req, res, "boardID");
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
@@ -17,7 +17,7 @@ const create = async (req, res) => {
         return;
     }
     if (!Request.haveType(req.body.cardType)) {
-        ErrorHandler.emptyID(req, res, req.body.cardType);
+        ErrorHandler.emptyField(req, res, "cardType");
         return;
     }
     if (!Request.typeExists(req.body.cardType)) {

@@ -4,7 +4,7 @@ const Request = require("../requestCheck.js")
 
 const destroy = async (req, res) => {
     if (!Request.haveID(req.body.boardID)) {
-        ErrorHandler.emptyID(req, res, "traveler");
+        ErrorHandler.emptyField(req, res, "boardID");
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {

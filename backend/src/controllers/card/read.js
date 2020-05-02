@@ -5,7 +5,7 @@ const Request = require("../requestCheck.js")
 
 const read = async (req, res) => {
     if (!Request.haveID(req.body.boardID)) {
-        ErrorHandler.emptyID(req, res, "board");
+        ErrorHandler.emptyField(req, res, "boardID");
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
@@ -13,14 +13,14 @@ const read = async (req, res) => {
         return;
     }
     if (!Request.haveType(req.body.cardType)) {
-        ErrorHandler.emptyID(req, res, req.body.cardType);
+        ErrorHandler.emptyField(req, res, "cardType");
         return;
     }
     if (!Request.typeExists(req.body.cardType)) {
         ErrorHandler.wrongType(req, res, req.body.cardType)
     }
     if (!Request.haveID(req.body.cardID)) {
-        ErrorHandler.emptyID(req, res, "card");
+        ErrorHandler.emptyField(req, res, "cardID");
         return;
     }
     try {
