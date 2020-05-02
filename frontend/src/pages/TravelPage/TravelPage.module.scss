@@ -1,0 +1,17 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+$width: 1440px;
+
+.travelPage {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__sidebarWrap {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+    }
+}
