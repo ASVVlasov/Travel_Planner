@@ -1,0 +1,49 @@
+@import '../../styles/colors';
+@import '../../styles/mixins';
+
+.headerTitle_DefauitView,
+.headerTitle_EditView{
+    border-bottom: 2px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    width: 180px;
+}
+.headerTitle_DefauitView{
+    border-bottom-color: $color-white;
+}
+
+.headerTitle__input{
+    @include Body1;
+    color: $color-gray-2;
+    outline: none;
+    border:none;
+    width: 130px;
+    margin-right: 5px;
+    & :focus{
+        border:none;
+    }
+}
+
+.headerTitle__value{
+    width: 140px;
+    overflow: hidden;
+}
+
+.headerTitle__BtnCansel,
+.headerTitle__BtnOk{
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: $color-white;
+    & svg{
+        border: none;
+    }
+}
+
+.headerTitle__editIcon{
+    width: 25px;
+    height: 25px;
+    fill: $color-gray-4;
+}

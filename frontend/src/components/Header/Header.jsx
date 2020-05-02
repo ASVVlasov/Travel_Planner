@@ -9,6 +9,8 @@ import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.sv
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg';
 import { ReactComponent as UserProfileSVG } from '../../assets/images/icons/avatar.svg';
 
+import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,7 @@ class Header extends React.Component {
       <div className={styles["trip-data"]}>
         <div className={styles["trip-data__item"]}>
           <div className={styles["trip-data__title-text"]}>
-            Евротур’2020
+            <HeaderTitle/>
           </div>
             <EditBtnSVG className={styles["trip-data__edit-btn"]} />
         </div>
