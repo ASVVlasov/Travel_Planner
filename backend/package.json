@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "node src/index.js",
-    "nodemon": "nodemon src/index.js"
+    "nodemon": "nodemon src/index.js",
+    "test": "nodemon src/tests/BE4.js"
   },
   "keywords": [],
   "author": "",
