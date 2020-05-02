@@ -21,7 +21,7 @@ const attach = async (req, res) => {
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
-        ErrorHandler.wrongID(req, res, "board");
+        ErrorHandler.wrongField(req, res, "boardID", req.body.boardID);
         return;
     }
     if (!Request.haveType(req.body.cardType)) {
@@ -29,7 +29,7 @@ const attach = async (req, res) => {
         return;
     }
     if (!Request.typeExists(req.body.cardType)) {
-        ErrorHandler.wrongType(req, res, req.body.cardType)
+        ErrorHandler.wrongField(req, res, "cardType", req.body.cardType);
     }
     if (!Request.haveID(req.body.cardID)) {
         ErrorHandler.emptyField(req, res, "cardID");
@@ -68,7 +68,7 @@ const deattach = async (req, res) => {
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
-        ErrorHandler.wrongID(req, res, "board");
+        ErrorHandler.wrongField(req, res, "boardID", req.body.boardID);
         return;
     }
     if (!Request.haveType(req.body.cardType)) {
@@ -76,7 +76,7 @@ const deattach = async (req, res) => {
         return;
     }
     if (!Request.typeExists(req.body.cardType)) {
-        ErrorHandler.wrongType(req, res, req.body.cardType)
+        ErrorHandler.wrongField(req, res, "cardType", req.body.cardType);
     }
     if (!Request.haveID(req.body.cardID)) {
         ErrorHandler.emptyField(req, res, "cardID");

@@ -4,15 +4,9 @@ const emptyField = (req, res, field) => {
         status: `Request error: empty ${field}`,
     });
 }
-
-const wrongID = (req, res, entity) => {
+const wrongField = (req, res, field, entity) => {
     res.status(400).json({
-        status: `Request error: wrong ${entity}ID`,
-    });
-}
-const wrongType = (req, res, entity) => {
-    res.status(400).json({
-        status: `Request error: wrong card type. Got - ${entity}`,
+        status: `Request error: wrong ${field}. Got - ${entity}`,
     });
 }
 const emptyUpdate = (req, res, entity) => {
@@ -66,10 +60,7 @@ const fileDeleteError = (req, res, err) => {
 module.exports = {
     /*Request errors*/
     emptyField,
-    emptyID,
-    emptyFileName,
-    wrongID,
-    wrongType,
+    wrongField,
     emptyUpdate,
     /*Response errors*/
     createError,

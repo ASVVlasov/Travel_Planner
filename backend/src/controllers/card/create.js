@@ -13,7 +13,7 @@ const create = async (req, res) => {
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
-        ErrorHandler.wrongID(req, res, "board");
+        ErrorHandler.wrongField(req, res, "boardID", req.body.boardID);
         return;
     }
     if (!Request.haveType(req.body.cardType)) {
@@ -21,7 +21,7 @@ const create = async (req, res) => {
         return;
     }
     if (!Request.typeExists(req.body.cardType)) {
-        ErrorHandler.wrongType(req, res, req.body.cardType)
+        ErrorHandler.wrongField(req, res, "cardType", req.body.cardType);
     }
     try {
         let board = await Board.findById(boardID)

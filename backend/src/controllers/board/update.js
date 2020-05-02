@@ -8,7 +8,7 @@ const update = async (req, res) => {
         return;
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
-        ErrorHandler.wrongID(req, res, "board");
+        ErrorHandler.wrongField(req, res, "boardID", req.body.boardID);
         return;
     }
     if (!Request.canUpdate(req.body.board)) {

@@ -8,7 +8,7 @@ const read = async (req, res) => {
         return;
     }
     if (!(await Request.recordExists(req.body.travelerID, Traveler))) {
-        ErrorHandler.wrongID(req, res, "traveler");
+        ErrorHandler.wrongField(req, res, "travelerID", req.body.travelerID);
         return;
     }
     try {
