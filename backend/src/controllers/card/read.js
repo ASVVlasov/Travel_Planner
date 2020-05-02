@@ -26,7 +26,11 @@ const read = async (req, res) => {
     try {
         let board = await Board.findById(boardID)
         let card = board[req.body.cardType + "Cards"].id(req.body.cardID);
-        if (card === null) throw (err)
+        if (card === null) {
+            throw ({
+                status: "wrong card"
+            })
+        }
         res.json(card);
     } catch (err) {
         ErrorHandler.readError(req, res, err)

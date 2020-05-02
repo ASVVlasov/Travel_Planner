@@ -27,7 +27,11 @@ const update = async (req, res) => {
         let board = await Board.findById(boardID)
         let deck = board[req.body.cardType + "Cards"];
         let card = deck.id(req.body.cardID);
-        if (card === null) throw (err)
+        if (card === null) {
+            throw ({
+                status: "wrong card"
+            })
+        }
         for (let updatedField in req.body.card) {
             card.updatedField = req.body.card[updatedField]
         }

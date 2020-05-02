@@ -13,7 +13,11 @@ const read = async (req, res) => {
     }
     try {
         let traveler = await Traveler.findById(req.body.travelerID);
-        if (traveler === null) throw (err)
+        if (traveler === null) {
+            throw ({
+                status: "wrong traveler"
+            })
+        }
         res.json(traveler);
     } catch (err) {
         ErrorHandler.readError(req, res, err)

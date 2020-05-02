@@ -68,7 +68,7 @@ app.get('/traveler/read_wrong', (req, res) => {
 })
 
 app.get('/traveler/read', (req, res) => {
-    req.body.travelerID = mongoose.Types.ObjectId("5ea44edd700f73350430d726")
+    req.body.travelerID = "5ea44edd700f73350430d726"
     Traveler.read(req, res)
 })
 

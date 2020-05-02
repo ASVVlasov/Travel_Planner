@@ -13,7 +13,11 @@ const read = async (req, res) => {
     }
     try {
         let board = await Board.findById(req.body.boardID);
-        if (board === null) throw (err)
+        if (board === null) {
+            throw ({
+                status: "wrong board"
+            })
+        }
         res.json(board);
     } catch (err) {
         ErrorHandler.readError(req, res, err)

@@ -51,9 +51,11 @@ const attach = async (req, res) => {
             path: path
         })
         let card = board[req.body.cardType + "Cards"].id(req.body.cardID)
-        if (card === null) throw ({
-            status: "wrong card"
-        })
+        if (card === null) {
+            throw ({
+                status: "wrong card"
+            })
+        }
         card.attachments.push(newAttachment)
         await board.save()
         res.status(200).json(newAttachment);
@@ -89,9 +91,11 @@ const deattach = async (req, res) => {
     try {
         let board = await Board.findById(req.body.boardID)
         let card = board[req.body.cardType + "Cards"].id(req.body.cardID)
-        if (card === null) throw ({
-            status: "wrong card"
-        })
+        if (card === null) {
+            throw ({
+                status: "wrong card"
+            })
+        }
         let deletedAttachment = card.attachments.id(req.body.attachmentID)
         if (!deattachFile(deletedAttachment.path)) throw (deletedAttachment.path)
         card.attachments.id(req.body.attachmentID).remove();
