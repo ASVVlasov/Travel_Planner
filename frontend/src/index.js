@@ -4,11 +4,12 @@ import './index.scss'
 
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
-import TravelPage from "./pages/TravelPage/TravelPage";
+import TravelPage from './pages/TravelPage/TravelPage'
+import Board from './components/Board/Board'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <TravelPage />
-  </Provider>,
-  document.getElementById('root')
+   <Provider store={store}>
+      <TravelPage />
+   </Provider>,
+   document.getElementById('root')
 )
