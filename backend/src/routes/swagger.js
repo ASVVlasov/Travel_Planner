@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const swaggerUi = require('swagger-ui-express')
-const swaggerDocument = require('../swagger/index.json')
 const m2s = require('mongoose-to-swagger')
 const router = require('express').Router()
 
@@ -18,15 +17,17 @@ const EntertaimentSchema = m2s(Entertaiment)
 const TransportSchema = m2s(Transport)
 const TodoSchema = m2s(Todo)
 const AttachmentSchema = m2s(Attachment)
-const header = require("../swagger/header.json")
-header.components.schemas.Traveler = TravelerSchema
-header.components.schemas.Board = BoardSchema
-header.components.schemas.Accomodation = AccomodationSchema
-header.components.schemas.Entertaiment = EntertaimentSchema
-header.components.schemas.Transport = TransportSchema
-header.components.schemas.Todo = TodoSchema
-header.components.schemas.Attachment = AttachmentSchema
+const document = require("../swagger/definition.js")
+document.components = {}
+document.components.schemas = {}
+document.components.schemas.Traveler = TravelerSchema
+document.components.schemas.Board = BoardSchema
+document.components.schemas.Accomodation = AccomodationSchema
+document.components.schemas.Entertaiment = EntertaimentSchema
+document.components.schemas.Transport = TransportSchema
+document.components.schemas.Todo = TodoSchema
+document.components.schemas.Attachment = AttachmentSchema
 router.use('/', swaggerUi.serve)
-router.get('/', swaggerUi.setup(header))
+router.get('/', swaggerUi.setup(document))
 
 module.exports = router
