@@ -8,6 +8,8 @@
 
 .switch__labelText {
   margin-left: 8px;
+  @include Body2;
+  color: $color-gray-4;
 }
 
 .switch__toggle {
