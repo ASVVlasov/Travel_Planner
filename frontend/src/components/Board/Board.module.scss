@@ -26,3 +26,14 @@
       color: $color-gray-1;
    }
 }
+
+.board__cards_add {
+   margin: auto;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   svg {
+      width: 45px;
+      fill: $color-gray-5;
+   }
+}
