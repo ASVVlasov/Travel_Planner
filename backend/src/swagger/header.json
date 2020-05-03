@@ -1,0 +1,80 @@
+{
+    "openapi" : "3.0.0",
+    "info" : {
+      "title" : "Travel Planner API",
+      "description" : "API for Travel Planner project",
+      "contact" : {
+        "email" : "buzuev.k@mail.ru"
+      },
+      "license" : {
+        "name" : "Apache 2.0",
+        "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version" : "1.0.0"
+    },
+    "servers" : [ {
+      "url" : "localhost:3000/api-docs/",
+      "description" : "local machine"
+    } ],
+    "tags" : [ {
+      "name" : "developers",
+      "description" : "Operations available to regular front-end developers"
+    } ],
+    "paths" : {
+      "/" : {
+        "get" : {
+          "tags" : [ "developers" ],
+          "summary" : "test",
+          "description" : "test\n",
+          "operationId" : "test",
+          "parameters" : [ {
+            "name" : "test",
+            "in" : "query",
+            "description" : "test",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "limit",
+            "in" : "query",
+            "description" : "maximum number of records to return",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "maximum" : 50,
+              "minimum" : 0,
+              "type" : "integer",
+              "format" : "int32"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "search results matching criteria",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/Traveler"
+                    }
+                  }
+                }
+              }
+            },
+            "400" : {
+              "description" : "bad input parameter"
+            }
+          }
+        }
+      }
+    },
+    "components" : {
+      "schemas" : {
+          
+      }
+    }
+  }
