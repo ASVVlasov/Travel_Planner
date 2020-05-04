@@ -10,11 +10,6 @@ export default class HeaderTitle extends React.Component {
             value: "Евротур’2020",
             isInEditMode: false
         }
-        this.changeEditMode = this.changeEditMode.bind(this);
-        this.updateComponentValue = this.updateComponentValue.bind(this);
-        this.renderEditView = this.renderEditView.bind(this);
-        this.renderDefauitView = this.renderDefauitView.bind(this);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
       }
     changeEditMode = () => {
         this.setState({
