@@ -123,7 +123,8 @@ class TransportAddForm extends Component {
                   </div>
                </form>
             </div>
-            <div className="bg" onClick={(e) => this.close(e)} />
+            <div className={styles.modal__bg} 
+            onClick={(e) => this.close(e)} />
          </div>
       );
    }

@@ -2,7 +2,6 @@
 
 .modal__wrapper {
    height: 100vh;
-   background: $color-gray-3;
 }
 .modal {
    z-index: 9999;
@@ -31,6 +30,7 @@
          color: $color-white;
          @include Body1;
          border-radius: 10px;
+         cursor: pointer;
          border: none;
       }
       &_reset {
@@ -119,7 +119,7 @@
    padding: 0px;
 }
 
-.bg {
+.modal__bg {
    z-index: 9998;
    position: absolute;
    width: 100%;
