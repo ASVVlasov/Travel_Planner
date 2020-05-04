@@ -1,0 +1,88 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.card {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   justify-content: space-between;
+   &__header {
+      display: block;
+      position: relative
+   }
+   &__transport {
+      margin-bottom: 6px;
+      @include H2;
+      color: $color-gray-1;
+   }
+   &__company {
+      @include Body2;
+      color: $color-gray-1;
+   }
+   &__badges,
+   &__route,
+   &__travelers {
+      display: flex;
+   }
+   &__badges {
+      flex-direction: column;
+      position: absolute;
+      top: -8px;
+      right: -10px;
+   }
+   &__route {
+      margin-top: -30%;
+   }
+}
+
+.badges {
+   &__icon {
+      width: 40px;
+      fill: $color-gray-5;
+      &_active {
+         fill: $color-gray-1;
+      }
+   }
+}
+
+.schema {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 6px 10px 28px 0;
+   &__point {
+      width: 10px;
+      height: 10px;
+      background-color: $color-gray-5;
+      border-radius: 50%;
+   }
+   &__path {
+      width: 1px;
+      height: 77%;
+      background-color: $color-gray-5;
+   }
+}
+
+.route {
+   &__start {
+      margin-bottom: 34px;
+   }
+   &__place {
+      display: block;
+      margin-bottom: 6px;
+      @include Body2;
+      color: $color-gray-2;
+   }
+   &__date {
+      @include Body3;
+      color: $color-gray-2;
+   }
+}
+
+.travelers__avatar {
+   width: 45px;
+   height: 45px;
+   background-color: $color-gray-6;
+   border: 1px solid $color-gray-5;
+   border-radius: 50%;
+   margin-right: -10px;
+}
