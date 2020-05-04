@@ -5,6 +5,7 @@ import styles from './Board.module.scss'
 
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
+import TransportCard from '../Cards/TransportCardShort'
  
 export default class Board extends Component {
    static propTypes = {
@@ -18,13 +19,48 @@ export default class Board extends Component {
             link: '/',
             cards: [
                {
-                  transport: 'card1' 
+                  transport: 'Перелет',
+                  company: 'Аэрофлот',
+                  departurePlace: 'Москва, Шереметьево',
+                  departureDate: '24.06.2020 08:20',
+                  arrivalPlace: 'Прага',
+                  arrivalDate: '24.06.2020 10:30',
+                  attachments: ['doc'],
+                  payer: '_id',
+                  travelers: [
+                     { login: 'me', avatarPath: 'path' }, 
+                     { login: 'user1', avatarPath: 'path' }, 
+                     { login: 'user2', avatarPath: 'path' },
+                  ],
                }, 
                {
-                  transport: 'card2' 
+                  transport: 'Машина в аренду',
+                  company: 'Sixt',
+                  departurePlace: 'Прага, аэропорт',
+                  departureDate: '24.06.2020 11:30',
+                  arrivalPlace: 'Рига, центр города',
+                  arrivalDate: '10.07.2020 16:00',
+                  attachments: ['doc'],
+                  payer: null,
+                  travelers: [
+                     { login: 'me', avatarPath: 'path' }, 
+                     { login: 'user1', avatarPath: 'path' }, 
+                     { login: 'user2', avatarPath: 'path' },
+                  ], 
                }, 
                {
-                  transport: 'card3' 
+                  transport: 'Перелет',
+                  company: 'AirBaltic',
+                  departurePlace: 'Рига',
+                  departureDate: '10.07.2020 18:40',
+                  arrivalPlace: 'Москва, Внуково',
+                  arrivalDate: '10.07.2020 21:30',
+                  attachments: ['doc'],
+                  payer: '_id',
+                  travelers: [
+                     { login: 'user1', avatarPath: 'path' }, 
+                     { login: 'user2', avatarPath: 'path' },
+                  ], 
                },
             ],
          },
@@ -75,9 +111,9 @@ export default class Board extends Component {
 
    mapCardsToRender = () => {
       return this.state.cards.map( (card, index) => (
-         <div key={ index }                 // TODO replace with Card component later
-            children={ card.transport }
-         />
+         <div key={ index }>
+            <TransportCard { ...card } />
+         </div> 
       ))
    }
 
