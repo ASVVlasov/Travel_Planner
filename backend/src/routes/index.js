@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const swagger = require("./swagger")
+const router = require('express').Router()
+const swagger = require('./swagger')
+const files = require('./files')
 
-router.use('/api-docs', swagger);
-router.get('/api-docs', swagger);
+router.use('/files', files)
+router.use('/api-docs', swagger)
+router.get('/api-docs', swagger)
 
-
-module.exports = router;
+module.exports = router
