@@ -14,7 +14,7 @@ export default class Sidebar extends React.Component {
                 <NavLink className={styles.sidebar__link} activeClassName={styles.sidebar__link_active} to='transport'><TransportBtnSVG/></NavLink>
                 <NavLink className={styles.sidebar__link} activeClassName={styles.sidebar__link_active} to='accomodation'><AccomodationBtnSVG/></NavLink>
                 <NavLink className={styles.sidebar__link} activeClassName={styles.sidebar__link_active} to='entertainment'><EntertainmentBtnSVG/></NavLink>
-                <NavLink className={styles.sidebar__link} activeClassName={styles.sidebar__link_active} to='todo'><ToDoBtnSVG/></NavLink>
+                <NavLink className={styles.sidebar__link} activeClassName={styles.sidebar__link_active} to='todos'><ToDoBtnSVG/></NavLink>
             </div>
         )
     }
