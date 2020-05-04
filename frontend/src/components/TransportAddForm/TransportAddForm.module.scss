@@ -1,0 +1,130 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.modal__wrapper {
+   height: 100vh;
+   background: $color-gray-3;
+}
+.modal {
+   z-index: 9999;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   border-radius: 10px;
+   -webkit-transform: translate(-50%, -50%);
+   transform: translate(-50%, -50%);
+}
+.form {
+   background: $color-white;
+   width: 775px;
+   height: 540px;
+   border-radius: 20px;
+   padding: 30px 30px 30px 35px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   &__button {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      &_reset,
+      &_submit {
+         color: $color-white;
+         @include Body1;
+         border-radius: 10px;
+         border: none;
+      }
+      &_reset {
+         padding: 9px 33px;
+         background: $color-gray-4;
+         margin: 0px 20px;
+      }
+      &_submit {
+         padding: 9px 40px;
+         background: $color-gray-1;
+         box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.15);
+      }
+   }
+}
+
+.title {
+   @include H1;
+   color: $color-gray-1;
+   margin-bottom: 40px;
+}
+.crossIcon {
+   position: absolute;
+   top: 20px;
+   right: 20px;
+   border: none;
+   outline: none;
+   background: $color-white;
+   cursor: pointer;
+   svg {
+      width: 45px;
+      fill: $color-gray-5;
+   }
+}
+.label {
+   @include Body2;
+   color: $color-gray-1;
+   margin-bottom: 10px;
+}
+
+.input {
+   height: 50px;
+   padding: 20px 14px;
+   background: $color-white;
+   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
+   border-radius: 10px;
+   border: none;
+   ::-webkit-input-placeholder {
+      @include Body1;
+   }
+   ::-moz-placeholder {
+      @include Body1;
+   } /* Firefox 19+ */
+   :-moz-placeholder {
+      @include Body1;
+   } /* Firefox 18- */
+   :-ms-input-placeholder {
+      @include Body1;
+   }
+   &__wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+   }
+   &__block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      &_transport {
+         width: 313px;
+      }
+      &_company {
+         width: 346px;
+      }
+      &_departureFrom, &_arrivalTo {
+         width: 415px;
+      }
+      &_departure, &_arrival {
+         width: 245px;
+      }
+   }
+}
+
+.fieldset {
+   border: none;
+   padding: 0px;
+}
+
+.bg {
+   z-index: 9998;
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background: rgba(0, 0, 0, 0.3);
+}
