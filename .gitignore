@@ -2,3 +2,4 @@ node_modules
 .idea
 backend/src/tests
 .vscode
+backend/node_modules
