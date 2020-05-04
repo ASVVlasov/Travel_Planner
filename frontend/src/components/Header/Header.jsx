@@ -26,15 +26,19 @@ class Header extends React.Component {
       <div className={styles["trip-data"]}>
         <div className={styles["trip-data__item"]}>
           <div className={styles["trip-data__title-text"]}>
-            Евротур’2020
+              Евротур’2020
           </div>
-            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
+            <div className={styles["trip-data__edit-btn"]}>
+              <EditBtnSVG />
+            </div>
         </div>
         <div className={styles["trip-data__item"]}>
           <div className={styles["trip-data__period-text"]}>
-            24 июня, ПТ – 10 июля, ВС  |  14 дней
+              24 июня, ПТ – 10 июля, ВС  |  14 дней
           </div>
-            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
+          <div className={styles["trip-data__edit-btn"]}>
+            <EditBtnSVG />
+          </div>
         </div>
       </div>
 

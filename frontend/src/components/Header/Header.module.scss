@@ -17,13 +17,6 @@
     }
   }
 }
-@mixin clickableSvg {// TODO Move to styles/mixins
-  cursor: pointer;
-  fill: $color-gray-4;
-  &:hover {
-    fill: $color-gray-1;
-  }
-}
 
 .header {
   height: 85px;
@@ -43,7 +36,7 @@
   }
 }
 .trip-data {
-  @include Body1;
+  @include Body2;
   color: $color-gray-2;
   flex: 1 1 auto;
   display: flex;
@@ -61,10 +54,15 @@
   }
   &__period-text {}
   &__edit-btn {
-    width: 14px;
-    height: 14px;
-    @include clickableSvg;
+    width: 24px;
+    height: 24px;
+    @include flexCenter;
+    @include clickableSvgContainer;
     margin: 0px 0px 0px 12px;
+    & svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 .travellers {
@@ -95,10 +93,10 @@
   height: 45px;
   margin: 0 0 0 100px;
   @include clickableSvgContainer;
+  @include flexCenter;
   fill: $color-gray-5;
-}
-@media (max-width: 1170px) {
-  .user-profile {
-    margin: 0 0 0 10px;
+  & svg {
+    width: 45px;
+    height: 45px;
   }
 }
