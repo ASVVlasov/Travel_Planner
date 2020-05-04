@@ -8,15 +8,7 @@
     "heroku-build": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged",
     "eslint": "node_modules/.bin/eslint src/"
-  },
-  "lint-staged": {
-    "*.{js, jsx}": [
-      "node_modules/.bin/eslint --max-warnings=0",
-      "prettier --write",
-      "git add"
-    ]
   },
   "eslintConfig": {
     "extends": [
