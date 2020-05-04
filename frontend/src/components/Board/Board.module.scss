@@ -1,7 +1,7 @@
 @import '../../styles/colors', '../../styles/mixins';
 
 .board {
-   height: calc(100vh - 175px);
+   height: 100%;
    padding: 45px 0 10px 0;
 }
 
@@ -28,7 +28,6 @@
 }
 
 .board__cards_add {
-   margin: auto;
    border: none;
    outline: none;
    cursor: pointer;
