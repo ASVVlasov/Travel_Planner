@@ -1,40 +1,38 @@
-const Board = require("../../models/board.js");
-
+const Board = require("../../models/board.js")
 const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
-const read = async (req, res) => {
+const read = async (req) => {
     if (!Request.haveID(req.body.boardID)) {
-        ErrorHandler.emptyField(req, res, "boardID");
-        return;
+        return ErrorHandler.emptyField("boardID")
     }
     if (!(await Request.recordExists(req.body.boardID, Board))) {
-        ErrorHandler.wrongField(req, res, "boardID", req.body.boardID);
-        return;
+        return ErrorHandler.wrongField("boardID", req.body.boardID)
     }
     if (!Request.haveType(req.body.cardType)) {
-        ErrorHandler.emptyField(req, res, "cardType");
-        return;
+        return ErrorHandler.emptyField("cardType")
     }
     if (!Request.typeExists(req.body.cardType)) {
-        ErrorHandler.wrongField(req, res, "cardType", req.body.cardType);
+        return ErrorHandler.wrongField("cardType", req.body.cardType)
     }
     if (!Request.haveID(req.body.cardID)) {
-        ErrorHandler.emptyField(req, res, "cardID");
-        return;
+        return ErrorHandler.emptyField("cardID")
     }
     try {
         let board = await Board.findById(boardID)
-        let card = board[req.body.cardType + "Cards"].id(req.body.cardID);
+        let card = board[req.body.cardType + "Cards"].id(req.body.cardID)
         if (card === null) {
             throw ({
                 status: "wrong card"
             })
         }
-        res.json(card);
+        return ({
+            statusCode: 200,
+            result: card
+        })
     } catch (err) {
-        ErrorHandler.readError(req, res, err)
+        return ErrorHandler.readError(err)
     }
-};
+}
 
 module.exports = read;
