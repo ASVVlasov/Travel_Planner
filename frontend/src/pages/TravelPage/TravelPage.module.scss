@@ -8,6 +8,13 @@ $width: 1440px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    &__boardWrap {
+        flex: 1;
+        overflow: scroll;
+    }
+    &__footerWrap {
+        flex-shrink: 0;
+    }
     &__sidebarWrap {
         position: absolute;
         left: 0;

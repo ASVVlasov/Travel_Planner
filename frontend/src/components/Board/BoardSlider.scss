@@ -8,7 +8,10 @@
 
 .swiper-slide {
    width: 383px;
-   height: 100%;
+   height: 95%;
+   min-height: 400px;
+   max-height: 570px;
+   background-color: $color-white;
    box-shadow: 1px 1px 20px change-color($color-gray-1, $alpha: 0.1);
    border-radius: 20px;
    padding: 25px;

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node backend/src",
-    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build"
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "precommit": "cd frontend && npm run precommit",
+    "eslint": "cd frontend && npm run eslint"
   },
   "cacheDirectories": [
     "backend/node_modules",
