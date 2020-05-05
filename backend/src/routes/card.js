@@ -15,6 +15,8 @@ const router = require('express').Router();
  * /board/{boardID}/{cardType}/card/{cardID}:
  *   get:
  *     description: Card information
+ *     tags: 
+ *       - developers
  *     produces:
  *       - application/json
  *     parameters:
@@ -46,11 +48,54 @@ const router = require('express').Router();
  *         example: "5ea8345edcb74011d4fab672"
  *     responses:
  *      200:
- *         description: requested card 
+ *         description: requested card
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/Transport'
+ *                 - type: object
+ *                   properties:
+ *                     extendedTravelers:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             description: travelerID
+ *                           nickname:
+ *                             type: string
+ *                             description: traveler nuckname(login)
+ *                           avatarPath:
+ *                             type: string
+ *                             description: path on server, where traveler avatar lays
+ * 
  *      400:
  *         description: request error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Request error description
+ *                   example: "Request error: empty boardID"
  *      500:
  *         description: server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Server error description
+ *                   example: "Database error: can't read entry / entry doesn't exist"
+ *                 error:
+ *                   type: object
+ *                   description: service object
  */
 router.get('/', async (req, res) => {
     // reqCard - запрашиваемая карточка
@@ -78,7 +123,7 @@ router.get('/', async (req, res) => {
             avatarPath: reqTraveler.result.avatarPath
         })
     }
-    body.travelers = extendedTravelers
+    body.extendedTravelers = extendedTravelers
     res.status(reqCard.statusCode).json(body)
 })
 
