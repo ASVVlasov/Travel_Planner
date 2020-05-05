@@ -1,19 +1,16 @@
-const Traveler = require("../../models/traveler.js");
+const Traveler = require("../../models/traveler.js")
 const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
 const update = async (req, res) => {
     if (!Request.haveID(req.body.travelerID)) {
-        ErrorHandler.emptyField(req, res, "travelerID");
-        return;
+        return ErrorHandler.emptyField("travelerID")
     }
     if (!(await Request.recordExists(req.body.travelerID, Traveler))) {
-        ErrorHandler.wrongField(req, res, "travelerID", req.body.travelerID);
-        return;
+        return ErrorHandler.wrongField("travelerID", req.body.travelerID)
     }
     if (!Request.canUpdate(req.body.traveler)) {
-        ErrorHandler.emptyUpdate(req, res, "traveler");
-        return;
+        return ErrorHandler.emptyUpdate("traveler")
     }
     try {
         await Traveler.updateOne({
@@ -22,10 +19,13 @@ const update = async (req, res) => {
             $set: req.body.traveler
         })
         let updatedTraveler = await Traveler.findById(req.body.travelerID)
-        res.json(updatedTraveler)
+        return ({
+            statusCode: 200,
+            result: updatedTraveler
+        })
     } catch (err) {
-        ErrorHandler.updateError(req, res, err)
+        return ErrorHandler.updateError(err)
     }
 }
 
-module.exports = update;
+module.exports = update

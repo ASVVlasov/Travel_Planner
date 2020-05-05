@@ -1,27 +1,28 @@
-const Traveler = require("../../models/traveler.js");
+const Traveler = require("../../models/traveler.js")
 const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
-const read = async (req, res) => {
+const read = async (req) => {
     if (!Request.haveID(req.body.travelerID)) {
-        ErrorHandler.emptyField(req, res, "travelerID");
-        return;
+        return ErrorHandler.emptyField("travelerID")
     }
     if (!(await Request.recordExists(req.body.travelerID, Traveler))) {
-        ErrorHandler.wrongField(req, res, "travelerID", req.body.travelerID);
-        return;
+        return ErrorHandler.wrongField("travelerID", req.body.travelerID)
     }
     try {
-        let traveler = await Traveler.findById(req.body.travelerID);
+        let traveler = await Traveler.findById(req.body.travelerID)
         if (traveler === null) {
             throw ({
                 status: "wrong traveler"
             })
         }
-        res.json(traveler);
+        return ({
+            statusCode: 200,
+            result: traveler
+        })
     } catch (err) {
-        ErrorHandler.readError(req, res, err)
+        return ErrorHandler.readError(err)
     }
 };
 
-module.exports = read;
+module.exports = read
