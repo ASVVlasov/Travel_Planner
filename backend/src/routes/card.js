@@ -53,7 +53,18 @@ const router = require('express').Router();
  *           application/json:
  *             schema:
  *               allOf:
- *                 - $ref: '#/components/schemas/Transport'
+ *                 - oneOf:
+ *                     - $ref: '#/components/schemas/Transport'
+ *                     - $ref: '#/components/schemas/Todo'
+ *                     - $ref: '#/components/schemas/Accomodation'
+ *                     - $ref: '#/components/schemas/Entertainment' 
+ *                   discriminator:
+ *                     propertyName: cardType
+ *                     mapping:
+ *                       transport: '#/components/schemas/Transport'
+ *                       todo: '#/components/schemas/Todo'
+ *                       accomodation: '#/components/schemas/Accomodation'
+ *                       entertainment: '#/components/schemas/Entertainment'
  *                 - type: object
  *                   properties:
  *                     extendedTravelers:
@@ -66,10 +77,32 @@ const router = require('express').Router();
  *                             description: travelerID
  *                           nickname:
  *                             type: string
- *                             description: traveler nuckname(login)
+ *                             description: traveler nickname(login)
  *                           avatarPath:
  *                             type: string
  *                             description: path on server, where traveler avatar lays
+ *             examples:
+ *               transportCard:
+ *                 value:
+ *                   travelers: ["5ea44edd700f73350430d726", "5ea6cf0819c47629e49f8618"]
+ *                   payer: "5ea44edd700f73350430d726"
+ *                   cost: 250
+ *                   transport: "Такси"
+ *                   company: "Yandex"
+ *                   departurePlace: "Самара, ул. Победы, 10"
+ *                   departureDate: 2020-04-28T13:49:18.024+00:00
+ *                   arrivalPlace: "Самара, Волжский проспект, 4"
+ *                   arrivalDate: 2020-04-28T13:49:18.024+00:00
+ *                   comment: "Купить все самое нужное для поездки"
+ *                   extendedTravelers:
+ *                     - id: 5ea44edd700f73350430d726
+ *                       nickname: "Вася"
+ *                       avatarPath: "default avatar path"
+ *                     - id: 5ea6cf0819c47629e49f8618
+ *                       nickname: "Петя"
+ *                       avatarPath: "another avatar path"
+ *                 summary: "Transport card example"
+ *                  
  * 
  *      400:
  *         description: request error
