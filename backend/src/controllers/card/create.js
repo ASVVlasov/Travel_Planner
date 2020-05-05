@@ -46,6 +46,6 @@ const create = async (req) => {
     } catch (err) {
         return ErrorHandler.createError(err)
     }
-};
+}
 
-module.exports = create;
+module.exports = create
