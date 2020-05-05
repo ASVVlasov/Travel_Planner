@@ -1,26 +1,25 @@
-const Traveler = require("../../models/traveler.js");
+const Traveler = require("../../models/traveler.js")
 const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
-const destroy = async (req, res) => {
+const destroy = async (req) => {
     if (!Request.haveID(req.body.travelerID)) {
-        ErrorHandler.emptyField(req, res, "travelerID");
-        return;
+        return ErrorHandler.emptyField("travelerID")
     }
     if (!(await Request.recordExists(req.body.travelerID, Traveler))) {
-        ErrorHandler.wrongField(req, res, "travelerID", req.body.travelerID);
-        return;
+        return ErrorHandler.wrongField("travelerID", req.body.travelerID)
     }
     try {
         let deletedTraveler = await Traveler.findById(req.body.travelerID)
         await Traveler.deleteOne({
             _id: req.body.travelerID
         })
-        res.status(200).json({
-            status: `Traveler ${deletedTraveler.login} deleted`
+        return ({
+            statusCode: 200,
+            result: `Traveler ${deletedTraveler.login} deleted`
         })
     } catch (err) {
-        ErrorHandler.deleteError(req, res, err)
+        return ErrorHandler.deleteError(err)
     }
 };
 
