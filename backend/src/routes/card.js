@@ -1,3 +1,13 @@
+const Traveler = {}
+Traveler.create = require("../controllers/traveler/create")
+Traveler.read = require("../controllers/traveler/read")
+Traveler.update = require("../controllers/traveler/update")
+Traveler.delete = require("../controllers/traveler/delete")
+const Card = {}
+Card.create = require("../controllers/card/create")
+Card.read = require("../controllers/card/read")
+Card.update = require("../controllers/card/update")
+Card.delete = require("../controllers/card/delete")
 const router = require('express').Router();
 /**
  * @swagger
@@ -35,15 +45,47 @@ const router = require('express').Router();
  *           type: string
  *         example: "5ea8345edcb74011d4fab672"
  *     responses:
- *       200:
- *         description: login
+ *      200:
+ *         description: requested card 
+ *      400:
+ *         description: request error
+ *      500:
+ *         description: server error
  */
+router.get('/', async (req, res) => {
+    // reqCard - запрашиваемая карточка
+    let reqCard = await Card.read(req)
+    if (reqCard.statusCode !== 200) { // Обработка ошибки
+        let statusCode = reqCard.statusCode
+        delete reqCard.statusCode
+        res.status(statusCode).json(reqCard)
+    }
+    // body - тело для response
+    let body = JSON.parse(JSON.stringify(reqCard.result))
+    let extendedTravelers = []
+    for (let i = 0; i < body.travelers.length; i++) {
+        let id = body.travelers[i]
+        let req = {}
+        req.body = {}
+        req.body.travelerID = id
+        let reqTraveler = await Traveler.read(req)
+        if (reqTraveler.statusCode !== 200) { // Обработка ошибки
+            continue // Исключаем мертвые id из дальнейшей обработки
+        }
+        extendedTravelers.push({
+            id: id,
+            nickname: reqTraveler.result.login,
+            avatarPath: reqTraveler.result.avatarPath
+        })
+    }
+    body.travelers = extendedTravelers
+    res.status(reqCard.statusCode).json(body)
+})
 
-router.get('/', function (req, res) {
-    console.log(req.params.boardID)
-    res.json({
-        status: "OK"
-    })
+router.post('/', async (req, res) => {
+    let body = {}
+    body.status = "OK"
+    res.status(200).json(body)
 })
 
 module.exports = router

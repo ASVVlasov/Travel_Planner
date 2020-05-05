@@ -19,7 +19,7 @@ const read = async (req) => {
         return ErrorHandler.emptyField("cardID")
     }
     try {
-        let board = await Board.findById(boardID)
+        let board = await Board.findById(req.body.boardID)
         let card = board[req.body.cardType + "Cards"].id(req.body.cardID)
         if (card === null) {
             throw ({
