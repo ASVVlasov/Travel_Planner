@@ -1,6 +1,6 @@
 const Board = require("../../models/board.js");
 const Accomodation = require("../../models/accomodation.js");
-const Entertaiment = require("../../models/entertaiment.js");
+const Entertaiment = require("../../models/entertainment.js");
 const Transport = require("../../models/transport.js");
 const Todo = require("../../models/todo.js");
 
