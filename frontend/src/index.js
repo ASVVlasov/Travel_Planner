@@ -7,13 +7,14 @@ import initStore, { history } from './redux/store.js';
 import { ConnectedRouter } from 'connected-react-router';
 
 import MainRouter from './router/MainRouter';
+import { Route } from 'react-router-dom';
 
 const store = initStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history} >
-      <MainRouter />
+      <Route component={MainRouter} />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
