@@ -34,13 +34,13 @@ export default class HeaderTitle extends React.Component {
         }
     }
     inputChangeSize = (evt) => {
-        if (evt.target.value.length >= 26) {
+        if (evt.target.value.length >= 29) {
             this.setState({
-                inputSize: 26
+                inputSize: evt.target.value.length+3
             })
         }else{
             this.setState({
-                inputSize: evt.target.value.length
+                inputSize: evt.target.value.length+2
             })
         }
     }
