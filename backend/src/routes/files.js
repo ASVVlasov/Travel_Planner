@@ -1,13 +1,14 @@
 const path = require('path')
 const express = require('express')
 const router = express.Router()
-const fileUpload = require(path.resolve(
+const attachments = require(path.resolve(
    __dirname,
    '..',
    'controllers',
-   'file',
-   'upload'
+   'card',
+   'attachment'
 ))
-router.post('/upload', fileUpload)
+router.post('/attachFile', attachments.attach)
+router.post('/deattachFile', attachments.deattach)
 router.use('/', express.static(path.resolve(__dirname, '..', 'uploads')))
 module.exports = router
