@@ -35,4 +35,4 @@ const read = async (req) => {
     }
 }
 
-module.exports = read;
+module.exports = read

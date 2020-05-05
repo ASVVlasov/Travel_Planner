@@ -1,4 +1,4 @@
-const Board = require("../../models/board.js");
+const Board = require("../../models/board.js")
 const ErrorHandler = require("../errorHandler.js")
 const Request = require("../requestCheck.js")
 
