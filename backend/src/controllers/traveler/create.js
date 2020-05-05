@@ -9,7 +9,7 @@ const create = async (req) => {
             result: newTraveler
         })
     } catch (err) {
-        returnErrorHandler.createError(err)
+        return ErrorHandler.createError(err)
     }
 }
 
