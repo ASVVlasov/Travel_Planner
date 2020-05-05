@@ -29,16 +29,19 @@
     ]
   },
   "dependencies": {
+    "classnames": "^2.2.6",
+    "connected-react-router": "^6.8.0",
+    "history": "^4.10.1",
+    "node-sass": "^4.14.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-id-swiper": "^3.0.0",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
-    "swiper": "^5.3.8",
-    "node-sass": "^4.14.0",
-    "classnames": "^2.2.6",
-    "prop-types": "^15.7.2"
+    "swiper": "^5.3.8"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
