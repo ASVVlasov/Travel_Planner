@@ -8,9 +8,15 @@ export default class HeaderTitle extends React.Component {
         super(props);
         this.state = {
             value: "Евротур’2020",
-            isInEditMode: false
+            isInEditMode: false,
+            inputSize : ""
         }
       }
+    componentWillMount = () => {
+        this.setState({
+            inputSize: this.state.value.length
+        })
+    }
     changeEditMode = () => {
         this.setState({
             isInEditMode: !this.state.isInEditMode
@@ -27,6 +33,17 @@ export default class HeaderTitle extends React.Component {
             this.updateComponentValue()
         }
     }
+    inputChangeSize = (evt) => {
+        if (evt.target.value.length >= 26) {
+            this.setState({
+                inputSize: 26
+            })
+        }else{
+            this.setState({
+                inputSize: evt.target.value.length
+            })
+        }
+    }
 
     renderEditView = () => {
         return(
@@ -40,6 +57,8 @@ export default class HeaderTitle extends React.Component {
                     onKeyUp = { this.handleKeyUp }
                     autoFocus
                     maxLength="30"
+                    size={ this.state.inputSize > 5 ? this.state.inputSize : 5}
+                    onChange={this.inputChangeSize}
                 >
                 </input>
                 <div className={styles.headerTitle__editIcon}><EditBtnSVG/></div>
