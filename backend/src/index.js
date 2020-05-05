@@ -5,12 +5,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// mongoose.connect('mongodb+srv://gt_root:greenteam@cluster0-jubqy.azure.mongodb.net/test?retryWrites=true&w=majority', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false,
-// });
-mongoose.connect('mongodb://localhost:27017/test', {
+mongoose.connect('mongodb+srv://gt_root:greenteam@cluster0-jubqy.azure.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
