@@ -17,11 +17,15 @@
         padding-left: 40px;
     }
     &__paid,
-    &__toPay,
     &__totalBudget{
         text-align: center;
         margin-right: 5px;
         margin-left: 5px;
+    }
+    &__toPay{
+        text-align: center;
+        margin-right: 45px;
+        margin-left: 25px;
     }
     &__paidValue,
     &__toPayValue{

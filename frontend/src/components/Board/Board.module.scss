@@ -1,7 +1,7 @@
 @import '../../styles/colors', '../../styles/mixins';
 
 .board {
-   height: calc(100vh - 175px);
+   height: 100%;
    padding: 45px 0 10px 0;
 }
 
@@ -24,5 +24,15 @@
    text-decoration: none;
    &_active {
       color: $color-gray-1;
+   }
+}
+
+.board__cards_add {
+   border: none;
+   outline: none;
+   cursor: pointer;
+   svg {
+      width: 45px;
+      fill: $color-gray-5;
    }
 }

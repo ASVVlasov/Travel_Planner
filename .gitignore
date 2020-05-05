@@ -1,4 +1,5 @@
 node_modules
-.ide
+.idea
 backend/src/tests
 .vscode
+backend/node_modules

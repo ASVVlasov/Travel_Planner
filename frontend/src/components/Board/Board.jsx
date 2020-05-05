@@ -5,6 +5,7 @@ import styles from './Board.module.scss'
 
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
+import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg';
  
 export default class Board extends Component {
    static propTypes = {
@@ -103,7 +104,11 @@ export default class Board extends Component {
                className={ styles.board__cards } 
                slides={ [
                   ...this.mapCardsToRender(), 
-                  <div key={ 1000 }/>       // TODO replace with AddCardButton(?) control later
+                  <button 
+                     className={ styles.board__cards_add }
+                     onClick={ () => {} }
+                     children={ <PlusIcon /> }
+                  />
                ] }
             />
          </div>
