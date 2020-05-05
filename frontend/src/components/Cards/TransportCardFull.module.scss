@@ -1,0 +1,14 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.card__window {
+   width: 83%;
+   height: 77%;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   z-index: 200;
+   background-color: $color-white;
+   padding: 30px;
+   border-radius: 20px;
+   transform: translate(-50%, -50%);
+}
