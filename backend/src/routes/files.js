@@ -3,8 +3,12 @@ const express = require('express')
 const router = express.Router()
 const attachments = require(path.resolve(__dirname, '..', 'controllers', 'card', 'attachment'))
 
-router.post('/attachFile', (req, res) => {
-   res.json(attachments.attach(req))
+router.post('/attachFile', async (req, res) => {
+   try {
+      res.json(await attachments.attach(req))
+   } catch (e) {
+      console.log(e)
+   }
 })
 router.post('/deattachFile', (req, res) => {
    res.json(attachments.deattach(req))
