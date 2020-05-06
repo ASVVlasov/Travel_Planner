@@ -30,7 +30,6 @@ class Header extends React.Component {
           <div className={styles["trip-data__title-text"]}>
             <HeaderTitle/>
           </div>
-            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
         </div>
         <div className={styles["trip-data__item"]}>
           <div className={styles["trip-data__period-text"]}>
