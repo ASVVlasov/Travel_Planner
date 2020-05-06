@@ -14,12 +14,14 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
     "mongoose": "^5.9.10",
     "mongoose-to-swagger": "^1.0.3",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5"
   }
 }
