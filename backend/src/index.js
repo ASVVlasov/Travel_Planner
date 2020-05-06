@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -19,7 +18,9 @@ mongoose.connection.once('open', () => {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+    extended: true
+}));
 app.use('/', express.static(path.resolve(__dirname, '..', '..', 'frontend', 'build')));
 
 const router = require(path.resolve(__dirname, '.', 'routes'));
