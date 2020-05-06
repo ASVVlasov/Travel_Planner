@@ -61,10 +61,7 @@ const attach = async (req) => {
          return ErrorHandler.fileUploadError(req, res)
       }
       let board = await Board.findById(req.body.boardID)
-      let newAttachment = new Attachment({
-         name: req.body.attachment.name,
-         path: path,
-      })
+      let newAttachment = new Attachment(path)
       let card = board[req.body.cardType + 'Cards'].id(req.body.cardID)
       if (card === null) {
          throw {
