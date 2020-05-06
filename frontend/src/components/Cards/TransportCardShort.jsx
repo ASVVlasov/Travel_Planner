@@ -15,9 +15,11 @@ export default class TransportCard extends Component {
       departureDate: PropTypes.string,
       arrivalPlace: PropTypes.string,
       arrivalDate: PropTypes.string,
-      attachments: PropTypes.array,
+      attachments: PropTypes.arrayOf(PropTypes.object),
       payer: PropTypes.string,
       travelers: PropTypes.arrayOf(PropTypes.object),
+      comment: PropTypes.string,
+      cost: PropTypes.number,
    }
 
    state = {
