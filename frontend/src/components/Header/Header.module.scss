@@ -1,6 +1,14 @@
 @import '../../styles/colors';
 @import '../../styles/mixins';
 
+@mixin clickableSvg {// TODO Move to styles/mixins
+  cursor: pointer;
+    fill: $color-gray-4;
+  &:hover {
+      fill: $color-gray-1;
+  }
+}
+
 .header {
   height: 85px;
   padding: 20px 30px;
@@ -9,26 +17,30 @@
   align-items: center;
 }
 .back-btn {
+  width: 30px;
+  height: 30px;
+  @include clickableSvg;
 }
 .trip-data {
-  @include Body1;
+  @include Body2;
   color: $color-gray-2;
   flex: 1 1 auto;
   display: flex;
   &__item {
     display: flex;
     align-items: center;
-    margin: 0px 0px 0px 50px;
+    margin: 0px 0px 0px 40px;
   }
   &__title {
     display: flex;
   }
-  &__title-text {}
   &__period {
     display: flex;
   }
-  &__period-text {}
   &__edit-btn {
+    width: 24px;
+    height: 24px;
+    @include clickableSvg;
     margin: 0px 0px 0px 12px;
   }
 }
@@ -51,15 +63,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 0px 0px 12px;
+  margin: 0px 0px 0px 18px;
   @include Body1;
   color: $color-gray-2;
 }
 .user-profile {
+  width: 45px;
+  height: 45px;
   margin: 0 0 0 100px;
-}
-@media (max-width: 1170px) {
-  .user-profile {
-    margin: 0 0 0 10px;
-  }
+  @include clickableSvg;
+  fill: $color-gray-5;
 }

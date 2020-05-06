@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
 //redux
-import { bindActionCreators } from 'redux';
-import connect from 'react-redux/es/connect/connect';
+import { bindActionCreators } from 'redux'
+import connect from 'react-redux/es/connect/connect'
 
-import styles from './Header.module.scss';
-import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg';
-import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg';
-import { ReactComponent as UserProfileSVG } from '../../assets/images/icons/avatar.svg';
+import styles from './Header.module.scss'
+import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
+import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
+import { ReactComponent as UserProfileSVG } from '../../assets/images/icons/avatar.svg'
 
 import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
 
@@ -40,22 +40,12 @@ class Header extends React.Component {
         </div>
       </div>
 
-      <div className={styles["travellers"]}>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-else"]}>
-          +2
-        </div>
+      <div className={styles['travellers']}>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-else']}>+2</div>
       </div>
       <div className={styles["user-profile"]}>
         <UserProfileSVG />
@@ -65,8 +55,8 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({}) => ({})
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
