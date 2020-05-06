@@ -1,0 +1,228 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.card { 
+   width: 1200px;
+   height: 700px;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 200;
+   padding: 30px;
+   border-radius: 20px;
+   background-color: $color-white;
+   &__header {
+      width: 100%;
+      position: relative;
+      margin-bottom: 45px;
+   }
+   &__breadcrumbs {
+      @include Body2;
+   }
+
+   &__leftSide {
+      height: 90%;
+      width: 51%;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: baseline;
+      border-right: 1px solid $color-gray-5;
+      margin-right: 30px;
+   }
+   &__companyName {
+      width: 100%;
+      @include H1;
+      margin-bottom: 20px;
+   }
+   &__route {
+      width: 62%;
+      height: fit-content;
+      max-height: 330px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: baseline;
+   }
+   &__docs {
+      height: fit-content;
+      max-height: 330px;
+      display: flex;
+      flex-direction: column;
+   }
+   &__comments {
+      width: 100%;
+      textarea {
+         border: none;
+         resize: none;
+         width: 100%;
+         height: 200px;
+         @include Body3;
+         color: $color-gray-1;
+      }
+   }
+
+   &__rightSide {
+      height: 90%;
+      width: 46%;
+      display: flex;
+      flex-wrap: wrap;
+   }
+   &__travelers {
+      width: 74%;
+      height: 504px;
+      h2 {
+         margin-bottom: 14px;
+      }
+   }
+   &__cost {
+      width: 26%;
+      height: 504px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      h2 {
+         margin: 0 0 20px 0;
+         text-align: right;
+      }
+      &_general {
+         @include H1;
+         color: $color-gray-1;
+         text-align: right;
+         margin-bottom: 30px;
+      }
+      &_personal {
+         @include Body2;
+         color: $color-gray-2;
+         text-align: right;
+         height: 45px;
+         margin-bottom: 20px;
+      }
+   }
+   &__actions {
+      width: 72%;
+      min-width: fit-content;
+      height: 40px;
+      margin: 30px 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.icons {
+   width: 24px;
+   cursor: pointer;
+   fill: $color-gray-4;
+   &__close {
+      width: 45px;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      fill: $color-gray-5;
+   }
+}
+
+.section__title {
+   width: 100%;
+   display: flex;
+   margin-bottom: 20px;
+}
+h2 {
+   @include H2;
+   color: $color-gray-4;
+   margin-right: 10px;
+}
+
+.schema {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 8px 10px 70px 20px;
+   &__point {
+      width: 10px;
+      height: 10px;
+      background-color: $color-gray-5;
+      border-radius: 50%;
+   }
+   &__path {
+      width: 1px;
+      height: 77%;
+      flex: 1;
+      background-color: $color-gray-5;
+   }
+}
+
+.route {
+   &__start {
+      margin-bottom: 100px;
+   }
+   &__finish {
+      margin-bottom: 40px;
+   }
+   &__place {
+      display: block;
+      margin-bottom: 6px;
+      @include Body1;
+      color: $color-gray-1;
+   }
+   &__date {
+      @include Body2;
+      color: $color-gray-2;
+   }
+}
+
+.travelers {
+   &__columns {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+   }
+   &__columnTitle {
+      width: 70px;
+      margin-right: 14px;
+      @include Body3;
+      color: $color-gray-4;
+      text-align: center;
+   }
+   &__person {
+      width: 100%;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      &_add {
+         cursor: pointer;
+      }
+   }
+   &__avatar {
+      width: 45px;
+      height: 45px;
+      flex-shrink: 0;
+      background-color: $color-gray-6;
+      border: 1px solid $color-gray-5;
+      border-radius: 50%;
+      margin-right: 15px;
+      &_add {
+         background-color: $color-white;
+      }
+   }
+   &__name {
+      width: 160px;
+      @include Body3;
+      color: $color-gray-1;
+      margin-right: 15px;
+      &_add {
+         color: $color-gray-4;
+      }
+   }
+   &__switch {
+      width: 50px;
+      margin: 20px;
+   }
+}
+
+.hidden {
+   visibility: hidden;
+}

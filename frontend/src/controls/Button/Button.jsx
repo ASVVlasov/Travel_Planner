@@ -5,25 +5,25 @@ import styles from './Button.module.scss'
 
 export default class Button extends Component {
    static propTypes = {
+      onClick: PropTypes.func.isRequired,
       text: PropTypes.string.isRequired,
-      size: PropTypes.string,       // options: 'small'
-      kind: PropTypes.string,       // options: 'cancel'
+      size: PropTypes.oneOf(['small']),
+      kind: PropTypes.oneOf(['cancel']),
    }
 
-   render () {
-      const { text, size, kind } = this.props
+   render() {
+      const { onClick, text, size, kind } = this.props
 
       return (
-         <button 
-            className={ classNames(
+         <button
+            onClick={onClick}
+            className={classNames(
                styles.button,
                size && styles[`button_${size}`],
-               kind && styles[`button_${kind}`]) 
-            } 
-            children={ text }
+               kind && styles[`button_${kind}`]
+            )}
+            children={text}
          />
       )
    }
 }
-
-

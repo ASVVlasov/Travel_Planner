@@ -27,13 +27,15 @@ export default class Board extends Component {
                   departureDate: '24.06.2020 08:20',
                   arrivalPlace: 'Прага',
                   arrivalDate: '24.06.2020 10:30',
-                  attachments: ['doc'],
+                  attachments: [{ name: 'Билеты', path: '#' }],
                   payer: '_id',
                   travelers: [
                      { login: 'me', avatarPath: 'path' },
                      { login: 'user1', avatarPath: 'path' },
                      { login: 'user2', avatarPath: 'path' },
                   ],
+                  comment: '',
+                  cost: 0,
                },
                {
                   transport: 'Машина в аренду',
@@ -42,13 +44,16 @@ export default class Board extends Component {
                   departureDate: '24.06.2020 11:30',
                   arrivalPlace: 'Рига, центр города',
                   arrivalDate: '10.07.2020 16:00',
-                  attachments: ['doc'],
+                  attachments: [{ name: 'Бронь.pdf', path: '#' }],
                   payer: null,
                   travelers: [
                      { login: 'me', avatarPath: 'path' },
                      { login: 'user1', avatarPath: 'path' },
                      { login: 'user2', avatarPath: 'path' },
                   ],
+                  comment:
+                     'Забронирован VW POLO на механке. Водитель Серега. Оплата на месте, депозит на карте 600 евро',
+                  cost: 0,
                },
                {
                   transport: 'Перелет',
@@ -57,12 +62,14 @@ export default class Board extends Component {
                   departureDate: '10.07.2020 18:40',
                   arrivalPlace: 'Москва, Внуково',
                   arrivalDate: '10.07.2020 21:30',
-                  attachments: ['doc'],
+                  attachments: [{ name: 'Билет', path: '#' }],
                   payer: '_id',
                   travelers: [
                      { login: 'user1', avatarPath: 'path' },
                      { login: 'user2', avatarPath: 'path' },
                   ],
+                  comment: '',
+                  cost: 0,
                },
             ],
          },
@@ -133,7 +140,9 @@ export default class Board extends Component {
                   {this.mapTabsToRender()}
                </nav>
 
-               {this.state.cards.length > 2 && <Button size="small" text="+" />}
+               {this.state.cards.length > 2 && (
+                  <Button onClick={() => {}} size="small" text="+" />
+               )}
             </div>
 
             <BoardSlider
