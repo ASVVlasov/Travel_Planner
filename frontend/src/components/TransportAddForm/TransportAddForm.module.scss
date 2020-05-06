@@ -45,7 +45,10 @@
       }
    }
 }
-
+.fieldset {
+   border: none;
+   padding: 0px;
+}
 .title {
    @include H1;
    color: $color-gray-1;
@@ -69,7 +72,6 @@
    color: $color-gray-1;
    margin-bottom: 10px;
 }
-
 .input {
    height: 50px;
    padding: 20px 14px;
@@ -105,20 +107,16 @@
       &_company {
          width: 346px;
       }
-      &_departureFrom, &_arrivalTo {
+      &_departureFrom,
+      &_arrivalTo {
          width: 415px;
       }
-      &_departure, &_arrival {
+      &_departure,
+      &_arrival {
          width: 245px;
       }
    }
 }
-
-.fieldset {
-   border: none;
-   padding: 0px;
-}
-
 .modal__bg {
    z-index: 9998;
    position: absolute;

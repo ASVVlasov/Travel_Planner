@@ -7,9 +7,14 @@ import styles from "./TransportAddForm.module.scss";
 import { ReactComponent as CrossIcon } from "../../assets/images/icons/cross.svg";
 
 class TransportAddForm extends Component {
-   constructor(props) {
-      super(props);
-   }
+   // constructor(props) {
+   //    super(props);
+   // }
+
+   static defaultProps = {
+      onCancel: () => {},
+      onSubmit: () => {},
+   };
    close(e) {
       e.preventDefault();
       this.props.onClose();
@@ -33,7 +38,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_transport}`}
                         >
-                           <label className={styles.label} for="transport">
+                           <label className={styles.label} htmlFor="transport">
                               Тип транспорта
                            </label>
                            <input
@@ -46,7 +51,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_company}`}
                         >
-                           <label className={styles.label} for="company">
+                           <label className={styles.label} htmlFor="company">
                               Компания
                            </label>
                            <input
@@ -60,7 +65,10 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_departureFrom}`}
                         >
-                           <label className={styles.label} for="departureFrom">
+                           <label
+                              className={styles.label}
+                              htmlFor="departureFrom"
+                           >
                               Откуда
                            </label>
                            <input
@@ -73,7 +81,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_departure}`}
                         >
-                           <label className={styles.label} for="departure">
+                           <label className={styles.label} htmlFor="departure">
                               Отправление
                            </label>
                            <input
@@ -85,7 +93,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_arrivalTo}`}
                         >
-                           <label className={styles.label} for="arrivalTo">
+                           <label className={styles.label} htmlFor="arrivalTo">
                               Куда
                            </label>
                            <input
@@ -98,7 +106,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_arrival}`}
                         >
-                           <label className={styles.label} for="arrival">
+                           <label className={styles.label} htmlFor="arrival">
                               Прибытие
                            </label>
                            <input
@@ -110,21 +118,26 @@ class TransportAddForm extends Component {
                      </div>
                   </fieldset>
                   <div className={styles.form__button}>
-                     <input
+                     <button
                         className={styles.form__button_reset}
                         type="reset"
                         value="Отмена"
-                     />
-                     <input
+                        onClick={this.props.onCancel}
+                     >
+                        Отмена
+                     </button>
+                     <button
                         className={styles.form__button_submit}
                         type="submit"
                         value="Добавить"
-                     />
+                        onClick={this.props.onSubmit}
+                     >
+                        Добавить
+                     </button>
                   </div>
                </form>
             </div>
-            <div className={styles.modal__bg} 
-            onClick={(e) => this.close(e)} />
+            <div className={styles.modal__bg} onClick={(e) => this.close(e)} />
          </div>
       );
    }
