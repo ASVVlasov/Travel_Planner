@@ -1,20 +1,11 @@
 @import '../../styles/colors';
 @import '../../styles/mixins';
 
-@mixin flexCenter {// TODO Move to styles/mixins
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@mixin clickableSvgContainer {// TODO Move to styles/mixins
+@mixin clickableSvg {// TODO Move to styles/mixins
   cursor: pointer;
-  & svg {
     fill: $color-gray-4;
-  }
   &:hover {
-    & svg {
       fill: $color-gray-1;
-    }
   }
 }
 
@@ -26,14 +17,9 @@
   align-items: center;
 }
 .back-btn {
-  width: 40px;
-  height: 40px;
-  @include flexCenter;
-  @include clickableSvgContainer;
-  & svg {
-    width: 22.5px;
-    height: 22.5px;
-  }
+  width: 30px;
+  height: 30px;
+  @include clickableSvg;
 }
 .trip-data {
   @include Body2;
@@ -43,26 +29,19 @@
   &__item {
     display: flex;
     align-items: center;
-    margin: 0px 0px 0px 50px;
+    margin: 0px 0px 0px 40px;
   }
   &__title {
     display: flex;
   }
-  &__title-text {}
   &__period {
     display: flex;
   }
-  &__period-text {}
   &__edit-btn {
     width: 24px;
     height: 24px;
-    @include flexCenter;
-    @include clickableSvgContainer;
+    @include clickableSvg;
     margin: 0px 0px 0px 12px;
-    & svg {
-      width: 24px;
-      height: 24px;
-    }
   }
 }
 .travellers {
@@ -92,11 +71,6 @@
   width: 45px;
   height: 45px;
   margin: 0 0 0 100px;
-  @include clickableSvgContainer;
-  @include flexCenter;
+  @include clickableSvg;
   fill: $color-gray-5;
-  & svg {
-    width: 45px;
-    height: 45px;
-  }
 }
