@@ -40,22 +40,12 @@ class Header extends React.Component {
         </div>
       </div>
 
-      <div className={styles["travellers"]}>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-item"]}>
-          <img src="" alt="user-pic" />
-        </div>
-        <div className={styles["travellers-else"]}>
-          +2
-        </div>
+      <div className={styles['travellers']}>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-item']}></div>
+        <div className={styles['travellers-else']}>+2</div>
       </div>
       <div className={styles["user-profile"]}>
         <UserProfileSVG />
