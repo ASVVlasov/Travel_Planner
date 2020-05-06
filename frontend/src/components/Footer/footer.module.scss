@@ -1,40 +1,47 @@
-@import-normalize;
 @import '../../styles/_colors.scss', '../../styles/_mixins.scss';
 
 .footer{
     display: flex;
     justify-content: space-between;
     height: 90px;
-}
-
-.footer__paymentInfo{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 300px;
-    padding-right: 40px;
-    padding-left: 40px;
-}
-
-.footer__paid,
-.footer__toPpay,
-.footer__totalBudget{
-    text-align: center;
-}
-
-.footer__paidValue,
-.footer__toPayValue{
-    @include Body2;
-}
-
-.footer__paidDescription,
-.footer__toPayDescription,
-.footer__totalBudgetDescription{
-    @include Body3;
-}
-
-.footer__totalBudgetValue{
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 20px;
+    &__switch{
+        padding-left: 120px;
+        display: inline-flex;
+    }
+    &__paymentInfo{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 420px;
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+    &__paid,
+    &__totalBudget{
+        text-align: center;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    &__toPay{
+        text-align: center;
+        margin-right: 45px;
+        margin-left: 25px;
+    }
+    &__paidValue,
+    &__toPayValue{
+        color: $color-gray-2;
+        @include Body2;
+    }
+    &__totalBudgetValue{
+        color: $color-gray-2;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 20px;
+    }
+    &__paidDescription,
+    &__toPayDescription,
+    &__totalBudgetDescription{
+        @include Body3;
+        color: $color-gray-4;
+    }
 }

@@ -1,3 +1,5 @@
+@import '../../styles/colors', '../../styles/mixins';
+
 .switch__label {
   display: inline-flex;
   align-items: center;
@@ -6,6 +8,8 @@
 
 .switch__labelText {
   margin-left: 8px;
+  @include Body2;
+  color: $color-gray-4;
 }
 
 .switch__toggle {
@@ -14,7 +18,7 @@
   height: 24px;
   width: 48px;
   border-radius: 15px;
-  background: #d6d6d6;
+  background: $color-gray-5;
   overflow: hidden;
 }
 
@@ -35,7 +39,7 @@
   left: 0;
   height: 100%;
   width: 200%;
-  background: #003dda;
+  background:  $color-gray-3;
   transform: translate3d(-100%, 0, 0);
   transition: transform 0.05s linear 0.17s;
 }
@@ -47,7 +51,7 @@
 .switch__indicator {
   height: 100%;
   width: 200%;
-  background: white;
+  background: $color-white;
   border-radius: 13px;
   transform: translate3d(-75%, 0, 0);
   transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
