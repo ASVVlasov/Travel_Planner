@@ -59,7 +59,7 @@ export default class TransportCardFull extends Component {
 
    splitGeneralCost = () => {
       const { travelers, cost } = this.props
-      return travelers.map((index) => (
+      return travelers.map((traveler, index) => (
          // TODO add formatting for cost
          <span
             key={index}
@@ -155,7 +155,8 @@ export default class TransportCardFull extends Component {
                      <textarea
                         name="comments"
                         id="comments"
-                        children={comment}
+                        value={comment}
+                        onChange={() => {}}
                         // TODO add ref and focus after click on EditIcon
                      />
                   </section>
