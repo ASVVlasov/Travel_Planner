@@ -1,60 +1,53 @@
 /*Request errors*/
-const emptyField = (req, res, field) => {
-    res.status(400).json({
-        status: `Request error: empty ${field}`,
-    });
-}
-const wrongField = (req, res, field, entity) => {
-    res.status(400).json({
-        status: `Request error: wrong ${field}. Got - ${entity}`,
-    });
-}
-const emptyUpdate = (req, res, entity) => {
-    res.status(400).json({
-        status: `Request error: nothing to update in ${entity}`
-    })
-}
+const emptyField = field => ({
+    statusCode: 400,
+    status: `Request error: empty ${field}`
+})
+const wrongField = (field, entity) => ({
+    statusCode: 400,
+    status: `Request error: wrong ${field}. Got - ${entity}`
+})
+const emptyUpdate = entity => ({
+    statusCode: 400,
+    status: `Request error: nothing to update in ${entity}`
+})
 /*Response errors*/
-const createError = (req, res, err) => {
-    res.status(500).json({
-        status: "Database error: can't create entry",
-        error: err,
-    });
-}
+const createError = err => ({
+    statusCode: 500,
+    status: "Database error: can't create entry",
+    error: err,
+})
 
-const readError = (req, res, err) => {
-    res.status(500).json({
-        status: "Database error: can't read entry / entry doesn't exist",
-        error: err,
-    });
-}
+const readError = err => ({
+    statusCode: 500,
+    status: "Database error: can't read entry / entry doesn't exist",
+    error: err,
+})
 
-const updateError = (req, res, err) => {
-    res.status(500).json({
-        status: "Database error: can't update entry / entry doesn't exist",
-        error: err,
-    });
+const updateError = err => ({
+    statusCode: 500,
+    status: "Database error: can't update entry / entry doesn't exist",
+    error: err,
+})
 
-}
-const deleteError = (req, res, err) => {
-    res.status(500).json({
-        status: "Database error: can't delete entry / entry doesn't exist",
-        error: err,
-    });
-}
+const deleteError = err => ({
+    statusCode: 500,
+    status: "Database error: can't delete entry / entry doesn't exist",
+    error: err,
+})
 
-const fileUploadError = (req, res) => {
-    res.status(500).json({
-        status: "Server error: can't upload file",
-    });
-}
+const fileUploadError = () => ({
+    statusCode: 500,
+    status: "Server error: can't upload file",
+})
 
-const fileDeleteError = (req, res, err) => {
-    res.status(500).json({
-        status: "Server error: can't delete file on server",
-    });
+const fileDeleteError = err => {
     console.log("Server error: can't delete file on server")
     console.log("Path is: " + err)
+    return ({
+        statusCode: 500,
+        status: "Server error: can't delete file on server",
+    })
 }
 
 module.exports = {
