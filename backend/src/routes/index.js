@@ -2,10 +2,10 @@ const router = require('express').Router()
 const swagger = require('./swagger')
 const files = require('./files')
 const card = require('./card.js')
-const board = require('./board')
+const travel = require('./travel')
 
 router.use('/cards', files)
-router.use('/board', board)
+router.use('/travel', travel)
 router.use('/api-docs', swagger)
 router.get('/api-docs', swagger)
 router.use(
