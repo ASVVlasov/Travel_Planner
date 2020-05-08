@@ -43,6 +43,10 @@ const userSchema = new Schema({
         required: true,
         description: "Пароль путешественника"
     },
+    avatarFileId: {
+        type: mongoose.objectID,
+        description: "ID файла аватарки путешественника"
+    },
     email: {
         type: String,
         description: "Электронная почта путешественника"
