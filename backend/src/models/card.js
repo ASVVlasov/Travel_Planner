@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const cardTypes = require("./misc/enumCardTypes.js").Enum
 
 const cardSchema = new Schema({
     title: {
@@ -9,7 +10,7 @@ const cardSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ["accomodation, entertainment, transport, todo"],
+        enum: cardTypes,
         required: true,
         description: "Тип карточки события"
     },
