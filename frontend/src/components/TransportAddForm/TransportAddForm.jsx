@@ -1,18 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 //redux
-import { bindActionCreators } from "redux";
-import connect from "react-redux/es/connect/connect";
+import { bindActionCreators } from "redux"
+import connect from "react-redux/es/connect/connect"
 
-import styles from "./TransportAddForm.module.scss";
-import { ReactComponent as CrossIcon } from "../../assets/images/icons/cross.svg";
+import styles from "./TransportAddForm.module.scss"
+import { ReactComponent as CrossIcon } from "../../assets/images/icons/cross.svg"
 
 class TransportAddForm extends Component {
    constructor(props) {
-      super(props);
+      super(props)
    }
    close(e) {
-      e.preventDefault();
-      this.props.onClose();
+      e.preventDefault()
+      this.props.onClose()
    }
 
    render() {
@@ -33,7 +33,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_transport}`}
                         >
-                           <label className={styles.label} for="transport">
+                           <label className={styles.label} htmlFor="transport">
                               Тип транспорта
                            </label>
                            <input
@@ -46,7 +46,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_company}`}
                         >
-                           <label className={styles.label} for="company">
+                           <label className={styles.label} htmlFor="company">
                               Компания
                            </label>
                            <input
@@ -60,7 +60,10 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_departureFrom}`}
                         >
-                           <label className={styles.label} for="departureFrom">
+                           <label
+                              className={styles.label}
+                              htmlFor="departureFrom"
+                           >
                               Откуда
                            </label>
                            <input
@@ -73,7 +76,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_departure}`}
                         >
-                           <label className={styles.label} for="departure">
+                           <label className={styles.label} htmlFor="departure">
                               Отправление
                            </label>
                            <input
@@ -85,7 +88,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_arrivalTo}`}
                         >
-                           <label className={styles.label} for="arrivalTo">
+                           <label className={styles.label} htmlFor="arrivalTo">
                               Куда
                            </label>
                            <input
@@ -98,7 +101,7 @@ class TransportAddForm extends Component {
                         <div
                            className={`${styles.input__block} ${styles.input__block_arrival}`}
                         >
-                           <label className={styles.label} for="arrival">
+                           <label className={styles.label} htmlFor="arrival">
                               Прибытие
                            </label>
                            <input
@@ -123,15 +126,14 @@ class TransportAddForm extends Component {
                   </div>
                </form>
             </div>
-            <div className={styles.modal__bg} 
-            onClick={(e) => this.close(e)} />
+            <div className={styles.modal__bg} onClick={(e) => this.close(e)} />
          </div>
-      );
+      )
    }
 }
 
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({}) => ({})
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransportAddForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TransportAddForm)

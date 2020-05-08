@@ -4,6 +4,7 @@
    width: fit-content;
    padding: 9px 40px;
    border-radius: 10px;
+   border: none;
    background-color: $color-gray-1;
    box-shadow: 1px 1px 20px change-color($color-gray-1, $alpha: 0.15);
    @include Body1;
