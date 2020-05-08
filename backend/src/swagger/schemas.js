@@ -12,6 +12,7 @@ const Card = require("../models/card.js")
 const Travel = require("../models/travel.js")
 const User = require("../models/user.js")
 const File = require("../models/file.js")
+const Category = require("../models/category.js")
 /* Documents */
 const TravelerSchema = m2s(Traveler)
 const BoardSchema = m2s(Board)
@@ -24,6 +25,7 @@ const CardSchema = m2s(Card)
 const TravelSchema = m2s(Travel)
 const UserSchema = m2s(User)
 const FileSchema = m2s(File)
+const CategorySchema = m2s(Category)
 /* Combining schema documents in one */
 const schemas = {}
 schemas.Traveler = TravelerSchema
@@ -37,5 +39,6 @@ schemas.Card = CardSchema
 schemas.Travel = TravelSchema
 schemas.User = UserSchema
 schemas.File = FileSchema
+schemas.Category = CategorySchema
 
 module.exports = schemas
