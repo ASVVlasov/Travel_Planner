@@ -11,6 +11,7 @@ const Attachment = require("../models/misc/attachment.js")
 const Card = require("../models/card.js")
 const Travel = require("../models/travel.js")
 const User = require("../models/user.js")
+const File = require("../models/file.js")
 /* Documents */
 const TravelerSchema = m2s(Traveler)
 const BoardSchema = m2s(Board)
@@ -22,6 +23,7 @@ const AttachmentSchema = m2s(Attachment)
 const CardSchema = m2s(Card)
 const TravelSchema = m2s(Travel)
 const UserSchema = m2s(User)
+const FileSchema = m2s(File)
 /* Combining schema documents in one */
 const schemas = {}
 schemas.Traveler = TravelerSchema
@@ -34,5 +36,6 @@ schemas.Attachment = AttachmentSchema
 schemas.Card = CardSchema
 schemas.Travel = TravelSchema
 schemas.User = UserSchema
+schemas.File = FileSchema
 
 module.exports = schemas
