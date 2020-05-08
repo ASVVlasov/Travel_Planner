@@ -56,6 +56,18 @@ const cardSchema = new Schema({
         type: Boolean,
         default: false,
         description: "Отметка о выполнении карточки (заполняется только для Todo)"
+    },
+    userIds: {
+        type: [mongoose.ObjectId],
+        description: "ID участников карточки события",
+    },
+    payerId: {
+        type: mongoose.ObjectId,
+        description: "ID участника, оплатившего карточку события за всех"
+    },
+    fileIds: {
+        type: [mongoose.ObjectId],
+        description: "ID файлов, прикрепленных к карточке события"
     }
 })
 module.exports = mongoose.model("Card", cardSchema)
