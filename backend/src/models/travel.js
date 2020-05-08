@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 const travelStatuses = require("./types/enumTravelStatuses.js")
 const travelStatusesValues = Object.values(travelStatuses)
 const Card = require("./card").schema
@@ -22,7 +22,7 @@ const travelSchema = new Schema({
         type: String,
         default: travelStatuses.ACTIVE,
         enum: travelStatusesValues,
-        description: "Тип карточки события"
+        description: "Статус поездки"
     },
     userIds: {
         type: [mongoose.ObjectId],
