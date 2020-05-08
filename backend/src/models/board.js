@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const TransportCard = require("./transport.js").schema
 const AccomodationCard = require("./accomodation.js").schema
-const EntertaimentCard = require("./entertaiment.js").schema
+const EntertaimentCard = require("./entertainment.js").schema
 const TodoCard = require("./todo.js").schema
 
 /*
