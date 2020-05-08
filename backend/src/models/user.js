@@ -44,7 +44,7 @@ const userSchema = new Schema({
         description: "Пароль путешественника"
     },
     avatarFileId: {
-        type: mongoose.objectID,
+        type: mongoose.ObjectId,
         description: "ID файла аватарки путешественника"
     },
     email: {
