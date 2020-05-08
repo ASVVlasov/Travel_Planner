@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Board.module.scss'
 
-import ButtonAddForm from "../TransportAddForm/TransportAddForm";
+import ButtonAddForm from '../TransportAddForm/TransportAddForm'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
@@ -18,8 +18,8 @@ export default class Board extends Component {
       // TODO remove object after the real data appears
       tabs: [
          {
-            title: "Транспорт",
-            link: "/",
+            title: 'Транспорт',
+            link: '/',
             cards: [
                {
                   transport: 'Перелет',
@@ -78,14 +78,14 @@ export default class Board extends Component {
    }
 
    state = {
-      activeTabLink: "",
+      activeTabLink: '',
       tabs: [],
       cards: [],
       isModalOpen: false,
-   };
+   }
 
    parsePropsToState = () => {
-      const cardsList = [];
+      const cardsList = []
 
       const tabsList = this.FAKEprops.tabs.map((tab) => {
          // TODO remove 'FAKE' after the real data appears
@@ -99,11 +99,11 @@ export default class Board extends Component {
             cardsList.push(...cards)
          }
 
-         return { title, link };
-      });
+         return { title, link }
+      })
 
-      this.setState({ tabs: tabsList, cards: cardsList });
-   };
+      this.setState({ tabs: tabsList, cards: cardsList })
+   }
 
    mapTabsToRender = () => {
       return this.state.tabs.map((tab, index) => {
@@ -118,9 +118,9 @@ export default class Board extends Component {
                href={tab.link}
                children={tab.title}
             />
-         );
-      });
-   };
+         )
+      })
+   }
 
    mapCardsToRender = () => {
       return this.state.cards.map((card, index) => (
@@ -133,13 +133,13 @@ export default class Board extends Component {
    componentDidMount() {
       this.parsePropsToState()
    }
-    openModal = () => {
-      this.setState({ isModalOpen: true });
-   };
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
 
    closeModal = () => {
-      this.setState({ isModalOpen: false });
-   };
+      this.setState({ isModalOpen: false })
+   }
 
    render() {
       return (
@@ -162,12 +162,12 @@ export default class Board extends Component {
                   ...this.mapCardsToRender(),
                   <button
                      className={styles.board__cards_add}
-                     onClick={() => {}}
+                     onClick={this.openModal}
                      children={<PlusIcon />}
                   />,
                ]}
             />
          </div>
-      );
+      )
    }
 }

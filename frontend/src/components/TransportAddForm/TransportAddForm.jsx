@@ -1,10 +1,10 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
 //redux
-import { bindActionCreators } from "redux"
-import connect from "react-redux/es/connect/connect"
+import { bindActionCreators } from 'redux'
+import connect from 'react-redux/es/connect/connect'
 
-import styles from "./TransportAddForm.module.scss"
-import { ReactComponent as CrossIcon } from "../../assets/images/icons/cross.svg"
+import styles from './TransportAddForm.module.scss'
+import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
 
 class TransportAddForm extends Component {
    constructor(props) {
@@ -26,7 +26,7 @@ class TransportAddForm extends Component {
                      </legend>
                      <button
                         className={styles.crossIcon}
-                        onClick={() => {}}
+                        onClick={(e) => this.close(e)}
                         children={<CrossIcon />}
                      ></button>
                      <div className={styles.input__wrapper}>
@@ -117,11 +117,17 @@ class TransportAddForm extends Component {
                         className={styles.form__button_reset}
                         type="reset"
                         value="Отмена"
+                        onClick={() => {
+                           console.log('Отмена')
+                        }}
                      />
                      <input
                         className={styles.form__button_submit}
                         type="submit"
                         value="Добавить"
+                        onClick={() => {
+                           console.log('Добавлено')
+                        }}
                      />
                   </div>
                </form>

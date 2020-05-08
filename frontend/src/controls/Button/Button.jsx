@@ -11,7 +11,6 @@ export default class Button extends Component {
       kind: PropTypes.oneOf(['cancel']),
    }
 
-
    render() {
       const { onClick, text, size, kind } = this.props
 
