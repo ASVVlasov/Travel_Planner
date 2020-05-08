@@ -8,6 +8,7 @@ const Entertainment = require("../models/entertainment.js")
 const Transport = require("../models/transport.js")
 const Todo = require("../models/todo.js")
 const Attachment = require("../models/misc/attachment.js")
+const Card = require("../models/card.js")
 /* Documents */
 const TravelerSchema = m2s(Traveler)
 const BoardSchema = m2s(Board)
@@ -16,6 +17,7 @@ const EntertainmentSchema = m2s(Entertainment)
 const TransportSchema = m2s(Transport)
 const TodoSchema = m2s(Todo)
 const AttachmentSchema = m2s(Attachment)
+const CardSchema = m2s(Card)
 /* Combining schema documents in one */
 const schemas = {}
 schemas.Traveler = TravelerSchema
@@ -25,5 +27,6 @@ schemas.Entertainment = EntertainmentSchema
 schemas.Transport = TransportSchema
 schemas.Todo = TodoSchema
 schemas.Attachment = AttachmentSchema
+schemas.Card = CardSchema
 
 module.exports = schemas
