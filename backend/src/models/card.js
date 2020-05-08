@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const cardTypes = require("./misc/enumCardTypes.js").Enum
+const cardTypes = Object.values(require("./types/enumCardTypes.js"))
 
 const cardSchema = new Schema({
     title: {
