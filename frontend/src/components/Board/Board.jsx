@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Board.module.scss'
 
+import ButtonAddForm from '../TransportAddForm/TransportAddForm'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
@@ -80,6 +81,7 @@ export default class Board extends Component {
       activeTabLink: '',
       tabs: [],
       cards: [],
+      isModalOpen: false,
    }
 
    parsePropsToState = () => {
@@ -131,6 +133,13 @@ export default class Board extends Component {
    componentDidMount() {
       this.parsePropsToState()
    }
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
+
+   closeModal = () => {
+      this.setState({ isModalOpen: false })
+   }
 
    render() {
       return (
@@ -141,17 +150,19 @@ export default class Board extends Component {
                </nav>
 
                {this.state.cards.length > 2 && (
-                  <Button onClick={() => {}} size="small" text="+" />
+                  <Button onClick={this.openModal} size="small" text="+" />
                )}
             </div>
-
+            {this.state.isModalOpen && (
+               <ButtonAddForm onClose={this.closeModal} />
+            )}
             <BoardSlider
                className={styles.board__cards}
                slides={[
                   ...this.mapCardsToRender(),
                   <button
                      className={styles.board__cards_add}
-                     onClick={() => {}}
+                     onClick={this.openModal}
                      children={<PlusIcon />}
                   />,
                ]}
