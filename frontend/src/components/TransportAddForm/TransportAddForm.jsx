@@ -117,16 +117,18 @@ class TransportAddForm extends Component {
                         className={styles.form__button_reset}
                         type="reset"
                         value="Отмена"
-                        onClick={() => {
+                        onClick={(e) => {
                            console.log('Отмена')
+                           this.close(e)
                         }}
                      />
                      <input
                         className={styles.form__button_submit}
                         type="submit"
                         value="Добавить"
-                        onClick={() => {
+                        onClick={(e) => {
                            console.log('Добавлено')
+                           this.close(e)
                         }}
                      />
                   </div>
