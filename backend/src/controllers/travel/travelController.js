@@ -9,6 +9,7 @@ class TravelController {
     * @return {TravelModel}
     */
    static async _getTravelById(travelId) {
+      travelId = '5eb56d4d771522c070eb3f6f'
       return await TravelModel.findById(travelId).lean()
    }
    /**
@@ -63,6 +64,7 @@ class TravelController {
             title: travel.title,
             beginDate: travel.beginDate,
             endDate: travel.endDate,
+            userIds: travel.userIds,
             users: travel.users,
             tabs,
          }
