@@ -1,0 +1,6 @@
+.DateRangePicker{
+    z-index: 2!important;
+}
+.DateRangePickerInput__withBorder{
+    border: none!important;
+}

@@ -1,0 +1,15 @@
+@import '../../styles/colors', '../../styles/mixins';
+.calendar{
+    @include Body2;
+    color: $color-gray-2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__amountOfDays{
+        @include Body2;
+        color: $color-gray-2;
+    }
+}
+.DateRangePicker{
+    z-index: 3;
+}
