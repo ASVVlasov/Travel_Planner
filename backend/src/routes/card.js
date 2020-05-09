@@ -8,14 +8,15 @@
 // Card.read = require("../controllers/card/read")
 // Card.update = require("../controllers/card/update")
 // Card.delete = require("../controllers/card/delete")
-const router = require('express').Router();
+const router = require('express').Router()
+const FileController = require('../controllers/file/fileController')
 /**
  * @swagger
  *
  * /board/{boardID}/{cardType}/card/{cardID}:
  *   get:
  *     description: Card information
- *     tags: 
+ *     tags:
  *       - developers
  *     produces:
  *       - application/json
@@ -57,7 +58,7 @@ const router = require('express').Router();
  *                     - $ref: '#/components/schemas/Transport'
  *                     - $ref: '#/components/schemas/Todo'
  *                     - $ref: '#/components/schemas/Accomodation'
- *                     - $ref: '#/components/schemas/Entertainment' 
+ *                     - $ref: '#/components/schemas/Entertainment'
  *                   discriminator:
  *                     propertyName: cardType
  *                     mapping:
@@ -102,8 +103,8 @@ const router = require('express').Router();
  *                       nickname: "Петя"
  *                       avatarPath: "another avatar path"
  *                 summary: "Transport card example"
- *                  
- * 
+ *
+ *
  *      400:
  *         description: request error
  *         content:
@@ -165,5 +166,19 @@ const router = require('express').Router();
 //     body.status = "OK"
 //     res.status(200).json(body)
 // })
+
+router.get('/', (req, res) => {})
+
+router.post('/uploadFile', async (req, res) => {
+   res.json(await FileController.uploadFile(req.files.file))
+})
+
+router.post('/dropFile', (req, res) => {})
+
+router.post('/', (req, res) => {})
+
+router.put('/', (req, res) => {})
+
+router.delete('/', (req, res) => {})
 
 module.exports = router
