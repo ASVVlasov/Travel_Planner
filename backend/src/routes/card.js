@@ -159,7 +159,12 @@ const CardController = require('../controllers/card/cardController')
 // })
 
 router.post('/uploadFile', async (req, res) => {
-   res.json(await FileController.uploadFile(req.files.file))
+   try {
+      const { travelId, cardId, file } = req.body
+      res.json(await CardController.addFile(travelId, cardId, file))
+   } catch (errorMessage) {
+      res.status(500).json(errorMessage)
+   }
 })
 
 router.post('/dropFile', async (req, res) => {
