@@ -1,7 +1,5 @@
 const UserModel = require('../../models/user')
-const TravelModel = require('../../models/travel')
 const FileController = require('../file/fileController')
-const TravelController = require('../travel/travelController')
 
 class UserController {
    static async _getUserById(userId) {
@@ -12,10 +10,6 @@ class UserController {
       user.contacts = []
       for (let contactId of user.contactIds) {
          user.contacts.push(await this.getShortUserInfo(contactId))
-      }
-      user.travels = []
-      for (let travelId of user.travelIds) {
-         user.travels.push(await TravelController.getShortTravelInfo(travelId))
       }
       return user
    }
