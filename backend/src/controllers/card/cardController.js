@@ -38,11 +38,45 @@ class CardController {
       let travel = await TravelModel.findById(travelId)
       let newCard = new CardModel(card)
       travel.cards.push(newCard)
-      travel.markModified('cards')
-      return await travel
-         .save()
-         .then(() => this.getFullCardInfo(newCard))
-         .catch((err) => Error(JSON.stringify(err)))
+      await travel.save()
+      return this.getFullCardInfo(JSON.parse(JSON.stringify(newCard)))
+   }
+   /**
+    * Чтение всех карт с доски путешествия
+    * @param {mongoose.ObjectID} travelId - ID of a travel board
+    */
+   static async readAllCards(travelId) {
+      let travel = await TravelModel.findById(travelId)
+      let cards = []
+      for (const card of travel.cards) {
+         let newFullCardInfo = await this.getFullCardInfo(JSON.parse(JSON.stringify(card)))
+         cards.push(newFullCardInfo)
+      }
+      return cards
+   }
+   /**
+    * Чтение нужной карты
+    * @param {mongoose.ObjectID} travelId - ID of a travel board
+    * @param {mongoose.ObjectID} cardId - ID of a card on travel board
+    */
+   static async readCard(travelId, cardId) {
+      let travel = await TravelModel.findById(travelId)
+      let card = await travel.cards.id(cardId)
+      return this.getFullCardInfo(JSON.parse(JSON.stringify(card)))
+   }
+   /**
+    * Изменение карты события
+    * @param {mongoose.ObjectID} travelId - ID of a travel board
+    * @param {CardModel} card - params of a updating Card
+    */
+   static async updateCard(travelId, card) {
+      let travel = await TravelModel.findById(travelId)
+      let updatedCard = travel.cards.id(card._id)
+      Object.keys(card).forEach((key) => {
+         updatedCard[key] = card[key]
+      })
+      await travel.save()
+      return this.getFullCardInfo(JSON.parse(JSON.stringify(updatedCard)))
    }
    /**
     * Удаление карты события
@@ -52,34 +86,24 @@ class CardController {
    static async deleteCard(travelId, cardId) {
       let travel = await TravelModel.findById(travelId)
       travel.cards.id(cardId).remove()
-      travel.markModified('cards')
-      return await travel.save().catch((err) => Error(JSON.stringify(err)))
+      await travel.save()
+      return { message: 'card deleted' }
    }
    /**
-    * Изменение карты события
-    * @param {mongoose.ObjectID} travelId - ID of a travel board
-    * @param {CardModel} card - params of a updating Card
+    *
+    * @param {mongoose.ObjectID} travelId
+    * @param {mongoose.ObjectID} cardId
+    * @param {File} file
     */
-   static async updateCard(travelId, card) {
-      let travel = await TravelModel.findById(travelId)
-      let updatedCard = await travel.cards.findByIdAndUpdate(card._id, card, { new: true })
-      travel.markModified('cards')
-      return await travel
-         .save()
-         .then(() => this.getFullCardInfo(updatedCard))
-         .catch((err) => Error(JSON.stringify(err)))
-   }
    static async addFile(travelId, cardId, file) {
-      let newFile = FileController.uploadFile(file)
+      let newFile = await FileController.uploadFile(file)
       let travel = await TravelModel.findById(travelId)
       let updatedCard = await travel.cards.id(cardId)
       updatedCard.fileIds.push(newFile._id)
       updatedCard.markModified('fileIds')
       travel.markModified('cards')
-      return await travel
-         .save()
-         .then(() => this.getFullCardInfo(updatedCard))
-         .catch((err) => Error(JSON.stringify(err)))
+      await travel.save()
+      return this.getFullCardInfo(JSON.parse(JSON.stringify(updatedCard)))
    }
    static async removeFile(travelId, cardId, fileId) {
       await FileController.deleteFile(fileId)
@@ -88,10 +112,8 @@ class CardController {
       updatedCard.fileIds.id(fileId).remove()
       updatedCard.markModified('fileIds')
       travel.markModified('cards')
-      return await travel
-         .save()
-         .then(() => this.getFullCardInfo(updatedCard))
-         .catch((err) => Error(JSON.stringify(err)))
+      await travel.save()
+      return this.getFullCardInfo(JSON.parse(JSON.stringify(updatedCard)))
    }
 }
 
