@@ -22,7 +22,11 @@ class UserController {
    static async getShortUserInfo(userId) {
       const user = await this._getUserById(userId)
       user.avatar = await FileController.getFileById(user.avatarFileId)
-      return user
+      return {
+         _id: user._id,
+         avatar: user.avatar,
+         nickName: user.profile.nickName,
+      }
    }
    static async getShortUsers(userIds) {
       const usersInfo = []
