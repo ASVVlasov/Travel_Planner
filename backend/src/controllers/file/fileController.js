@@ -5,6 +5,9 @@ class FileController {
    static async getFileById(fileId) {
       return await FileModel.findById(fileId).lean()
    }
+   static async deleteFileById(fileId) {
+      return await FileModel.findByIdAndDelete(fileId)
+   }
    static _generateExt(filename) {
       const splitFile = filename.split('.')
       return splitFile[splitFile.length - 1]
