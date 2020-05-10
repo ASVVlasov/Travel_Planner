@@ -49,8 +49,7 @@ class CardController {
       let travel = await TravelModel.findById(travelId)
       let cards = []
       for (const card of travel.cards) {
-         let newFullCardInfo = await this.getFullCardInfo(JSON.parse(JSON.stringify(card)))
-         cards.push(newFullCardInfo)
+         cards.push(await this.getFullCardInfo(JSON.parse(JSON.stringify(card))))
       }
       return cards
    }
@@ -87,7 +86,7 @@ class CardController {
       let travel = await TravelModel.findById(travelId)
       travel.cards.id(cardId).remove()
       await travel.save()
-      return { message: 'card deleted' }
+      return {}
    }
    /**
     *
@@ -106,7 +105,7 @@ class CardController {
       return this.getFullCardInfo(JSON.parse(JSON.stringify(updatedCard)))
    }
    static async removeFile(travelId, cardId, fileId) {
-      await FileController.deleteFile(fileId)
+      await FileController.deleteFileById(fileId)
       let travel = await TravelModel.findById(travelId)
       let updatedCard = await travel.cards.id(cardId)
       let index = updatedCard.fileIds.indexOf(fileId)
