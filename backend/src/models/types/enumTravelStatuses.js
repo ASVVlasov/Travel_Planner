@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
-   ACTIVE: 'АКТИВНЯ',
+   ACTIVE: 'АКТИВНАЯ',
    ARCHIVE: 'АРХИВНАЯ',
 })
