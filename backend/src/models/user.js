@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const profileSchema = new Schema({
-   nickname: {
+   nickName: {
       type: String,
       required: true,
       description: 'Отображаемое имя (обязательное поле)',
