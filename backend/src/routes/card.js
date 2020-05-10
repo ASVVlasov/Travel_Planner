@@ -158,6 +158,18 @@ const CardController = require('../controllers/card/cardController')
 //     res.status(200).json(body)
 // })
 
+router.post('/uploadFile', async (req, res) => {
+   res.json(await FileController.uploadFile(req.files.file))
+})
+
+router.post('/dropFile', async (req, res) => {
+   try {
+      const { travelId, cardId, fileId } = req.body
+      res.json(await CardController.removeFile(travelId, cardId, fileId))
+   } catch (errorMessage) {
+      res.status(500).json(errorMessage)
+   }
+})
 router.post('/:travelId', async (req, res) => {
    try {
       res.json(await CardController.createCard(req.params.travelId, req.body))
@@ -196,11 +208,5 @@ router.delete('/:travelId/:cardId', async (req, res) => {
       res.status(500).json(errorMessage)
    }
 })
-
-router.post('/uploadFile', async (req, res) => {
-   res.json(await FileController.uploadFile(req.files.file))
-})
-
-router.post('/dropFile', (req, res) => {})
 
 module.exports = router
