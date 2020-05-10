@@ -18,10 +18,7 @@ class TravelController {
     */
    static async getFullTravelInfo(travelId) {
       const travel = await this._getTravelById(travelId)
-      travel.users = await UserController.getFullUsersInfo(travel.userIds)
-      for (let userId of travel.userIds) {
-         travel.users.push(await UserController.getFullUserInfo(userId))
-      }
+      travel.users = await UserController.getShortUsers(travel.userIds)
       return travel
    }
    /**
@@ -81,11 +78,11 @@ class TravelController {
    static createTravel(travelModel) {
       return TravelModel.create(travelModel)
    }
-   static delete(travelId) {
+   static deleteTravel(travelId) {
       return TravelModel.findByIdAndDelete(travelId)
    }
-   static async update(boardSchema) {
-      return TravelModel.findByIdAndUpdate(boardSchema._id, boardSchema, { new: true })
+   static updateTravel(travelModel) {
+      return TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
    }
 }
 

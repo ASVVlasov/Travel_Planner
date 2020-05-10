@@ -7,15 +7,15 @@ class UserController {
    static async _getUserById(userId) {
       return await UserModel.findById(userId).lean()
    }
-   static getFullUserInfo(userId) {
+   static async getFullUserInfo(userId) {
       const user = this._getUserById(userId)
       user.contacts = []
       for (let contactId of user.contactIds) {
-         user.contacts.push(this.getShortUserInfo(contactId))
+         user.contacts.push(await this.getShortUserInfo(contactId))
       }
       user.travels = []
       for (let travelId of user.travelIds) {
-         user.travels.push(TravelController.getShortTravelInfo(travelId))
+         user.travels.push(await TravelController.getShortTravelInfo(travelId))
       }
       return user
    }
@@ -28,6 +28,13 @@ class UserController {
       const usersInfo = []
       for (const userId of userIds) {
          usersInfo.push(await this.getShortUserInfo(userId))
+      }
+      return usersInfo
+   }
+   static async getFullUsers(userIds) {
+      const usersInfo = []
+      for (const userId of userIds) {
+         usersInfo.push(await this.getFullUserInfo(userId))
       }
       return usersInfo
    }
