@@ -32,6 +32,9 @@ class FileController {
       await newFile.save()
       return JSON.parse(JSON.stringify(newFile))
    }
+   static async deleteFile(fileId) {
+      //TODO: удалить файл с сервера
+   }
 }
 
 module.exports = FileController
