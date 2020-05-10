@@ -10,6 +10,7 @@ import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.s
 import { ReactComponent as UserProfileSVG } from '../../assets/images/icons/avatar.svg'
 
 import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
+import Calendar from '../../controls/Calendar/Calendar'
 
 class Header extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Header extends React.Component {
         </div>
         <div className={styles["trip-data__item"]}>
           <div className={styles["trip-data__period-text"]}>
-            24 июня, ПТ – 10 июля, ВС  |  14 дней
+            <Calendar/>
           </div>
             <EditBtnSVG className={styles["trip-data__edit-btn"]} />
         </div>
