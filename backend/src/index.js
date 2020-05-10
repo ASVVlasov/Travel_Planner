@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const fileUpload = require('express-fileupload')
+const cors = require('cors')
 const path = require('path')
 const app = express()
 
@@ -23,6 +24,7 @@ const router = require(path.resolve(__dirname, '.', 'routes'))
 app.use(express.json())
    .use(express.urlencoded({ extended: true }))
    .use(fileUpload({ createParentPath: true }))
+   .use(cors())
    .use('/', express.static(path.resolve(__dirname, '..', '..', 'frontend', 'build')))
    .use(router)
    .listen(PORT, () => {
