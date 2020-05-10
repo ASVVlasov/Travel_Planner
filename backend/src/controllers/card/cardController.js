@@ -45,7 +45,7 @@ class CardController {
     * Чтение всех карт с доски путешествия
     * @param {mongoose.ObjectID} travelId - ID of a travel board
     */
-   static async readAllCards(travelId) {
+   static async getAllCards(travelId) {
       let travel = await TravelModel.findById(travelId)
       let cards = []
       for (const card of travel.cards) {

@@ -184,7 +184,7 @@ router.post('/:travelId', async (req, res) => {
 })
 router.get('/:travelId/', async (req, res) => {
    try {
-      res.json(await CardController.readAllCards(req.params.travelId))
+      res.json(await CardController.getAllCards(req.params.travelId))
    } catch (errorMessage) {
       res.status(500).json(errorMessage)
    }
