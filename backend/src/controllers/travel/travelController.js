@@ -53,14 +53,15 @@ class TravelController {
                categories.push(JSON.parse(JSON.stringify(card.category)))
             }
          })
-         const tabs = categories.map((category) => {
-            category.cards = cards.filter((card) => card.category._id === category._id)
-            return category
-         })
+         const tabs = []
          tabs.push({
             title: type,
             cards
          })
+         tabs.push(...categories.map((category) => {
+            category.cards = cards.filter((card) => card.category._id === category._id)
+            return category
+         }))
          return {
             _id: travel._id,
             title: travel.title,
