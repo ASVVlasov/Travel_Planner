@@ -37,11 +37,12 @@ class TravelController {
     * @return {any} object which describe model for frontend TravelPage
     */
    static async getTravelByCardType(cardType, travelId) {
-      if (!!EnumCardTypes[cardType]) {
+      const type = EnumCardTypes[cardType]
+      if (!!type) {
          const travel = await this.getShortTravelInfo(travelId)
          const cards = []
          travel.cards.forEach((card) => {
-            if (card.type === cardType) {
+            if (card.type === type) {
                cards.push(card)
             }
          })
@@ -55,6 +56,10 @@ class TravelController {
          const tabs = categories.map((category) => {
             category.cards = cards.filter((card) => card.category._id === category._id)
             return category
+         })
+         tabs.push({
+            title: type,
+            cards
          })
          return {
             _id: travel._id,
