@@ -9,15 +9,15 @@ import { ReactComponent as PaidIcon } from '../../assets/images/icons/receipt.sv
 
 export default class TransportCard extends Component {
    static propTypes = {
-      transport: PropTypes.string,
+      title: PropTypes.string,
       company: PropTypes.string,
-      departurePlace: PropTypes.string,
-      departureDate: PropTypes.string,
-      arrivalPlace: PropTypes.string,
-      arrivalDate: PropTypes.string,
-      attachments: PropTypes.arrayOf(PropTypes.object),
-      payer: PropTypes.string,
-      travelers: PropTypes.arrayOf(PropTypes.object),
+      beginPoint: PropTypes.string,
+      beginDate: PropTypes.string,
+      endPoint: PropTypes.string,
+      endDate: PropTypes.string,
+      files: PropTypes.arrayOf(PropTypes.object),
+      payerId: PropTypes.string,
+      users: PropTypes.arrayOf(PropTypes.object),
       comment: PropTypes.string,
       cost: PropTypes.number,
    }
@@ -36,20 +36,20 @@ export default class TransportCard extends Component {
 
    render() {
       const {
-         transport,
+         title,
          company,
-         departurePlace,
-         departureDate,
-         arrivalPlace,
-         arrivalDate,
-         attachments,
-         payer,
-         travelers,
+         beginPoint,
+         beginDate,
+         endPoint,
+         endDate,
+         files,
+         payerId,
+         users,
       } = this.props
 
-      const avatars = travelers.map((traveler, index) => (
-         <div className={styles.travelers__avatar} key={index}>
-            {/* <img src={ traveler.avatarPath } alt={ traveler.login } title={ traveler.login } /> */}
+      const avatars = users.map((user) => (
+         <div className={styles.travelers__avatar} key={user._id}>
+            {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
          </div>
       ))
 
@@ -58,10 +58,7 @@ export default class TransportCard extends Component {
             <div className={styles.card} onClick={this.showFullInfo}>
                <div>
                   <div className={styles.card__header}>
-                     <h2
-                        className={styles.card__transport}
-                        children={transport}
-                     />
+                     <h2 className={styles.card__transport} children={title} />
                      <p className={styles.card__company} children={company} />
                   </div>
 
@@ -69,13 +66,13 @@ export default class TransportCard extends Component {
                      <ConfirmIcon
                         className={classNames(
                            styles.badges__icon,
-                           attachments.length > 0 && styles.badges__icon_active
+                           files.length > 0 && styles.badges__icon_active
                         )}
                      />
                      <PaidIcon
                         className={classNames(
                            styles.badges__icon,
-                           !!payer && styles.badges__icon_active
+                           !!payerId && styles.badges__icon_active
                         )}
                      />
                   </div>
@@ -91,21 +88,21 @@ export default class TransportCard extends Component {
                         <div className={styles.route__start}>
                            <span
                               className={styles.route__place}
-                              children={departurePlace}
+                              children={beginPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={departureDate}
+                              children={beginDate}
                            />
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
-                              children={arrivalPlace}
+                              children={endPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={arrivalDate}
+                              children={endDate}
                            />
                         </div>
                      </div>

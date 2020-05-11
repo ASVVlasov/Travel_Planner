@@ -14,42 +14,44 @@ import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 export default class TransportCardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
-      transport: PropTypes.string,
+      title: PropTypes.string,
       company: PropTypes.string,
-      departurePlace: PropTypes.string,
-      departureDate: PropTypes.string,
-      arrivalPlace: PropTypes.string,
-      arrivalDate: PropTypes.string,
-      attachments: PropTypes.arrayOf(PropTypes.object),
-      payer: PropTypes.string,
-      travelers: PropTypes.arrayOf(PropTypes.object),
+      beginPoint: PropTypes.string,
+      beginDate: PropTypes.string,
+      endPoint: PropTypes.string,
+      endDate: PropTypes.string,
+      files: PropTypes.arrayOf(PropTypes.object),
+      payerId: PropTypes.string,
+      users: PropTypes.arrayOf(PropTypes.object),
       comment: PropTypes.string,
       cost: PropTypes.number,
    }
 
-   attachmentsToRender = () => {
-      return this.props.attachments.map((attach, index) => (
-         <a download href={attach.path} children={attach.name} key={index} />
+   filesToRender = () => {
+      return this.props.files.map((file) => (
+         <a
+            download
+            href={file.uploadName}
+            children={file.originalName}
+            key={file._id}
+         />
          //TODO add remove option
       ))
    }
 
-   travelersToRender = () => {
-      return this.props.travelers.map((traveler, index) => (
-         <div className={styles.travelers__person} key={index}>
+   usersToRender = () => {
+      return this.props.users.map((user) => (
+         <div className={styles.travelers__person} key={user._id}>
             <div className={styles.travelers__avatar}>
-               {/* <img src={ traveler.avatarPath } alt={ traveler.login } title={ traveler.login } /> */}
+               {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
             </div>
-            <span
-               className={styles.travelers__name}
-               children={traveler.login}
-            />
+            <span className={styles.travelers__name} children={user.nickName} />
             {/* TODO add logic for switches */}
             <div className={styles.travelers__switch} children={<Switch />} />
             <div
                className={classNames(
                   styles.travelers__switch,
-                  traveler.login !== 'me' && styles.hidden
+                  user._id !== 'currentUser._id' && styles.hidden //TODO replace string with props
                )}
                children={<Switch />}
             />
@@ -58,13 +60,13 @@ export default class TransportCardFull extends Component {
    }
 
    splitGeneralCost = () => {
-      const { travelers, cost } = this.props
-      return travelers.map((traveler, index) => (
+      const { users, cost } = this.props
+      return users.map((user) => (
          // TODO add formatting for cost
          <span
-            key={index}
+            key={user._id}
             className={styles.card__cost_personal}
-            children={`${cost / travelers.length} Р`}
+            children={`${cost / users.length} Р`}
          />
       ))
    }
@@ -72,12 +74,12 @@ export default class TransportCardFull extends Component {
    render() {
       const {
          toClose,
-         transport,
+         title,
          company,
-         departurePlace,
-         departureDate,
-         arrivalPlace,
-         arrivalDate,
+         beginPoint,
+         beginDate,
+         endPoint,
+         endDate,
          comment,
          cost,
       } = this.props
@@ -87,7 +89,7 @@ export default class TransportCardFull extends Component {
             <div className={styles.card}>
                <div className={styles.card__header}>
                   <span className={styles.card__breadcrumbs}>
-                     Транспорт / <strong>{transport}</strong>
+                     Транспорт / <strong>{title}</strong>
                   </span>
                   <CloseIcon
                      className={classNames(styles.icons, styles.icons__close)}
@@ -118,21 +120,21 @@ export default class TransportCardFull extends Component {
                         <div className={styles.route__start}>
                            <span
                               className={styles.route__place}
-                              children={departurePlace}
+                              children={beginPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={departureDate}
+                              children={beginDate}
                            />
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
-                              children={arrivalPlace}
+                              children={endPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={arrivalDate}
+                              children={endDate}
                            />
                         </div>
                      </div>
@@ -144,7 +146,7 @@ export default class TransportCardFull extends Component {
                         {/* TODO add onClick with files loader */}
                         <AddIcon className={styles.icons} />
                      </div>
-                     {this.attachmentsToRender()}
+                     {this.filesToRender()}
                   </section>
 
                   <section className={styles.card__comments}>
@@ -177,7 +179,7 @@ export default class TransportCardFull extends Component {
                         />
                      </div>
 
-                     {this.travelersToRender()}
+                     {this.usersToRender()}
 
                      {/* TODO add function for choosing additional contacts*/}
                      <div
