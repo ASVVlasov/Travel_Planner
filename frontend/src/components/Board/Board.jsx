@@ -3,17 +3,21 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Board.module.scss'
 
-import ButtonAddForm from '../TransportAddForm/TransportAddForm'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getCards } from '../../redux/actions/cards.actions'
+
+import AddForm from '../TransportAddForm/TransportAddForm'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import TransportCard from '../Cards/TransportCardShort'
 
-export default class Board extends Component {
+class Board extends Component {
    static propTypes = {
       tabs: PropTypes.array, // TODO add .isRequired after the real data appears
    }
-
+   FAKEtravelID = 1
    FAKEprops = {
       // TODO remove object after the real data appears
       tabs: [
@@ -131,6 +135,7 @@ export default class Board extends Component {
    }
 
    componentDidMount() {
+      this.props.getCards(this.props.category.toUpperCase(), this.FAKEtravelID)
       this.parsePropsToState()
    }
    openModal = () => {
@@ -142,6 +147,7 @@ export default class Board extends Component {
    }
 
    render() {
+      console.log(this.props.tabs)
       return (
          <div className={styles.board}>
             <div className={styles.board__controlPanel}>
@@ -153,9 +159,7 @@ export default class Board extends Component {
                   <Button onClick={this.openModal} size="small" text="+" />
                )}
             </div>
-            {this.state.isModalOpen && (
-               <ButtonAddForm onClose={this.closeModal} />
-            )}
+            {this.state.isModalOpen && <AddForm onClose={this.closeModal} />}
             <BoardSlider
                className={styles.board__cards}
                slides={[
@@ -171,3 +175,14 @@ export default class Board extends Component {
       )
    }
 }
+
+const mapStateToProps = ({ cardsReducer }) => ({
+   tabs: cardsReducer.tabs,
+   isLoading: cardsReducer.isLoading,
+   failureLoading: cardsReducer.failureLoading,
+   errorMessage: cardsReducer.errorMessage,
+})
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ getCards }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board)
