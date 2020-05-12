@@ -28,7 +28,11 @@
    }
 }
 
-.board__cards_add {
+.board__card {
+   cursor: pointer;
+}
+
+.board__card_add {
    border: none;
    outline: none;
    cursor: pointer;
