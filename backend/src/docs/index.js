@@ -1,5 +1,6 @@
 const Schemas = require('./schemas.js')
-const Card = require('./card.swagger.js')
+const CardSwagger = require('./card.swagger.js')
+const TravelSwagger = require('./travel.swagger.js')
 
 const swaggerDocument = {
    openapi: '3.0.0',
@@ -25,13 +26,34 @@ const swaggerDocument = {
       },
    ],
    paths: {
-      '/card/uploadFile': Card.uploadFile,
-      '/card/dropFile': Card.dropFile,
-      '/card/{travelId}': Card.createCard,
-      '/card/{travelID}': Card.getAllCards,
-      '/card/{travelId}/{cardId}': Card.getCard,
-      '/card/': Card.updateCard,
-      '/card/{travelID}/{cardId}': Card.deleteCard,
+      '/card/uploadFile': {
+         post: CardSwagger.uploadFile,
+      },
+      '/card/dropFile': {
+         post: CardSwagger.dropFile,
+      },
+      '/card/{travelId}': {
+         post: CardSwagger.createCard,
+         get: CardSwagger.getAllCards,
+      },
+      '/card/{travelId}/{cardId}': {
+         get: CardSwagger.getCard,
+         delete: CardSwagger.deleteCard,
+      },
+      '/card/': {
+         put: CardSwagger.updateCard,
+      },
+      '/travel/{travelId}': {
+         get: TravelSwagger.getTravel,
+         delete: TravelSwagger.deleteTravel,
+      },
+      '/travel/{cardType}/{travelId}': {
+         get: TravelSwagger.getCategoryInTravel,
+      },
+      '/travel/': {
+         post: TravelSwagger.createTravel,
+         put: TravelSwagger.updateTravel,
+      },
    },
    components: {
       schemas: Schemas,
