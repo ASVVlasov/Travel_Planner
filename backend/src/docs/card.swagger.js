@@ -419,7 +419,7 @@ const updateCard = {
                },
             },
             example: {
-               travelId: '5eb7eb4651385a1e081ec3ab',
+               travelId: '5eb7eb4651385a1e081ec3ab ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
                card: {
                   _id: '11111b4651385a1e08111111 ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
                   title: 'Существующая карта ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
