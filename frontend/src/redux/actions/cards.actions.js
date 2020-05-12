@@ -1,29 +1,10 @@
-import { CARDS_LOADING, CARDS_SUCCESS, CARDS_ERROR } from './types'
+import { GET_CARDS } from './types'
 
-export const getCards = (categoryType, travelId) => {
-   return (dispatch) => {
-      dispatch(getCardsLoading())
-
-      fetch(`/travel/${categoryType}/${travelId}`)
-         .then((res) => res.json())
-         .then(
-            (data) => dispatch(getCardsSuccess(data)),
-            (err) => dispatch(getCardsError(err))
-         )
-         .catch((err) => dispatch(getCardsError(err)))
-   }
+export const getCards = (activeTabId) => {
+   return (dispatch) => dispatch(getCardsList(activeTabId))
 }
 
-const getCardsLoading = () => ({
-   type: CARDS_LOADING,
-})
-
-const getCardsSuccess = (data) => ({
-   type: CARDS_SUCCESS,
-   payload: { ...data },
-})
-
-const getCardsError = (err) => ({
-   type: CARDS_ERROR,
-   payload: { err },
+const getCardsList = (activeTabId) => ({
+   type: GET_CARDS,
+   payload: { activeTabId },
 })
