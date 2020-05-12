@@ -9,6 +9,7 @@ import { ReactComponent as PaidIcon } from '../../assets/images/icons/receipt.sv
 
 export default class TransportCard extends Component {
    static propTypes = {
+      _id: PropTypes.string,
       title: PropTypes.string,
       company: PropTypes.string,
       beginPoint: PropTypes.string,
@@ -34,6 +35,14 @@ export default class TransportCard extends Component {
       this.setState({ fullInfoOpened: false })
    }
 
+   avatarsToRender = () => {
+      return this.props.users.map((user) => (
+         <div className={styles.travelers__avatar} key={user._id}>
+            {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
+         </div>
+      ))
+   }
+
    render() {
       const {
          title,
@@ -44,14 +53,7 @@ export default class TransportCard extends Component {
          endDate,
          files,
          payerId,
-         users,
       } = this.props
-
-      const avatars = users.map((user) => (
-         <div className={styles.travelers__avatar} key={user._id}>
-            {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
-         </div>
-      ))
 
       return (
          <>
@@ -79,9 +81,13 @@ export default class TransportCard extends Component {
 
                   <div className={styles.card__route}>
                      <div className={styles.schema}>
-                        <div className={styles.schema__point} />
-                        <div className={styles.schema__path} />
-                        <div className={styles.schema__point} />
+                        {beginPoint && <div className={styles.schema__point} />}
+                        {endPoint && (
+                           <>
+                              <div className={styles.schema__path} />
+                              <div className={styles.schema__point} />
+                           </>
+                        )}
                      </div>
 
                      <div className={styles.route}>
@@ -109,7 +115,10 @@ export default class TransportCard extends Component {
                   </div>
                </div>
 
-               <div className={styles.card__travelers} children={avatars} />
+               <div
+                  className={styles.card__travelers}
+                  children={this.avatarsToRender()}
+               />
             </div>
 
             {this.state.fullInfoOpened && (
