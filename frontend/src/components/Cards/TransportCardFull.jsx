@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './TransportCardFull.module.scss'
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { deleteCard } from '../../redux/actions/cards.actions'
+
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
@@ -11,9 +15,11 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 
-export default class TransportCardFull extends Component {
+class TransportCardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
+      deleteCard: PropTypes.func.isRequired,
+      _id: PropTypes.string,
       title: PropTypes.string,
       company: PropTypes.string,
       beginPoint: PropTypes.string,
@@ -74,6 +80,8 @@ export default class TransportCardFull extends Component {
    render() {
       const {
          toClose,
+         deleteCard,
+         _id,
          title,
          company,
          beginPoint,
@@ -82,6 +90,10 @@ export default class TransportCardFull extends Component {
          endDate,
          comment,
          cost,
+         travelId, //TODO replace with ID from route params
+         // match: {
+         //    params: { travelId },
+         // },
       } = this.props
 
       return (
@@ -111,9 +123,13 @@ export default class TransportCardFull extends Component {
                      />
 
                      <div className={styles.schema}>
-                        <div className={styles.schema__point} />
-                        <div className={styles.schema__path} />
-                        <div className={styles.schema__point} />
+                        {beginPoint && <div className={styles.schema__point} />}
+                        {endPoint && (
+                           <>
+                              <div className={styles.schema__path} />
+                              <div className={styles.schema__point} />
+                           </>
+                        )}
                      </div>
 
                      <div className={styles.route}>
@@ -217,7 +233,10 @@ export default class TransportCardFull extends Component {
 
                   <div className={styles.card__actions}>
                      <Button
-                        onClick={() => {}} // TODO add delete method
+                        onClick={() => {
+                           deleteCard(travelId, _id)
+                           toClose()
+                        }}
                         text="Удалить карточку"
                         kind="cancel"
                      />
@@ -229,3 +248,11 @@ export default class TransportCardFull extends Component {
       )
    }
 }
+
+const mapStateToProps = ({ boardReducer }) => ({
+   travelId: boardReducer.travelId, // TODO delete after real ID appear in route
+})
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ deleteCard }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransportCardFull)
