@@ -1,6 +1,13 @@
-import { GET_BOARD_SUCCESS, GET_BOARD_ERROR, GET_CARDS } from '../actions/types'
+import {
+   GET_BOARD_SUCCESS,
+   GET_BOARD_ERROR,
+   GET_CARDS,
+   DELETE_CARD_SUCCESS,
+   DELETE_CARD_ERROR,
+} from '../actions/types'
 
 const initialState = {
+   travelId: '', // TODO delete after real ID appear in route
    board: [],
    tabs: [],
    cards: [],
@@ -12,7 +19,7 @@ const initialState = {
 export default function boardReducer(state = initialState, action) {
    switch (action.type) {
       case GET_BOARD_SUCCESS: {
-         const { tabs } = action.payload
+         const { _id, tabs } = action.payload
 
          const board = tabs.map((tab) => {
             if (!tab._id) {
@@ -29,22 +36,12 @@ export default function boardReducer(state = initialState, action) {
 
          return {
             ...state,
+            travelId: _id, // TODO delete after real ID appear in route
             board: board,
             tabs: tabsList,
             isLoading: false,
             failureLoading: false,
             errorMessage: '',
-         }
-      }
-
-      case GET_BOARD_ERROR: {
-         return {
-            ...state,
-            tabs: [],
-            cards: [],
-            isLoading: false,
-            failureLoading: true,
-            errorMessage: action.payload.err,
          }
       }
 
@@ -61,6 +58,27 @@ export default function boardReducer(state = initialState, action) {
          })
 
          return { ...state, cards: cardsList }
+      }
+
+      case DELETE_CARD_SUCCESS: {
+         const { cardId } = action.payload
+
+         const cardIndex = state.cards.findIndex((card) => card._id === cardId)
+         state.cards.splice(cardIndex, 1)
+
+         return { ...state }
+      }
+
+      case GET_BOARD_ERROR:
+      case DELETE_CARD_ERROR: {
+         return {
+            ...state,
+            tabs: [],
+            cards: [],
+            isLoading: false,
+            failureLoading: true,
+            errorMessage: action.payload.err,
+         }
       }
 
       default:
