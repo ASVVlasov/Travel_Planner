@@ -33,6 +33,20 @@ class TransportCardFull extends Component {
       cost: PropTypes.number,
    }
 
+   convertDate = (date = null) => {
+      if (date) {
+         const stringToDate = new Date(Date.parse(date))
+         return stringToDate.toLocaleString('ru', {
+            timeZone: 'Europe/Moscow',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+         })
+      }
+   }
+
    filesToRender = () => {
       return this.props.files.map((file) => (
          <a
@@ -140,7 +154,7 @@ class TransportCardFull extends Component {
                            />
                            <span
                               className={styles.route__date}
-                              children={beginDate}
+                              children={this.convertDate(beginDate)}
                            />
                         </div>
                         <div className={styles.route__finish}>
@@ -150,7 +164,7 @@ class TransportCardFull extends Component {
                            />
                            <span
                               className={styles.route__date}
-                              children={endDate}
+                              children={this.convertDate(endDate)}
                            />
                         </div>
                      </div>

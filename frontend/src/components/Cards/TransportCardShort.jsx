@@ -35,6 +35,20 @@ export default class TransportCard extends Component {
       this.setState({ fullInfoOpened: false })
    }
 
+   convertDate = (date = null) => {
+      if (date) {
+         const stringToDate = new Date(Date.parse(date))
+         return stringToDate.toLocaleString('ru', {
+            timeZone: 'Europe/Moscow',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+         })
+      }
+   }
+
    avatarsToRender = () => {
       return this.props.users.map((user) => (
          <div className={styles.travelers__avatar} key={user._id}>
@@ -98,7 +112,7 @@ export default class TransportCard extends Component {
                            />
                            <span
                               className={styles.route__date}
-                              children={beginDate}
+                              children={this.convertDate(beginDate)}
                            />
                         </div>
                         <div className={styles.route__finish}>
@@ -108,7 +122,7 @@ export default class TransportCard extends Component {
                            />
                            <span
                               className={styles.route__date}
-                              children={endDate}
+                              children={this.convertDate(endDate)}
                            />
                         </div>
                      </div>
