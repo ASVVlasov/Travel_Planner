@@ -411,6 +411,7 @@ const updateCard = {
                      type: 'string',
                      description: 'ID доски путешествий на которой обновляем карточку',
                      example: '5eb7eb4651385a1e081ec3ab',
+                     required: true,
                   },
                   card: {
                      $ref: '#/components/schemas/Card',
