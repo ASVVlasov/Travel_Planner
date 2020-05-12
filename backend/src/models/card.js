@@ -31,7 +31,6 @@ const cardSchema = new Schema({
    },
    categoryId: {
       type: mongoose.ObjectId,
-      required: true,
       description: 'Категория карточки внутри типа ("авиа", "такси" и т.п.)',
    },
    beginDate: {

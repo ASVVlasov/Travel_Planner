@@ -48,27 +48,31 @@ class TravelController {
          })
          const categories = []
          cards.forEach((card) => {
-            let find = categories.find((cat) => cat._id === card.category._id)
-            if (!find) {
-               categories.push(JSON.parse(JSON.stringify(card.category)))
+            if (card.category) {
+               const find = categories.find((cat) => cat._id === card.category._id)
+               if (!find) {
+                  categories.push(JSON.parse(JSON.stringify(card.category)))
+               }
             }
          })
          const tabs = []
          tabs.push({
             title: type,
-            cards
+            cards,
          })
-         tabs.push(...categories.map((category) => {
-            category.cards = cards.filter((card) => card.category._id === category._id)
-            return category
-         }))
+         tabs.push(
+            ...categories.map((category) => {
+               const filteredCards = cards.filter((card) => {
+                  if (card.category) {
+                     return card.category._id === category._id
+                  }
+                  return false
+               })
+               return { ...category, cards: filteredCards }
+            })
+         )
          return {
             _id: travel._id,
-            title: travel.title,
-            beginDate: travel.beginDate,
-            endDate: travel.endDate,
-            userIds: travel.userIds,
-            users: travel.users,
             tabs,
          }
       } else {
