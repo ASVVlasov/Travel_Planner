@@ -5,6 +5,13 @@ import styles from './switch.module.scss'
 export default class Switch extends React.Component {
    static propTypes = {
       labelText: PropTypes.string,
+      checked: PropTypes.bool,
+      onChange: PropTypes.func,
+   }
+   onChangeFunction = (e) => {
+      if (this.props.onChange) {
+         this.props.onChange(e.target.checked)
+      }
    }
    render() {
       return (
@@ -15,6 +22,8 @@ export default class Switch extends React.Component {
                   type="checkbox"
                   name="check"
                   value="check"
+                  checked={this.props.checked}
+                  onChange={this.onChangeFunction}
                />
                <div className={styles.switch__toggleInner}>
                   <div className={styles.switch__indicator}></div>
