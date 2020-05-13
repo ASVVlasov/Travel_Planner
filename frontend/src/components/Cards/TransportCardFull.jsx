@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './TransportCardFull.module.scss'
@@ -20,6 +20,22 @@ class TransportCardFull extends Component {
       toClose: PropTypes.func.isRequired,
       deleteCard: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
+   }
+
+   state = {
+      comment: '',
+   }
+
+   textArea = createRef()
+
+   focusTextArea = () => {
+      const el = this.textArea.current
+      el.focus()
+      el.setSelectionRange(el.value.length, el.value.length)
+   }
+
+   handleChange = (event) => {
+      this.setState({ [event.target.name]: [event.target.value] })
    }
 
    convertDate = (date = null) => {
@@ -174,14 +190,16 @@ class TransportCardFull extends Component {
                   <section className={styles.card__comments}>
                      <div className={styles.section__title}>
                         <h2>Комментарии</h2>
-                        <EditIcon className={styles.icons} />
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={this.focusTextArea}
+                        />
                      </div>
                      <textarea
-                        name="comments"
-                        id="comments"
-                        value={comment}
-                        onChange={() => {}}
-                        // TODO add ref and focus after click on EditIcon
+                        name="comment"
+                        value={this.state.comment || comment}
+                        ref={this.textArea}
+                        onChange={(e) => this.handleChange(e)}
                      />
                   </section>
                </div>
