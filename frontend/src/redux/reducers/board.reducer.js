@@ -4,6 +4,8 @@ import {
    GET_CARDS,
    DELETE_CARD_SUCCESS,
    DELETE_CARD_ERROR,
+   CHANGE_CARD_SUCCESS,
+   CHANGE_CARD_ERROR,
 } from '../actions/types'
 
 const initialState = {
@@ -62,14 +64,25 @@ export default function boardReducer(state = initialState, action) {
 
       case DELETE_CARD_SUCCESS: {
          const { cardId } = action.payload
+         const cards = state.cards.filter((card) => card._id !== cardId)
+         return { ...state, cards }
+      }
 
-         const cardIndex = state.cards.findIndex((card) => card._id === cardId)
-         state.cards.splice(cardIndex, 1)
+      case CHANGE_CARD_SUCCESS: {
+         const { updCard } = action.payload
 
-         return { ...state }
+         const cards = state.cards.map((card) => {
+            if (card._id === updCard._id) {
+               return updCard
+            }
+            return card
+         })
+
+         return { ...state, cards }
       }
 
       case GET_BOARD_ERROR:
+      case CHANGE_CARD_ERROR:
       case DELETE_CARD_ERROR: {
          return {
             ...state,
