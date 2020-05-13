@@ -19,18 +19,7 @@ class TransportCardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
       deleteCard: PropTypes.func.isRequired,
-      _id: PropTypes.string,
-      title: PropTypes.string,
-      company: PropTypes.string,
-      beginPoint: PropTypes.string,
-      beginDate: PropTypes.string,
-      endPoint: PropTypes.string,
-      endDate: PropTypes.string,
-      files: PropTypes.arrayOf(PropTypes.object),
-      payerId: PropTypes.string,
-      users: PropTypes.arrayOf(PropTypes.object),
-      comment: PropTypes.string,
-      cost: PropTypes.number,
+      card: PropTypes.object.isRequired,
    }
 
    convertDate = (date = null) => {
@@ -48,7 +37,7 @@ class TransportCardFull extends Component {
    }
 
    filesToRender = () => {
-      return this.props.files.map((file) => (
+      return this.props.card.files.map((file) => (
          <a
             download
             href={file.uploadName}
@@ -60,7 +49,7 @@ class TransportCardFull extends Component {
    }
 
    usersToRender = () => {
-      return this.props.users.map((user) => (
+      return this.props.card.users.map((user) => (
          <div className={styles.travelers__person} key={user._id}>
             <div className={styles.travelers__avatar}>
                {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
@@ -80,7 +69,7 @@ class TransportCardFull extends Component {
    }
 
    splitGeneralCost = () => {
-      const { users, cost } = this.props
+      const { users, cost } = this.props.card
       return users.map((user) => (
          // TODO add formatting for cost
          <span
@@ -95,6 +84,13 @@ class TransportCardFull extends Component {
       const {
          toClose,
          deleteCard,
+         travelId, //TODO replace with ID from route params later
+         // match: {
+         //    params: { travelId },
+         // },
+      } = this.props
+
+      const {
          _id,
          title,
          company,
@@ -104,11 +100,7 @@ class TransportCardFull extends Component {
          endDate,
          comment,
          cost,
-         travelId, //TODO replace with ID from route params
-         // match: {
-         //    params: { travelId },
-         // },
-      } = this.props
+      } = this.props.card
 
       return (
          <ModalBase toClose={toClose}>

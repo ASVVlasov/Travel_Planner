@@ -138,7 +138,7 @@ export default class TransportCard extends Component {
             {this.state.fullInfoOpened && (
                <TransportCardFull
                   toClose={this.closeFullInfo}
-                  {...this.props}
+                  card={{ ...this.props }}
                />
             )}
          </>
