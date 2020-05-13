@@ -5,7 +5,7 @@ import styles from './TransportCardFull.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { deleteCard } from '../../redux/actions/cards.actions'
+import { changeCard, deleteCard } from '../../redux/actions/cards.actions'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -18,6 +18,7 @@ import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 class TransportCardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
+      changeCard: PropTypes.func.isRequired,
       deleteCard: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
    }
@@ -36,6 +37,16 @@ class TransportCardFull extends Component {
 
    handleChange = (event) => {
       this.setState({ [event.target.name]: [event.target.value] })
+   }
+
+   updateCard = (changedArea, newValue) => {
+      const { travelId, changeCard } = this.props
+      const card = { ...this.props.card }
+
+      if (card[changedArea] !== newValue) {
+         card[changedArea] = newValue
+         changeCard(travelId, card)
+      }
    }
 
    convertDate = (date = null) => {
@@ -200,6 +211,9 @@ class TransportCardFull extends Component {
                         value={this.state.comment || comment}
                         ref={this.textArea}
                         onChange={(e) => this.handleChange(e)}
+                        onBlur={(e) =>
+                           this.updateCard(e.target.name, e.target.value)
+                        }
                      />
                   </section>
                </div>
@@ -277,6 +291,6 @@ const mapStateToProps = ({ boardReducer }) => ({
    travelId: boardReducer.travelId, // TODO delete after real ID appear in route
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ deleteCard }, dispatch)
+   bindActionCreators({ changeCard, deleteCard }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransportCardFull)
