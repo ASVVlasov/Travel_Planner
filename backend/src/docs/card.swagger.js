@@ -18,7 +18,7 @@ const uploadFile = {
                      description: 'ID карты, к которой прикрепляется файл',
                      example: '5eb7eb4651385a1e081ec3ab',
                   },
-                  fileName: {
+                  file: {
                      type: 'string',
                      format: 'binary',
                      description: 'Прикрепляемый файл',
