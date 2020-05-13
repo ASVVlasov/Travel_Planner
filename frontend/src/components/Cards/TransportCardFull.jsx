@@ -1,7 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './TransportCardFull.module.scss'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { changeCard, deleteCard } from '../../redux/actions/cards.actions'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -11,45 +15,79 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 
-export default class TransportCardFull extends Component {
+class TransportCardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
-      transport: PropTypes.string,
-      company: PropTypes.string,
-      departurePlace: PropTypes.string,
-      departureDate: PropTypes.string,
-      arrivalPlace: PropTypes.string,
-      arrivalDate: PropTypes.string,
-      attachments: PropTypes.arrayOf(PropTypes.object),
-      payer: PropTypes.string,
-      travelers: PropTypes.arrayOf(PropTypes.object),
-      comment: PropTypes.string,
-      cost: PropTypes.number,
+      changeCard: PropTypes.func.isRequired,
+      deleteCard: PropTypes.func.isRequired,
+      card: PropTypes.object.isRequired,
    }
 
-   attachmentsToRender = () => {
-      return this.props.attachments.map((attach, index) => (
-         <a download href={attach.path} children={attach.name} key={index} />
+   state = {
+      comment: '',
+   }
+
+   textArea = createRef()
+
+   focusTextArea = () => {
+      const el = this.textArea.current
+      el.focus()
+      el.setSelectionRange(el.value.length, el.value.length)
+   }
+
+   handleChange = (event) => {
+      this.setState({ [event.target.name]: [event.target.value] })
+   }
+
+   updateCard = (changedArea, newValue) => {
+      const { travelId, changeCard } = this.props
+      const card = { ...this.props.card }
+
+      if (card[changedArea] !== newValue) {
+         card[changedArea] = newValue
+         changeCard(travelId, card)
+      }
+   }
+
+   convertDate = (date = null) => {
+      if (date) {
+         const stringToDate = new Date(Date.parse(date))
+         return stringToDate.toLocaleString('ru', {
+            timeZone: 'Europe/Moscow',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+         })
+      }
+   }
+
+   filesToRender = () => {
+      return this.props.card.files.map((file) => (
+         <a
+            download
+            href={file.uploadName}
+            children={file.originalName}
+            key={file._id}
+         />
          //TODO add remove option
       ))
    }
 
-   travelersToRender = () => {
-      return this.props.travelers.map((traveler, index) => (
-         <div className={styles.travelers__person} key={index}>
+   usersToRender = () => {
+      return this.props.card.users.map((user) => (
+         <div className={styles.travelers__person} key={user._id}>
             <div className={styles.travelers__avatar}>
-               {/* <img src={ traveler.avatarPath } alt={ traveler.login } title={ traveler.login } /> */}
+               {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
             </div>
-            <span
-               className={styles.travelers__name}
-               children={traveler.login}
-            />
+            <span className={styles.travelers__name} children={user.nickName} />
             {/* TODO add logic for switches */}
             <div className={styles.travelers__switch} children={<Switch />} />
             <div
                className={classNames(
                   styles.travelers__switch,
-                  traveler.login !== 'me' && styles.hidden
+                  user._id !== 'currentUser._id' && styles.hidden //TODO replace string with props
                )}
                children={<Switch />}
             />
@@ -58,13 +96,13 @@ export default class TransportCardFull extends Component {
    }
 
    splitGeneralCost = () => {
-      const { travelers, cost } = this.props
-      return travelers.map((traveler, index) => (
+      const { users, cost } = this.props.card
+      return users.map((user) => (
          // TODO add formatting for cost
          <span
-            key={index}
+            key={user._id}
             className={styles.card__cost_personal}
-            children={`${cost / travelers.length} Р`}
+            children={`${cost / users.length} Р`}
          />
       ))
    }
@@ -72,22 +110,31 @@ export default class TransportCardFull extends Component {
    render() {
       const {
          toClose,
-         transport,
+         deleteCard,
+         travelId, //TODO replace with ID from route params later
+         // match: {
+         //    params: { travelId },
+         // },
+      } = this.props
+
+      const {
+         _id,
+         title,
          company,
-         departurePlace,
-         departureDate,
-         arrivalPlace,
-         arrivalDate,
+         beginPoint,
+         beginDate,
+         endPoint,
+         endDate,
          comment,
          cost,
-      } = this.props
+      } = this.props.card
 
       return (
          <ModalBase toClose={toClose}>
             <div className={styles.card}>
                <div className={styles.card__header}>
                   <span className={styles.card__breadcrumbs}>
-                     Транспорт / <strong>{transport}</strong>
+                     Транспорт / <strong>{title}</strong>
                   </span>
                   <CloseIcon
                      className={classNames(styles.icons, styles.icons__close)}
@@ -109,30 +156,34 @@ export default class TransportCardFull extends Component {
                      />
 
                      <div className={styles.schema}>
-                        <div className={styles.schema__point} />
-                        <div className={styles.schema__path} />
-                        <div className={styles.schema__point} />
+                        {beginPoint && <div className={styles.schema__point} />}
+                        {endPoint && (
+                           <>
+                              <div className={styles.schema__path} />
+                              <div className={styles.schema__point} />
+                           </>
+                        )}
                      </div>
 
                      <div className={styles.route}>
                         <div className={styles.route__start}>
                            <span
                               className={styles.route__place}
-                              children={departurePlace}
+                              children={beginPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={departureDate}
+                              children={this.convertDate(beginDate)}
                            />
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
-                              children={arrivalPlace}
+                              children={endPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={arrivalDate}
+                              children={this.convertDate(endDate)}
                            />
                         </div>
                      </div>
@@ -144,20 +195,25 @@ export default class TransportCardFull extends Component {
                         {/* TODO add onClick with files loader */}
                         <AddIcon className={styles.icons} />
                      </div>
-                     {this.attachmentsToRender()}
+                     {this.filesToRender()}
                   </section>
 
                   <section className={styles.card__comments}>
                      <div className={styles.section__title}>
                         <h2>Комментарии</h2>
-                        <EditIcon className={styles.icons} />
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={this.focusTextArea}
+                        />
                      </div>
                      <textarea
-                        name="comments"
-                        id="comments"
-                        value={comment}
-                        onChange={() => {}}
-                        // TODO add ref and focus after click on EditIcon
+                        name="comment"
+                        value={this.state.comment || comment}
+                        ref={this.textArea}
+                        onChange={(e) => this.handleChange(e)}
+                        onBlur={(e) =>
+                           this.updateCard(e.target.name, e.target.value)
+                        }
                      />
                   </section>
                </div>
@@ -177,7 +233,7 @@ export default class TransportCardFull extends Component {
                         />
                      </div>
 
-                     {this.travelersToRender()}
+                     {this.usersToRender()}
 
                      {/* TODO add function for choosing additional contacts*/}
                      <div
@@ -215,7 +271,10 @@ export default class TransportCardFull extends Component {
 
                   <div className={styles.card__actions}>
                      <Button
-                        onClick={() => {}} // TODO add delete method
+                        onClick={() => {
+                           deleteCard(travelId, _id)
+                           toClose()
+                        }}
                         text="Удалить карточку"
                         kind="cancel"
                      />
@@ -227,3 +286,11 @@ export default class TransportCardFull extends Component {
       )
    }
 }
+
+const mapStateToProps = ({ boardReducer }) => ({
+   travelId: boardReducer.travelId, // TODO delete after real ID appear in route
+})
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ changeCard, deleteCard }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransportCardFull)

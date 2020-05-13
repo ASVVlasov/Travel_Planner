@@ -9,15 +9,16 @@ import { ReactComponent as PaidIcon } from '../../assets/images/icons/receipt.sv
 
 export default class TransportCard extends Component {
    static propTypes = {
-      transport: PropTypes.string,
+      _id: PropTypes.string,
+      title: PropTypes.string,
       company: PropTypes.string,
-      departurePlace: PropTypes.string,
-      departureDate: PropTypes.string,
-      arrivalPlace: PropTypes.string,
-      arrivalDate: PropTypes.string,
-      attachments: PropTypes.arrayOf(PropTypes.object),
-      payer: PropTypes.string,
-      travelers: PropTypes.arrayOf(PropTypes.object),
+      beginPoint: PropTypes.string,
+      beginDate: PropTypes.string,
+      endPoint: PropTypes.string,
+      endDate: PropTypes.string,
+      files: PropTypes.arrayOf(PropTypes.object),
+      payerId: PropTypes.string,
+      users: PropTypes.arrayOf(PropTypes.object),
       comment: PropTypes.string,
       cost: PropTypes.number,
    }
@@ -34,34 +35,46 @@ export default class TransportCard extends Component {
       this.setState({ fullInfoOpened: false })
    }
 
-   render() {
-      const {
-         transport,
-         company,
-         departurePlace,
-         departureDate,
-         arrivalPlace,
-         arrivalDate,
-         attachments,
-         payer,
-         travelers,
-      } = this.props
+   convertDate = (date = null) => {
+      if (date) {
+         const stringToDate = new Date(Date.parse(date))
+         return stringToDate.toLocaleString('ru', {
+            timeZone: 'Europe/Moscow',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+         })
+      }
+   }
 
-      const avatars = travelers.map((traveler, index) => (
-         <div className={styles.travelers__avatar} key={index}>
-            {/* <img src={ traveler.avatarPath } alt={ traveler.login } title={ traveler.login } /> */}
+   avatarsToRender = () => {
+      return this.props.users.map((user) => (
+         <div className={styles.travelers__avatar} key={user._id}>
+            {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
          </div>
       ))
+   }
+
+   render() {
+      const {
+         title,
+         company,
+         beginPoint,
+         beginDate,
+         endPoint,
+         endDate,
+         files,
+         payerId,
+      } = this.props
 
       return (
          <>
             <div className={styles.card} onClick={this.showFullInfo}>
                <div>
                   <div className={styles.card__header}>
-                     <h2
-                        className={styles.card__transport}
-                        children={transport}
-                     />
+                     <h2 className={styles.card__transport} children={title} />
                      <p className={styles.card__company} children={company} />
                   </div>
 
@@ -69,56 +82,63 @@ export default class TransportCard extends Component {
                      <ConfirmIcon
                         className={classNames(
                            styles.badges__icon,
-                           attachments.length > 0 && styles.badges__icon_active
+                           files.length > 0 && styles.badges__icon_active
                         )}
                      />
                      <PaidIcon
                         className={classNames(
                            styles.badges__icon,
-                           !!payer && styles.badges__icon_active
+                           !!payerId && styles.badges__icon_active
                         )}
                      />
                   </div>
 
                   <div className={styles.card__route}>
                      <div className={styles.schema}>
-                        <div className={styles.schema__point} />
-                        <div className={styles.schema__path} />
-                        <div className={styles.schema__point} />
+                        {beginPoint && <div className={styles.schema__point} />}
+                        {endPoint && (
+                           <>
+                              <div className={styles.schema__path} />
+                              <div className={styles.schema__point} />
+                           </>
+                        )}
                      </div>
 
                      <div className={styles.route}>
                         <div className={styles.route__start}>
                            <span
                               className={styles.route__place}
-                              children={departurePlace}
+                              children={beginPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={departureDate}
+                              children={this.convertDate(beginDate)}
                            />
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
-                              children={arrivalPlace}
+                              children={endPoint}
                            />
                            <span
                               className={styles.route__date}
-                              children={arrivalDate}
+                              children={this.convertDate(endDate)}
                            />
                         </div>
                      </div>
                   </div>
                </div>
 
-               <div className={styles.card__travelers} children={avatars} />
+               <div
+                  className={styles.card__travelers}
+                  children={this.avatarsToRender()}
+               />
             </div>
 
             {this.state.fullInfoOpened && (
                <TransportCardFull
                   toClose={this.closeFullInfo}
-                  {...this.props}
+                  card={{ ...this.props }}
                />
             )}
          </>
