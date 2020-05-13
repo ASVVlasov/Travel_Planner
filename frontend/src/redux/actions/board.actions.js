@@ -6,14 +6,16 @@ export const getBoard = (travelId, categoryType, activeTabId) => {
       dispatch(getBoardLoading())
 
       fetch(`/travel/${categoryType}/${travelId}`)
-         .then((res) => res.json())
-         .then(
-            (data) => {
-               dispatch(getBoardSuccess(data))
-               dispatch(getCards(activeTabId))
-            },
-            (err) => dispatch(getBoardError(err))
-         )
+         .then((res) => {
+            if (res.ok) {
+               return res.json()
+            }
+            throw new Error(res.statusText)
+         })
+         .then((data) => {
+            dispatch(getBoardSuccess(data))
+            dispatch(getCards(activeTabId))
+         })
          .catch((err) => dispatch(getBoardError(err)))
    }
 }
