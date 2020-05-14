@@ -121,6 +121,7 @@ class TransportCardFull extends Component {
       const {
          toClose,
          deleteCard,
+         card,
          travelId, //TODO replace with ID from route params later
          // match: {
          //    params: { travelId },
@@ -297,7 +298,11 @@ class TransportCardFull extends Component {
             </div>
 
             {this.state.isCardFormOpen && (
-               <CardForm onClose={this.closeForm} category="transport" />
+               <CardForm
+                  onClose={this.closeForm}
+                  category="transport"
+                  card={card}
+               />
             )}
          </ModalBase>
       )
