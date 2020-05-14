@@ -10,6 +10,7 @@ import { changeCard, deleteCard } from '../../redux/actions/cards.actions'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
+import CardForm from '../CardForm/CardForm'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -25,6 +26,15 @@ class TransportCardFull extends Component {
 
    state = {
       comment: '',
+      isCardFormOpen: false,
+   }
+
+   openForm = () => {
+      this.setState({ isCardFormOpen: true })
+   }
+
+   closeForm = () => {
+      this.setState({ isCardFormOpen: false })
    }
 
    textArea = createRef()
@@ -36,7 +46,7 @@ class TransportCardFull extends Component {
    }
 
    handleChange = (event) => {
-      this.setState({ [event.target.name]: [event.target.value] })
+      this.setState({ [event.target.name]: event.target.value })
    }
 
    updateCard = (changedArea, newValue) => {
@@ -147,7 +157,10 @@ class TransportCardFull extends Component {
                      <div className={styles.section__title}>
                         <h2>Маршрут</h2>
                         {/* TODO add onClick with AddForm component */}
-                        <EditIcon className={styles.icons} />
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={this.openForm}
+                        />
                      </div>
 
                      <span
@@ -282,6 +295,10 @@ class TransportCardFull extends Component {
                   </div>
                </div>
             </div>
+
+            {this.state.isCardFormOpen && (
+               <CardForm onClose={this.closeForm} category="transport" />
+            )}
          </ModalBase>
       )
    }
