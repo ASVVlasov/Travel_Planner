@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getBoard } from '../../redux/actions/board.actions'
-import { getCards } from '../../redux/actions/cards.actions'
+import { getBoard } from '../../redux/board/operations'
+import { getCards } from '../../redux/cards/actions'
 
 import CardForm from '../CardForm/CardForm'
 import BoardSlider from './BoardSlider'

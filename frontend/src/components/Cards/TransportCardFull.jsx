@@ -5,7 +5,7 @@ import styles from './TransportCardFull.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeCard, deleteCard } from '../../redux/actions/cards.actions'
+import { changeCard, deleteCard } from '../../redux/cards/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
