@@ -1,11 +1,10 @@
 import {
    GET_BOARD_SUCCESS,
-   GET_BOARD_ERROR,
    GET_CARDS,
-   DELETE_CARD_SUCCESS,
-   DELETE_CARD_ERROR,
+   ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
-   CHANGE_CARD_ERROR,
+   DELETE_CARD_SUCCESS,
+   FETCH_ERROR,
 } from '../types'
 
 const initialState = {
@@ -62,10 +61,11 @@ export default function boardReducer(state = initialState, action) {
          return { ...state, cards: cardsList }
       }
 
-      case DELETE_CARD_SUCCESS: {
-         const { cardId } = action.payload
-         const cards = state.cards.filter((card) => card._id !== cardId)
-         return { ...state, cards }
+      case ADD_CARD_SUCCESS: {
+         return {
+            ...state,
+            cards: [...state.cards, action.payload.newCard],
+         }
       }
 
       case CHANGE_CARD_SUCCESS: {
@@ -81,9 +81,13 @@ export default function boardReducer(state = initialState, action) {
          return { ...state, cards }
       }
 
-      case GET_BOARD_ERROR:
-      case CHANGE_CARD_ERROR:
-      case DELETE_CARD_ERROR: {
+      case DELETE_CARD_SUCCESS: {
+         const { cardId } = action.payload
+         const cards = state.cards.filter((card) => card._id !== cardId)
+         return { ...state, cards }
+      }
+
+      case FETCH_ERROR: {
          return {
             ...state,
             tabs: [],
