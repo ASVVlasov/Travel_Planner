@@ -1,0 +1,98 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+   background: $color-white;
+   min-width: 775px;
+   border-radius: 20px;
+   padding: 30px 30px 30px 35px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   z-index: 300;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   border-radius: 20px;
+   transform: translate(-50%, -50%);
+   &__title {
+      @include H1;
+      color: $color-gray-1;
+      margin-bottom: 40px;
+   }
+   &__inputs {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+   }
+   &__actions {
+      width: 49%;
+      min-width: fit-content;
+      margin-left: auto;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.icon__cross {
+   position: absolute;
+   top: 20px;
+   right: 20px;
+   border: none;
+   outline: none;
+   background: $color-white;
+   cursor: pointer;
+   svg {
+      width: 45px;
+      fill: $color-gray-5;
+   }
+}
+
+.label {
+   @include Body2;
+   color: $color-gray-1;
+   margin-bottom: 10px;
+}
+
+.input {
+   max-height: 50px;
+   padding: 14px 20px;
+   background: $color-white;
+   box-shadow: 1px 1px 20px change-color($color-gray-1, $alpha: 0.1);
+   border-radius: 10px;
+   border: none;
+   @include Body1;
+   color: $color-gray-1;
+   &:focus {
+      outline: none;
+      box-shadow: 1px 1px 10px change-color($color-gray-1, $alpha: 0.08);
+   }
+   &::placeholder {
+      color: $color-gray-4;
+   }
+   &[type='datetime-local'] {
+      color: $color-gray-3;
+   }
+   &__block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      &_title {
+         width: 310px;
+      }
+      &_company {
+         width: 360px;
+      }
+      &_beginPoint, &_endPoint {
+         width: 415px;
+      }
+      &_beginDate, &_endDate {
+         width: 255px;
+      }
+   }
+}
+
+.hidden {
+   visibility: hidden;
+}
