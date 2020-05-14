@@ -1,37 +1,40 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './CardForm.module.scss'
+
 //redux
-// import { bindActionCreators } from 'redux'
-// import connect from 'react-redux/es/connect/connect'
+import { bindActionCreators } from 'redux'
+import connect from 'react-redux/es/connect/connect'
+import { createCard, changeCard } from '../../redux/cards/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
 
-export default class CardForm extends Component {
+class CardForm extends Component {
    static propTypes = {
       onClose: PropTypes.func.isRequired,
-      // createCard: PropTypes.func.isRequired,
-      // changeCard: PropTypes.func.isRequired,
-      // travelId: PropTypes.string.isRequired,
+      createCard: PropTypes.func.isRequired,
+      changeCard: PropTypes.func.isRequired,
+      travelId: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
-      card: PropTypes.string,
+      card: PropTypes.object,
    }
 
    state = {
+      type: '',
       title: '',
       company: '',
       beginPoint: '',
-      beginDate: '',
+      beginDate: new Date().toISOString().split('.')[0],
       endPoint: '',
-      endDate: '',
+      endDate: new Date().toISOString().split('.')[0],
    }
 
    captions = [
       {
          category: 'transport',
-         categoryRus: 'транспорт',
+         categoryRus: 'Транспорт',
          labels: {
             title: 'Тип транспорта',
             company: 'Компания',
@@ -49,7 +52,7 @@ export default class CardForm extends Component {
       },
       {
          category: 'accomodation',
-         categoryRus: 'проживание',
+         categoryRus: 'Проживание',
          labels: {
             title: 'Тип проживания',
             company: 'Название',
@@ -65,7 +68,7 @@ export default class CardForm extends Component {
       },
       {
          category: 'entertainment',
-         categoryRus: 'развлечение',
+         categoryRus: 'Развлечения',
          labels: {
             title: 'Вид развлечения',
             company: 'Название',
@@ -84,22 +87,37 @@ export default class CardForm extends Component {
       this.setState({ [event.target.name]: event.target.value })
    }
 
-   addCard = () => {
-      console.log('created', this.state)
-      // this.props.createCard()
-      this.props.onClose()
+   addCard = (type) => {
+      const { travelId, createCard, onClose } = this.props
+      if (this.state.title) {
+         createCard(travelId, { ...this.state, type })
+         onClose()
+      }
    }
+
    saveCard = () => {
-      console.log('saved', this.state)
-      // const { travelId, card, changeCard, onClose} = this.props
-      // const updCard = { ...card, ...this.state }
-      // changeCard(travelId, updCard)
-      this.props.onClose()
+      const { travelId, card, changeCard, onClose } = this.props
+      changeCard(travelId, { ...card, ...this.state })
+      onClose()
+   }
+
+   componentDidMount() {
+      const { card } = this.props
+      if (card) {
+         const beginDate = card.beginDate ? card.beginDate.split('.')[0] : ''
+         const endDate = card.endDate ? card.endDate.split('.')[0] : ''
+         this.setState({
+            ...this.state,
+            ...card,
+            beginDate,
+            endDate,
+         })
+      }
    }
 
    render() {
-      const { onClose, category } = this.props
-      const card = this.props.card || {}
+      const { onClose, category, card } = this.props
+      const formTitle = card ? 'Редактировать' : 'Добавить'
 
       const {
          title,
@@ -118,7 +136,7 @@ export default class CardForm extends Component {
             <div className={styles.form}>
                <span
                   className={styles.form__title}
-                  children={`Добавить ${captions.categoryRus}`}
+                  children={`${formTitle} ${captions.categoryRus.toLowerCase()}`}
                />
                <button
                   className={styles.icon__cross}
@@ -128,11 +146,11 @@ export default class CardForm extends Component {
 
                <div className={styles.form__inputs}>
                   <Input
-                     label={captions.labels.title}
+                     label={`${captions.labels.title}*`}
                      type="text"
                      name="title"
                      placeholder={captions.placeholders.title}
-                     value={title || card.title}
+                     value={title}
                      onChange={this.handleChange}
                   />
                   <Input
@@ -140,7 +158,7 @@ export default class CardForm extends Component {
                      type="text"
                      name="company"
                      placeholder={captions.placeholders.company}
-                     value={company || card.company}
+                     value={company}
                      onChange={this.handleChange}
                   />
 
@@ -149,14 +167,14 @@ export default class CardForm extends Component {
                      type="text"
                      name="beginPoint"
                      placeholder={captions.placeholders.beginPoint}
-                     value={beginPoint || card.beginPoint}
+                     value={beginPoint}
                      onChange={this.handleChange}
                   />
                   <Input
                      label={captions.labels.beginDate}
                      type="datetime-local"
                      name="beginDate"
-                     value={beginDate || card.beginDate}
+                     value={beginDate}
                      onChange={this.handleChange}
                   />
 
@@ -168,14 +186,14 @@ export default class CardForm extends Component {
                            type="text"
                            name="endPoint"
                            placeholder={captions.placeholders.endPoint}
-                           value={endPoint || card.endPoint}
+                           value={endPoint}
                            onChange={this.handleChange}
                         />
                         <Input
                            label={captions.labels.endDate}
                            type="datetime-local"
                            name="endDate"
-                           value={endDate || card.endDate}
+                           value={endDate}
                            onChange={this.handleChange}
                         />
                      </>
@@ -184,8 +202,13 @@ export default class CardForm extends Component {
 
                <div className={styles.form__actions}>
                   <Button onClick={onClose} text="Отмена" kind="cancel" />
-                  {!!card && <Button onClick={this.addCard} text="Добавить" />}
-                  {!card && <Button onClick={this.saveCard} text="Готово" />}
+                  {!card && (
+                     <Button
+                        onClick={() => this.addCard(captions.categoryRus)}
+                        text="Добавить"
+                     />
+                  )}
+                  {!!card && <Button onClick={this.saveCard} text="Готово" />}
                </div>
             </div>
          </ModalBase>
@@ -193,9 +216,12 @@ export default class CardForm extends Component {
    }
 }
 
-// const mapStateToProps = ({}) => ({})
-// const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
-// export default connect(null, null)(CardForm)
+const mapStateToProps = ({ boardReducer }) => ({
+   travelId: boardReducer.travelId,
+})
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ createCard, changeCard }, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(CardForm)
 
 const Input = (props) => (
    <div
@@ -214,7 +240,9 @@ const Input = (props) => (
          name={props.name}
          placeholder={props.placeholder}
          value={props.value}
-         onChange={(event) => props.onChange(event)}
+         onChange={(event) => {
+            props.onChange(event)
+         }}
       />
    </div>
 )
