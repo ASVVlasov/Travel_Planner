@@ -15,7 +15,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "express-fileupload": "^1.1.7-alpha.3",
+    "http-errors": "^1.7.3",
     "mongoose": "^5.9.10",
     "mongoose-to-swagger": "^1.0.3",
     "swagger-jsdoc": "^4.0.0",
