@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
-   ACCOMODATION: 'ACCOMODATION',
-   ENTERTAINMENT: 'ENTERTAINMENT',
-   TRANSPORT: 'TRANSPORT',
-   TODO: 'TODO',
+   ACCOMODATION: 'Проживание',
+   ENTERTAINMENT: 'Досуг',
+   TRANSPORT: 'Транспорт',
+   TODO: 'Список дел',
 })

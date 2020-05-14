@@ -1,7 +1,28 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const PopulateHandler = require('./handlers/populateHandler')
+const ErrorHandler = require('./handlers/errorHandler')
 
-const profileSchema = new Schema({
+const userSchema = new Schema({
+   login: {
+      type: String,
+      required: true,
+      description: 'Логин путешественника',
+   },
+   password: {
+      type: String,
+      required: true,
+      description: 'Пароль путешественника',
+   },
+   avatar: {
+      type: mongoose.ObjectId,
+      description: 'ID файла аватарки путешественника',
+      ref: 'File',
+   },
+   email: {
+      type: String,
+      description: 'Электронная почта путешественника',
+   },
    nickName: {
       type: String,
       required: true,
@@ -23,44 +44,21 @@ const profileSchema = new Schema({
       type: Date,
       description: 'Дата рождения',
    },
+   contacts: [
+      {
+         type: mongoose.ObjectId,
+         description: 'ID друзей путешественника',
+         ref: 'User',
+      },
+   ],
+   travels: [
+      {
+         type: mongoose.ObjectId,
+         description: 'ID досок путешествий, в которых принимает участие user',
+         ref: 'Travel',
+      },
+   ],
 })
-
-const personalInfoSchema = new Schema({
-   title: {
-      type: String,
-      description: 'Состав пока не определен',
-   },
-})
-
-const userSchema = new Schema({
-   login: {
-      type: String,
-      required: true,
-      description: 'Логин путешественника',
-   },
-   password: {
-      type: String,
-      required: true,
-      description: 'Пароль путешественника',
-   },
-   avatarFileId: {
-      type: mongoose.ObjectId,
-      description: 'ID файла аватарки путешественника',
-   },
-   email: {
-      type: String,
-      description: 'Электронная почта путешественника',
-   },
-   profile: profileSchema,
-   personalInfo: personalInfoSchema,
-   contactIds: {
-      type: [mongoose.ObjectId],
-      description: 'ID друзей путешественника',
-   },
-   travelIds: {
-      type: [mongoose.ObjectId],
-      description: 'ID досок путешествий, в которых принимает участие user',
-   },
-})
-
+userSchema.post('findOne', PopulateHandler.userToClient)
+userSchema.post('save', PopulateHandler.userToClient)
 module.exports = mongoose.model('User', userSchema)

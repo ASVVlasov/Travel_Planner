@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const travelStatuses = require('./types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
-const Card = require('./card').schema
+const errorHandler = require('./handlers/errorHandler')
+const populateHandler = require('./handlers/populateHandler')
 
 const travelSchema = new Schema({
    title: {
@@ -24,14 +25,27 @@ const travelSchema = new Schema({
       enum: travelStatusesValues,
       description: 'Статус поездки',
    },
-   userIds: {
-      type: [mongoose.ObjectId],
-      description: 'ID участников путешествия',
-   },
-   cards: {
-      type: [Card],
-      default: [],
-      description: 'События поездки',
-   },
+   users: [
+      {
+         type: mongoose.ObjectId,
+         description: 'ID участников путешествия',
+         ref: 'User',
+      },
+   ],
+   cards: [
+      {
+         type: mongoose.ObjectId,
+         description: 'Карточки поездки',
+         ref: 'Card',
+      },
+   ],
 })
+
+travelSchema.post('findOne', populateHandler.travelToClient)
+travelSchema.post('findOneAndUpdate', errorHandler.onSave)
+travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
+travelSchema.post('save', errorHandler.onSave)
+travelSchema.post('save', populateHandler.travelToClient)
+
+travelSchema.getTravelByCardType
 module.exports = mongoose.model('Travel', travelSchema)

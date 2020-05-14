@@ -1,8 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const cardTypes = Object.values(require('./types/enumCardTypes.js'))
+const EnumCardTypes = require('./types/enumCardTypes.js')
+const PopulateHandler = require('./handlers/populateHandler')
+const createError = require('http-errors')
+const cardTypes = Object.values(EnumCardTypes)
 
 const cardSchema = new Schema({
+   travelId: {
+      type: mongoose.ObjectId,
+      description: 'ID путешествия которому принадлежит карточка',
+   },
    title: {
       type: String,
       required: true,
@@ -29,9 +36,10 @@ const cardSchema = new Schema({
       default: 0,
       description: 'Стоимость карточки события',
    },
-   categoryId: {
+   category: {
       type: mongoose.ObjectId,
       description: 'Категория карточки внутри типа ("авиа", "такси" и т.п.)',
+      ref: 'Category',
    },
    beginDate: {
       type: Date,
@@ -58,17 +66,54 @@ const cardSchema = new Schema({
       default: false,
       description: 'Отметка о выполнении карточки (заполняется только для Todo)',
    },
-   userIds: {
-      type: [mongoose.ObjectId],
-      description: 'ID участников карточки события',
-   },
-   payerId: {
+   users: [
+      {
+         type: mongoose.ObjectId,
+         description: 'ID участников карточки события',
+         ref: 'User',
+      },
+   ],
+   payer: {
       type: mongoose.ObjectId,
       description: 'ID участника, оплатившего карточку события за всех',
+      ref: 'User',
    },
-   fileIds: {
-      type: [mongoose.ObjectId],
-      description: 'ID файлов, прикрепленных к карточке события',
-   },
+   files: [
+      {
+         type: mongoose.ObjectId,
+         description: 'ID файлов, прикрепленных к карточке события',
+         ref: 'File',
+      },
+   ],
 })
+
+cardSchema.static('getCardsByCardType', async function (type, travelId) {
+   type = EnumCardTypes[type]
+   if (!!type) {
+      const cards = await this.find({ type, travelId })
+      const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
+      return [
+         {
+            _id: 'all',
+            title: type,
+            cards,
+         },
+         ...categoryIds.map((categoryId) => {
+            return {
+               ...cards.find((card) => (card.category ? card.category.id === categoryId : false)).category.toObject(),
+               cards: cards.filter((card) => card.category && card.category.id === categoryId),
+            }
+         }),
+      ]
+   } else {
+      throw createError(400, 'cardType required')
+   }
+})
+cardSchema.post('find', async function (docs, next) {
+   for (let doc of docs) {
+      await PopulateHandler.cardToClient(doc, () => {})
+   }
+})
+cardSchema.post('findOne', PopulateHandler.cardToClient)
+cardSchema.post('save', PopulateHandler.cardToClient)
 module.exports = mongoose.model('Card', cardSchema)
