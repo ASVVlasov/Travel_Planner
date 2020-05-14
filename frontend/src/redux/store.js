@@ -7,12 +7,12 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
-import createRootReducer from './reducers'
+import createRootReducer from './reducer'
 
 const persistConfig = {
    key: 'TravelPlanner',
    storage,
-   stateReconciler: autoMergeLevel2
+   stateReconciler: autoMergeLevel2,
 }
 
 export const history = createHashHistory({
@@ -26,11 +26,10 @@ export default function initStore(preloadedState) {
       pReducer,
       preloadedState,
       compose(
-         applyMiddleware(
-            routerMiddleware(history),
-            thunk
-         ),
-         window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+         applyMiddleware(routerMiddleware(history), thunk),
+         window.__REDUX_DEVTOOLS_EXTENSION__
+            ? window.__REDUX_DEVTOOLS_EXTENSION__()
+            : (f) => f
       )
    )
 

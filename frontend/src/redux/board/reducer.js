@@ -6,7 +6,7 @@ import {
    DELETE_CARD_ERROR,
    CHANGE_CARD_SUCCESS,
    CHANGE_CARD_ERROR,
-} from '../actions/types'
+} from '../types'
 
 const initialState = {
    travelId: '', // TODO delete after real ID appear in route

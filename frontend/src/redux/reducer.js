@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
-import boardReducer from './board.reducer'
+import boardReducer from './board/reducer'
 
 const createRootReducer = (history) =>
    combineReducers({
