@@ -1,4 +1,4 @@
-import { getBoardLoading, getBoardSuccess, getBoardError } from './actions'
+import { getBoardLoading, getBoardSuccess, hadError } from './actions'
 import { getCards } from '../cards/actions'
 
 export const getBoard = (travelId, categoryType, tabId) => async (dispatch) => {
@@ -15,6 +15,6 @@ export const getBoard = (travelId, categoryType, tabId) => async (dispatch) => {
       dispatch(getBoardSuccess(data))
       dispatch(getCards(tabId))
    } catch (err) {
-      dispatch(getBoardError(err))
+      dispatch(hadError(err))
    }
 }

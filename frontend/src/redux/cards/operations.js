@@ -1,8 +1,7 @@
 import {
    changeCardSuccess,
-   changeCardError,
    deleteCardSuccess,
-   deleteCardError,
+   hadError,
 } from './actions'
 
 export const changeCard = (travelId, card) => async (dispatch) => {
@@ -22,7 +21,7 @@ export const changeCard = (travelId, card) => async (dispatch) => {
       const updCard = await res.json()
       dispatch(changeCardSuccess(updCard))
    } catch (err) {
-      dispatch(changeCardError(err))
+      dispatch(hadError(err))
    }
 }
 
@@ -38,6 +37,6 @@ export const deleteCard = (travelId, cardId) => async (dispatch) => {
 
       dispatch(deleteCardSuccess(cardId))
    } catch (err) {
-      dispatch(deleteCardError(err))
+      dispatch(hadError(err))
    }
 }

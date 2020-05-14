@@ -1,9 +1,8 @@
 import {
    GET_CARDS,
    CHANGE_CARD_SUCCESS,
-   CHANGE_CARD_ERROR,
    DELETE_CARD_SUCCESS,
-   DELETE_CARD_ERROR,
+   FETCH_ERROR,
 } from '../types'
 
 export const getCards = (activeTabId) => ({
@@ -16,17 +15,12 @@ export const changeCardSuccess = (updCard) => ({
    payload: { updCard },
 })
 
-export const changeCardError = (err) => ({
-   type: CHANGE_CARD_ERROR,
-   payload: { err },
-})
-
 export const deleteCardSuccess = (cardId) => ({
    type: DELETE_CARD_SUCCESS,
    payload: { cardId },
 })
 
-export const deleteCardError = (err) => ({
-   type: DELETE_CARD_ERROR,
+export const hadError = (err) => ({
+   type: FETCH_ERROR,
    payload: { err },
 })

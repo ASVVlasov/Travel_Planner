@@ -1,4 +1,4 @@
-import { GET_BOARD_LOADING, GET_BOARD_SUCCESS, GET_BOARD_ERROR } from '../types'
+import { GET_BOARD_LOADING, GET_BOARD_SUCCESS, FETCH_ERROR } from '../types'
 
 export const getBoardLoading = () => ({
    type: GET_BOARD_LOADING,
@@ -9,7 +9,7 @@ export const getBoardSuccess = (data) => ({
    payload: { ...data },
 })
 
-export const getBoardError = (err) => ({
-   type: GET_BOARD_ERROR,
+export const hadError = (err) => ({
+   type: FETCH_ERROR,
    payload: { err },
 })
