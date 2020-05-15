@@ -13,7 +13,10 @@ export default class MainRouter extends React.Component {
             />
             <Route path="/travel/:travelId" component={TravelPage} />
             {/* // FIX Temporary redirect  */}
-            <Redirect from="/" to="/travel/1/transport" />{' '}
+            <Redirect
+               from="/"
+               to="/travel/5eb56d4d771522c070eb3f6f/transport"
+            />{' '}
          </Switch>
       )
    }
