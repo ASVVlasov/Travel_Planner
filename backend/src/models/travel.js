@@ -42,9 +42,9 @@ const travelSchema = new Schema({
 })
 
 travelSchema.post('findOne', populateHandler.travelToClient)
-travelSchema.post('findOneAndUpdate', errorHandler.onSave)
+travelSchema.post('findOneAndUpdate', errorHandler)
 travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
-travelSchema.post('save', errorHandler.onSave)
+travelSchema.post('save', errorHandler)
 travelSchema.post('save', populateHandler.travelToClient)
 
 module.exports = mongoose.model('Travel', travelSchema)
