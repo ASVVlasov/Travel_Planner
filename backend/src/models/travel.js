@@ -47,5 +47,4 @@ travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
 travelSchema.post('save', errorHandler.onSave)
 travelSchema.post('save', populateHandler.travelToClient)
 
-travelSchema.getTravelByCardType
 module.exports = mongoose.model('Travel', travelSchema)
