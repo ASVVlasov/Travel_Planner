@@ -2,16 +2,21 @@ import React from 'react'
 
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
+import { Route } from 'react-router-dom'
 
 import styles from './UserPage.module.scss'
+import Header from '../../components/Header/Header'
+import Board from '../../components/Board/Board'
+import Footer from '../../components/Footer/Footer'
 
-class TravelPage extends React.Component {
+class UserPage extends React.Component {
    render() {
+      const { path } = this.props.match
       return (
          <div className={styles.userPage}>
-            <div className={styles.userPage__headerWrap}></div>
-            <div className={styles.userPage__boardWrap}></div>
-            <div className={styles.userPage__footerWrap}></div>
+            <Header />
+            <Route path={`${path}/:board/:tab`} component={Board} />
+            <Footer />
          </div>
       )
    }
@@ -20,4 +25,4 @@ class TravelPage extends React.Component {
 const mapStateToProps = ({}) => ({})
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(TravelPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
