@@ -10,13 +10,15 @@ frontend
     │   └── images
     │       └── icons
     ├── components
+    ├── containers    
+    ├── controls
     ├── middlewares
     ├── pages
-    ├── controls
     ├── redux
-    │   ├── actions
-    │   ├── reducers
-    │   └── store.js
+    │   ├── ...
+    │   ├── reducer.js
+    │   ├── store.js
+    │   └── types.js
     ├── router
     ├── styles
     ├── index.scss
