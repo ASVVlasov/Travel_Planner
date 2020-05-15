@@ -4,9 +4,9 @@ export const getBoardLoading = () => ({
    type: GET_BOARD_LOADING,
 })
 
-export const getBoardSuccess = (data) => ({
+export const getBoardSuccess = (tabs) => ({
    type: GET_BOARD_SUCCESS,
-   payload: { ...data },
+   payload: { tabs },
 })
 
 export const hadError = (err) => ({
