@@ -1,13 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const fileUpload = require('express-fileupload')
 const cors = require('cors')
 const path = require('path')
 const app = express()
 
 const PORT = process.env.PORT || 3000
 
-mongoose.connect('mongodb+srv://gt_root:greenteam@cluster0-jubqy.azure.mongodb.net/dev_travel_planer?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DB_URL, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
    useFindAndModify: false,
@@ -23,7 +22,6 @@ mongoose.connection
 const router = require(path.resolve(__dirname, '.', 'routes'))
 app.use(express.json())
    .use(express.urlencoded({ extended: true }))
-   .use(fileUpload({ createParentPath: true }))
    .use(cors())
    .use('/', express.static(path.resolve(__dirname, '..', '..', 'frontend', 'build')))
    .use(router)
