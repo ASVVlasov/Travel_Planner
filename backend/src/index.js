@@ -7,7 +7,7 @@ dotenv.config()
 
 const app = express()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3300
 
 mongoose.connect(process.env.DB_URL, {
    useNewUrlParser: true,

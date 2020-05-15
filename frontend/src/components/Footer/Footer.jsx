@@ -9,13 +9,18 @@ export default class Footer extends React.Component {
          paid: '30000 Р',
          toPay: '110000 Р',
          totalBudget: '140000 Р',
+         checked: false,
       }
    }
    render() {
       return (
          <footer className={styles.footer}>
             <div className={styles.footer__switch}>
-               <Switch labelText="то, что относится ко мне" />
+               <Switch
+                  labelText="то, что относится ко мне"
+                  checked={this.state.checked}
+                  onChange={(value) => this.setState({ checked: value })}
+               />
             </div>
             <div className={styles.footer__paymentInfo}>
                <div className={styles.footer__paid}>

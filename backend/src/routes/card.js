@@ -1,6 +1,5 @@
 const router = require('express').Router()
 
-// TODO надо переделать как в travel роутере через модели и asyncHandler
 router.post('/uploadFile', async (req, res) => {
    try {
       const { travelId, cardId } = req.body
