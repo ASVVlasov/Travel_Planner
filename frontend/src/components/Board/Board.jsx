@@ -8,9 +8,9 @@ import { connect } from 'react-redux'
 import { getBoard } from '../../redux/board/operations'
 import { getCards } from '../../redux/cards/actions'
 
-import CardForm from '../CardForm/CardForm'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
+import CardFormContainer from '../../containers/CardFormContainer'
 import TransportCardShort from '../Cards/TransportCardShort'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
@@ -110,10 +110,7 @@ class Board extends Component {
             />
 
             {this.state.isModalOpen && (
-               <CardForm
-                  onClose={this.closeModal}
-                  category={this.props.match.params.board}
-               />
+               <CardFormContainer onClose={this.closeModal} />
             )}
          </div>
       )

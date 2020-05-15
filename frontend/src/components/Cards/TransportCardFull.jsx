@@ -10,7 +10,7 @@ import { changeCard, deleteCard } from '../../redux/cards/operations'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
-import CardForm from '../CardForm/CardForm'
+import CardFormContainer from '../../containers/CardFormContainer'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -298,11 +298,7 @@ class TransportCardFull extends Component {
             </div>
 
             {this.state.isCardFormOpen && (
-               <CardForm
-                  onClose={this.closeForm}
-                  category="transport"
-                  card={card}
-               />
+               <CardFormContainer onClose={this.closeForm} card={card} />
             )}
          </ModalBase>
       )
