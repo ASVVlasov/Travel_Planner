@@ -2,6 +2,7 @@ const router = require('express').Router()
 const CardModel = require('../models/card.js')
 const FileModel = require('../models/file.js')
 const fileMiddleware = require('../middlewares/file.js')
+const asyncHandler = require('express-async-handler')
 /*HARDCODE*/
 const TRAVELID = '5eb9a8ae468c2a28eb4220f0'
 
