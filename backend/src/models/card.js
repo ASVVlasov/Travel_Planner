@@ -95,13 +95,16 @@ const cardSchema = new Schema({
 })
 
 cardSchema.static('getCardsByCardType', async function (type, travelId) {
+   console.log('getCardsByCardType', type)
    type = EnumCardTypes[type]
    if (!type) {
       throw createError(400, 'cardType required')
    }
    const cards = await this.find({ type, travelId })
+   console.log('cards', cards)
    // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
    const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
+   console.log('categoryIds', categoryIds)
    return [
       // Все карты
       {
