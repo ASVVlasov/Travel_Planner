@@ -2,10 +2,11 @@ const router = require('express').Router()
 const CardModel = require('../models/card.js')
 const FileModel = require('../models/file.js')
 const fileMiddleware = require('../middlewares/file.js')
+const asyncHandler = require('express-async-handler')
 /*HARDCODE*/
 const TRAVELID = '5eb9a8ae468c2a28eb4220f0'
 
-router.put(
+router.post(
    '/uploadFile',
    fileMiddleware.uploadFile,
    asyncHandler(async (req, res) => {
@@ -56,6 +57,7 @@ router.put(
       const { card } = req.body
       delete card.users
       delete card.files
+      delete card.payers
       res.json(await CardModel.findByIdAndUpdate(cardId, card, { new: true }))
    })
 )

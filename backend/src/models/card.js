@@ -134,6 +134,7 @@ cardSchema.static('addFile', async function (cardId, file) {
 cardSchema.static('removeFile', async function (cardId, fileId) {
    card = await this.findById(cardId)
    card.files.pull(fileId)
+   FileModel.findByIdAndDelete(fileId)
    await card.save()
 })
 cardSchema.static('addUser', async function (cardId, userId) {
