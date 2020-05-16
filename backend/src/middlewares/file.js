@@ -68,6 +68,20 @@ const fileMiddleware = {
          }
       })
    },
+   removeFile: function (req, res, next) {
+      const getParams = {
+         Bucket: process.env.S3_BUCKET_NAME,
+         Key: req.params.fileName,
+      }
+      s3.deleteObject(getParams, function (err, data) {
+         if (err) {
+            next(err)
+         } else {
+            req.file = { originalName: getParams.Key, success: true }
+            next()
+         }
+      })
+   },
 }
 
 module.exports = fileMiddleware
