@@ -1,60 +1,71 @@
 const router = require('express').Router()
+const CardModel = require('../models/card.js')
+const FileModel = require('../models/file.js')
+const fileMiddleware = require('../middlewares/file.js')
+const asyncHandler = require('express-async-handler')
+/*HARDCODE*/
+const TRAVELID = '5eb9a8ae468c2a28eb4220f0'
 
-router.post('/uploadFile', async (req, res) => {
-   try {
-      const { travelId, cardId } = req.body
-      //res.json(await CardController.addFile(travelId, cardId, req.files.file))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-
-router.post('/dropFile', async (req, res) => {
-   try {
-      const { travelId, cardId, fileId } = req.body
-      //res.json(await CardController.removeFile(travelId, cardId, fileId))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-router.post('/', async (req, res) => {
-   try {
-      req.body.travelId = '5eb9a8ae468c2a28eb4220f0'
-      //res.json(await CardController.createCard(req.body))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-router.get('/:travelId/', async (req, res) => {
-   try {
-      //res.json(await CardController.getAllCards(req.params.travelId))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-router.get('/:travelId/:cardId', async (req, res) => {
-   try {
-      const { travelId, cardId } = req.params
-      //res.json(await CardController.readCard(travelId, cardId))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-router.put('/', async (req, res) => {
-   try {
-      const { travelId, card } = req.body
-      //res.json(await CardController.updateCard(travelId, card))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
-router.delete('/:travelId/:cardId', async (req, res) => {
-   try {
-      const { travelId, cardId } = req.params
-      //res.json(await CardController.deleteCard(travelId, cardId))
-   } catch (errorMessage) {
-      res.status(500).json({ message: errorMessage.message })
-   }
-})
+router.post(
+   '/uploadFile',
+   fileMiddleware.uploadFile,
+   asyncHandler(async (req, res) => {
+      const { cardId } = req.body.cardId
+      let file = await FileModel.create(req.file)
+      res.json(await CardModel.addFile(cardId, file))
+   })
+)
+router.put(
+   '/deleteFile',
+   asyncHandler(async (req, res) => {
+      const { cardId, fileId } = req.body
+      res.json(await CardModel.removeFile(cardId, fileId))
+   })
+)
+router.put(
+   '/addUser',
+   asyncHandler(async (req, res) => {
+      const { cardId, userId } = req.body
+      res.json(await CardModel.addUser(cardId, userId))
+   })
+)
+router.put(
+   '/removeUser',
+   asyncHandler(async (req, res) => {
+      const { cardId, userId } = req.body
+      res.json(await CardModel.removeUser(cardId, userId))
+   })
+)
+router.post(
+   '/',
+   asyncHandler(async (req, res) => {
+      req.body.travelId = TRAVELID
+      res.json(await CardModel.create(req.body))
+   })
+)
+router.get(
+   '/:cardId/',
+   asyncHandler(async (req, res) => {
+      const { cardId } = req.params
+      res.json(await CardModel.findById(cardId))
+   })
+)
+router.put(
+   '/',
+   asyncHandler(async (req, res) => {
+      const card = { ...req.body }
+      delete card.users
+      delete card.files
+      delete card.payers
+      res.json(await CardModel.findByIdAndUpdate(card._id, card, { new: true }))
+   })
+)
+router.delete(
+   '/:cardId',
+   asyncHandler(async (req, res) => {
+      const { cardId } = req.params
+      res.json(await CardModel.findByIdAndDelete(cardId))
+   })
+)
 
 module.exports = router
