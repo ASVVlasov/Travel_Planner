@@ -2,8 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const EnumCardTypes = require('./types/enumCardTypes.js')
 const PopulateHandler = require('./handlers/populateHandler')
+const ErrorHandler = require('./handlers/errorHandler')
 const createError = require('http-errors')
 const cardTypes = Object.values(EnumCardTypes)
+const FileModel = require('./file.js')
 
 const cardSchema = new Schema({
    travelId: {
@@ -94,25 +96,64 @@ const cardSchema = new Schema({
 
 cardSchema.static('getCardsByCardType', async function (type, travelId) {
    type = EnumCardTypes[type]
-   if (!!type) {
-      const cards = await this.find({ type, travelId })
-      const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
-      return [
-         {
-            _id: 'all',
-            title: type,
-            cards,
-         },
-         ...categoryIds.map((categoryId) => {
-            return {
-               ...cards.find((card) => (card.category ? card.category.id === categoryId : false)).category.toObject(),
-               cards: cards.filter((card) => card.category && card.category.id === categoryId),
-            }
-         }),
-      ]
-   } else {
+   if (!type) {
       throw createError(400, 'cardType required')
    }
+   const cards = await this.find({ type, travelId })
+   // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
+   const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
+   return [
+      // Все карты
+      {
+         _id: 'all',
+         title: type,
+         cards,
+      },
+      // Разбивка по категориям
+      ...categoryIds.map((categoryId) => {
+         return {
+            ...cards.find((card) => (card.category ? card.category.id === categoryId : false)).category.toObject(),
+            cards: cards.filter((card) => card.category && card.category.id === categoryId),
+         }
+      }),
+   ]
+})
+// Static methods
+cardSchema.static('deleteCard', async function (cardId) {
+   card = this.findById(cardId)
+   for (const file of card.files) {
+      let deleteFile = await FileModel.findByIdAndDelete(file._id)
+      if (!!deleteFile.error()) throw deleteFile.error()
+   }
+})
+cardSchema.static('addFile', async function (cardId, file) {
+   card = await this.findById(cardId)
+   card.files.push(file)
+   await card.save()
+})
+cardSchema.static('removeFile', async function (cardId, fileId) {
+   card = await this.findById(cardId)
+   card.files.pull(fileId)
+   await card.save()
+})
+cardSchema.static('addUser', async function (cardId, userId) {
+   card = await this.findById(cardId)
+   card.users.push(userId)
+   await card.save()
+})
+cardSchema.static('removeUser', async function (cardId, userId) {
+   card = await this.findById(cardId)
+   card.users.pull(userId)
+   await card.save()
+})
+// Hooks
+cardSchema.pre('findByIdAndDelete', async function (next) {
+   card = this.findById(this._id)
+   for (const file of card.files) {
+      let deleteFile = await FileModel.findByIdAndDelete(file._id)
+      if (!!deleteFile.error()) next(deleteFile.error())
+   }
+   next()
 })
 cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    const cards = (await this.find({ travelId })).filter((card) => card.payers.find((payer) => payer.user.id === userId))
@@ -135,7 +176,15 @@ cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
       await PopulateHandler.cardToClient(doc, () => {})
    }
+   next()
 })
 cardSchema.post('findOne', PopulateHandler.cardToClient)
+cardSchema.post('findById', PopulateHandler.cardToClient)
+cardSchema.post('findByIdAndUpdate', ErrorHandler)
+cardSchema.post('findByIdAndUpdate', PopulateHandler.cardToClient)
+cardSchema.post('findByIdAndDelete', ErrorHandler)
+cardSchema.post('findByIdAndDelete', PopulateHandler.cardToClient)
+cardSchema.post('save', ErrorHandler)
 cardSchema.post('save', PopulateHandler.cardToClient)
+
 module.exports = mongoose.model('Card', cardSchema)
