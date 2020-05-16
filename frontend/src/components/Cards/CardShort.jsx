@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import styles from './TransportCardShort.module.scss'
+import styles from './CardShort.module.scss'
 
-import TransportCardFull from './TransportCardFull'
+import CardFull from './CardFull'
 import { ReactComponent as ConfirmIcon } from '../../assets/images/icons/document.svg'
 import { ReactComponent as PaidIcon } from '../../assets/images/icons/receipt.svg'
 
-export default class TransportCard extends Component {
+export default class CardShort extends Component {
    static propTypes = {
       _id: PropTypes.string,
       title: PropTypes.string,
@@ -74,7 +74,7 @@ export default class TransportCard extends Component {
             <div className={styles.card} onClick={this.showFullInfo}>
                <div>
                   <div className={styles.card__header}>
-                     <h2 className={styles.card__transport} children={title} />
+                     <h2 className={styles.card__title} children={title} />
                      <p className={styles.card__company} children={company} />
                   </div>
 
@@ -136,7 +136,7 @@ export default class TransportCard extends Component {
             </div>
 
             {this.state.fullInfoOpened && (
-               <TransportCardFull
+               <CardFull
                   toClose={this.closeFullInfo}
                   card={{ ...this.props }}
                />

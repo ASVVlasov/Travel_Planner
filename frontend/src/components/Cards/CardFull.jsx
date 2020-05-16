@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import styles from './TransportCardFull.module.scss'
+import styles from './CardFull.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -16,7 +16,7 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 
-class TransportCardFull extends Component {
+class CardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
       changeCard: PropTypes.func.isRequired,
@@ -121,6 +121,7 @@ class TransportCardFull extends Component {
 
       const {
          _id,
+         type,
          title,
          company,
          beginPoint,
@@ -131,12 +132,14 @@ class TransportCardFull extends Component {
          cost,
       } = this.props.card
 
+      const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
+
       return (
          <ModalBase toClose={toClose}>
             <div className={styles.card}>
                <div className={styles.card__header}>
                   <span className={styles.card__breadcrumbs}>
-                     Транспорт / <strong>{title}</strong>
+                     {type} / <strong>{title}</strong>
                   </span>
                   <CloseIcon
                      className={classNames(styles.icons, styles.icons__close)}
@@ -147,8 +150,7 @@ class TransportCardFull extends Component {
                <div className={styles.card__leftSide}>
                   <section className={styles.card__route}>
                      <div className={styles.section__title}>
-                        <h2>Маршрут</h2>
-                        {/* TODO add onClick with AddForm component */}
+                        <h2>{routeSectionTitle}</h2>
                         <EditIcon
                            className={styles.icons}
                            onClick={this.openForm}
@@ -299,4 +301,4 @@ class TransportCardFull extends Component {
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ changeCard, deleteCard }, dispatch)
 
-export default connect(null, mapDispatchToProps)(TransportCardFull)
+export default connect(null, mapDispatchToProps)(CardFull)

@@ -11,7 +11,7 @@ import { getCards } from '../../redux/cards/actions'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import CardFormContainer from '../../containers/CardFormContainer'
-import TransportCardShort from '../Cards/TransportCardShort'
+import CardShort from '../Cards/CardShort'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 
@@ -51,7 +51,7 @@ class Board extends Component {
    mapCardsToRender = () => {
       return this.props.cards.map((card) => (
          <div key={card._id} className={styles.board__card}>
-            <TransportCardShort {...card} />
+            <CardShort {...card} />
          </div>
       ))
    }
