@@ -53,12 +53,11 @@ router.get(
 router.put(
    '/',
    asyncHandler(async (req, res) => {
-      const cardId = req.body._id
-      const { card } = req.body
+      const card = { ...req.body }
       delete card.users
       delete card.files
       delete card.payers
-      res.json(await CardModel.findByIdAndUpdate(cardId, card, { new: true }))
+      res.json(await CardModel.findByIdAndUpdate(card._id, card, { new: true }))
    })
 )
 router.delete(
