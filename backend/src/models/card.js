@@ -114,11 +114,23 @@ cardSchema.static('getCardsByCardType', async function (type, travelId) {
       throw createError(400, 'cardType required')
    }
 })
-
-cardSchema.statics.findPayedCardsByUserId = async function ({ travelId, userId }) {
-   const cards = await this.find({ travelId })
-   return cards.filter((card) => card.payers.find((payer) => payer.user.id === userId))
+cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
+   const cards = (await this.find({ travelId })).filter((card) => card.payers.find((payer) => payer.user.id === userId))
+   let summary = {
+      budget: 0,
+      paid: 0,
+      toPay: 0,
+   }
+   cards.forEach((card) => {
+      const payInfo = card.payers.find((payer) => payer.user.id === userId)
+      const costForOne = Math.round(card.cost / card.payers.length)
+      summary.budget += costForOne
+      summary.paid += payInfo.hasPayed ? costForOne : 0
+      summary.toPay += payInfo.hasPayed ? 0 : costForOne
+   })
+   return summary
 }
+cardSchema.statics.findPayedCardsByUserId = async function ({ travelId, userId }) {}
 cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
       await PopulateHandler.cardToClient(doc, () => {})
