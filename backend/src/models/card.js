@@ -69,18 +69,23 @@ const cardSchema = new Schema({
    users: [
       {
          type: mongoose.ObjectId,
+         default: [],
          description: 'ID участников карточки события',
          ref: 'User',
       },
    ],
-   payer: {
-      type: mongoose.ObjectId,
-      description: 'ID участника, оплатившего карточку события за всех',
-      ref: 'User',
-   },
+   payers: [
+      {
+         type: mongoose.ObjectId,
+         default: [],
+         description: 'ID плательщиков, с информацией об оплате',
+         ref: 'Payer',
+      },
+   ],
    files: [
       {
          type: mongoose.ObjectId,
+         default: [],
          description: 'ID файлов, прикрепленных к карточке события',
          ref: 'File',
       },
@@ -109,6 +114,11 @@ cardSchema.static('getCardsByCardType', async function (type, travelId) {
       throw createError(400, 'cardType required')
    }
 })
+
+cardSchema.statics.findPayedCardsByUserId = async function ({ travelId, userId }) {
+   const cards = await this.find({ travelId })
+   return cards.filter((card) => card.payers.find((payer) => payer.user.id === userId))
+}
 cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
       await PopulateHandler.cardToClient(doc, () => {})
