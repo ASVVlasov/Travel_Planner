@@ -50,12 +50,11 @@ class TransportCardFull extends Component {
    }
 
    updateCard = (changedArea, newValue) => {
-      const { travelId, changeCard } = this.props
       const card = { ...this.props.card }
 
       if (card[changedArea] !== newValue) {
          card[changedArea] = newValue
-         changeCard(travelId, card)
+         this.props.changeCard(card)
       }
    }
 
@@ -118,15 +117,7 @@ class TransportCardFull extends Component {
    }
 
    render() {
-      const {
-         toClose,
-         deleteCard,
-         card,
-         travelId, //TODO replace with ID from route params later
-         // match: {
-         //    params: { travelId },
-         // },
-      } = this.props
+      const { toClose, deleteCard, card } = this.props
 
       const {
          _id,
@@ -286,7 +277,7 @@ class TransportCardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           deleteCard(travelId, _id)
+                           deleteCard(_id)
                            toClose()
                         }}
                         text="Удалить карточку"
@@ -305,10 +296,7 @@ class TransportCardFull extends Component {
    }
 }
 
-const mapStateToProps = ({ boardReducer }) => ({
-   travelId: boardReducer.travelId, // TODO delete after real ID appear in route
-})
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ changeCard, deleteCard }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransportCardFull)
+export default connect(null, mapDispatchToProps)(TransportCardFull)
