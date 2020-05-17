@@ -21,7 +21,7 @@ router.post(
    })
 )
 router.get(
-   '/downloadFile/:filename',
+   '/downloadFile/:fileName',
    fileMiddleware.downloadFile,
    asyncHandler(async (req, res) => {
       res.send(req.file)
