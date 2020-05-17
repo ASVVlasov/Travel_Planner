@@ -26,6 +26,7 @@ class CardFull extends Component {
 
    state = {
       comment: '',
+      cost: 0,
       isCardFormOpen: false,
    }
 
@@ -269,10 +270,18 @@ class CardFull extends Component {
                   <section className={styles.card__cost}>
                      <h2>Стоимость</h2>
                      {/* TODO add formatting for cost */}
-                     <span
-                        className={styles.card__cost_general}
-                        children={`${cost} Р`}
-                     />
+                     <span className={styles.card__cost_general}>
+                        <input
+                           name="cost"
+                           type="number"
+                           value={this.state.cost || cost}
+                           onChange={(e) => this.handleChange(e)}
+                           onBlur={(e) =>
+                              this.updateCard(e.target.name, e.target.value)
+                           }
+                        />
+                        {' Р'}
+                     </span>
                      {this.splitGeneralCost()}
                   </section>
 
