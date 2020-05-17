@@ -21,13 +21,7 @@ router.post(
    })
 )
 router.get(
-   '/downloadFile/:fileId',
-   asyncHandler(async (req, res, next) => {
-      const { fileId } = req.params
-      let file = await FileModel.findById(fileId)
-      req.params.fileName = file.uploadName
-      next()
-   }),
+   '/downloadFile/:filename',
    fileMiddleware.downloadFile,
    asyncHandler(async (req, res) => {
       res.send(req.file)
