@@ -97,17 +97,19 @@ class Board extends Component {
                )}
             </div>
 
-            <BoardSlider
-               className={styles.board__cards}
-               slides={[
-                  ...this.mapCardsToRender(),
-                  <button
-                     className={styles.board__card_add}
-                     onClick={this.openModal}
-                     children={<PlusIcon />}
-                  />,
-               ]}
-            />
+            {this.props.match.params.board !== 'todo' && (
+               <BoardSlider
+                  className={styles.board__cards}
+                  slides={[
+                     ...this.mapCardsToRender(),
+                     <button
+                        className={styles.board__card_add}
+                        onClick={this.openModal}
+                        children={<PlusIcon />}
+                     />,
+                  ]}
+               />
+            )}
 
             {this.state.isModalOpen && (
                <CardFormContainer onClose={this.closeModal} />
