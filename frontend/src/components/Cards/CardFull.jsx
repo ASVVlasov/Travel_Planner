@@ -5,7 +5,12 @@ import styles from './CardFull.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeCard, deleteCard } from '../../redux/cards/operations'
+import {
+   changeCard,
+   deleteCard,
+   uploadFile,
+} from '../../redux/cards/operations'
+// import { uploadFile } from '../../redux/files/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -38,12 +43,24 @@ class CardFull extends Component {
       this.setState({ isCardFormOpen: false })
    }
 
-   textArea = createRef()
+   commentInput = createRef()
+   filesInput = createRef()
 
-   focusTextArea = () => {
-      const el = this.textArea.current
+   focusCommentInput = () => {
+      const el = this.commentInput.current
       el.focus()
       el.setSelectionRange(el.value.length, el.value.length)
+   }
+
+   uploadFiles = (e) => {
+      const { card, uploadFile } = this.props
+
+      const file = new FormData()
+      file.append('travelId', card.travelId)
+      file.append('cardId', card._id)
+      file.append('file', e.target.files[0])
+
+      uploadFile(file)
    }
 
    handleChange = (event) => {
@@ -77,7 +94,7 @@ class CardFull extends Component {
       return this.props.card.files.map((file) => (
          <a
             download
-            href={file.uploadName}
+            href={`/card/downloadFile/${file.uploadName}`}
             children={file.originalName}
             key={file._id}
          />
@@ -201,7 +218,16 @@ class CardFull extends Component {
                      <div className={styles.section__title}>
                         <h2>Документы</h2>
                         {/* TODO add onClick with files loader */}
-                        <AddIcon className={styles.icons} />
+                        <AddIcon
+                           className={styles.icons}
+                           onClick={() => this.filesInput.current.click()}
+                        />
+                        <input
+                           className={styles.displayNone}
+                           type="file"
+                           ref={this.filesInput}
+                           onChange={(e) => this.uploadFiles(e)}
+                        />
                      </div>
                      {this.filesToRender()}
                   </section>
@@ -211,13 +237,13 @@ class CardFull extends Component {
                         <h2>Комментарии</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.focusTextArea}
+                           onClick={this.focusCommentInput}
                         />
                      </div>
                      <textarea
                         name="comment"
                         value={this.state.comment || comment}
-                        ref={this.textArea}
+                        ref={this.commentInput}
                         onChange={(e) => this.handleChange(e)}
                         onBlur={(e) =>
                            this.updateCard(e.target.name, e.target.value)
@@ -308,6 +334,6 @@ class CardFull extends Component {
 }
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeCard, deleteCard }, dispatch)
+   bindActionCreators({ changeCard, deleteCard, uploadFile }, dispatch)
 
 export default connect(null, mapDispatchToProps)(CardFull)
