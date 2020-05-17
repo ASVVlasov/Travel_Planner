@@ -20,6 +20,19 @@ router.post(
       res.json(await CardModel.findByIdAndUpdate(cardId, update, New))
    })
 )
+router.get(
+   '/downloadFile/:fileId',
+   asyncHandler(async (req, res, next) => {
+      const { fileId } = req.params
+      let file = await FileModel.findById(fileId)
+      req.params.fileName = file.uploadName
+      next()
+   }),
+   fileMiddleware.downloadFile,
+   asyncHandler(async (req, res) => {
+      // TODO отдать файл, который лежит в req.file
+   })
+)
 router.delete(
    '/deleteFile',
    asyncHandler(async (req, res, next) => {
