@@ -137,6 +137,10 @@
       right: -10px;
       fill: $color-gray-5;
    }
+   &__delete {
+      fill: $color-gray-5;
+      margin-left: 4px;
+   }
 }
 
 .section__title {
@@ -185,6 +189,22 @@ h2 {
    &__date {
       @include Body2;
       color: $color-gray-2;
+   }
+}
+
+.docs {
+   &__file {
+      max-width: 200px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      margin-bottom: 10px;
+   }
+   &__link {
+      max-width: 172px;
+      overflow: hidden;   
+      text-overflow: ellipsis;
+      white-space: nowrap;
    }
 }
 

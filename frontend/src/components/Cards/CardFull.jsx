@@ -9,6 +9,7 @@ import {
    changeCard,
    deleteCard,
    uploadFile,
+   deleteFile,
 } from '../../redux/cards/operations'
 // import { uploadFile } from '../../redux/files/operations'
 
@@ -52,7 +53,7 @@ class CardFull extends Component {
       el.setSelectionRange(el.value.length, el.value.length)
    }
 
-   uploadFiles = (e) => {
+   uploadFileHandler = (e) => {
       const { card, uploadFile } = this.props
 
       const file = new FormData()
@@ -61,6 +62,11 @@ class CardFull extends Component {
       file.append('file', e.target.files[0])
 
       uploadFile(file)
+   }
+
+   deleteFileHandler = (fileId) => {
+      const { card, deleteFile } = this.props
+      deleteFile({ fileId, cardId: card._id })
    }
 
    handleChange = (event) => {
@@ -92,13 +98,18 @@ class CardFull extends Component {
 
    filesToRender = () => {
       return this.props.card.files.map((file) => (
-         <a
-            download
-            href={`/card/downloadFile/${file.uploadName}`}
-            children={file.originalName}
-            key={file._id}
-         />
-         //TODO add remove option
+         <span key={file._id} className={styles.docs__file}>
+            <a
+               download
+               href={`http://localhost:3300/card/downloadFile/${file.uploadName}`}
+               children={file.originalName}
+               className={styles.docs__link}
+            />
+            <CloseIcon
+               className={classNames(styles.icons, styles.icons__delete)}
+               onClick={() => this.deleteFileHandler(file._id)}
+            />
+         </span>
       ))
    }
 
@@ -226,7 +237,7 @@ class CardFull extends Component {
                            className={styles.displayNone}
                            type="file"
                            ref={this.filesInput}
-                           onChange={(e) => this.uploadFiles(e)}
+                           onChange={(e) => this.uploadFileHandler(e)}
                         />
                      </div>
                      {this.filesToRender()}
@@ -334,6 +345,9 @@ class CardFull extends Component {
 }
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeCard, deleteCard, uploadFile }, dispatch)
+   bindActionCreators(
+      { changeCard, deleteCard, uploadFile, deleteFile },
+      dispatch
+   )
 
 export default connect(null, mapDispatchToProps)(CardFull)

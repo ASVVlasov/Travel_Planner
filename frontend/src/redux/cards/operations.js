@@ -21,3 +21,7 @@ export const deleteCard = (cardId) =>
 export const uploadFile = (file) =>
    // fetchRequest('POST', '/card/uploadFile', changeCardSuccess, file, {})
    fetchRequest.uploadFile('/card/uploadFile', changeCardSuccess, file)
+
+export const deleteFile = (file) =>
+   // fetchRequest('DELETE', '/card/deleteFile', changeCardSuccess, file)
+   fetchRequest.delete('/card/deleteFile', changeCardSuccess, file)
