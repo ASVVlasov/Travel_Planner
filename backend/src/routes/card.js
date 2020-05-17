@@ -30,7 +30,7 @@ router.get(
    }),
    fileMiddleware.downloadFile,
    asyncHandler(async (req, res) => {
-      // TODO отдать файл, который лежит в req.file
+      res.send(req.file)
    })
 )
 router.delete(
