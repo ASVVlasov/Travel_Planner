@@ -29,6 +29,7 @@ const travelSchema = new Schema({
       {
          type: mongoose.ObjectId,
          description: 'ID участников путешествия',
+         default: [],
          ref: 'User',
       },
    ],
@@ -36,6 +37,7 @@ const travelSchema = new Schema({
       {
          type: mongoose.ObjectId,
          description: 'Карточки поездки',
+         default: [],
          ref: 'Card',
       },
    ],
