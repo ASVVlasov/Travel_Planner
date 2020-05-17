@@ -19,8 +19,12 @@ router.put(
    '/deleteFile',
    asyncHandler(async (req, res) => {
       const { cardId, fileId } = req.body
+      req.files = {}
+      req.files.fileName = await FileModel.findById(fileId).uploadName
       res.json(await CardModel.removeFile(cardId, fileId))
-   })
+      next()
+   }),
+   fileMiddleware.removeFiles
 )
 router.put(
    '/addUser',

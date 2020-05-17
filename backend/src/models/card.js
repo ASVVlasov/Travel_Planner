@@ -134,7 +134,7 @@ cardSchema.static('addFile', async function (cardId, file) {
 cardSchema.static('removeFile', async function (cardId, fileId) {
    card = await this.findById(cardId)
    card.files.pull(fileId)
-   FileModel.findByIdAndDelete(fileId)
+   await FileModel.findByIdAndDelete(fileId)
    await card.save()
 })
 cardSchema.static('addUser', async function (cardId, userId) {
@@ -147,15 +147,6 @@ cardSchema.static('removeUser', async function (cardId, userId) {
    card.users.pull(userId)
    await card.save()
 })
-// Hooks
-cardSchema.pre('findByIdAndDelete', async function (next) {
-   card = this.findById(this._id)
-   for (const file of card.files) {
-      let deleteFile = await FileModel.findByIdAndDelete(file._id)
-      if (!!deleteFile.error()) next(deleteFile.error())
-   }
-   next()
-})
 cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    const cards = (await this.find({ travelId })).filter((card) => card.payers.find((payer) => payer.user.id === userId))
    let summary = {
@@ -166,13 +157,40 @@ cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    cards.forEach((card) => {
       const payInfo = card.payers.find((payer) => payer.user.id === userId)
       const costForOne = Math.round(card.cost / card.payers.length)
-      summary.budget += costForOne
-      summary.paid += payInfo.hasPayed ? costForOne : 0
-      summary.toPay += payInfo.hasPayed ? 0 : costForOne
+      summary.budget += costForOne // Доля пользователя в любом случае
+      if (payInfo.isPayer) {
+         // Заплатил за всех
+         let payerDebit = card.cost
+         card.payers.forEach((payer) => {
+            // Если пользователь заплатил - то он отдал "оплатившему за всех" свою долю
+            // Оплативший за всех - отдает свою долю сам себе
+            if (payer.hasPayed) {
+               payerDebit -= costForOne
+            }
+         })
+         // Своя доля + дебит. В начале совпадает со стоимостью картыю.
+         // В конце равна доле одного участника
+         summary.paid += payerDebit + costForOne
+         // Может быть отрицательным, если пользователю должны денег (дебит положительный)
+         summary.toPay += -payerDebit
+      } else {
+         // Просто участник
+         summary.paid += payInfo.hasPayed ? costForOne : 0
+         summary.toPay += payInfo.hasPayed ? 0 : costForOne
+      }
    })
    return summary
 }
 cardSchema.statics.findPayedCardsByUserId = async function ({ travelId, userId }) {}
+// Hooks
+cardSchema.pre('findByIdAndDelete', async function (next) {
+   card = this.findById(this._id)
+   for (const file of card.files) {
+      let deleteFile = await FileModel.findByIdAndDelete(file._id)
+      if (!!deleteFile.error()) next(deleteFile.error())
+   }
+   next()
+})
 cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
       await PopulateHandler.cardToClient(doc, () => {})
