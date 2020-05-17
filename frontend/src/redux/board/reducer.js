@@ -20,40 +20,41 @@ export default function boardReducer(state = initialState, action) {
       case GET_BOARD_SUCCESS: {
          return {
             ...state,
-            tabs: action.payload.tabs,
+            tabs: action.payload,
             isLoading: false,
          }
       }
 
       case GET_CARDS: {
-         const { activeTabId } = action.payload
-         const index = state.tabs.findIndex((tab) => tab._id === activeTabId)
+         const index = state.tabs.findIndex((tab) => tab._id === action.payload)
          return { ...state, cards: state.tabs[index].cards }
       }
 
       case ADD_CARD_SUCCESS: {
          return {
             ...state,
-            cards: [...state.cards, action.payload.newCard],
+            cards: [...state.cards, action.payload],
          }
       }
 
       case CHANGE_CARD_SUCCESS: {
-         const { updCard } = action.payload
-         const index = state.cards.findIndex((card) => card._id === updCard._id)
+         const index = state.cards.findIndex(
+            (card) => card._id === action.payload._id
+         )
          return {
             ...state,
             cards: [
                ...state.cards.slice(0, index),
-               updCard,
+               action.payload,
                ...state.cards.slice(index + 1),
             ],
          }
       }
 
       case DELETE_CARD_SUCCESS: {
-         const { cardId } = action.payload
-         const index = state.cards.findIndex((card) => card._id === cardId)
+         const index = state.cards.findIndex(
+            (card) => card._id === action.payload
+         )
          return {
             ...state,
             cards: [
@@ -68,7 +69,7 @@ export default function boardReducer(state = initialState, action) {
             ...state,
             isLoading: false,
             failureLoading: true,
-            errorMessage: action.payload.err,
+            errorMessage: action.payload,
          }
       }
 
