@@ -38,7 +38,9 @@ router.put(
       if (payer.isPayer) {
          payer.hasPayed = true
       }
-      res.json(await PayerModel.findOneAndUpdate({ _id: payer._id }, payer, { new: true }))
+      await PayerModel.findOneAndUpdate({ _id: payer._id }, payer, { new: true })
+
+      res.json(await CardModel.findById(payer.cardId))
    })
 )
 
