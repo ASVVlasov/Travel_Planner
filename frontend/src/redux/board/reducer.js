@@ -5,6 +5,7 @@ import {
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
    FETCH_ERROR,
+   GET_BOARD_FILTER,
 } from '../types'
 
 const initialState = {
@@ -70,6 +71,18 @@ export default function boardReducer(state = initialState, action) {
             isLoading: false,
             failureLoading: true,
             errorMessage: action.payload,
+         }
+      }
+
+      case GET_BOARD_FILTER: {
+         return {
+            ...state,
+            cards: state.cards.filter(
+               (card) =>
+                  !!card.payers.find(
+                     (payer) => payer.user._id === action.payload
+                  )
+            ),
          }
       }
 
