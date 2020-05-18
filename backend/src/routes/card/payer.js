@@ -27,7 +27,7 @@ router.delete(
       let filter = { user: userId, cardId: cardId }
       let deletedPayer = await PayerModel.findOneAndDelete(filter)
       let update = { $pull: { users: userId, payers: deletedPayer._id } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, New))
+      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
 
