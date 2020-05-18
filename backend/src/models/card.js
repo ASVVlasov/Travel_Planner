@@ -142,6 +142,8 @@ cardSchema.post('findOneAndRemove', async function (doc, next) {
    await FileModel.deleteFiles(doc.files)
    next()
 })
+cardSchema.post('findOneAndUpdate', ErrorHandler)
+cardSchema.post('findOneAndUpdate', PopulateHandler.cardToClient)
 cardSchema.post('findOne', PopulateHandler.cardToClient)
 cardSchema.post('save', ErrorHandler)
 cardSchema.post('save', PopulateHandler.cardToClient)
