@@ -1,5 +1,5 @@
 const uploadFile = {
-   tags: ['developers'],
+   tags: ['card'],
    summary: 'Uploads file to server and attach it to a card',
    requestBody: {
       required: true,
@@ -8,15 +8,10 @@ const uploadFile = {
             schema: {
                type: 'object',
                properties: {
-                  travelId: {
-                     type: 'string',
-                     description: 'ID доски путешествий, на которой находится карта',
-                     example: '5eb56d4d771522c070eb3f6f',
-                  },
                   cardId: {
                      type: 'string',
                      description: 'ID карты, к которой прикрепляется файл',
-                     example: '5eb7eb4651385a1e081ec3ab',
+                     example: '5ec15e0815e6cb257867d880',
                   },
                   file: {
                      type: 'string',
@@ -37,21 +32,42 @@ const uploadFile = {
                   $ref: '#/components/schemas/Card',
                },
                example: {
-                  _id: '11111b4651385a1e08111111',
-                  title: 'Тест',
-                  type: 'Транспорт',
-                  description: 'Описание карточки события',
-                  comment: 'Комментарий путешественников',
-                  cost: 100,
-                  categoryId: '5eb5b55cc148b72344978626',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: 'Санкт-Петербург',
-                  company: 'Home Travel',
-                  userIds: ['5eb56d8691de72f427b9e8bd', '5eb56d8691de72f427b9e8be'],
-                  payerId: '5eb56d8691de72f427b9e8bd',
-                  fileIds: ['11111d8691de72f427b9e8bd', '11111d8691de72f427b11111'],
+                  description: '',
+                  comment: 'Свежий комментарий',
+                  cost: 0,
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [
+                     {
+                        _id: '5ec238be13f9ca15342963ee',
+                        originalName: 'task.txt',
+                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                        __v: 0,
+                     },
+                  ],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
                },
             },
          },
@@ -75,30 +91,69 @@ const uploadFile = {
       },
    },
 }
-const dropFile = {
-   tags: ['developers'],
+const downloadFile = {
+   tags: ['card'],
+   summary: 'Download file from server',
+   parameters: [
+      {
+         in: 'path',
+         name: 'fileName',
+         description: 'Имя файла, которое используется на сервере(uploadName)',
+         schema: {
+            type: 'string',
+            example: '51523c2a8de472766846e0b83b75be44.txt',
+         },
+         required: true,
+      },
+   ],
+   responses: {
+      '200': {
+         description: 'Начинается загрузка файла',
+         content: {
+            '*/*': {
+               type: 'string',
+               format: 'base64',
+            },
+         },
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't upload file",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
+const deleteFile = {
+   tags: ['card'],
    summary: 'Drop file from server and deattach it from a card',
    requestBody: {
       required: true,
       content: {
-         'multipart/form-data': {
+         'application/json': {
             schema: {
                type: 'object',
                properties: {
-                  travelId: {
-                     type: 'string',
-                     description: 'ID доски путешествий, на которой находится карта',
-                     example: '5eb56d4d771522c070eb3f6f',
-                  },
                   cardId: {
                      type: 'string',
                      description: 'ID карты, к которой прикрепляется файл',
-                     example: '5eb7eb4651385a1e081ec3ab',
+                     example: '5ec15e0815e6cb257867d880',
                   },
                   fileId: {
                      type: 'string',
                      description: 'ID файла, который собираемся удалить',
-                     example: '6ac7eb4651385a1e081ec8ee',
+                     example: '5ec238be13f9ca15342963ee',
                   },
                },
             },
@@ -114,21 +169,35 @@ const dropFile = {
                   $ref: '#/components/schemas/Card',
                },
                example: {
-                  _id: '11111b4651385a1e08111111',
-                  title: 'Тест',
-                  type: 'Транспорт',
-                  description: 'Описание карточки события',
-                  comment: 'Комментарий путешественников',
-                  cost: 100,
-                  categoryId: '5eb5b55cc148b72344978626',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: 'Санкт-Петербург',
-                  company: 'Home Travel',
-                  userIds: ['5eb56d8691de72f427b9e8bd', '5eb56d8691de72f427b9e8be'],
-                  payerId: '5eb56d8691de72f427b9e8bd',
-                  fileIds: ['11111d8691de72f427b9e8bd'],
+                  description: '',
+                  comment: 'Свежий комментарий',
+                  cost: 0,
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
                },
             },
          },
@@ -152,22 +221,214 @@ const dropFile = {
       },
    },
 }
-
-const createCard = {
-   tags: ['developers'],
-   summary: 'Create card on travel board',
-   parameters: [
-      {
-         in: 'path',
-         name: 'travelId',
-         description: 'ID доски путешествий к которой прикрепляем карточку',
-         schema: {
-            type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
+const addUser = {
+   tags: ['card'],
+   summary: 'Add new user to card',
+   requestBody: {
+      required: true,
+      content: {
+         'application/json': {
+            schema: {
+               type: 'object',
+               properties: {
+                  cardId: {
+                     type: 'string',
+                     description: 'ID карточки в которую добавляем пользователя',
+                     example: '5ec15e0815e6cb257867d880',
+                     required: true,
+                  },
+                  userId: {
+                     type: 'string',
+                     description: 'ID пользователя, которого добавляем на карточку',
+                     example: '5eb9af4dc82bd95234d9ccd6',
+                     required: true,
+                  },
+               },
+            },
          },
-         required: true,
       },
-   ],
+   },
+   responses: {
+      '200': {
+         description: 'Возвращается обновленная карточка события',
+         content: {
+            'application/json': {
+               schema: {
+                  $ref: '#/components/schemas/Card',
+               },
+               example: {
+                  description: '',
+                  comment: 'Свежий комментарий',
+                  cost: 0,
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                     {
+                        _id: '5eb9af4dc82bd95234d9ccd6',
+                        nickName: 'testContactNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec244c280945b0c74de8e04',
+                        user: {
+                           _id: '5eb9af4dc82bd95234d9ccd6',
+                           nickName: 'testContactNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [
+                     {
+                        _id: '5ec238be13f9ca15342963ee',
+                        originalName: 'task.txt',
+                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                        __v: 0,
+                     },
+                  ],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
+               },
+            },
+         },
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't update entry",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
+const removeUser = {
+   tags: ['card'],
+   summary: 'Add new user to card',
+   requestBody: {
+      required: true,
+      content: {
+         'application/json': {
+            schema: {
+               type: 'object',
+               properties: {
+                  cardId: {
+                     type: 'string',
+                     description: 'ID карточки в которую добавляем пользователя',
+                     example: '5ec15e0815e6cb257867d880',
+                     required: true,
+                  },
+                  userId: {
+                     type: 'string',
+                     description: 'ID пользователя, которого добавляем на карточку',
+                     example: '5eb9af4dc82bd95234d9ccd6',
+                     required: true,
+                  },
+               },
+            },
+         },
+      },
+   },
+   responses: {
+      '200': {
+         description: 'Возвращается обновленная карточка события',
+         content: {
+            'application/json': {
+               schema: {
+                  $ref: '#/components/schemas/Card',
+               },
+               example: {
+                  description: '',
+                  comment: 'Свежий комментарий',
+                  cost: 0,
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [
+                     {
+                        _id: '5ec238be13f9ca15342963ee',
+                        originalName: 'task.txt',
+                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                        __v: 0,
+                     },
+                  ],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
+               },
+            },
+         },
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't update entry",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
+const createCard = {
+   tags: ['card'],
+   summary: 'Create card on travel board',
    requestBody: {
       required: true,
       content: {
@@ -176,20 +437,20 @@ const createCard = {
                $ref: '#/components/schemas/Card',
             },
             example: {
-               title: 'Новая карта',
+               travelId: '5eb9a8ae468c2a28eb4220f0',
+               users: ['5eb9a98ac82bd95234d9ccd4', '5eb9af4dc82bd95234d9ccd6'],
+               title: 'Test card API(new card)',
                type: 'Проживание',
-               description: 'Можно без этого параметра',
-               comment: 'Можно без этого параметра',
-               cost: 0,
-               categoryId: 'Можно без этого параметра',
+               description: 'Пользователей должно быть не меньше одного, а так - сколько угодно',
+               comment: 'Остальные поля заполнять не обязательно, приведены для примера',
+               cost: 300,
+               category: '5eb9a90dc82bd95234d9ccd1',
                beginDate: '2020-05-15T10:00:00.000+00:00',
-               endDate: '2020-05-25T10:00:00.000+00:00',
-               beginPoint: 'Москва',
-               endPoint: 'Можно без этого параметра',
-               company: 'Можно без этого параметра',
-               userIds: ['5eb56d8691de72f427b9e8bd'],
-               payerId: 'Можно без этого параметра',
-               fileIds: ['Можно без этого параметра'],
+               endDate: '2020-05-15T10:00:00.000+00:00',
+               beginPoint: 'Начальная точка',
+               endPoint: 'Конечная точка',
+               company: 'SIXT',
+               isDone: false,
             },
          },
       },
@@ -203,21 +464,35 @@ const createCard = {
                   $ref: '#/components/schemas/Card',
                },
                example: {
-                  _id: '11111b4651385a1e08111111',
-                  title: 'Новая карта',
-                  type: 'Проживание',
                   description: '',
                   comment: '',
                   cost: 0,
-                  categoryId: '',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: '',
-                  company: '',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  payerId: '',
-                  fileIds: [],
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec24732e5129d30d86200cd',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec24731e5129d30d86200cc',
+                        __v: 0,
+                     },
+                  ],
+                  files: [],
+                  _id: '5ec24731e5129d30d86200cc',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(new card)',
+                  type: 'Проживание',
+                  __v: 0,
                },
             },
          },
@@ -241,111 +516,17 @@ const createCard = {
       },
    },
 }
-const getAllCards = {
-   tags: ['developers'],
-   summary: 'Get all cards from travel board',
-   parameters: [
-      {
-         in: 'path',
-         name: 'travelId',
-         description: 'ID доски путешествий карточки которой нужно получить',
-         schema: {
-            type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
-         },
-         required: true,
-      },
-   ],
-   responses: {
-      '200': {
-         description: 'Возвращается массив карточек событий',
-         content: {
-            'application/json': {
-               schema: {
-                  type: 'array',
-                  items: {
-                     $ref: '#/components/schemas/Card',
-                  },
-               },
-               example: [
-                  {
-                     _id: '11111b4651385a1e08111111',
-                     title: 'Первая карта',
-                     type: 'Проживание',
-                     description: '',
-                     comment: '',
-                     cost: 0,
-                     categoryId: '',
-                     beginDate: '2020-05-15T10:00:00.000+00:00',
-                     endDate: '2020-05-25T10:00:00.000+00:00',
-                     beginPoint: 'Москва',
-                     endPoint: '',
-                     company: '',
-                     userIds: ['5eb56d8691de72f427b9e8bd'],
-                     payerId: '',
-                     fileIds: [],
-                  },
-                  {
-                     _id: '22222b4651385a1e08122222',
-                     title: 'Еще одна карта',
-                     type: 'Транспорт',
-                     description: 'Тест',
-                     comment: '',
-                     cost: 1000,
-                     categoryId: '',
-                     beginDate: '2020-05-15T10:00:00.000+00:00',
-                     endDate: '2020-05-18T10:00:00.000+00:00',
-                     beginPoint: 'Москва',
-                     endPoint: 'Санкт-Петербург',
-                     company: 'SIXT',
-                     userIds: ['5eb56d8691de72f427b9e8bd'],
-                     payerId: '5eb56d8691de72f427b9e8bd',
-                     fileIds: ['5eb56d8691de72f427b11111'],
-                  },
-               ],
-            },
-         },
-      },
-      '500': {
-         description: 'Произошла ошибка',
-         content: {
-            'applcation/json': {
-               schema: {
-                  type: 'object',
-                  properties: {
-                     ErrorMessage: {
-                        type: 'string',
-                        description: 'Описание ошибки',
-                        example: "Unknown server error: can't read entry",
-                     },
-                  },
-               },
-            },
-         },
-      },
-   },
-}
 const getCard = {
-   tags: ['developers'],
-   summary: 'Get one card from travel board',
+   tags: ['card'],
+   summary: 'Get card from travel board',
    parameters: [
-      {
-         in: 'path',
-         name: 'travelId',
-         description: 'ID доски путешествий карточки которой нужно получить',
-         schema: {
-            type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
-         },
-         required: true,
-      },
       {
          in: 'path',
          name: 'cardId',
          description: 'ID карточки которую нужно получить',
          schema: {
             type: 'string',
-            example: '5eb7eb4651385a1e081ecccc',
+            example: '5ec15e0815e6cb257867d880',
          },
          required: true,
       },
@@ -359,21 +540,57 @@ const getCard = {
                   $ref: '#/components/schemas/Card',
                },
                example: {
-                  _id: '11111b4651385a1e08111111',
-                  title: 'Нужная карта',
-                  type: 'Проживание',
                   description: '',
-                  comment: '',
+                  comment: 'Свежий комментарий',
                   cost: 0,
-                  categoryId: '',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: '',
-                  company: '',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  payerId: '',
-                  fileIds: [],
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                     {
+                        _id: '5eb9af4dc82bd95234d9ccd6',
+                        nickName: 'testContactNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec244c280945b0c74de8e04',
+                        user: {
+                           _id: '5eb9af4dc82bd95234d9ccd6',
+                           nickName: 'testContactNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [
+                     {
+                        _id: '5ec238be13f9ca15342963ee',
+                        originalName: 'task.txt',
+                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                        __v: 0,
+                     },
+                  ],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
                },
             },
          },
@@ -398,7 +615,7 @@ const getCard = {
    },
 }
 const updateCard = {
-   tags: ['developers'],
+   tags: ['card'],
    summary: 'Update card on travel board',
    requestBody: {
       required: true,
@@ -407,36 +624,24 @@ const updateCard = {
             schema: {
                type: 'object',
                properties: {
-                  travelId: {
-                     type: 'string',
-                     description: 'ID доски путешествий на которой обновляем карточку',
-                     example: '5eb7eb4651385a1e081ec3ab',
-                     required: true,
-                  },
                   card: {
                      $ref: '#/components/schemas/Card',
                   },
                },
             },
             example: {
-               travelId: '5eb7eb4651385a1e081ec3ab ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
-               card: {
-                  _id: '11111b4651385a1e08111111 ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
-                  title: 'Существующая карта ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
-                  type: 'Проживание ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
-                  description: 'Новое значение',
-                  comment: 'Новое значение',
-                  cost: 0,
-                  categoryId: '5eb56d8691de72f427b9e777 ОБЯЗАТЕЛЬНОЕ ПОЛЕ!',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: 'Новое значение',
-                  company: 'Новое значение',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  payerId: '5eb56d8691de72f427b9e555',
-                  fileIds: ['Старое значение'],
-               },
+               _id: '5ec15e0815e6cb257867d880',
+               description:
+                  'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
+               comment: 'Свежий комментарий',
+               cost: 0,
+               isDone: false,
+               users: ['5eb9a98ac82bd95234d9ccd4'],
+               payers: ['5ec18065065afe20ec2587de'],
+               files: [],
+               travelId: '5eb9a8ae468c2a28eb4220f0',
+               title: 'Test card API(create)',
+               type: 'Проживание',
             },
          },
       },
@@ -450,21 +655,58 @@ const updateCard = {
                   $ref: '#/components/schemas/Card',
                },
                example: {
-                  _id: '11111b4651385a1e08111111',
-                  title: 'Существующая карта',
-                  type: 'Проживание',
-                  description: 'Новое значение',
-                  comment: 'Новое значение',
+                  description:
+                     'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
+                  comment: 'Свежий комментарий',
                   cost: 0,
-                  categoryId: '5eb56d8691de72f427b9e777',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  beginPoint: 'Москва',
-                  endPoint: 'Новое значение',
-                  company: 'Новое значение',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  payerId: '5eb56d8691de72f427b9e555',
-                  fileIds: ['Старое значение'],
+                  isDone: false,
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                     {
+                        _id: '5eb9af4dc82bd95234d9ccd6',
+                        nickName: 'testContactNickName',
+                     },
+                  ],
+                  payers: [
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec18065065afe20ec2587de',
+                        user: {
+                           _id: '5eb9a98ac82bd95234d9ccd4',
+                           nickName: 'testNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                     {
+                        isPayer: false,
+                        hasPayed: false,
+                        _id: '5ec244c280945b0c74de8e04',
+                        user: {
+                           _id: '5eb9af4dc82bd95234d9ccd6',
+                           nickName: 'testContactNickName',
+                        },
+                        cardId: '5ec15e0815e6cb257867d880',
+                        __v: 0,
+                     },
+                  ],
+                  files: [
+                     {
+                        _id: '5ec238be13f9ca15342963ee',
+                        originalName: 'task.txt',
+                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                        __v: 0,
+                     },
+                  ],
+                  _id: '5ec15e0815e6cb257867d880',
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  title: 'Test card API(create)',
+                  type: 'Проживание',
+                  __v: 4,
                },
             },
          },
@@ -489,39 +731,31 @@ const updateCard = {
    },
 }
 const deleteCard = {
-   tags: ['developers'],
+   tags: ['card'],
    summary: 'Delete card from travel board',
    parameters: [
-      {
-         in: 'path',
-         name: 'travelId',
-         description: 'ID доски путешествий с которой удаляем карточку',
-         schema: {
-            type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
-         },
-         required: true,
-      },
       {
          in: 'path',
          name: 'cardId',
          description: 'ID карточки которую нужно удалить',
          schema: {
             type: 'string',
-            example: '5eb7eb4651385a1e081ecccc',
+            example: '5ec24731e5129d30d86200cc',
          },
          required: true,
       },
    ],
    responses: {
       '200': {
-         description: 'Возвращается пустой объект',
+         description: 'Возвращается объект с полем message',
          content: {
             'application/json': {
                schema: {
                   type: 'object',
                },
-               example: {},
+               example: {
+                  message: 'Card deleted!',
+               },
             },
          },
       },
@@ -547,9 +781,11 @@ const deleteCard = {
 
 module.exports = {
    uploadFile,
-   dropFile,
+   downloadFile,
+   deleteFile,
+   addUser,
+   removeUser,
    createCard,
-   getAllCards,
    getCard,
    updateCard,
    deleteCard,
