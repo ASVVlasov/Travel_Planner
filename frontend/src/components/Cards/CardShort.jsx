@@ -17,8 +17,7 @@ export default class CardShort extends Component {
       endPoint: PropTypes.string,
       endDate: PropTypes.string,
       files: PropTypes.arrayOf(PropTypes.object),
-      payerId: PropTypes.string,
-      users: PropTypes.arrayOf(PropTypes.object),
+      payers: PropTypes.arrayOf(PropTypes.object),
       comment: PropTypes.string,
       cost: PropTypes.number,
    }
@@ -50,9 +49,9 @@ export default class CardShort extends Component {
    }
 
    avatarsToRender = () => {
-      return this.props.users.map((user) => (
-         <div className={styles.travelers__avatar} key={user._id}>
-            {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
+      return this.props.payers.map((payer) => (
+         <div className={styles.travelers__avatar} key={payer._id}>
+            {/* <img src={ payer.user.avatar } alt={ payer.user.nickName } title={ payer.user.nickName } /> */}
          </div>
       ))
    }
@@ -66,8 +65,10 @@ export default class CardShort extends Component {
          endPoint,
          endDate,
          files,
-         payerId,
+         payers,
       } = this.props
+
+      const cardIsPayed = payers.findIndex((payer) => payer.isPayer) >= 0
 
       return (
          <>
@@ -88,7 +89,7 @@ export default class CardShort extends Component {
                      <PaidIcon
                         className={classNames(
                            styles.badges__icon,
-                           !!payerId && styles.badges__icon_active
+                           cardIsPayed && styles.badges__icon_active
                         )}
                      />
                   </div>

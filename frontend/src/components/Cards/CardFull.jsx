@@ -11,7 +11,6 @@ import {
    uploadFile,
    deleteFile,
 } from '../../redux/cards/operations'
-// import { uploadFile } from '../../redux/files/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -59,9 +58,10 @@ class CardFull extends Component {
       const file = new FormData()
       file.append('travelId', card.travelId)
       file.append('cardId', card._id)
-      file.append('file', e.target.files[0])
+      file.append('files', e.target.files[0])
 
       uploadFile(file)
+      e.target.value = null
    }
 
    deleteFileHandler = (fileId) => {
@@ -101,8 +101,8 @@ class CardFull extends Component {
          <span key={file._id} className={styles.docs__file}>
             <a
                download
-               href={`http://localhost:3300/card/downloadFile/${file.uploadName}`}
-               children={file.originalName}
+               href={`http://localhost:3300/card/file/${file._id}`} //TODO replace with Link(?)
+               children={file.fileName}
                className={styles.docs__link}
             />
             <CloseIcon
@@ -113,34 +113,47 @@ class CardFull extends Component {
       ))
    }
 
-   usersToRender = () => {
-      return this.props.card.users.map((user) => (
-         <div className={styles.travelers__person} key={user._id}>
+   payersToRender = () => {
+      const { card, changePayerStatus } = this.props
+
+      return card.payers.map((payer) => (
+         <div className={styles.travelers__person} key={payer._id}>
             <div className={styles.travelers__avatar}>
-               {/* <img src={ user.avatar } alt={ user.nickName } title={ user.nickName } /> */}
+               {/* <img src={ payer.user.avatar } alt={ payer.user.nickName } title={ payer.user.nickName } /> */}
             </div>
+            <span
+               className={styles.travelers__name}
+               children={payer.user.nickName}
+            />
+            <div
+               className={styles.travelers__switch}
+               children={
+                  <Switch
             <span className={styles.travelers__name} children={user.nickName} />
             {/* TODO add logic for switches */}
             <div className={styles.travelers__switch} children={<Switch />} />
+                  />
+               }
+            />
             <div
-               className={classNames(
-                  styles.travelers__switch,
-                  user._id !== 'currentUser._id' && styles.hidden //TODO replace string with props
-               )}
-               children={<Switch />}
+               className={styles.travelers__switch}
+               children={
+                  <Switch
+            />
+               }
             />
          </div>
       ))
    }
 
    splitGeneralCost = () => {
-      const { users, cost } = this.props.card
-      return users.map((user) => (
+      const { payers, cost } = this.props.card
+      return payers.map((payer) => (
          // TODO add formatting for cost
          <span
-            key={user._id}
+            key={payer._id}
             className={styles.card__cost_personal}
-            children={`${cost / users.length} Р`}
+            children={`${cost / payers.length} Р`}
          />
       ))
    }
@@ -159,7 +172,7 @@ class CardFull extends Component {
          endDate,
          comment,
          cost,
-      } = this.props.card
+      } = card
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
 
@@ -228,7 +241,6 @@ class CardFull extends Component {
                   <section className={styles.card__docs}>
                      <div className={styles.section__title}>
                         <h2>Документы</h2>
-                        {/* TODO add onClick with files loader */}
                         <AddIcon
                            className={styles.icons}
                            onClick={() => this.filesInput.current.click()}
@@ -278,7 +290,7 @@ class CardFull extends Component {
                         />
                      </div>
 
-                     {this.usersToRender()}
+                     {this.payersToRender()}
 
                      {/* TODO add function for choosing additional contacts*/}
                      <div
