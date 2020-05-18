@@ -29,9 +29,10 @@ router.put(
    '/',
    asyncHandler(async (req, res) => {
       const { travelModel } = req.body
+      console.log(travelModel)
       delete travelModel.cards
       delete travelModel.users
-      res.json(await TravelModel.findOneAndUpdate(travelModel._id, travelModel, { new: true }))
+      res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))
    })
 )
 
@@ -39,6 +40,7 @@ router.put(
 router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
+      const { travelId } = req.params
       const travel = await TravelModel.findByIdAndDelete(travelId)
       const cards = await CardModel.deleteMany({ travelId })
       // for (const card of cards) {
@@ -46,7 +48,7 @@ router.delete(
       //       await FileModel.remove({ _id: file.id })
       //    }
       // }
-      res.json({ travel, cards })
+      res.json({ message: 'travel board deleted' })
    })
 )
 

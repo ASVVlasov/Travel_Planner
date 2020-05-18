@@ -15,40 +15,50 @@ const swaggerDocument = {
    },
    servers: [
       {
-         url: 'localhost:3000/api-docs/',
-         description: 'local machine',
+         url: '/',
+         description: 'local machine (localhost:3300/)',
       },
    ],
    tags: [
       {
-         name: 'developers',
-         description: 'Operations available to regular front-end developers',
+         name: 'card',
+         description: 'Operations with travel card',
+      },
+      {
+         name: 'travel',
+         description: 'Operations with travel deck',
+      },
+      {
+         name: 'user',
+         description: 'Operations with service users',
       },
    ],
    paths: {
-      '/card/uploadFile': {
-         post: CardSwagger.uploadFile,
-      },
-      '/card/dropFile': {
-         post: CardSwagger.dropFile,
-      },
-      '/card/{travelId}': {
+      '/card/': {
          post: CardSwagger.createCard,
-         get: CardSwagger.getAllCards,
+         put: CardSwagger.updateCard,
       },
-      '/card/{travelId}/{cardId}': {
+      '/card/{cardId}': {
          get: CardSwagger.getCard,
          delete: CardSwagger.deleteCard,
       },
-      '/card/': {
-         put: CardSwagger.updateCard,
+      '/card/{cardType}/{travelId}': {
+         get: CardSwagger.getCategoryInTravel,
+      },
+      '/card/file/': {
+         post: CardSwagger.uploadFile,
+         delete: CardSwagger.deleteFile,
+      },
+      '/card/file/{fileName}': {
+         get: CardSwagger.downloadFile,
+      },
+      '/card/payer/': {
+         post: CardSwagger.addPayer,
+         delete: CardSwagger.removePayer,
       },
       '/travel/{travelId}': {
          get: TravelSwagger.getTravel,
          delete: TravelSwagger.deleteTravel,
-      },
-      '/travel/{cardType}/{travelId}': {
-         get: TravelSwagger.getCategoryInTravel,
       },
       '/travel/': {
          post: TravelSwagger.createTravel,
