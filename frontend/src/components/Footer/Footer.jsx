@@ -22,6 +22,7 @@ class Footer extends React.Component {
    }
 
    componentDidMount() {
+      // TODO заменить адын на реальный travelId из роута в будущем
       this.props.getSummary(1)
    }
 
@@ -29,6 +30,7 @@ class Footer extends React.Component {
       if (value) {
          this.props.getBoardFilter('5eb9af4dc82bd95234d9ccd6')
       } else {
+         // TODO заменить в будущем на реальную табу
          this.props.getCards('all')
       }
       this.setState({ filter: value })
