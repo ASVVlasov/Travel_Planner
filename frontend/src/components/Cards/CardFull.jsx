@@ -1,11 +1,17 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import styles from './TransportCardFull.module.scss'
+import styles from './CardFull.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeCard, deleteCard } from '../../redux/cards/operations'
+import {
+   changeCard,
+   deleteCard,
+   uploadFile,
+   deleteFile,
+} from '../../redux/cards/operations'
+// import { uploadFile } from '../../redux/files/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -16,7 +22,7 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 
-class TransportCardFull extends Component {
+class CardFull extends Component {
    static propTypes = {
       toClose: PropTypes.func.isRequired,
       changeCard: PropTypes.func.isRequired,
@@ -26,6 +32,7 @@ class TransportCardFull extends Component {
 
    state = {
       comment: '',
+      cost: 0,
       isCardFormOpen: false,
    }
 
@@ -37,12 +44,29 @@ class TransportCardFull extends Component {
       this.setState({ isCardFormOpen: false })
    }
 
-   textArea = createRef()
+   commentInput = createRef()
+   filesInput = createRef()
 
-   focusTextArea = () => {
-      const el = this.textArea.current
+   focusCommentInput = () => {
+      const el = this.commentInput.current
       el.focus()
       el.setSelectionRange(el.value.length, el.value.length)
+   }
+
+   uploadFileHandler = (e) => {
+      const { card, uploadFile } = this.props
+
+      const file = new FormData()
+      file.append('travelId', card.travelId)
+      file.append('cardId', card._id)
+      file.append('file', e.target.files[0])
+
+      uploadFile(file)
+   }
+
+   deleteFileHandler = (fileId) => {
+      const { card, deleteFile } = this.props
+      deleteFile({ fileId, cardId: card._id })
    }
 
    handleChange = (event) => {
@@ -50,12 +74,11 @@ class TransportCardFull extends Component {
    }
 
    updateCard = (changedArea, newValue) => {
-      const { travelId, changeCard } = this.props
       const card = { ...this.props.card }
 
       if (card[changedArea] !== newValue) {
          card[changedArea] = newValue
-         changeCard(travelId, card)
+         this.props.changeCard(card)
       }
    }
 
@@ -75,13 +98,18 @@ class TransportCardFull extends Component {
 
    filesToRender = () => {
       return this.props.card.files.map((file) => (
-         <a
-            download
-            href={file.uploadName}
-            children={file.originalName}
-            key={file._id}
-         />
-         //TODO add remove option
+         <span key={file._id} className={styles.docs__file}>
+            <a
+               download
+               href={`http://localhost:3300/card/downloadFile/${file.uploadName}`}
+               children={file.originalName}
+               className={styles.docs__link}
+            />
+            <CloseIcon
+               className={classNames(styles.icons, styles.icons__delete)}
+               onClick={() => this.deleteFileHandler(file._id)}
+            />
+         </span>
       ))
    }
 
@@ -118,18 +146,11 @@ class TransportCardFull extends Component {
    }
 
    render() {
-      const {
-         toClose,
-         deleteCard,
-         card,
-         travelId, //TODO replace with ID from route params later
-         // match: {
-         //    params: { travelId },
-         // },
-      } = this.props
+      const { toClose, deleteCard, card } = this.props
 
       const {
          _id,
+         type,
          title,
          company,
          beginPoint,
@@ -140,12 +161,14 @@ class TransportCardFull extends Component {
          cost,
       } = this.props.card
 
+      const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
+
       return (
          <ModalBase toClose={toClose}>
             <div className={styles.card}>
                <div className={styles.card__header}>
                   <span className={styles.card__breadcrumbs}>
-                     Транспорт / <strong>{title}</strong>
+                     {type} / <strong>{title}</strong>
                   </span>
                   <CloseIcon
                      className={classNames(styles.icons, styles.icons__close)}
@@ -156,8 +179,7 @@ class TransportCardFull extends Component {
                <div className={styles.card__leftSide}>
                   <section className={styles.card__route}>
                      <div className={styles.section__title}>
-                        <h2>Маршрут</h2>
-                        {/* TODO add onClick with AddForm component */}
+                        <h2>{routeSectionTitle}</h2>
                         <EditIcon
                            className={styles.icons}
                            onClick={this.openForm}
@@ -207,7 +229,16 @@ class TransportCardFull extends Component {
                      <div className={styles.section__title}>
                         <h2>Документы</h2>
                         {/* TODO add onClick with files loader */}
-                        <AddIcon className={styles.icons} />
+                        <AddIcon
+                           className={styles.icons}
+                           onClick={() => this.filesInput.current.click()}
+                        />
+                        <input
+                           className={styles.displayNone}
+                           type="file"
+                           ref={this.filesInput}
+                           onChange={(e) => this.uploadFileHandler(e)}
+                        />
                      </div>
                      {this.filesToRender()}
                   </section>
@@ -217,13 +248,13 @@ class TransportCardFull extends Component {
                         <h2>Комментарии</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.focusTextArea}
+                           onClick={this.focusCommentInput}
                         />
                      </div>
                      <textarea
                         name="comment"
                         value={this.state.comment || comment}
-                        ref={this.textArea}
+                        ref={this.commentInput}
                         onChange={(e) => this.handleChange(e)}
                         onBlur={(e) =>
                            this.updateCard(e.target.name, e.target.value)
@@ -276,17 +307,25 @@ class TransportCardFull extends Component {
                   <section className={styles.card__cost}>
                      <h2>Стоимость</h2>
                      {/* TODO add formatting for cost */}
-                     <span
-                        className={styles.card__cost_general}
-                        children={`${cost} Р`}
-                     />
+                     <span className={styles.card__cost_general}>
+                        <input
+                           name="cost"
+                           type="number"
+                           value={this.state.cost || cost}
+                           onChange={(e) => this.handleChange(e)}
+                           onBlur={(e) =>
+                              this.updateCard(e.target.name, e.target.value)
+                           }
+                        />
+                        {' Р'}
+                     </span>
                      {this.splitGeneralCost()}
                   </section>
 
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           deleteCard(travelId, _id)
+                           deleteCard(_id)
                            toClose()
                         }}
                         text="Удалить карточку"
@@ -305,10 +344,10 @@ class TransportCardFull extends Component {
    }
 }
 
-const mapStateToProps = ({ boardReducer }) => ({
-   travelId: boardReducer.travelId, // TODO delete after real ID appear in route
-})
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeCard, deleteCard }, dispatch)
+   bindActionCreators(
+      { changeCard, deleteCard, uploadFile, deleteFile },
+      dispatch
+   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransportCardFull)
+export default connect(null, mapDispatchToProps)(CardFull)
