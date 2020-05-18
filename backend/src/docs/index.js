@@ -15,7 +15,7 @@ const swaggerDocument = {
    },
    servers: [
       {
-         url: 'localhost:3000/api-docs/',
+         url: 'localhost:3300/',
          description: 'local machine',
       },
    ],
