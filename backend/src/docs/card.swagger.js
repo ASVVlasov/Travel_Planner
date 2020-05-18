@@ -97,11 +97,11 @@ const downloadFile = {
    parameters: [
       {
          in: 'path',
-         name: 'fileName',
-         description: 'Имя файла, которое используется на сервере(uploadName)',
+         name: 'fileId',
+         description: 'Id файла, которое используется на сервере(uploadName)',
          schema: {
             type: 'string',
-            example: '51523c2a8de472766846e0b83b75be44.txt',
+            example: '5ec2c524098bf941b4934131',
          },
          required: true,
       },
