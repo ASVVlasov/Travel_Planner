@@ -7,6 +7,7 @@ import { fetchRequest } from '../fetch/operations'
 
 const MAIN_URL = '/card'
 const FILE_URL = `${MAIN_URL}/file`
+const PAYER_URL = `${MAIN_URL}/payer`
 
 export const createCard = (card) =>
    // fetchRequest('POST', '/card/', createCardSuccess, JSON.stringify(card))
@@ -27,3 +28,12 @@ export const uploadFile = (file) =>
 export const deleteFile = (file) =>
    // fetchRequest('DELETE', '/card/deleteFile', changeCardSuccess, file)
    fetchRequest.delete(FILE_URL, changeCardSuccess, file)
+
+// export const addPayer = (payer) =>
+//    fetchRequest.post(PAYER_URL, changeCardSuccess, payer)
+
+export const changePayerStatus = (payer) =>
+   fetchRequest.put(PAYER_URL, changeCardSuccess, payer)
+
+// export const deletePayer = (payerId) =>
+//    fetchRequest.delete(`${PAYER_URL}/${payerId}`, changeCardSuccess)
