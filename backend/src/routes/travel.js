@@ -20,7 +20,7 @@ router.post(
 router.put(
    '/',
    asyncHandler(async (req, res) => {
-      const { travelModel } = req.body
+      const travelModel = req.body
       delete travelModel.cards
       delete travelModel.users
       res.json(await TravelModel.findOneAndUpdate(travelModel._id, travelModel, { new: true }))
