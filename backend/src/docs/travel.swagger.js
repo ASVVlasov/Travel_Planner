@@ -1,5 +1,5 @@
 const getTravel = {
-   tags: ['developers'],
+   tags: ['travel'],
    summary: 'Get travel board',
    parameters: [
       {
@@ -19,373 +19,230 @@ const getTravel = {
          content: {
             'application/json': {
                schema: {
-                  allOf: [
-                     {
-                        $ref: '#/components/schemas/Travel',
-                     },
-                     {
-                        type: 'object',
-                        properties: {
-                           users: {
-                              type: 'array',
-                              items: {
-                                 type: 'object',
-                                 properties: {
-                                    _id: {
-                                       type: 'string',
-                                    },
-                                    nickname: {
-                                       type: 'string',
-                                    },
-                                    avatar: {
-                                       $ref: '#/components/schemas/File',
-                                    },
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  ],
+                  $ref: '#/components/schemas/Travel',
                },
                example: {
-                  _id: '11111b4651385a1e08000000',
-                  title: 'Нужная доска путешествий',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
                   status: 'АКТИВНАЯ',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
                   users: [
                      {
-                        _id: '5eb56d8691de72f427b9e8bd',
-                        nickName: 'Василий',
-                        avatar: {
-                           _id: '5eb56d8691de72f427b11111',
-                           originalName: 'Лицо.jpg',
-                           uploadName: 'ba35f0e9722a20993ccf034dfbebfc19.jpg',
-                        },
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                     {
+                        _id: '5eb9af4dc82bd95234d9ccd6',
+                        nickName: 'testContactNickName',
                      },
                   ],
                   cards: [
                      {
-                        _id: '11111b4651385a1e08111111',
-                        title: 'Первая карта',
+                        description: '',
+                        comment: 'комментарий',
+                        cost: 26000,
+                        isDone: false,
+                        users: [
+                           {
+                              _id: '5eb9a98ac82bd95234d9ccd4',
+                              nickName: 'testNickName',
+                           },
+                           {
+                              _id: '5eb9af4dc82bd95234d9ccd6',
+                              nickName: 'testContactNickName',
+                           },
+                        ],
+                        payers: [
+                           {
+                              isPayer: false,
+                              hasPayed: true,
+                              _id: '5ebf24eac82bd95234d9ccde',
+                              user: {
+                                 _id: '5eb9af4dc82bd95234d9ccd6',
+                                 nickName: 'testContactNickName',
+                              },
+                              cardId: '5ebb30dbdf7aba4f1516e8c4',
+                           },
+                           {
+                              isPayer: false,
+                              hasPayed: true,
+                              _id: '5ebf2496c82bd95234d9ccdd',
+                              user: {
+                                 _id: '5eb9a98ac82bd95234d9ccd4',
+                                 nickName: 'testNickName',
+                              },
+                              cardId: '5ebb30dbdf7aba4f1516e8c4',
+                           },
+                        ],
+                        files: [
+                           {
+                              _id: '5ec195ded0a25023cc723e1b',
+                              originalName: 'Icecat1-300x300.png',
+                              uploadName: '15044af435c164217b482ebff24f844e.png',
+                              __v: 0,
+                           },
+                           {
+                              _id: '5ec1c4f5e7fe8900173b745a',
+                              originalName: 'упражнение для глаз.png',
+                              uploadName: 'a2ff74c208c76f5efd215e265924724f.png',
+                              __v: 0,
+                           },
+                        ],
+                        _id: '5ebb30dbdf7aba4f1516e8c4',
+                        title: 'Перелет',
+                        company: 'Аэрофлот',
+                        beginPoint: 'Москва, Шереметьево',
+                        beginDate: '2020-06-24T08:20:00.000Z',
+                        endPoint: 'Прага',
+                        endDate: '2020-06-24T10:30:00.000Z',
+                        type: 'Транспорт',
+                        category: {
+                           _id: '5eb9a935c82bd95234d9ccd3',
+                           title: 'Авто',
+                        },
+                        travelId: '5eb9a8ae468c2a28eb4220f0',
+                        __v: 3,
+                     },
+                     {
+                        description:
+                           'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
+                        comment: 'Свежий комментарий',
+                        cost: 0,
+                        isDone: false,
+                        users: [
+                           {
+                              _id: '5eb9a98ac82bd95234d9ccd4',
+                              nickName: 'testNickName',
+                           },
+                           {
+                              _id: '5eb9af4dc82bd95234d9ccd6',
+                              nickName: 'testContactNickName',
+                           },
+                        ],
+                        payers: [
+                           {
+                              isPayer: false,
+                              hasPayed: false,
+                              _id: '5ec18065065afe20ec2587de',
+                              user: {
+                                 _id: '5eb9a98ac82bd95234d9ccd4',
+                                 nickName: 'testNickName',
+                              },
+                              cardId: '5ec15e0815e6cb257867d880',
+                              __v: 0,
+                           },
+                           {
+                              isPayer: false,
+                              hasPayed: false,
+                              _id: '5ec244c280945b0c74de8e04',
+                              user: {
+                                 _id: '5eb9af4dc82bd95234d9ccd6',
+                                 nickName: 'testContactNickName',
+                              },
+                              cardId: '5ec15e0815e6cb257867d880',
+                              __v: 0,
+                           },
+                        ],
+                        files: [
+                           {
+                              _id: '5ec238be13f9ca15342963ee',
+                              originalName: 'task.txt',
+                              uploadName: '51523c2a8de472766846e0b83b75be44.txt',
+                              __v: 0,
+                           },
+                        ],
+                        _id: '5ec15e0815e6cb257867d880',
+                        travelId: '5eb9a8ae468c2a28eb4220f0',
+                        title: 'Test card API(create)',
                         type: 'Проживание',
+                        __v: 4,
+                     },
+                     {
+                        description: '',
+                        comment: '',
+                        cost: 150000,
+                        isDone: false,
+                        users: [],
+                        payers: [],
+                        files: [
+                           {
+                              _id: '5ec1c132934ca30017c4a89e',
+                              originalName: 'image-5479-1565031759-800x450.jpg',
+                              uploadName: 'e69b3dff25552e1a3e9156765e9cfacf.jpg',
+                              __v: 0,
+                           },
+                        ],
+                        _id: '5ec1c059934ca30017c4a89d',
+                        travelId: '5eb9a8ae468c2a28eb4220f0',
+                        type: 'Транспорт',
+                        title: 'Mustang',
+                        company: 'Ford',
+                        beginPoint: 'San-Francisco',
+                        beginDate: '2020-08-01T10:51:06.000Z',
+                        endPoint: 'Los Angeles',
+                        endDate: '2020-08-01T22:51:06.000Z',
+                        __v: 0,
+                     },
+                     {
                         description: '',
                         comment: '',
                         cost: 0,
-                        categoryId: '',
-                        beginDate: '2020-05-15T10:00:00.000+00:00',
-                        endDate: '2020-05-25T10:00:00.000+00:00',
+                        isDone: false,
+                        users: [],
+                        payers: [],
+                        files: [
+                           {
+                              _id: '5ec1c6b0e7fe8900173b745c',
+                              originalName: 'view.pic',
+                              uploadName: '42ceea525c8fbb3b5a71a3bb321e2ba3.pic',
+                              __v: 0,
+                           },
+                        ],
+                        _id: '5ec1c5c610d1dbe5af30bd81',
+                        travelId: '5eb9a8ae468c2a28eb4220f0',
+                        type: 'Проживание',
+                        title: 'Кто удаляет мой шалаш? :(',
+                        company: 'Under The Bridge',
                         beginPoint: 'Москва',
+                        beginDate: '2020-05-17T17:16:09.000Z',
                         endPoint: '',
-                        company: '',
-                        userIds: ['5eb56d8691de72f427b9e8bd'],
-                        payerId: '',
-                        fileIds: [],
+                        endDate: '2020-05-17T17:16:09.000Z',
+                        __v: 0,
                      },
                      {
-                        _id: '22222b4651385a1e08122222',
-                        title: 'Еще одна карта',
-                        type: 'Транспорт',
-                        description: 'Тест',
+                        description: '',
                         comment: '',
-                        cost: 1000,
-                        categoryId: '',
-                        beginDate: '2020-05-15T10:00:00.000+00:00',
-                        endDate: '2020-05-18T10:00:00.000+00:00',
-                        beginPoint: 'Москва',
-                        endPoint: 'Санкт-Петербург',
-                        company: 'SIXT',
-                        userIds: ['5eb56d8691de72f427b9e8bd'],
-                        payerId: '5eb56d8691de72f427b9e8bd',
-                        fileIds: ['5eb56d8691de72f427b11111'],
+                        cost: 0,
+                        isDone: false,
+                        users: [
+                           {
+                              _id: '5eb9a98ac82bd95234d9ccd4',
+                              nickName: 'testNickName',
+                           },
+                        ],
+                        payers: [
+                           {
+                              isPayer: false,
+                              hasPayed: false,
+                              _id: '5ec24732e5129d30d86200cd',
+                              user: {
+                                 _id: '5eb9a98ac82bd95234d9ccd4',
+                                 nickName: 'testNickName',
+                              },
+                              cardId: '5ec24731e5129d30d86200cc',
+                              __v: 0,
+                           },
+                        ],
+                        files: [],
+                        _id: '5ec24731e5129d30d86200cc',
+                        travelId: '5eb9a8ae468c2a28eb4220f0',
+                        title: 'Test card API(new card)',
+                        type: 'Проживание',
+                        __v: 0,
                      },
                   ],
-               },
-            },
-         },
-      },
-      '500': {
-         description: 'Произошла ошибка',
-         content: {
-            'applcation/json': {
-               schema: {
-                  type: 'object',
-                  properties: {
-                     ErrorMessage: {
-                        type: 'string',
-                        description: 'Описание ошибки',
-                        example: "Unknown server error: can't read entry",
-                     },
-                  },
-               },
-            },
-         },
-      },
-   },
-}
-const getCategoryInTravel = {
-   tags: ['developers'],
-   summary: 'Get travel board with tabs of card categories',
-   parameters: [
-      {
-         in: 'path',
-         name: 'cardType',
-         description: 'Тип карточек, которые возвращаются пользователю',
-         schema: {
-            type: 'string',
-            example: 'ACCOMODATION',
-         },
-         required: true,
-      },
-      {
-         in: 'path',
-         name: 'travelId',
-         description: 'ID доски путешествий с которой нужно получить карточки',
-         schema: {
-            type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
-         },
-         required: true,
-      },
-   ],
-   responses: {
-      '200': {
-         description: 'Возвращается доска путешествия с карточками определенного типа и вкладками',
-         content: {
-            'application/json': {
-               schema: {
-                  allOf: [
-                     {
-                        $ref: '#/components/schemas/Travel',
-                     },
-                     {
-                        type: 'object',
-                        properties: {
-                           users: {
-                              type: 'array',
-                              items: {
-                                 type: 'object',
-                                 properties: {
-                                    _id: {
-                                       type: 'string',
-                                    },
-                                    nickname: {
-                                       type: 'string',
-                                    },
-                                    avatar: {
-                                       $ref: '#/components/schemas/File',
-                                    },
-                                 },
-                              },
-                           },
-                           tabs: {
-                              type: 'array',
-                              items: {
-                                 type: 'object',
-                                 properties: {
-                                    _id: {
-                                       type: 'string',
-                                       description: 'Category ID. Для первого элемента - отсутствует',
-                                    },
-                                    title: {
-                                       type: 'string',
-                                       description: 'Category Title',
-                                    },
-                                    cards: {
-                                       $ref: '#/components/schemas/Card',
-                                    },
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  ],
-               },
-               example: {
-                  _id: '5eb56d4d771522c070eb3f6f',
+                  _id: '5eb9a8ae468c2a28eb4220f0',
+                  beginDate: '2020-05-15T12:00:00.000Z',
                   title: 'Евротур 2021',
-                  beginDate: '2020-05-15T10:00:00.000Z',
-                  endDate: '2020-05-25T10:00:00.000Z',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  users: [
-                     {
-                        _id: '5eb56d8691de72f427b9e8bd',
-                        avatar: null,
-                        nickName: 'testNick',
-                     },
-                  ],
-                  tabs: [
-                     {
-                        _id: '5eb5b57bc148b72344978627',
-                        title: 'Авто',
-                        cards: [
-                           {
-                              description: '',
-                              comment: 'комментарий',
-                              cost: 0,
-                              isDone: false,
-                              userIds: ['5eb56d8691de72f427b9e8bd'],
-                              fileIds: ['5eb677699e62010561d1ac20'],
-                              beginDate: '2020-05-15T12:00:00.000Z',
-                              endDate: '2020-05-25T12:00:00.000Z',
-                              beginPoint: 'Прага',
-                              endPoint: 'Дублин',
-                              company: 'DXC tehnology',
-                              payerId: '5eb56d8691de72f427b9e8bd',
-                              _id: '5eb48cfe425253ab8f4f1186',
-                              title: 'Машина',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b57bc148b72344978627',
-                              files: [
-                                 {
-                                    _id: '5eb677699e62010561d1ac20',
-                                    originalName: 'Бронь.pdf',
-                                    uploadName: 'ba35f0e9722a20993ccf034dfbebfc19.pdf',
-                                    __v: '0',
-                                 },
-                              ],
-                              users: [
-                                 {
-                                    _id: '5eb56d8691de72f427b9e8bd',
-                                    avatar: null,
-                                    nickName: 'testNick',
-                                 },
-                              ],
-                              category: {
-                                 _id: '5eb5b57bc148b72344978627',
-                                 title: 'Авто',
-                              },
-                           },
-                        ],
-                     },
-                     {
-                        _id: '5eb5b587c148b72344978628',
-                        title: 'Авиа',
-                        cards: [
-                           {
-                              description: '',
-                              comment: '',
-                              cost: 0,
-                              isDone: false,
-                              userIds: [],
-                              fileIds: [],
-                              _id: '5eb48cfe425253ab8f4f1187',
-                              title: 'Самолет',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b587c148b72344978628',
-                              files: [],
-                              users: [],
-                              category: {
-                                 _id: '5eb5b587c148b72344978628',
-                                 title: 'Авиа',
-                              },
-                           },
-                        ],
-                     },
-                     {
-                        _id: '5eb5b55cc148b72344978626',
-                        title: 'Поезда',
-                        cards: [
-                           {
-                              description: '',
-                              comment: '',
-                              cost: null,
-                              isDone: false,
-                              userIds: [],
-                              fileIds: [],
-                              _id: '5eb5b4c1c148b72344978625',
-                              title: 'Поезд',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b55cc148b72344978626',
-                              files: [],
-                              users: [],
-                              category: {
-                                 _id: '5eb5b55cc148b72344978626',
-                                 title: 'Поезда',
-                              },
-                           },
-                        ],
-                     },
-                     {
-                        title: 'Транспорт',
-                        cards: [
-                           {
-                              description: '',
-                              comment: 'комментарий',
-                              cost: 0,
-                              isDone: false,
-                              userIds: ['5eb56d8691de72f427b9e8bd'],
-                              fileIds: ['5eb677699e62010561d1ac20'],
-                              beginDate: '2020-05-15T12:00:00.000Z',
-                              endDate: '2020-05-25T12:00:00.000Z',
-                              beginPoint: 'Прага',
-                              endPoint: 'Дублин',
-                              company: 'DXC tehnology',
-                              payerId: '5eb56d8691de72f427b9e8bd',
-                              _id: '5eb48cfe425253ab8f4f1186',
-                              title: 'Машина',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b57bc148b72344978627',
-                              files: [
-                                 {
-                                    _id: '5eb677699e62010561d1ac20',
-                                    originalName: 'Бронь.pdf',
-                                    uploadName: 'ba35f0e9722a20993ccf034dfbebfc19.pdf',
-                                    __v: '0',
-                                 },
-                              ],
-                              users: [
-                                 {
-                                    _id: '5eb56d8691de72f427b9e8bd',
-                                    avatar: null,
-                                    nickName: 'testNick',
-                                 },
-                              ],
-                              category: {
-                                 _id: '5eb5b57bc148b72344978627',
-                                 title: 'Авто',
-                              },
-                           },
-                           {
-                              description: '',
-                              comment: '',
-                              cost: 0,
-                              isDone: false,
-                              userIds: [],
-                              fileIds: [],
-                              _id: '5eb48cfe425253ab8f4f1187',
-                              title: 'Самолет',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b587c148b72344978628',
-                              files: [],
-                              users: [],
-                              category: {
-                                 _id: '5eb5b587c148b72344978628',
-                                 title: 'Авиа',
-                              },
-                           },
-                           {
-                              description: '',
-                              comment: '',
-                              cost: null,
-                              isDone: false,
-                              userIds: [],
-                              fileIds: [],
-                              _id: '5eb5b4c1c148b72344978625',
-                              title: 'Поезд',
-                              type: 'Транспорт',
-                              categoryId: '5eb5b55cc148b72344978626',
-                              files: [],
-                              users: [],
-                              category: {
-                                 _id: '5eb5b55cc148b72344978626',
-                                 title: 'Поезда',
-                              },
-                           },
-                        ],
-                     },
-                  ],
+                  endDate: '2020-05-20T12:00:00.000Z',
+                  __v: 4,
                },
             },
          },
@@ -410,7 +267,7 @@ const getCategoryInTravel = {
    },
 }
 const createTravel = {
-   tags: ['developers'],
+   tags: ['travel'],
    summary: 'Create a travel board',
    requestBody: {
       required: true,
@@ -420,11 +277,11 @@ const createTravel = {
                $ref: '#/components/schemas/Travel',
             },
             example: {
-               title: 'Новая доска путешествий',
-               beginDate: '2020-05-15T10:00:00.000+00:00',
-               endDate: '2020-05-25T10:00:00.000+00:00',
-               userIds: ['5eb56d8691de72f427b9e8bd'],
-               cards: [],
+               title: "Russia Tour'2020",
+               beginDate: '2020-06-11T10:00:00.000+00:00',
+               endDate: '2020-06-30T20:00:00.000+00:00',
+               status: 'АКТИВНАЯ',
+               users: ['5eb9a98ac82bd95234d9ccd4'],
             },
          },
       },
@@ -438,12 +295,19 @@ const createTravel = {
                   $ref: '#/components/schemas/Travel',
                },
                example: {
-                  _id: '5eb56d8691de72f427b22222',
-                  title: 'Новая доска путешествий',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
+                  status: 'АКТИВНАЯ',
+                  users: [
+                     {
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
+                     },
+                  ],
                   cards: [],
+                  _id: '5ec2628732d87634b0b0063b',
+                  title: "Russia Tour'2020",
+                  beginDate: '2020-06-11T10:00:00.000Z',
+                  endDate: '2020-06-30T20:00:00.000Z',
+                  __v: 0,
                },
             },
          },
@@ -468,7 +332,7 @@ const createTravel = {
    },
 }
 const updateTravel = {
-   tags: ['developers'],
+   tags: ['travel'],
    summary: 'Update a travel board',
    requestBody: {
       required: true,
@@ -478,30 +342,19 @@ const updateTravel = {
                $ref: '#/components/schemas/Travel',
             },
             example: {
-               _id: '5eb56d8691de72f427b22222',
-               title: 'Новое название доскм',
-               beginDate: '2020-05-15T10:00:00.000+00:00',
-               endDate: '2020-05-25T10:00:00.000+00:00',
-               userIds: ['5eb56d8691de72f427b9e8bd'],
-               cards: [
+               status: 'АКТИВНАЯ',
+               users: [
                   {
-                     _id: '11111b4651385a1e08111111',
-                     title: 'Нужная карта',
-                     type: 'Проживание',
-                     description: '',
-                     comment: '',
-                     cost: 0,
-                     categoryId: '',
-                     beginDate: '2020-05-15T10:00:00.000+00:00',
-                     endDate: '2020-05-25T10:00:00.000+00:00',
-                     beginPoint: 'Москва',
-                     endPoint: '',
-                     company: '',
-                     userIds: ['5eb56d8691de72f427b9e8bd'],
-                     payerId: '',
-                     fileIds: [],
+                     _id: '5eb9a98ac82bd95234d9ccd4',
+                     nickName: 'testNickName',
                   },
                ],
+               cards: [],
+               _id: '5ec2628732d87634b0b0063b',
+               title: "Updated Russia Tour'2020",
+               beginDate: '2020-06-11T10:00:00.000Z',
+               endDate: '2020-06-30T20:00:00.000Z',
+               __v: 0,
             },
          },
       },
@@ -515,30 +368,19 @@ const updateTravel = {
                   $ref: '#/components/schemas/Travel',
                },
                example: {
-                  _id: '5eb56d8691de72f427b22222',
-                  title: 'Новое название доскм',
-                  beginDate: '2020-05-15T10:00:00.000+00:00',
-                  endDate: '2020-05-25T10:00:00.000+00:00',
-                  userIds: ['5eb56d8691de72f427b9e8bd'],
-                  cards: [
+                  status: 'АКТИВНАЯ',
+                  users: [
                      {
-                        _id: '11111b4651385a1e08111111',
-                        title: 'Нужная карта',
-                        type: 'Проживание',
-                        description: '',
-                        comment: '',
-                        cost: 0,
-                        categoryId: '',
-                        beginDate: '2020-05-15T10:00:00.000+00:00',
-                        endDate: '2020-05-25T10:00:00.000+00:00',
-                        beginPoint: 'Москва',
-                        endPoint: '',
-                        company: '',
-                        userIds: ['5eb56d8691de72f427b9e8bd'],
-                        payerId: '',
-                        fileIds: [],
+                        _id: '5eb9a98ac82bd95234d9ccd4',
+                        nickName: 'testNickName',
                      },
                   ],
+                  cards: [],
+                  _id: '5ec2628732d87634b0b0063b',
+                  title: "Updated Russia Tour'2020",
+                  beginDate: '2020-06-11T10:00:00.000Z',
+                  endDate: '2020-06-30T20:00:00.000Z',
+                  __v: 0,
                },
             },
          },
@@ -563,7 +405,7 @@ const updateTravel = {
    },
 }
 const deleteTravel = {
-   tags: ['developers'],
+   tags: ['travel'],
    summary: 'Delete travel board',
    parameters: [
       {
@@ -572,20 +414,22 @@ const deleteTravel = {
          description: 'ID доски путешествий которую удаляем',
          schema: {
             type: 'string',
-            example: '5eb7eb4651385a1e081ec3ab',
+            example: '5ec2653a853e953768af390f',
          },
          required: true,
       },
    ],
    responses: {
       '200': {
-         description: 'Возвращается объект Mongo',
+         description: 'Возвращается объект с полем message',
          content: {
             'application/json': {
                schema: {
                   type: 'object',
                },
-               example: {},
+               example: {
+                  message: 'travel board deleted',
+               },
             },
          },
       },
@@ -611,7 +455,6 @@ const deleteTravel = {
 
 module.exports = {
    getTravel,
-   getCategoryInTravel,
    createTravel,
    updateTravel,
    deleteTravel,

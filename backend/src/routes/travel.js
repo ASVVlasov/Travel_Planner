@@ -23,7 +23,7 @@ router.put(
       const travelModel = req.body
       delete travelModel.cards
       delete travelModel.users
-      res.json(await TravelModel.findOneAndUpdate(travelModel._id, travelModel, { new: true }))
+      res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))
    })
 )
 
