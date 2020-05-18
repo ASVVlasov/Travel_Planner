@@ -10,6 +10,7 @@ import {
    deleteCard,
    uploadFile,
    deleteFile,
+   changePayerStatus,
 } from '../../redux/cards/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
@@ -129,9 +130,10 @@ class CardFull extends Component {
                className={styles.travelers__switch}
                children={
                   <Switch
-            <span className={styles.travelers__name} children={user.nickName} />
-            {/* TODO add logic for switches */}
-            <div className={styles.travelers__switch} children={<Switch />} />
+                     checked={payer.isPayer}
+                     onChange={(e) => {
+                        changePayerStatus({ ...payer, isPayer: e })
+                     }}
                   />
                }
             />
@@ -139,7 +141,11 @@ class CardFull extends Component {
                className={styles.travelers__switch}
                children={
                   <Switch
-            />
+                     checked={payer.hasPayed}
+                     onChange={(e) => {
+                        changePayerStatus({ ...payer, hasPayed: e })
+                     }}
+                  />
                }
             />
          </div>
@@ -358,7 +364,7 @@ class CardFull extends Component {
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
-      { changeCard, deleteCard, uploadFile, deleteFile },
+      { changeCard, deleteCard, uploadFile, deleteFile, changePayerStatus },
       dispatch
    )
 
