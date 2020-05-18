@@ -11,7 +11,7 @@ router.post(
       const { cardId } = req.body
       let file = await FileModel.create(req.file)
       let update = { $push: { files: file } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, New))
+      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
 router.get(
@@ -33,7 +33,7 @@ router.delete(
    asyncHandler(async (req, res) => {
       const { cardId, fileId } = req.body
       let update = { $pull: { files: fileId } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, New))
+      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
 
