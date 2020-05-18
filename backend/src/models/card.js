@@ -6,6 +6,7 @@ const ErrorHandler = require('./handlers/errorHandler')
 const createError = require('http-errors')
 const cardTypes = Object.values(EnumCardTypes)
 const FileModel = require('./file.js')
+const PayerModel = require('./payer')
 
 const cardSchema = new Schema({
    travelId: {
@@ -68,14 +69,6 @@ const cardSchema = new Schema({
       default: false,
       description: 'Отметка о выполнении карточки (заполняется только для Todo)',
    },
-   users: [
-      {
-         type: mongoose.ObjectId,
-         default: [],
-         description: 'ID участников карточки события',
-         ref: 'User',
-      },
-   ],
    payers: [
       {
          type: mongoose.ObjectId,
@@ -94,7 +87,7 @@ const cardSchema = new Schema({
    ],
 })
 
-cardSchema.static('getCardsByCardType', async function (type, travelId) {
+cardSchema.statics.getCardsByCardType = async function (type, travelId) {
    type = EnumCardTypes[type]
    if (!type) {
       throw createError(400, 'cardType required')
@@ -117,7 +110,7 @@ cardSchema.static('getCardsByCardType', async function (type, travelId) {
          }
       }),
    ]
-})
+}
 // Static methods
 cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    const cards = (await this.find({ travelId })).filter((card) => card.payers.find((payer) => payer.user.id === userId))
@@ -135,7 +128,6 @@ cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    })
    return summary
 }
-cardSchema.statics.findPayedCardsByUserId = async function ({ travelId, userId }) {}
 // Hooks
 cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
@@ -143,11 +135,14 @@ cardSchema.post('find', async function (docs, next) {
    }
    next()
 })
+cardSchema.post('findOneAndRemove', async function (doc, next) {
+   for (const payer of doc.payers) {
+      await PayerModel.findByIdAndRemove(payer.id)
+   }
+   await FileModel.deleteFiles(doc.files)
+   next()
+})
 cardSchema.post('findOne', PopulateHandler.cardToClient)
-cardSchema.post('findOneAndUpdate', ErrorHandler)
-cardSchema.post('findOneAndUpdate', PopulateHandler.cardToClient)
-cardSchema.post('findOneAndDelete', ErrorHandler)
-cardSchema.post('findOneAndDelete', PopulateHandler.cardToClient)
 cardSchema.post('save', ErrorHandler)
 cardSchema.post('save', PopulateHandler.cardToClient)
 
