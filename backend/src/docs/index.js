@@ -42,27 +42,23 @@ const swaggerDocument = {
          get: CardSwagger.getCard,
          delete: CardSwagger.deleteCard,
       },
-      '/card/uploadFile': {
-         post: CardSwagger.uploadFile,
+      '/card/{cardType}/{travelId}': {
+         get: CardSwagger.getCategoryInTravel,
       },
-      '/card/downloadFile/{fileName}': {
+      '/card/file/': {
+         post: CardSwagger.uploadFile,
+         delete: CardSwagger.deleteFile,
+      },
+      '/card/file/{fileName}': {
          get: CardSwagger.downloadFile,
       },
-      '/card/deleteFile': {
-         post: CardSwagger.deleteFile,
-      },
-      '/card/addUser': {
-         post: CardSwagger.addUser,
-      },
-      'card/removeUser': {
-         delete: CardSwagger.removeUser,
+      '/card/payer/': {
+         post: CardSwagger.addPayer,
+         delete: CardSwagger.removePayer,
       },
       '/travel/{travelId}': {
          get: TravelSwagger.getTravel,
          delete: TravelSwagger.deleteTravel,
-      },
-      '/travel/{cardType}/{travelId}': {
-         get: TravelSwagger.getCategoryInTravel,
       },
       '/travel/': {
          post: TravelSwagger.createTravel,
