@@ -18,58 +18,58 @@ const initialState = {
 export default function boardReducer(state = initialState, action) {
    switch (action.type) {
       case GET_BOARD_SUCCESS: {
-         const { tabs } = action.payload
-
          return {
             ...state,
-            tabs,
+            tabs: action.payload,
             isLoading: false,
          }
       }
 
       case GET_CARDS: {
-         const { activeTabId } = action.payload
-
-         const index = state.tabs.findIndex((tab) => tab._id === activeTabId)
-         const cardsList = state.tabs[index].cards
-
-         return { ...state, cards: cardsList }
+         const index = state.tabs.findIndex((tab) => tab._id === action.payload)
+         return { ...state, cards: state.tabs[index].cards }
       }
 
       case ADD_CARD_SUCCESS: {
          return {
             ...state,
-            cards: [...state.cards, action.payload.newCard],
+            cards: [...state.cards, action.payload],
          }
       }
 
       case CHANGE_CARD_SUCCESS: {
-         const { updCard } = action.payload
-
-         const cards = state.cards.map((card) => {
-            if (card._id === updCard._id) {
-               return updCard
-            }
-            return card
-         })
-
-         return { ...state, cards }
+         const index = state.cards.findIndex(
+            (card) => card._id === action.payload._id
+         )
+         return {
+            ...state,
+            cards: [
+               ...state.cards.slice(0, index),
+               action.payload,
+               ...state.cards.slice(index + 1),
+            ],
+         }
       }
 
       case DELETE_CARD_SUCCESS: {
-         const { cardId } = action.payload
-         const cards = state.cards.filter((card) => card._id !== cardId)
-         return { ...state, cards }
+         const index = state.cards.findIndex(
+            (card) => card._id === action.payload
+         )
+         return {
+            ...state,
+            cards: [
+               ...state.cards.slice(0, index),
+               ...state.cards.slice(index + 1),
+            ],
+         }
       }
 
       case FETCH_ERROR: {
          return {
             ...state,
-            tabs: [],
-            cards: [],
             isLoading: false,
             failureLoading: true,
-            errorMessage: action.payload.err,
+            errorMessage: action.payload,
          }
       }
 

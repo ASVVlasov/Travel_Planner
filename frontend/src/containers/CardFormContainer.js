@@ -80,13 +80,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
    const addCard = (cardFields) => {
       if (cardFields.title) {
-         dispatch(createCard(travelId, { ...cardFields, type }))
+         dispatch(createCard({ travelId, type, ...cardFields }))
          onClose()
       }
    }
 
    const saveCard = (updFields) => {
-      dispatch(changeCard(travelId, { ...card, ...updFields }))
+      dispatch(changeCard({ ...card, ...updFields }))
       onClose()
    }
 
