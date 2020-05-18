@@ -177,6 +177,7 @@ class CardFull extends Component {
          endPoint,
          endDate,
          comment,
+         payers,
          cost,
       } = card
 
@@ -283,43 +284,27 @@ class CardFull extends Component {
 
                <div className={styles.card__rightSide}>
                   <section className={styles.card__travelers}>
-                     <h2>Участники</h2>
-
-                     <div className={styles.travelers__columns}>
-                        <span
-                           className={styles.travelers__columnTitle}
-                           children="заплатил за всех"
-                        />
-                        <span
-                           className={styles.travelers__columnTitle}
-                           children="заплатил за себя"
+                     <div className={styles.section__title}>
+                        <h2>Участники</h2>
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={() => console.log('clicked')} // TODO add function for edit payers list
                         />
                      </div>
+                     {payers.length > 0 && (
+                        <div className={styles.travelers__columns}>
+                           <span
+                              className={styles.travelers__columnTitle}
+                              children="заплатил за всех"
+                           />
+                           <span
+                              className={styles.travelers__columnTitle}
+                              children="заплатил за себя"
+                           />
+                        </div>
+                     )}
 
                      {this.payersToRender()}
-
-                     {/* TODO add function for choosing additional contacts*/}
-                     <div
-                        className={classNames(
-                           styles.travelers__person,
-                           styles.travelers__person_add
-                        )}
-                        key={100}
-                     >
-                        <div
-                           className={classNames(
-                              styles.travelers__avatar,
-                              styles.travelers__avatar_add
-                           )}
-                        />
-                        <span
-                           className={classNames(
-                              styles.travelers__name,
-                              styles.travelers__name_add
-                           )}
-                           children={'добавить'}
-                        />
-                     </div>
                   </section>
 
                   <section className={styles.card__cost}>
