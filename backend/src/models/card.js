@@ -136,9 +136,7 @@ cardSchema.post('find', async function (docs, next) {
    next()
 })
 cardSchema.post('findOneAndRemove', async function (doc, next) {
-   for (const payer of doc.payers) {
-      await PayerModel.findByIdAndRemove(payer.id)
-   }
+   await PayerModel.deletePayers(doc.payers)
    await FileModel.deleteFiles(doc.files)
    next()
 })

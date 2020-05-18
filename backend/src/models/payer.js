@@ -27,6 +27,11 @@ const payerSchema = new Schema({
    },
 })
 
+payerSchema.statics.deletePayers = async function (payers) {
+   for (const payer of payers) {
+      await this.findByIdAndRemove(payer.id)
+   }
+}
 // payerSchema.post('findOne', populateHandler.travelToClient)
 // payerSchema.post('save', errorHandler)
 // payerSchema.post('save', populateHandler.travelToClient)
