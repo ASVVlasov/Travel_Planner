@@ -6,32 +6,26 @@ const asyncHandler = require('express-async-handler')
 
 router.post(
    '/',
-   fileMiddleware.uploadFile,
+   fileMiddleware,
    asyncHandler(async (req, res) => {
       const { cardId } = req.body
-      let file = await FileModel.create(req.file)
-      let update = { $push: { files: file } }
+      let files = await FileModel.createFiles(req.files)
+      let update = { $push: { files: { $each: files } } }
       res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
 router.get(
-   '/:fileName',
-   fileMiddleware.downloadFile,
+   '/:fileId',
    asyncHandler(async (req, res) => {
-      res.send(req.file)
+      const { fileId } = req.params
+      res.send(await FileModel.getFile(fileId))
    })
 )
 router.delete(
    '/',
-   asyncHandler(async (req, res, next) => {
-      const { fileId } = req.body
-      req.files = []
-      req.files.push((await FileModel.findById(fileId)).uploadName)
-      next()
-   }),
-   fileMiddleware.removeFiles,
    asyncHandler(async (req, res) => {
       const { cardId, fileId } = req.body
+      await FileModel.deleteFiles([fileId])
       let update = { $pull: { files: fileId } }
       res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
