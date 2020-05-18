@@ -4,13 +4,13 @@ import styles from './HeaderTitle.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getTravelTitle } from '../../redux/actions/header.actions'
+import { changeTravelTitle } from '../../redux/header/actions'
 
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 
 export class HeaderTitle extends React.Component {
    static propTypes = {
-      getTravelTitle: PropTypes.func.isRequired,
+      title: PropTypes.string,
    }
    constructor(props) {
       super(props)
@@ -21,20 +21,13 @@ export class HeaderTitle extends React.Component {
       }
    }
 
-   componentWillMount = () => {
-      const { travelId } = this.props
-      this.props.getTravelTitle(travelId) //action
-      this.setState({
-         value: this.props.title,
-         inputSize: this.state.value.length,
-      })
-   }
    changeEditMode = () => {
       this.setState({
          isInEditMode: !this.state.isInEditMode,
       })
    }
    updateComponentValue = () => {
+      this.props.changeTravelTitle(this.refs.theTextInput.value)
       this.setState({
          isInEditMode: false,
          value: this.refs.theTextInput.value,
@@ -45,7 +38,10 @@ export class HeaderTitle extends React.Component {
          this.updateComponentValue()
       }
    }
-   inputChangeSize = (evt) => {
+   inputChange = (evt) => {
+      this.setState({
+         value: this.refs.theTextInput.value,
+      })
       if (evt.target.value.length >= 29) {
          this.setState({
             inputSize: evt.target.value.length + 3,
@@ -57,7 +53,16 @@ export class HeaderTitle extends React.Component {
       }
    }
 
+   componentDidMount = () => {
+      this.setState({
+         value: this.props.title,
+         inputSize: this.props.title.length,
+      })
+   }
+
    renderEditView = () => {
+      const { title } = this.props
+      const inputSize = title.length
       return (
          <div
             className={styles.headerTitle_EditView}
@@ -66,14 +71,14 @@ export class HeaderTitle extends React.Component {
             <input
                className={styles.headerTitle__input}
                type="text"
-               defaultValue={this.state.value}
+               value={this.state.value || title}
                ref="theTextInput"
                onBlur={this.updateComponentValue}
                onKeyUp={this.handleKeyUp}
                autoFocus
                maxLength="30"
-               size={this.state.inputSize > 5 ? this.state.inputSize : 5}
-               onChange={this.inputChangeSize}
+               size={inputSize > 5 ? inputSize : 5}
+               onChange={this.inputChange}
             ></input>
             <div className={styles.headerTitle__editIcon}>
                <EditBtnSVG />
@@ -82,12 +87,14 @@ export class HeaderTitle extends React.Component {
       )
    }
    renderDefauitView = () => {
+      const { title } = this.props
+
       return (
          <div
             className={styles.headerTitle_DefauitView}
             onClick={this.changeEditMode}
          >
-            <div className={styles.headerTitle__value}>{this.state.value}</div>
+            <div className={styles.headerTitle__value}>{title}</div>
             <div className={styles.headerTitle__editIcon}>
                <EditBtnSVG />
             </div>
@@ -102,10 +109,9 @@ export class HeaderTitle extends React.Component {
 }
 
 const mapStateToProps = ({ headerReducer }) => ({
-   travelId: headerReducer.travelId, // TODO delete after real ID appear in route
    title: headerReducer.title,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getTravelTitle }, dispatch)
+   bindActionCreators({ changeTravelTitle }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderTitle)
