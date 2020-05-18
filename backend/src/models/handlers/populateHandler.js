@@ -10,9 +10,8 @@ const PopulateHandler = {
          .populate({
             path: 'cards',
             populate: [
-               { path: 'users', select: 'nickName avatar' },
+               { path: 'payers', populate: { path: 'user', select: 'nickName avatar' } },
                { path: 'files' },
-               { path: 'payers' },
                { path: 'category' },
             ],
          })
@@ -20,9 +19,8 @@ const PopulateHandler = {
       next()
    },
    cardToClient: async function (doc, next) {
-      await doc.populate({ path: 'users', select: 'nickName avatar' }).execPopulate()
       await doc.populate('category').execPopulate()
-      await doc.populate({ path: 'payers', populate: [{ path: 'user', select: 'nickName avatar' }] }).execPopulate()
+      await doc.populate({ path: 'payers', populate: { path: 'user', select: 'nickName avatar' } }).execPopulate()
       await doc.populate('files').execPopulate()
       next()
    },
