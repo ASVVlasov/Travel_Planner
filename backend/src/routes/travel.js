@@ -11,13 +11,6 @@ router.get(
       res.json(await TravelModel.findOne({ _id: travelId }))
    })
 )
-router.get(
-   '/:cardType/:travelId',
-   asyncHandler(async (req, res) => {
-      const { cardType } = req.params
-      res.json(await CardModel.getCardsByCardType(cardType, travelId))
-   })
-)
 router.post(
    '/',
    asyncHandler(async (req, res) => {
