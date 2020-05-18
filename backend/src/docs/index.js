@@ -21,27 +21,41 @@ const swaggerDocument = {
    ],
    tags: [
       {
-         name: 'developers',
-         description: 'Operations available to regular front-end developers',
+         name: 'card',
+         description: 'Operations with travel card',
+      },
+      {
+         name: 'travel',
+         description: 'Operations with travel deck',
+      },
+      {
+         name: 'user',
+         description: 'Operations with service users',
       },
    ],
    paths: {
       '/card/uploadFile': {
          post: CardSwagger.uploadFile,
       },
-      '/card/dropFile': {
-         post: CardSwagger.dropFile,
+      '/card/downloadFile/{fileName}': {
+         get: CardSwagger.downloadFile,
       },
-      '/card/{travelId}': {
-         post: CardSwagger.createCard,
-         get: CardSwagger.getAllCards,
+      '/card/deleteFile': {
+         post: CardSwagger.deleteFile,
       },
-      '/card/{travelId}/{cardId}': {
-         get: CardSwagger.getCard,
-         delete: CardSwagger.deleteCard,
+      '/card/addUser': {
+         post: CardSwagger.addUser,
+      },
+      'card/removeUser': {
+         delete: CardSwagger.removeUser,
       },
       '/card/': {
+         post: CardSwagger.createCard,
          put: CardSwagger.updateCard,
+      },
+      '/card/{cardId}': {
+         get: CardSwagger.getCard,
+         delete: CardSwagger.deleteCard,
       },
       '/travel/{travelId}': {
          get: TravelSwagger.getTravel,
