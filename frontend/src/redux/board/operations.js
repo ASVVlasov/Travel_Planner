@@ -1,5 +1,6 @@
-import { getBoardLoading, getBoardSuccess, hadError } from './actions'
+import { getBoardLoading, getBoardSuccess } from './actions'
 import { getCards } from '../cards/actions'
+import { hadError } from '../fetch/actions'
 
 export const getBoard = (travelId, categoryType, tabId) => async (dispatch) => {
    dispatch(getBoardLoading())

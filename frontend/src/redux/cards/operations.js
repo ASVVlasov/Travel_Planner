@@ -2,63 +2,26 @@ import {
    createCardSuccess,
    changeCardSuccess,
    deleteCardSuccess,
-   hadError,
 } from './actions'
 
-export const createCard = (travelId, card) => async (dispatch) => {
-   try {
-      const res = await fetch(`card/${travelId}`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-         },
-         body: JSON.stringify({ ...card }),
-      })
+import { fetchRequest } from '../fetch/operations'
 
-      if (!res.ok) {
-         throw new Error(res.statusText)
-      }
+export const createCard = (card) =>
+   // fetchRequest('POST', '/card/', createCardSuccess, JSON.stringify(card))
+   fetchRequest.post('/card/', createCardSuccess, card)
 
-      const newCard = await res.json()
-      dispatch(createCardSuccess(newCard))
-   } catch (err) {
-      dispatch(hadError(err))
-   }
-}
+export const changeCard = (card) =>
+   // fetchRequest('PUT', '/card/', changeCardSuccess, JSON.stringify(card))
+   fetchRequest.put('/card/', changeCardSuccess, card)
 
-export const changeCard = (travelId, card) => async (dispatch) => {
-   try {
-      const res = await fetch('/card/', {
-         method: 'PUT',
-         headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-         },
-         body: JSON.stringify({ travelId, card }),
-      })
+export const deleteCard = (cardId) =>
+   // fetchRequest('DELETE', `/card/${cardId}`, deleteCardSuccess)
+   fetchRequest.delete(`/card/${cardId}`, deleteCardSuccess)
 
-      if (!res.ok) {
-         throw new Error(res.statusText)
-      }
+export const uploadFile = (file) =>
+   // fetchRequest('POST', '/card/uploadFile', changeCardSuccess, file, {})
+   fetchRequest.uploadFile('/card/uploadFile', changeCardSuccess, file)
 
-      const updCard = await res.json()
-      dispatch(changeCardSuccess(updCard))
-   } catch (err) {
-      dispatch(hadError(err))
-   }
-}
-
-export const deleteCard = (travelId, cardId) => async (dispatch) => {
-   try {
-      const res = await fetch(`/card/${travelId}/${cardId}`, {
-         method: 'DELETE',
-      })
-
-      if (!res.ok) {
-         throw new Error(res.statusText)
-      }
-
-      dispatch(deleteCardSuccess(cardId))
-   } catch (err) {
-      dispatch(hadError(err))
-   }
-}
+export const deleteFile = (file) =>
+   // fetchRequest('DELETE', '/card/deleteFile', changeCardSuccess, file)
+   fetchRequest.delete('/card/deleteFile', changeCardSuccess, file)

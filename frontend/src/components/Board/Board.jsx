@@ -11,7 +11,7 @@ import { getCards } from '../../redux/cards/actions'
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import CardFormContainer from '../../containers/CardFormContainer'
-import TransportCardShort from '../Cards/TransportCardShort'
+import CardShort from '../Cards/CardShort'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 
@@ -51,7 +51,7 @@ class Board extends Component {
    mapCardsToRender = () => {
       return this.props.cards.map((card) => (
          <div key={card._id} className={styles.board__card}>
-            <TransportCardShort {...card} />
+            <CardShort {...card} />
          </div>
       ))
    }
@@ -97,17 +97,19 @@ class Board extends Component {
                )}
             </div>
 
-            <BoardSlider
-               className={styles.board__cards}
-               slides={[
-                  ...this.mapCardsToRender(),
-                  <button
-                     className={styles.board__card_add}
-                     onClick={this.openModal}
-                     children={<PlusIcon />}
-                  />,
-               ]}
-            />
+            {this.props.match.params.board !== 'todo' && (
+               <BoardSlider
+                  className={styles.board__cards}
+                  slides={[
+                     ...this.mapCardsToRender(),
+                     <button
+                        className={styles.board__card_add}
+                        onClick={this.openModal}
+                        children={<PlusIcon />}
+                     />,
+                  ]}
+               />
+            )}
 
             {this.state.isModalOpen && (
                <CardFormContainer onClose={this.closeModal} />

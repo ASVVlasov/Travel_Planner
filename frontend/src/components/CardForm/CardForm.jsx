@@ -16,7 +16,6 @@ export default class CardForm extends Component {
    }
 
    state = {
-      type: '',
       title: '',
       company: '',
       beginPoint: '',
