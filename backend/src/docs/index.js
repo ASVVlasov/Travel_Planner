@@ -15,8 +15,8 @@ const swaggerDocument = {
    },
    servers: [
       {
-         url: 'localhost:3300/',
-         description: 'local machine',
+         url: '/',
+         description: 'local machine (localhost:3300/)',
       },
    ],
    tags: [
@@ -34,6 +34,14 @@ const swaggerDocument = {
       },
    ],
    paths: {
+      '/card/': {
+         post: CardSwagger.createCard,
+         put: CardSwagger.updateCard,
+      },
+      '/card/{cardId}': {
+         get: CardSwagger.getCard,
+         delete: CardSwagger.deleteCard,
+      },
       '/card/uploadFile': {
          post: CardSwagger.uploadFile,
       },
@@ -48,14 +56,6 @@ const swaggerDocument = {
       },
       'card/removeUser': {
          delete: CardSwagger.removeUser,
-      },
-      '/card/': {
-         post: CardSwagger.createCard,
-         put: CardSwagger.updateCard,
-      },
-      '/card/{cardId}': {
-         get: CardSwagger.getCard,
-         delete: CardSwagger.deleteCard,
       },
       '/travel/{travelId}': {
          get: TravelSwagger.getTravel,
