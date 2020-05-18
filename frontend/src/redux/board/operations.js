@@ -6,7 +6,7 @@ export const getBoard = (travelId, categoryType, tabId) => async (dispatch) => {
    dispatch(getBoardLoading())
 
    try {
-      const res = await fetch(`/travel/${categoryType}/${travelId}`)
+      const res = await fetch(`/card/${categoryType}/${travelId}`)
 
       if (!res.ok) {
          throw new Error(res.statusText)
