@@ -128,6 +128,13 @@ cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
    })
    return summary
 }
+
+cardSchema.statics.deleteCards = async function (travelId) {
+   const cards = await this.find({ travelId })
+   for (const card of cards) {
+      await this.findOneAndRemove({ _id: card.id })
+   }
+}
 // Hooks
 cardSchema.post('find', async function (docs, next) {
    for (let doc of docs) {
@@ -136,9 +143,7 @@ cardSchema.post('find', async function (docs, next) {
    next()
 })
 cardSchema.post('findOneAndRemove', async function (doc, next) {
-   for (const payer of doc.payers) {
-      await PayerModel.findByIdAndRemove(payer.id)
-   }
+   await PayerModel.deletePayers(doc.payers)
    await FileModel.deleteFiles(doc.files)
    next()
 })
