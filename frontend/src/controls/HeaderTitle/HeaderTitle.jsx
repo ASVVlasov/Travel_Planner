@@ -4,12 +4,13 @@ import styles from './HeaderTitle.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravelTitle } from '../../redux/header/actions'
+import { changeTravelTitle } from '../../redux/header/operations'
 
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 
 export class HeaderTitle extends React.Component {
    static propTypes = {
+      travelId: PropTypes.string,
       title: PropTypes.string,
    }
    constructor(props) {
@@ -27,7 +28,11 @@ export class HeaderTitle extends React.Component {
       })
    }
    updateComponentValue = () => {
-      this.props.changeTravelTitle(this.refs.theTextInput.value)
+      const { travelId } = this.props
+      this.props.changeTravelTitle({
+         _id: travelId,
+         title: this.refs.theTextInput.value,
+      })
       this.setState({
          isInEditMode: false,
          value: this.refs.theTextInput.value,
@@ -94,7 +99,9 @@ export class HeaderTitle extends React.Component {
             className={styles.headerTitle_DefauitView}
             onClick={this.changeEditMode}
          >
-            <div className={styles.headerTitle__value}>{title}</div>
+            <div className={styles.headerTitle__value}>
+               {this.state.value || title}
+            </div>
             <div className={styles.headerTitle__editIcon}>
                <EditBtnSVG />
             </div>
@@ -109,6 +116,7 @@ export class HeaderTitle extends React.Component {
 }
 
 const mapStateToProps = ({ headerReducer }) => ({
+   travelId: headerReducer.travelId,
    title: headerReducer.title,
 })
 const mapDispatchToProps = (dispatch) =>

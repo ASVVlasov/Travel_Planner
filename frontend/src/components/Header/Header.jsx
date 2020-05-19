@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 //redux
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { getHeader } from '../../redux/header/actions'
+import { getHeader } from '../../redux/header/operations'
 
 import styles from './Header.module.scss'
 import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
@@ -16,6 +16,7 @@ import Calendar from '../../controls/Calendar/Calendar'
 
 class Header extends React.Component {
    static propTypes = {
+      travelId: PropTypes.string,
       getHeader: PropTypes.func.isRequired,
    }
    constructor(props) {
@@ -24,7 +25,7 @@ class Header extends React.Component {
    }
 
    componentDidMount() {
-      const travelId = '5eb56d4d771522c070eb3f6f' // TODO delete after real ID appear in route
+      const { travelId } = this.props
       this.props.getHeader(travelId) //action
    }
    render() {
@@ -63,9 +64,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = ({ headerReducer }) => ({
-   title: headerReducer.title,
-   beginDate: headerReducer.beginDate,
-   endDate: headerReducer.endDate,
+   travelId: headerReducer.travelId,
 })
 
 const mapDispatchToProps = (dispatch) =>

@@ -3,12 +3,14 @@ import {
    GET_HEADER_SUCCESS,
    CHANGE_TRAVEL_DATE_SUCCESS,
    CHANGE_TRAVEL_TITLE_SUCCESS,
+   FETCH_ERROR,
 } from '../types'
 
 const initialState = {
    title: '',
    beginDate: null,
    endDate: null,
+   errorMessage: '',
 }
 
 export default function headerReducer(state = initialState, action) {
@@ -43,7 +45,12 @@ export default function headerReducer(state = initialState, action) {
             title: action.payload.title,
          }
       }
-
+      case FETCH_ERROR: {
+         return {
+            ...state,
+            errorMessage: action.payload,
+         }
+      }
       default:
          return state
    }
