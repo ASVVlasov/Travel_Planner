@@ -41,6 +41,11 @@ class CardFull extends Component {
       isCardFormOpen: false,
    }
 
+   //TODO remove
+   FILE_URL = window.location.port
+      ? 'http://localhost:3300/card/file/'
+      : window.location.origin + '/card/file/'
+
    openForm = () => {
       this.setState({ isCardFormOpen: true })
    }
@@ -107,9 +112,10 @@ class CardFull extends Component {
    filesToRender = () => {
       return this.props.card.files.map((file) => (
          <span key={file._id} className={styles.docs__file}>
+            {/* TODO replace with Link(?) */}
             <a
                download
-               href={`http://localhost:3300/card/file/${file._id}`} //TODO replace with Link(?)
+               href={this.FILE_URL + file._id}
                children={file.fileName}
                className={styles.docs__link}
             />
@@ -127,7 +133,14 @@ class CardFull extends Component {
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
             <div className={styles.travelers__avatar}>
-               {/* <img src={ payer.user.avatar } alt={ payer.user.nickName } title={ payer.user.nickName } /> */}
+               {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
+               {payer.user.avatar && (
+                  <img
+                     src={this.FILE_URL + payer.user.avatar._id}
+                     alt={payer.user.nickName}
+                     title={payer.user.nickName}
+                  />
+               )}
             </div>
             <span
                className={styles.travelers__name}
