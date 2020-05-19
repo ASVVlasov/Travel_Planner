@@ -12,6 +12,7 @@ import {
    deleteFile,
    changePayerStatus,
 } from '../../redux/cards/operations'
+import { getSummary } from '../../redux/travel/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -27,6 +28,10 @@ class CardFull extends Component {
       toClose: PropTypes.func.isRequired,
       changeCard: PropTypes.func.isRequired,
       deleteCard: PropTypes.func.isRequired,
+      uploadFile: PropTypes.func.isRequired,
+      deleteFile: PropTypes.func.isRequired,
+      changePayerStatus: PropTypes.func.isRequired,
+      getSummary: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
    }
 
@@ -46,11 +51,13 @@ class CardFull extends Component {
 
    commentInput = createRef()
    filesInput = createRef()
+   costInput = createRef()
 
-   focusCommentInput = () => {
-      const el = this.commentInput.current
-      el.focus()
-      el.setSelectionRange(el.value.length, el.value.length)
+   focusInput = (input) => {
+      input.focus()
+      if (input.name === 'comment') {
+         input.setSelectionRange(input.value.length, input.value.length)
+      }
    }
 
    uploadFileHandler = (e) => {
@@ -115,7 +122,7 @@ class CardFull extends Component {
    }
 
    payersToRender = () => {
-      const { card, changePayerStatus } = this.props
+      const { card, changePayerStatus, getSummary } = this.props
 
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
@@ -133,6 +140,7 @@ class CardFull extends Component {
                      checked={payer.isPayer}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, isPayer: e })
+                        getSummary(1)
                      }}
                   />
                }
@@ -144,6 +152,7 @@ class CardFull extends Component {
                      checked={payer.hasPayed}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, hasPayed: e })
+                        getSummary(1)
                      }}
                   />
                }
@@ -152,18 +161,31 @@ class CardFull extends Component {
       ))
    }
 
+   setCostFormat = (number) => {
+      if (number) {
+         return number
+            .toString()
+            .split(' ')
+            .join('')
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+      }
+      return '0'
+   }
+
    splitGeneralCost = () => {
       const { payers, cost } = this.props.card
       return payers.map((payer) => (
-         // TODO add formatting for cost
          <span
             key={payer._id}
             className={styles.card__cost_personal}
-            children={`${cost / payers.length} Р`}
+            children={this.setCostFormat(cost / payers.length) + ' P'}
          />
       ))
    }
 
+   componentDidMount() {
+      this.setState({ cost: this.props.card.cost })
+   }
    render() {
       const { toClose, deleteCard, card } = this.props
 
@@ -178,7 +200,6 @@ class CardFull extends Component {
          endDate,
          comment,
          payers,
-         cost,
       } = card
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
@@ -267,7 +288,9 @@ class CardFull extends Component {
                         <h2>Комментарии</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.focusCommentInput}
+                           onClick={() =>
+                              this.focusInput(this.commentInput.current)
+                           }
                         />
                      </div>
                      <textarea
@@ -308,16 +331,28 @@ class CardFull extends Component {
                   </section>
 
                   <section className={styles.card__cost}>
-                     <h2>Стоимость</h2>
-                     {/* TODO add formatting for cost */}
+                     <div className={styles.section__title}>
+                        <h2>Стоимость</h2>
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={() =>
+                              this.focusInput(this.costInput.current)
+                           }
+                        />
+                     </div>
                      <span className={styles.card__cost_general}>
                         <input
                            name="cost"
-                           type="number"
-                           value={this.state.cost || cost}
+                           type="text"
+                           value={this.setCostFormat(this.state.cost)}
+                           ref={this.costInput}
                            onChange={(e) => this.handleChange(e)}
+                           onKeyDown={(e) => this.handleChange(e)}
                            onBlur={(e) =>
-                              this.updateCard(e.target.name, e.target.value)
+                              this.updateCard(
+                                 e.target.name,
+                                 +e.target.value.split(' ').join('')
+                              )
                            }
                         />
                         {' Р'}
@@ -349,7 +384,14 @@ class CardFull extends Component {
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
-      { changeCard, deleteCard, uploadFile, deleteFile, changePayerStatus },
+      {
+         changeCard,
+         deleteCard,
+         uploadFile,
+         deleteFile,
+         changePayerStatus,
+         getSummary,
+      },
       dispatch
    )
 

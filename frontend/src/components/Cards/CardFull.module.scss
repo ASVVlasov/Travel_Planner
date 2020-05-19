@@ -75,19 +75,15 @@
       flex-wrap: wrap;
    }
    &__travelers {
-      width: 74%;
+      width: 72%;
       height: 504px;
    }
    &__cost {
-      width: 26%;
+      width: 28%;
       height: 504px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      h2 {
-         margin: 0 0 20px 0;
-         text-align: right;
-      }
       &_general {
          @include H1;
          color: $color-gray-1;
