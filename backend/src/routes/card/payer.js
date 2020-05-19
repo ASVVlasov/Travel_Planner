@@ -16,7 +16,7 @@ router.post(
          hasPayed: false,
       })
       await newPayer.save()
-      let update = { $push: { users: userId, payers: newPayer._id } }
+      let update = { $push: { payers: newPayer._id } }
       res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
@@ -26,7 +26,7 @@ router.delete(
       const { cardId, userId } = req.body
       let filter = { user: userId, cardId: cardId }
       let deletedPayer = await PayerModel.findOneAndDelete(filter)
-      let update = { $pull: { users: userId, payers: deletedPayer._id } }
+      let update = { $pull: { payers: deletedPayer._id } }
       res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
    })
 )
