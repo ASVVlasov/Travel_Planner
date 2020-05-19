@@ -11,6 +11,8 @@ const initialState = {
    beginDate: null,
    endDate: null,
    errorMessage: '',
+   users: [],
+   cards: [],
 }
 
 export default function headerReducer(state = initialState, action) {
@@ -28,6 +30,8 @@ export default function headerReducer(state = initialState, action) {
             title: action.payload.title,
             beginDate: action.payload.beginDate,
             endDate: action.payload.endDate,
+            users: action.payload.users,
+            cards: action.payload.cards,
          }
       }
 
