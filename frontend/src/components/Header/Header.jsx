@@ -18,6 +18,7 @@ class Header extends React.Component {
    static propTypes = {
       travelId: PropTypes.string,
       getTravel: PropTypes.func.isRequired,
+      users: PropTypes.array.isRequired,
    }
    constructor(props) {
       super(props)
@@ -28,6 +29,15 @@ class Header extends React.Component {
       const { travelId } = this.props
       this.props.getTravel(travelId) //action
    }
+
+   mapUsersToRender = () => {
+      return this.props.users.map((user) => (
+         <div className={styles['travellers-item']} key={user._id}>
+            {user.nickName.charAt(0)}
+         </div>
+      ))
+   }
+
    render() {
       return (
          <header className={styles.header}>
@@ -49,11 +59,7 @@ class Header extends React.Component {
             </div>
 
             <div className={styles['travellers']}>
-               <div className={styles['travellers-item']}></div>
-               <div className={styles['travellers-item']}></div>
-               <div className={styles['travellers-item']}></div>
-               <div className={styles['travellers-item']}></div>
-               <div className={styles['travellers-else']}>+2</div>
+               {this.mapUsersToRender()}
             </div>
             <div className={styles['user-profile']}>
                <UserProfileSVG />
@@ -65,6 +71,7 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ travelReducer }) => ({
    travelId: travelReducer.travelId,
+   users: travelReducer.users,
 })
 
 const mapDispatchToProps = (dispatch) =>
