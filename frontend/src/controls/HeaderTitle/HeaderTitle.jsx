@@ -4,7 +4,7 @@ import styles from './HeaderTitle.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravelTitle } from '../../redux/header/operations'
+import { changeTravelTitle } from '../../redux/travel/operations'
 
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 
@@ -115,9 +115,9 @@ export class HeaderTitle extends React.Component {
    }
 }
 
-const mapStateToProps = ({ headerReducer }) => ({
-   travelId: headerReducer.travelId,
-   title: headerReducer.title,
+const mapStateToProps = ({ travelReducer }) => ({
+   travelId: travelReducer.travelId,
+   title: travelReducer.title,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ changeTravelTitle }, dispatch)

@@ -2,14 +2,12 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import boardReducer from './board/reducer'
 import travelReducer from './travel/reducer'
-import headerReducer from './header/reducer'
 
 const createRootReducer = (history) =>
    combineReducers({
       router: connectRouter(history),
       boardReducer,
       travelReducer,
-      headerReducer,
    })
 
 export default createRootReducer

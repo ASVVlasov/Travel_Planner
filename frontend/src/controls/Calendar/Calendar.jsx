@@ -5,7 +5,7 @@ import './Calendar.css'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravelDate } from '../../redux/header/operations'
+import { changeTravelDate } from '../../redux/travel/operations'
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -82,10 +82,10 @@ export class Calendar extends React.Component {
    }
 }
 
-const mapStateToProps = ({ headerReducer }) => ({
-   travelId: headerReducer.travelId,
-   beginDate: headerReducer.beginDate,
-   endDate: headerReducer.endDate,
+const mapStateToProps = ({ travelReducer }) => ({
+   travelId: travelReducer.travelId,
+   beginDate: travelReducer.beginDate,
+   endDate: travelReducer.endDate,
 })
 
 const mapDispatchToProps = (dispatch) =>

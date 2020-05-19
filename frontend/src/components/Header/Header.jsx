@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 //redux
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { getHeader } from '../../redux/header/operations'
+import { getTravel } from '../../redux/travel/operations'
 
 import styles from './Header.module.scss'
 import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
@@ -17,7 +17,7 @@ import Calendar from '../../controls/Calendar/Calendar'
 class Header extends React.Component {
    static propTypes = {
       travelId: PropTypes.string,
-      getHeader: PropTypes.func.isRequired,
+      getTravel: PropTypes.func.isRequired,
    }
    constructor(props) {
       super(props)
@@ -26,7 +26,7 @@ class Header extends React.Component {
 
    componentDidMount() {
       const { travelId } = this.props
-      this.props.getHeader(travelId) //action
+      this.props.getTravel(travelId) //action
    }
    render() {
       return (
@@ -63,11 +63,11 @@ class Header extends React.Component {
    }
 }
 
-const mapStateToProps = ({ headerReducer }) => ({
-   travelId: headerReducer.travelId,
+const mapStateToProps = ({ travelReducer }) => ({
+   travelId: travelReducer.travelId,
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getHeader }, dispatch)
+   bindActionCreators({ getTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
