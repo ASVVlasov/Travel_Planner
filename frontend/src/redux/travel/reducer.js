@@ -1,20 +1,12 @@
 import {
    GET_PAYER_SUMMARY,
-   GET_HEADER_LOADING,
-   GET_HEADER_SUCCESS,
-   CHANGE_TRAVEL_DATE_SUCCESS,
-   CHANGE_TRAVEL_TITLE_SUCCESS,
-   FETCH_ERROR,
+   GET_TRAVEL_SUCCESS,
+   CHANGE_TRAVEL_SUCCESS,
 } from '../types'
 
 const initialState = {
    summary: {},
-   title: '',
-   beginDate: null,
-   endDate: null,
-   errorMessage: '',
-   users: [],
-   cards: [],
+   travel: {},
 }
 
 export default function travelReducer(state = initialState, action) {
@@ -25,44 +17,21 @@ export default function travelReducer(state = initialState, action) {
             summary: action.payload,
          }
       }
-      case GET_HEADER_LOADING: {
+
+      case GET_TRAVEL_SUCCESS: {
          return {
             ...state,
+            travel: action.payload,
          }
       }
 
-      case GET_HEADER_SUCCESS: {
+      case CHANGE_TRAVEL_SUCCESS: {
          return {
             ...state,
-            travelId: action.payload._id,
-            title: action.payload.title,
-            beginDate: action.payload.beginDate,
-            endDate: action.payload.endDate,
-            users: action.payload.users,
-            cards: action.payload.cards,
+            travel: action.payload,
          }
       }
 
-      case CHANGE_TRAVEL_DATE_SUCCESS: {
-         return {
-            ...state,
-            beginDate: action.payload.beginDate,
-            endDate: action.payload.endDate,
-         }
-      }
-
-      case CHANGE_TRAVEL_TITLE_SUCCESS: {
-         return {
-            ...state,
-            title: action.payload.title,
-         }
-      }
-      case FETCH_ERROR: {
-         return {
-            ...state,
-            errorMessage: action.payload,
-         }
-      }
       default:
          return state
    }

@@ -5,7 +5,7 @@ import './Calendar.css'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravelDate } from '../../redux/travel/operations'
+import { changeTravel } from '../../redux/travel/operations'
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -15,9 +15,8 @@ import 'moment/locale/ru'
 
 export class Calendar extends React.Component {
    static propTypes = {
-      travelId: PropTypes.string,
-      beginDate: PropTypes.string,
-      endDate: PropTypes.string,
+      travel: PropTypes.object.isRequired,
+      changeTravel: PropTypes.func.isRequired,
    }
    constructor(props) {
       super(props)
@@ -29,25 +28,28 @@ export class Calendar extends React.Component {
    }
 
    setDateCalendar = (startDate, endDate) => {
-      const { travelId } = this.props
+      const travel = { ...this.props.travel }
+
       let convertedBeginDate = startDate ? startDate.toISOString() : startDate
       let convertedEndDate = endDate ? endDate.toISOString() : endDate
 
-      this.props.changeTravelDate({
-         _id: travelId,
-         beginDate: convertedBeginDate,
-         endDate: convertedEndDate,
-      })
+      travel.beginDate = convertedBeginDate
+      travel.endDate = convertedEndDate
+
+      this.props.changeTravel(travel)
    }
 
    render() {
-      let convertedBeginDate = this.props.beginDate
-         ? moment(this.props.beginDate)
-         : this.props.beginDate
+      let stringBeginDate = this.props.travel.beginDate
+      let stringEndDate = this.props.travel.endDate
 
-      let convertedEndDate = this.props.endDate
-         ? moment(this.props.endDate)
-         : this.props.endDate
+      let convertedBeginDate = stringBeginDate
+         ? moment(stringBeginDate)
+         : stringBeginDate
+
+      let convertedEndDate = stringEndDate
+         ? moment(stringEndDate)
+         : stringEndDate
 
       let amountOfDays = 0
       for (
@@ -83,12 +85,10 @@ export class Calendar extends React.Component {
 }
 
 const mapStateToProps = ({ travelReducer }) => ({
-   travelId: travelReducer.travelId,
-   beginDate: travelReducer.beginDate,
-   endDate: travelReducer.endDate,
+   travel: travelReducer.travel,
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeTravelDate }, dispatch)
+   bindActionCreators({ changeTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

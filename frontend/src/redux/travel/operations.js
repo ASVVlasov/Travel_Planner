@@ -1,12 +1,9 @@
-import { getSummarySuccess } from './actions'
-
 import { fetchRequest } from '../fetch/operations'
-import { hadError } from '../fetch/actions'
+
 import {
-   getTravelLoading,
+   getSummarySuccess,
    getTravelSuccess,
-   changeTravelTitleSuccess,
-   changeTravelDateSuccess,
+   changeTravelSuccess,
 } from './actions'
 
 const MAIN_URL = '/travel/'
@@ -14,27 +11,9 @@ const MAIN_URL = '/travel/'
 export const getSummary = (travelId) =>
    fetchRequest.get('/card/payer/summary/' + travelId, getSummarySuccess)
 
-export const getTravel = (travelId) => async (dispatch) => {
-   dispatch(getTravelLoading())
+export const getTravel = (travelId) =>
+   fetchRequest.get(MAIN_URL + travelId, getTravelSuccess)
 
-   try {
-      const res = await fetch(`/travel/${travelId}`)
-
-      if (!res.ok) {
-         throw new Error(res.statusText)
-      }
-
-      const data = await res.json()
-      dispatch(getTravelSuccess(data))
-   } catch (err) {
-      dispatch(hadError(err))
-   }
-}
-
-export const changeTravelTitle = (title) =>
-   // fetchRequest('PUT', '/travel/', changeTravelTitleSuccess, JSON.stringify(title))
-   fetchRequest.put(MAIN_URL, changeTravelTitleSuccess, title)
-
-export const changeTravelDate = (date) =>
-   // fetchRequest('PUT', '/travel/', changeTravelDateSuccess, JSON.stringify(date))
-   fetchRequest.put(MAIN_URL, changeTravelDateSuccess, date)
+export const changeTravel = (title) =>
+   // fetchRequest('PUT', '/travel/', changeTravelSuccess, JSON.stringify(title))
+   fetchRequest.put(MAIN_URL, changeTravelSuccess, title)

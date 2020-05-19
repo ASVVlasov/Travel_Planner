@@ -4,14 +4,14 @@ import styles from './HeaderTitle.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravelTitle } from '../../redux/travel/operations'
+import { changeTravel } from '../../redux/travel/operations'
 
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 
 export class HeaderTitle extends React.Component {
    static propTypes = {
-      travelId: PropTypes.string,
-      title: PropTypes.string,
+      travel: PropTypes.object.isRequired,
+      changeTravel: PropTypes.func.isRequired,
    }
    constructor(props) {
       super(props)
@@ -28,11 +28,10 @@ export class HeaderTitle extends React.Component {
       })
    }
    updateComponentValue = () => {
-      const { travelId } = this.props
-      this.props.changeTravelTitle({
-         _id: travelId,
-         title: this.refs.theTextInput.value,
-      })
+      const travel = { ...this.props.travel }
+      travel.title = this.refs.theTextInput.value
+      this.props.changeTravel(travel)
+
       this.setState({
          isInEditMode: false,
          value: this.refs.theTextInput.value,
@@ -59,14 +58,18 @@ export class HeaderTitle extends React.Component {
    }
 
    componentDidMount = () => {
-      this.setState({
-         value: this.props.title,
-         inputSize: this.props.title.length,
-      })
+      const { title } = this.props.travel
+
+      if (title) {
+         this.setState({
+            value: title,
+            inputSize: title.length,
+         })
+      }
    }
 
    renderEditView = () => {
-      const { title } = this.props
+      const { title } = this.props.travel
       const inputSize = title.length
       return (
          <div
@@ -92,7 +95,7 @@ export class HeaderTitle extends React.Component {
       )
    }
    renderDefauitView = () => {
-      const { title } = this.props
+      const { title } = this.props.travel
 
       return (
          <div
@@ -116,10 +119,9 @@ export class HeaderTitle extends React.Component {
 }
 
 const mapStateToProps = ({ travelReducer }) => ({
-   travelId: travelReducer.travelId,
-   title: travelReducer.title,
+   travel: travelReducer.travel,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeTravelTitle }, dispatch)
+   bindActionCreators({ changeTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderTitle)

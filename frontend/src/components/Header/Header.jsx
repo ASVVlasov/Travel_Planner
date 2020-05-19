@@ -16,9 +16,8 @@ import Calendar from '../../controls/Calendar/Calendar'
 
 class Header extends React.Component {
    static propTypes = {
-      travelId: PropTypes.string,
+      travel: PropTypes.object.isRequired,
       getTravel: PropTypes.func.isRequired,
-      users: PropTypes.array.isRequired,
    }
    constructor(props) {
       super(props)
@@ -26,16 +25,20 @@ class Header extends React.Component {
    }
 
    componentDidMount() {
-      const { travelId } = this.props
+      const travelId = '5ec2628732d87634b0b0063b'
       this.props.getTravel(travelId) //action
    }
 
    mapUsersToRender = () => {
-      return this.props.users.map((user) => (
-         <div className={styles['travellers-item']} key={user._id}>
-            {user.nickName.charAt(0)}
-         </div>
-      ))
+      const { users } = this.props.travel
+
+      if (users) {
+         return users.map((user) => (
+            <div className={styles['travellers-item']} key={user._id}>
+               {user.nickName.charAt(0)}
+            </div>
+         ))
+      }
    }
 
    render() {
@@ -70,8 +73,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = ({ travelReducer }) => ({
-   travelId: travelReducer.travelId,
-   users: travelReducer.users,
+   travel: travelReducer.travel,
 })
 
 const mapDispatchToProps = (dispatch) =>
