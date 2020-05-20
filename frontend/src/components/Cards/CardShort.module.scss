@@ -92,4 +92,9 @@
    align-items: center;
    @include H2;
    color:$color-gray-5;
+   & img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+   }
 }

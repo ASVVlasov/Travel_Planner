@@ -123,7 +123,6 @@ class CardFull extends Component {
    filesToRender = () => {
       return this.props.card.files.map((file) => (
          <span key={file._id} className={styles.docs__file}>
-            {/* TODO replace with Link(?) */}
             <a
                download
                href={this.FILE_URL + file._id}
@@ -143,18 +142,21 @@ class CardFull extends Component {
 
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
-            <div className={styles.travelers__avatar}>
+            <div
+               className={styles.travelers__avatar}
+               title={payer.user.nickName}
+            >
                {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
                {payer.user.avatar && (
                   <img
-                     src={this.FILE_URL + payer.user.avatar._id}
+                     src={this.FILE_URL + payer.user.avatar}
                      alt={payer.user.nickName}
-                     title={payer.user.nickName}
                   />
                )}
             </div>
             <span
                className={styles.travelers__name}
+               title={payer.user.nickName}
                children={payer.user.nickName}
             />
             <div
@@ -198,11 +200,13 @@ class CardFull extends Component {
 
    splitGeneralCost = () => {
       const { payers, cost } = this.props.card
+      const personalCost = this.setCostFormat(parseInt(cost / payers.length))
+
       return payers.map((payer) => (
          <span
             key={payer._id}
             className={styles.card__cost_personal}
-            children={this.setCostFormat(cost / payers.length) + ' P'}
+            children={personalCost + ' P'}
          />
       ))
    }

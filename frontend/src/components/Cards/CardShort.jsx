@@ -55,13 +55,16 @@ export default class CardShort extends Component {
 
    avatarsToRender = () => {
       return this.props.payers.map((payer) => (
-         <div className={styles.travelers__avatar} key={payer._id}>
+         <div
+            className={styles.travelers__avatar}
+            title={payer.user.nickName}
+            key={payer._id}
+         >
             {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
             {payer.user.avatar && (
                <img
-                  src={this.FILE_URL + payer.user.avatar._id}
+                  src={this.FILE_URL + payer.user.avatar}
                   alt={payer.user.nickName}
-                  title={payer.user.nickName}
                />
             )}
          </div>
