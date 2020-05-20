@@ -12,7 +12,7 @@ import {
    deleteFile,
    changePayerStatus,
 } from '../../redux/cards/operations'
-import { getSummary } from '../../redux/travel/operations'
+import { getBudget } from '../../redux/travel/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
@@ -32,7 +32,7 @@ class CardFull extends Component {
       uploadFile: PropTypes.func.isRequired,
       deleteFile: PropTypes.func.isRequired,
       changePayerStatus: PropTypes.func.isRequired,
-      getSummary: PropTypes.func.isRequired,
+      getBudget: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
    }
 
@@ -138,7 +138,7 @@ class CardFull extends Component {
    }
 
    payersToRender = () => {
-      const { card, changePayerStatus, getSummary } = this.props
+      const { card, changePayerStatus, getBudget } = this.props
 
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
@@ -166,7 +166,7 @@ class CardFull extends Component {
                      checked={payer.isPayer}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, isPayer: e })
-                        getSummary(1)
+                        getBudget(card.travelId)
                      }}
                   />
                }
@@ -178,7 +178,7 @@ class CardFull extends Component {
                      checked={payer.hasPayed}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, hasPayed: e })
-                        getSummary(1)
+                        getBudget(card.travelId)
                      }}
                   />
                }
@@ -438,7 +438,7 @@ const mapDispatchToProps = (dispatch) =>
          uploadFile,
          deleteFile,
          changePayerStatus,
-         getSummary,
+         getBudget,
       },
       dispatch
    )
