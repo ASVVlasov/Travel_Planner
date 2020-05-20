@@ -1,15 +1,15 @@
 import { fetchRequest } from '../fetch/operations'
 
 import {
-   getSummarySuccess,
+   getBudgetSuccess,
    getTravelSuccess,
    changeTravelSuccess,
 } from './actions'
 
 const MAIN_URL = '/travel/'
 
-export const getSummary = (travelId) =>
-   fetchRequest.get('/card/payer/summary/' + travelId, getSummarySuccess)
+export const getBudget = (travelId) =>
+   fetchRequest.get('/card/payer/summary/' + travelId, getBudgetSuccess)
 
 export const getTravel = (travelId) =>
    fetchRequest.get(MAIN_URL + travelId, getTravelSuccess)

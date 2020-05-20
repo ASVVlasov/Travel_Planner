@@ -4,7 +4,7 @@ import Switch from '../../controls/Switch/Switch.jsx'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getSummary } from '../../redux/travel/operations'
+import { getBudget } from '../../redux/travel/operations'
 import { getBoardFilter } from '../../redux/board/actions'
 import { withRouter } from 'react-router-dom'
 import { getCards } from '../../redux/cards/actions'
@@ -12,7 +12,7 @@ import { getCards } from '../../redux/cards/actions'
 class Footer extends React.Component {
    static propTypes = {
       summary: PropTypes.object.isRequired,
-      getSummary: PropTypes.func.isRequired,
+      getBudget: PropTypes.func.isRequired,
       getBoardFilter: PropTypes.func.isRequired,
       getCards: PropTypes.func.isRequired,
    }
@@ -23,7 +23,7 @@ class Footer extends React.Component {
 
    componentDidMount() {
       // TODO заменить адын на реальный travelId из роута в будущем
-      this.props.getSummary(1)
+      this.props.getBudget(1)
    }
 
    changeFilter = (value) => {
@@ -86,9 +86,9 @@ class Footer extends React.Component {
    }
 }
 const mapStateToProps = ({ travelReducer }) => ({
-   summary: travelReducer.summary,
+   summary: travelReducer.budget,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getSummary, getBoardFilter, getCards }, dispatch)
+   bindActionCreators({ getBudget, getBoardFilter, getCards }, dispatch)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Footer))

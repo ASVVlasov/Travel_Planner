@@ -1,12 +1,4 @@
-import {
-   GET_BOARD_FILTER,
-   GET_BOARD_LOADING,
-   GET_BOARD_SUCCESS,
-} from '../types'
-
-export const getBoardLoading = () => ({
-   type: GET_BOARD_LOADING,
-})
+import { GET_BOARD_FILTER, GET_BOARD_SUCCESS } from '../types'
 
 export const getBoardSuccess = (tabs) => ({
    type: GET_BOARD_SUCCESS,

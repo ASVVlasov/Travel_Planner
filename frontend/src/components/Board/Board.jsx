@@ -77,7 +77,7 @@ class Board extends Component {
       } = this.props
 
       if (prevProps.match.params.board !== board) {
-         getBoard(travelId, board.toUpperCase(), tab)
+         getBoard(travelId, board.toUpperCase())
       }
       if (prevProps.match.params.tab !== tab) {
          getCards(tab)
