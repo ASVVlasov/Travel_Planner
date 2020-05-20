@@ -5,6 +5,7 @@ import styles from './UserPicker.module.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addPayer, deletePayer } from '../../redux/cards/operations'
+import { getBudget } from '../../redux/travel/operations'
 
 import ModalBase from '../ModalBase/ModalBase'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
@@ -15,10 +16,12 @@ class UserPicker extends Component {
       onClose: PropTypes.func.isRequired,
       addPayer: PropTypes.func.isRequired,
       deletePayer: PropTypes.func.isRequired,
+      getBudget: PropTypes.func,
       position: PropTypes.object,
       users: PropTypes.arrayOf(PropTypes.object),
       payers: PropTypes.arrayOf(PropTypes.object),
       cardId: PropTypes.string,
+      travelId: PropTypes.string,
    }
 
    //TODO remove
@@ -31,10 +34,12 @@ class UserPicker extends Component {
          onClose,
          addPayer,
          deletePayer,
+         getBudget,
          position,
          users,
          payers,
          cardId,
+         travelId,
       } = this.props
 
       return (
@@ -55,16 +60,18 @@ class UserPicker extends Component {
                         0 ? (
                            <DeleteIcon
                               className={`${styles.icons} ${styles.icons__delete}`}
-                              onClick={() =>
+                              onClick={() => {
                                  deletePayer({ cardId, userId: user._id })
-                              }
+                                 getBudget(travelId)
+                              }}
                            />
                         ) : (
                            <AddIcon
                               className={`${styles.icons} ${styles.icons__add}`}
-                              onClick={() =>
+                              onClick={() => {
                                  addPayer({ cardId, userId: user._id })
-                              }
+                                 getBudget(travelId)
+                              }}
                            />
                         )}
                      </div>
@@ -82,9 +89,10 @@ class UserPicker extends Component {
 }
 
 const mapStateToProps = ({ travelReducer }) => ({
+   travelId: travelReducer.travel._id,
    users: travelReducer.travel.users,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ addPayer, deletePayer }, dispatch)
+   bindActionCreators({ addPayer, deletePayer, getBudget }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPicker)
