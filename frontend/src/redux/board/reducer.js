@@ -4,6 +4,7 @@ import {
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
+   FETCH_LOADING,
    FETCH_ERROR,
    GET_BOARD_FILTER,
 } from '../types'
@@ -11,7 +12,7 @@ import {
 const initialState = {
    tabs: [],
    cards: [],
-   isLoading: true,
+   isLoading: false,
    failureLoading: false,
    errorMessage: '',
 }
@@ -35,6 +36,7 @@ export default function boardReducer(state = initialState, action) {
          return {
             ...state,
             cards: [...state.cards, action.payload],
+            isLoading: false,
          }
       }
 
@@ -44,6 +46,7 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
+            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                action.payload,
@@ -58,13 +61,21 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
+            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                ...state.cards.slice(index + 1),
             ],
          }
       }
-
+      case FETCH_LOADING: {
+         return {
+            ...state,
+            isLoading: true,
+            failureLoading: false,
+            errorMessage: '',
+         }
+      }
       case FETCH_ERROR: {
          return {
             ...state,
