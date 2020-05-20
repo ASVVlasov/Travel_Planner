@@ -26,7 +26,7 @@ const userSchema = new Schema({
    nickName: {
       type: String,
       required: true,
-      description: 'Отображаемое имя (обязательное поле)',
+      description: 'Отображаемое имя',
    },
    surname: {
       type: String,
@@ -59,6 +59,9 @@ const userSchema = new Schema({
       },
    ],
 })
+userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
+userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
+
 module.exports = mongoose.model('User', userSchema)
