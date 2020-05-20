@@ -18,6 +18,7 @@ import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
+import UserPicker from '../../controls/UserPicker/UserPicker'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -39,6 +40,8 @@ class CardFull extends Component {
       comment: '',
       cost: 0,
       isCardFormOpen: false,
+      isUserPickerOpen: false,
+      userPickerPosition: {},
    }
 
    //TODO remove
@@ -46,12 +49,20 @@ class CardFull extends Component {
       ? 'http://localhost:3300/card/file/'
       : window.location.origin + '/card/file/'
 
-   openForm = () => {
-      this.setState({ isCardFormOpen: true })
+   openForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: true })
    }
 
-   closeForm = () => {
-      this.setState({ isCardFormOpen: false })
+   closeForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: false })
+   }
+
+   setPosition = (x, y) => {
+      return {
+         position: 'absolute',
+         top: y + 'px',
+         left: x + 'px',
+      }
    }
 
    commentInput = createRef()
@@ -236,7 +247,7 @@ class CardFull extends Component {
                         <h2>{routeSectionTitle}</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.openForm}
+                           onClick={() => this.openForm('CardForm')}
                         />
                      </div>
 
@@ -324,7 +335,15 @@ class CardFull extends Component {
                         <h2>Участники</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={() => console.log('clicked')} // TODO add function for edit payers list
+                           onClick={(e) => {
+                              this.setState({
+                                 userPickerPosition: this.setPosition(
+                                    e.clientX - 140,
+                                    e.clientY + 20
+                                 ),
+                              })
+                              this.openForm('UserPicker')
+                           }}
                         />
                      </div>
                      {payers.length > 0 && (
@@ -388,7 +407,19 @@ class CardFull extends Component {
             </div>
 
             {this.state.isCardFormOpen && (
-               <CardFormContainer onClose={this.closeForm} card={card} />
+               <CardFormContainer
+                  onClose={() => this.closeForm('CardForm')}
+                  card={card}
+               />
+            )}
+
+            {this.state.isUserPickerOpen && (
+               <UserPicker
+                  onClose={() => this.closeForm('UserPicker')}
+                  position={this.state.userPickerPosition}
+                  payers={payers}
+                  cardId={card._id}
+               />
             )}
          </ModalBase>
       )
