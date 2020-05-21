@@ -403,9 +403,9 @@ class CardFull extends Component {
                            toClose()
                         }}
                         text="Удалить карточку"
-                        kind="cancel"
+                        kind="delete"
                      />
-                     <Button onClick={toClose} text="OK" />
+                     <Button onClick={toClose} text="OK" ml={20} />
                   </div>
                </div>
             </div>

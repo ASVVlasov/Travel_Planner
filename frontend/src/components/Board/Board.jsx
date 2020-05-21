@@ -93,7 +93,7 @@ class Board extends Component {
                </nav>
 
                {this.props.cards.length > 2 && (
-                  <Button onClick={this.openModal} size="small" text="+" />
+                  <Button onClick={this.openModal} text="+" kind="action" />
                )}
             </div>
 

@@ -2,22 +2,42 @@
 
 .button {
    width: fit-content;
-   padding: 9px 40px;
+   padding: 9px 35px;
    border-radius: 10px;
-   border: none;
-   background-color: $color-gray-1;
-   box-shadow: 1px 1px 20px change-color($color-gray-1, $alpha: 0.15);
-   @include Body1;
+   border: 1px solid transparent;
+   @include Subtitle-1-SemiBold;
    color: $color-white;
+   background-color: $color-secondary-main;
    cursor: pointer;
    &:focus {
       outline: none;
    }
-   &_small {
-      padding: 9px 17px;
+   &:hover {
+      @include BaseShadowHover;
    }
    &_cancel {
-      background-color: $color-gray-4;
-      box-shadow: none;
+      background-color: $color-secondary-light;
+      opacity: 0.4;
+      &:hover {
+         opacity: 0.8;
+      }
+   }
+   &_delete {
+      background-color: $color-secondary-light;
+      opacity: 0.4;
+      &:hover {
+         opacity: 1;
+         background-color: $color-error-dark;
+      }
+   }
+   &_action {
+      padding: 9px 17px;
+      @include ButtonShadow;
+      &:hover {
+         box-shadow: none;
+      }
+   }
+   &_disabled {
+      opacity: 0.4;
    }
 }

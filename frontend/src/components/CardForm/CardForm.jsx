@@ -128,12 +128,14 @@ export default class CardForm extends Component {
                      <Button
                         onClick={() => addCard(this.state)}
                         text="Добавить"
+                        ml={20}
                      />
                   )}
                   {!!card && (
                      <Button
                         onClick={() => saveCard(this.state)}
                         text="Готово"
+                        ml={20}
                      />
                   )}
                </div>
