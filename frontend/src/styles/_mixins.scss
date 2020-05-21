@@ -54,17 +54,17 @@
 }
 
 // Icons
-@mixin Icon ($width){
-   width: $width;
+@mixin Icon ($size){
+   width: $size;
    background: transparent;
    cursor: pointer;   
 }
-@mixin IconBright ($width) {
-   @include Icon($width);
+@mixin IconBright ($size) {
+   @include Icon($size);
    fill: $color-secondary-main;
 }
-@mixin IconLight ($width) {
-   @include Icon($width);
+@mixin IconLight ($size) {
+   @include Icon($size);
    fill: $color-secondary-light;
    opacity: 0.7;
    &:hover {
@@ -121,4 +121,24 @@
       caret-color: $color-secondary-main;
       background-color: $color-white;
    }
+}
+
+// Avatars
+@mixin AvatarEmpty ($size) {
+   width: $size;
+   height: $size;
+   flex-shrink: 0;
+   background-color: $color-secondary-light;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   @include Title-2-SemiBold;
+   color: $color-white;
+   text-transform: uppercase;
+}
+@mixin AvatarImg ($size) {
+   width: $size;
+   height: $size;
+   border-radius: 50%;
 }

@@ -48,7 +48,7 @@ class UserPicker extends Component {
                {users.map((user) => (
                   <div className={styles.user} key={user._id}>
                      <div className={styles.user__avatar}>
-                        {!user.avatar && user.nickName[0].toUpperCase()}
+                        {!user.avatar && user.nickName[0]}
                         {user.avatar && (
                            <img
                               src={this.FILE_URL + user.avatar}
