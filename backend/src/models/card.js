@@ -95,21 +95,21 @@ cardSchema.statics.getCardsByCardType = async function (type, travelId) {
    const cards = await this.find({ type, travelId })
    // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
    const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
-   return [
-      // Все карты
-      {
-         _id: 'all',
-         title: type,
-         cards,
-      },
-      // Разбивка по категориям
-      ...categoryIds.map((categoryId) => {
-         return {
-            ...cards.find((card) => (card.category ? card.category.id === categoryId : false)).category.toObject(),
-            cards: cards.filter((card) => card.category && card.category.id === categoryId),
-         }
-      }),
-   ]
+   return {
+      tabs: [
+         {
+            _id: 'all',
+            title: type,
+         },
+         // Разбивка по категориям
+         ...categoryIds.map((categoryId) => {
+            return {
+               ...cards.find((card) => (card.category ? card.category.id === categoryId : false)).category.toObject(),
+            }
+         }),
+      ],
+      cards,
+   }
 }
 // Static methods
 cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
