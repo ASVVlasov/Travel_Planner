@@ -146,7 +146,7 @@ class CardFull extends Component {
                className={styles.travelers__avatar}
                title={payer.user.nickName}
             >
-               {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
+               {!payer.user.avatar && payer.user.nickName[0]}
                {payer.user.avatar && (
                   <img
                      src={this.FILE_URL + payer.user.avatar}
@@ -403,9 +403,9 @@ class CardFull extends Component {
                            toClose()
                         }}
                         text="Удалить карточку"
-                        kind="cancel"
+                        kind="delete"
                      />
-                     <Button onClick={toClose} text="OK" />
+                     <Button onClick={toClose} text="OK" ml={20} />
                   </div>
                </div>
             </div>

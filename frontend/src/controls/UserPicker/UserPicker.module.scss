@@ -19,26 +19,16 @@
    display: flex;
    flex-direction: column;
    &__avatar {
-      width: 45px;
-      height: 45px;
+      @include AvatarEmpty(45px);
       margin: 0 auto;
-      background-color: $color-gray-6;
-      border: 1px solid $color-gray-5;
-      border-radius: 50%;
       position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      @include H2;
-      color: $color-gray-5;
       & img {
-         width: 45px;
-         height: 45px;
+         @include AvatarImg(45px);
          border-radius: 50%;
       }
    }
    &__name {
-      @include Body3;
+      @include Caption-1-Regular;
       color: $color-gray-1;
       margin-top: 8px;
       text-align: center;

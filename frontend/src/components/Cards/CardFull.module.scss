@@ -13,14 +13,14 @@
    z-index: 200;
    padding: 30px;
    border-radius: 20px;
-   background-color: $color-white;
+   background-color: $color-background-light;
    &__header {
       width: 100%;
       position: relative;
       margin-bottom: 45px;
    }
    &__breadcrumbs {
-      @include Body2;
+      @include Subtitle-1-Regular;
    }
 
    &__leftSide {
@@ -34,7 +34,7 @@
    }
    &__companyName {
       width: 100%;
-      @include H1;
+      @include Title-2-SemiBold;
       margin-bottom: 20px;
    }
    &__route {
@@ -54,17 +54,9 @@
    &__comments {
       width: 100%;
       textarea {
-         border: none;
-         resize: none;
-         width: 100%;
+         @include ImplicitTextArea;
+         width: 95%;
          height: 200px;
-         @include Body3;
-         color: $color-gray-3;
-         &:focus {
-            outline: none;
-            color: $color-gray-1;
-            caret-color: $color-gray-1;
-         }
       }
    }
 
@@ -85,24 +77,20 @@
       flex-direction: column;
       align-items: flex-end;
       &_general {
-         @include H1;
+         @include Title-2-SemiBold;
          color: $color-gray-1;
          text-align: right;
          margin-bottom: 30px;
          & input {
-            @include H1;
+            @include Title-2-SemiBold;
+            @include ImplicitInput;
             color: $color-gray-1;
-            border: none;
             text-align: right;
             max-width: 110px;
-            &:focus {
-               outline: none;
-               box-shadow: 0px 2px 1px change-color($color-gray-1, $alpha: 0.1);
-            }
          }
       }
       &_personal {
-         @include Body2;
+         @include Text-Regular;
          color: $color-gray-2;
          text-align: right;
          height: 40px;
@@ -110,9 +98,6 @@
       }
    }
    &__actions {
-      width: 72%;
-      min-width: fit-content;
-      height: 40px;
       margin: 30px 0 0 auto;
       display: flex;
       justify-content: space-between;
@@ -120,18 +105,15 @@
 }
 
 .icons {
-   width: 24px;
-   cursor: pointer;
-   fill: $color-gray-4;
+   @include IconLight(24px);
    &__close {
-      width: 45px;
+      width: 30px;
       position: absolute;
       top: -10px;
       right: -10px;
-      fill: $color-gray-5;
    }
    &__delete {
-      fill: $color-gray-5;
+      width: 20px;
       margin-left: 4px;
    }
 }
@@ -142,7 +124,7 @@
    margin-bottom: 20px;
 }
 h2 {
-   @include H2;
+   @include Subtitle-1-Regular;
    color: $color-gray-4;
    margin-right: 6px;
 }
@@ -176,11 +158,11 @@ h2 {
    &__place {
       display: block;
       margin-bottom: 6px;
-      @include Body1;
+      @include Subtitle-1-SemiBold;
       color: $color-gray-1;
    }
    &__date {
-      @include Body2;
+      @include Text-Regular;
       color: $color-gray-2;
    }
 }
@@ -211,7 +193,8 @@ h2 {
    &__columnTitle {
       width: 70px;
       margin-right: 14px;
-      @include Body3;
+      @include Caption-1-Regular;
+      line-height: 14px;
       color: $color-gray-4;
       text-align: center;
    }
@@ -223,27 +206,15 @@ h2 {
       margin-bottom: 10px;
    }
    &__avatar {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      background-color: $color-gray-6;
-      border: 1px solid $color-gray-5;
-      border-radius: 50%;
+      @include AvatarEmpty(40px);
       margin-right: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      @include H2;
-      color:$color-gray-5;
       & img {
-         width: 40px;
-         height: 40px;
-         border-radius: 50%;
+         @include AvatarImg(40px);
       }
    }
    &__name {
       width: 160px;
-      @include Body3;
+      @include Caption-1-Regular;
       color: $color-gray-1;
       margin-right: 15px;
       overflow: hidden;   

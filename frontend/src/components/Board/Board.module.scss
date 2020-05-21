@@ -20,7 +20,7 @@
 .board__tabsLink {
    display: inline-block;
    margin-right: 40px;
-   @include H1;
+   @include Title-1-SemiBold ;
    color: $color-gray-4;
    text-decoration: none;
    &_active {
