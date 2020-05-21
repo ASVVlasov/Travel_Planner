@@ -23,7 +23,11 @@ export class HeaderTitle extends React.Component {
    }
 
    changeEditMode = () => {
+      const { title } = this.props.travel
+
       this.setState({
+         value: title,
+         inputSize: title ? title.length : title,
          isInEditMode: !this.state.isInEditMode,
       })
    }
@@ -70,7 +74,7 @@ export class HeaderTitle extends React.Component {
 
    renderEditView = () => {
       const { title } = this.props.travel
-      const inputSize = title.length
+      const inputSize = this.state.inputSize || title.length
       return (
          <div
             className={styles.headerTitle_EditView}
@@ -79,7 +83,7 @@ export class HeaderTitle extends React.Component {
             <input
                className={styles.headerTitle__input}
                type="text"
-               value={this.state.value || title}
+               value={this.state.isInEditMode ? this.state.value : title}
                ref="theTextInput"
                onBlur={this.updateComponentValue}
                onKeyUp={this.handleKeyUp}
