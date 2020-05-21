@@ -1,26 +1,38 @@
 // Fonts
-@mixin H1 () {
-   font-weight: 600;
+@mixin Title-1-SemiBold {
+   font-weight: 500;
    font-size: 24px;
    line-height: 29px;
 }
-@mixin H2 () {
-   font-weight: 600;
+@mixin Title-2-SemiBold {
+   font-weight: 500;
    font-size: 20px;
    line-height: 24px;
 }
-@mixin Body1 () {
-   font-weight: 600;
+@mixin Subtitle-1-Regular {
+   font-weight: 400;
    font-size: 18px;
    line-height: 22px;
 }
-@mixin Body2 () {
+@mixin Subtitle-1-SemiBold {
+   @include Subtitle-1-Regular;
+   font-weight: 500;
+}
+@mixin Text-Regular {
    font-weight: 400;
-   font-size: 18px;
+   font-size: 16px;
    line-height: 20px;
 }
-@mixin Body3 () {
+@mixin Text-Bold {
+   @include Text-Regular;
+   font-weight: 600;
+}
+@mixin Caption-1-Regular {
    font-weight: 400;
    font-size: 14px;
    line-height: 20px;
+}
+@mixin Caption-1-Bold {
+   @include Caption-1-Regular;
+   font-weight: 600;
 }

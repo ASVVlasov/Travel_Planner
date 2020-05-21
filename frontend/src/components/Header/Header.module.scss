@@ -22,7 +22,7 @@
   @include clickableSvg;
 }
 .trip-data {
-  @include Body2;
+  @include Subtitle-1-Regular;
   color: $color-gray-2;
   flex: 1 1 auto;
   display: flex;
@@ -58,14 +58,6 @@
   justify-content: center;
   align-items: center;
   margin: 0px -12px 0px 0px;
-}
-.travellers-else {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0px 0px 0px 18px;
-  @include Body1;
-  color: $color-gray-2;
 }
 .user-profile {
   width: 45px;

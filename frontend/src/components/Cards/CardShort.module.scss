@@ -11,11 +11,11 @@
    }
    &__title {
       margin-bottom: 6px;
-      @include H2;
+      @include Title-2-SemiBold ;
       color: $color-gray-1;
    }
    &__company {
-      @include Body2;
+      @include Subtitle-1-Regular;
       color: $color-gray-1;
    }
    &__badges {
@@ -71,11 +71,11 @@
    &__place {
       display: block;
       margin-bottom: 6px;
-      @include Body2;
+      @include Subtitle-1-Regular;
       color: $color-gray-2;
    }
    &__date {
-      @include Body3;
+      @include Caption-1-Regular;
       color: $color-gray-2;
    }
 }
@@ -90,7 +90,7 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   @include H2;
+   @include Title-2-SemiBold ;
    color:$color-gray-5;
    & img {
       width: 45px;

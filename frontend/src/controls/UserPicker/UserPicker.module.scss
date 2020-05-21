@@ -29,7 +29,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      @include H2;
+      @include Title-2-SemiBold ;
       color: $color-gray-5;
       & img {
          width: 45px;
@@ -38,7 +38,7 @@
       }
    }
    &__name {
-      @include Body3;
+      @include Caption-1-Regular;
       color: $color-gray-1;
       margin-top: 8px;
       text-align: center;

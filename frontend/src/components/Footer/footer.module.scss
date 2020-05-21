@@ -28,14 +28,14 @@
     &__description {
         &_large {
             color: $color-gray-2;
-            @include H1();
+            @include Title-1-SemiBold ;
         }
         &_medium {
             color: $color-gray-2;
-            @include Body2;
+            @include Subtitle-1-Regular;
         }
         &_small {
-            @include Body3;
+            @include Caption-1-Regular;
             color: $color-gray-4;
         }
     }
