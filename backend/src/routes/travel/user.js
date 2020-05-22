@@ -9,12 +9,12 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { travelId, userId } = req.body
-      const user = await UserModel.findById(userId)
-      if (!user) {
-         throw createError(400, 'нет такого пользователя')
+      const travel = await TravelModel.findById(mock.TRAVELID)
+      if (travel.users.find((u) => u.id === userId)) {
+         throw createError(400, 'такой пользователь уже есть в этом путешествии')
       }
       const update = { $push: { users: userId } }
-      res.json(await TravelModel.findByIdAndUpdate(mock.TRAVELID, update))
+      res.json(await TravelModel.findByIdAndUpdate(mock.TRAVELID, update, { new: true }))
    })
 )
 
@@ -23,7 +23,7 @@ router.delete(
    asyncHandler(async (req, res) => {
       const { travelId, userId } = req.body
       const update = { $pull: { users: userId } }
-      res.json(await TravelModel.findByIdAndUpdate(mock.TRAVELID, update))
+      res.json(await TravelModel.findByIdAndUpdate(mock.TRAVELID, update, { new: true }))
    })
 )
 
