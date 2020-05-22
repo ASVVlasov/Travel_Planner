@@ -20,7 +20,12 @@ router.get(
    asyncHandler(async (req, res) => {
       // TODO: выпилить selfId после добавления авторизации
       const selfId = mock.SELFID
-      res.json(await UserModel.findById(selfId))
+      res.json(
+         await UserModel.findById(selfId).populate({
+            path: 'travels',
+            populate: { path: 'users', select: 'nickName avatar' },
+         })
+      )
    })
 )
 
