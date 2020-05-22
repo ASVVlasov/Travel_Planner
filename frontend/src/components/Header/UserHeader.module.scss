@@ -1,0 +1,29 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.header {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.user {
+  &__name {
+    @include Subtitle-1-Regular;
+    color: $color-primary-light;
+    margin-right: 34px;
+  }
+  &__avatar {
+    @include AvatarEmpty(45px);
+    margin-right: 50px;
+    cursor: pointer;
+    & img {
+      @include AvatarImg(45px);
+      border: 5px solid $color-primary-light;
+    }
+  }
+}
+
+.icons {
+  @include IconBright(30px);
+}
