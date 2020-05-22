@@ -16,7 +16,6 @@ const initialState = {
    currentCards: [],
    tabFilter: 'all',
    userFilter: '',
-   isFiltered: false,
    isLoading: false,
    failureLoading: false,
    errorMessage: '',
@@ -87,7 +86,6 @@ export default function boardReducer(state = initialState, action) {
       case GET_BOARD_FILTER: {
          return {
             ...state,
-            isFiltered: true,
             currentCards: state.cards.filter(
                (card) =>
                   (state.tabFilter === 'all' ||
