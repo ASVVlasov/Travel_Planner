@@ -16,17 +16,10 @@ router.post(
 )
 
 router.get(
-   '/:userId',
-   asyncHandler(async (req, res) => {
-      const { userId } = req.params
-      res.json(await UserModel.findById(userId))
-   })
-)
-router.get(
    '/',
    asyncHandler(async (req, res) => {
       // TODO: выпилить selfId после добавления авторизации
-      const selfId = mock.USERID
+      const selfId = mock.SELFID
       res.json(await UserModel.findById(selfId))
    })
 )
@@ -46,8 +39,8 @@ router.put(
 router.delete(
    '/',
    asyncHandler(async (req, res) => {
-      // TODO: выпилить selfId после добавления авторизации
-      const { selfId } = req.body
+      // TODO: выпилить selfId после добавления авторизации. Сейчас заведомо сфейлится
+      const { selfId } = null
       let deletedUser
       if (!!selfId) {
          deletedUser = await UserModel.findByIdAndRemove(selfId)
