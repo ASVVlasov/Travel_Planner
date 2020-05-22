@@ -34,9 +34,9 @@
    font-size: 14px;
    line-height: 20px;
 }
-@mixin Caption-1-Bold {
+@mixin Caption-1-SemiBold {
    @include Caption-1-Regular;
-   font-weight: 600;
+   font-weight: 500;
 }
 
 // Shadows for cards, forms, buttons 
@@ -101,6 +101,7 @@
 }
 @mixin ImplicitInput {
    border: none;
+   background-color: transparent;
    border-bottom: 1px solid transparent;
    &:focus {
       outline: none;
