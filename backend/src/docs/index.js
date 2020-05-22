@@ -1,6 +1,7 @@
 const Schemas = require('./schemas.js')
 const CardSwagger = require('./card.swagger.js')
 const TravelSwagger = require('./travel.swagger.js')
+const UserSwagger = require('./user.swagger.js')
 
 const swaggerDocument = {
    openapi: '3.0.0',
@@ -63,6 +64,17 @@ const swaggerDocument = {
       '/travel/': {
          post: TravelSwagger.createTravel,
          put: TravelSwagger.updateTravel,
+      },
+      '/user/': {
+         post: UserSwagger.createUser,
+         get: UserSwagger.getUser,
+         put: UserSwagger.updateUser,
+         delete: UserSwagger.deleteUser,
+      },
+      '/user/contact': {
+         get: UserSwagger.getContacts,
+         put: UserSwagger.addContact,
+         delete: UserSwagger.removeContact,
       },
    },
    components: {
