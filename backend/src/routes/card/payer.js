@@ -8,7 +8,6 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      console.log(cardId)
       let newPayer = new PayerModel({
          user: userId,
          cardId: cardId,
