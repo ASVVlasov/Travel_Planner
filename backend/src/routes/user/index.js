@@ -27,12 +27,13 @@ router.get(
 router.put(
    '/',
    asyncHandler(async (req, res) => {
-      // Потенциальная уязвимость в части изменения другого пользователя злоумышленником
-      // Допилить после введения авторизации
+      // TODO: выпилить selfId после добавления авторизации
+      const selfId = mock.SELFID
       const user = { ...req.body }
+      user._id = selfId
       delete user.contacts
       delete user.travels
-      res.json(await UserModel.findByIdAndUpdate(user._id, user, { new: true }))
+      res.json(await UserModel.findByIdAndUpdate(selfId, user, { new: true }))
    })
 )
 
