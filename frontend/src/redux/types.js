@@ -1,6 +1,9 @@
 export const FETCH_ERROR = 'FETCH_ERROR'
 export const FETCH_LOADING = 'FETCH_LOADING'
 
+export const SET_USER_FILTER = 'SET_USER_FILTER'
+export const SET_TAB_FILTER = 'SET_TAB_FILTER'
+
 export const GET_BOARD_SUCCESS = 'GET_BOARD_SUCCESS'
 export const GET_BOARD_FILTER = 'GET_BOARD_FILTER'
 

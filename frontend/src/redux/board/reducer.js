@@ -1,18 +1,21 @@
 import {
    GET_BOARD_SUCCESS,
-   GET_TAB_CARDS,
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
    FETCH_LOADING,
    FETCH_ERROR,
    GET_BOARD_FILTER,
+   SET_USER_FILTER,
+   SET_TAB_FILTER,
 } from '../types'
 
 const initialState = {
    tabs: [],
    cards: [],
    currentCards: [],
+   tabFilter: 'all',
+   userFilter: '',
    isFiltered: false,
    isLoading: false,
    failureLoading: false,
@@ -67,18 +70,17 @@ export default function boardReducer(state = initialState, action) {
          }
       }
 
-      case GET_TAB_CARDS: {
+      case SET_USER_FILTER: {
          return {
             ...state,
-            isFiltered: false,
-            currentCards: state.cards.filter(
-               (card) =>
-                  action.payload === 'all' ||
-                  (card.category &&
-                     card.category.title ===
-                        state.tabs.find((tab) => tab._id === action.payload)
-                           .title)
-            ),
+            userFilter: action.payload,
+         }
+      }
+
+      case SET_TAB_FILTER: {
+         return {
+            ...state,
+            tabFilter: action.payload,
          }
       }
 
@@ -88,9 +90,15 @@ export default function boardReducer(state = initialState, action) {
             isFiltered: true,
             currentCards: state.cards.filter(
                (card) =>
-                  !!card.payers.find(
-                     (payer) => payer.user._id === action.payload
-                  )
+                  (state.tabFilter === 'all' ||
+                     (card.category &&
+                        card.category.title ===
+                           state.tabs.find((tab) => tab._id === state.tabFilter)
+                              .title)) &&
+                  (!state.userFilter ||
+                     !!card.payers.find(
+                        (payer) => payer.user._id === state.userFilter
+                     ))
             ),
          }
       }

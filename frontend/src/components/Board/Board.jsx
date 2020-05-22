@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getBoard } from '../../redux/board/operations'
-import { getCards } from '../../redux/cards/actions'
 
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
@@ -14,11 +12,13 @@ import CardFormContainer from '../../containers/CardFormContainer'
 import CardShort from '../Cards/CardShort'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
+import { setTabFilter } from '../../redux/board/actions'
+import { getBoard } from '../../redux/board/operations'
 
 class Board extends Component {
    static propTypes = {
       getBoard: PropTypes.func.isRequired,
-      getCards: PropTypes.func.isRequired,
+      setTabFilter: PropTypes.func.isRequired,
       tabs: PropTypes.array.isRequired,
       cards: PropTypes.array.isRequired,
    }
@@ -70,7 +70,7 @@ class Board extends Component {
    componentDidUpdate(prevProps) {
       const {
          getBoard,
-         getCards,
+         setTabFilter,
          match: {
             params: { travelId, board, tab },
          },
@@ -80,7 +80,7 @@ class Board extends Component {
          getBoard(travelId, board.toUpperCase())
       }
       if (prevProps.match.params.tab !== tab) {
-         getCards(tab)
+         setTabFilter(tab)
       }
    }
 
@@ -125,6 +125,6 @@ const mapStateToProps = ({ boardReducer }) => ({
    errorMessage: boardReducer.errorMessage,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getBoard, getCards }, dispatch)
+   bindActionCreators({ getBoard, setTabFilter }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board)
