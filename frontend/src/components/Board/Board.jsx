@@ -88,9 +88,7 @@ class Board extends Component {
       return (
          <div className={styles.board}>
             <div className={styles.board__controlPanel}>
-               <nav className={styles.board__tabs}>
-                  {this.mapTabsToRender()}
-               </nav>
+               <nav children={this.mapTabsToRender()} />
 
                {this.props.cards.length > 2 && (
                   <Button onClick={this.openModal} text="+" kind="action" />
@@ -121,7 +119,7 @@ class Board extends Component {
 
 const mapStateToProps = ({ boardReducer }) => ({
    tabs: boardReducer.tabs,
-   cards: boardReducer.cards,
+   cards: boardReducer.currentCards,
    isLoading: boardReducer.isLoading,
    failureLoading: boardReducer.failureLoading,
    errorMessage: boardReducer.errorMessage,
