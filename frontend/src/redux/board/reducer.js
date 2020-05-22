@@ -68,16 +68,17 @@ export default function boardReducer(state = initialState, action) {
       }
 
       case GET_TAB_CARDS: {
-         const tabCards = state.cards.filter(
-            (card) =>
-               card.category &&
-               card.category.title ===
-                  state.tabs.find((tab) => tab._id === action.payload).title
-         )
          return {
             ...state,
             isFiltered: false,
-            currentCards: action.payload === 'all' ? state.cards : tabCards,
+            currentCards: state.cards.filter(
+               (card) =>
+                  action.payload === 'all' ||
+                  (card.category &&
+                     card.category.title ===
+                        state.tabs.find((tab) => tab._id === action.payload)
+                           .title)
+            ),
          }
       }
 
