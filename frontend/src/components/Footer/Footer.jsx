@@ -26,7 +26,7 @@ class Footer extends React.Component {
 
    changeFilter = (value) => {
       if (value) {
-         this.props.setUserFilter('5eb9af4dc82bd95234d9ccd6')
+         this.props.setUserFilter('5eb9a98ac82bd95234d9ccd4')
       } else {
          // TODO заменить в будущем на реальную табу
          this.props.setUserFilter('')
