@@ -8,7 +8,7 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       // TODO: после добавления авторизации выпилить selfId
-      let sefId = mock.SELFID
+      let selfId = mock.SELFID
       const { userId } = req.body
       let update = { $push: { contacts: userId } }
       res.json(await UserModel.findByIdAndUpdate(selfId, update, { new: true }))
@@ -19,7 +19,7 @@ router.delete(
    '/',
    asyncHandler(async (req, res) => {
       // TODO: после добавления авторизации выпилить selfId
-      let sefId = mock.SELFID
+      let selfId = mock.SELFID
       const { userId } = req.body
       let update = { $pull: { contacts: userId } }
       res.json(await UserModel.findByIdAndUpdate(selfId, update, { new: true }))
