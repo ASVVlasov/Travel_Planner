@@ -1,28 +1,31 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
 
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { Route } from 'react-router-dom'
+import { getUserInfo } from '../../redux/user/operations'
 
 import styles from './UserPage.module.scss'
-import Header from '../../components/Header/Header'
-import Board from '../../components/Board/Board'
-import Footer from '../../components/Footer/Footer'
+import UserHeader from '../../components/Header/UserHeader'
+import UserBoard from '../../components/Board/UserBoard'
+import UserFooter from '../../components/Footer/UserFooter'
 
 class UserPage extends React.Component {
+   componentDidMount() {
+      this.props.getUserInfo()
+   }
    render() {
-      const { path } = this.props.match
       return (
          <div className={styles.userPage}>
-            <Header />
-            <Route path={`${path}/:board/:tab`} component={Board} />
-            <Footer />
+            <UserHeader />
+            <Route path={this.props.match.path} component={UserBoard} />
+            <UserFooter />
          </div>
       )
    }
 }
 
-const mapStateToProps = ({}) => ({})
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ getUserInfo }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(null, mapDispatchToProps)(UserPage)
