@@ -1,8 +1,11 @@
 const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
-const CardModel = require('../models/card')
-const TravelModel = require('../models/travel')
-const mock = require('./mock-id')
+const CardModel = require('../../models/card')
+const TravelModel = require('../../models/travel')
+const mock = require('../mock-id')
+const userRouter = require('./user')
+
+router.use('/user', userRouter)
 
 router.get(
    '/:travelId',
