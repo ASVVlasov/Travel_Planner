@@ -55,7 +55,7 @@ const createUser = {
       },
    },
 }
-const getSelf = {
+const getUser = {
    tags: ['user'],
    summary: 'Get user information about self',
    responses: {
@@ -78,66 +78,6 @@ const getSelf = {
                   login: 'testLogin',
                   password: 'testPassword',
                   nickName: 'testNickName',
-               },
-            },
-         },
-      },
-      '500': {
-         description: 'Произошла ошибка',
-         content: {
-            'applcation/json': {
-               schema: {
-                  type: 'object',
-                  properties: {
-                     ErrorMessage: {
-                        type: 'string',
-                        description: 'Описание ошибки',
-                        example: "Unknown server error: can't read entry",
-                     },
-                  },
-               },
-            },
-         },
-      },
-   },
-}
-const getUser = {
-   tags: ['user'],
-   summary: 'Get user information about user',
-   parameters: [
-      {
-         in: 'path',
-         name: 'userId',
-         description: 'ID пользователя которого нужно получить',
-         schema: {
-            type: 'string',
-            example: '5ec6d47b2b889831c0c06715',
-         },
-         required: true,
-      },
-   ],
-   responses: {
-      '200': {
-         description: 'Возвращается пользователь',
-         content: {
-            'application/json': {
-               schema: {
-                  $ref: '#/components/schemas/User',
-               },
-               example: {
-                  contacts: [
-                     {
-                        _id: '5ec4361dc82bd95234d9cceb',
-                        nickName: 'Konstantin Buzuev',
-                        avatar: '5ec4369047a2a7001734cfe3',
-                     },
-                  ],
-                  travels: [],
-                  _id: '5ec6d47b2b889831c0c06715',
-                  login: 'API test login',
-                  password: '12345',
-                  nickName: 'API test user',
-                  __v: 0,
                },
             },
          },
@@ -220,27 +160,7 @@ const updateUser = {
 }
 const deleteUser = {
    tags: ['user'],
-   summary: 'Delete user from service',
-   requestBody: {
-      required: true,
-      content: {
-         'application/json': {
-            schema: {
-               type: 'object',
-               properties: {
-                  selfId: {
-                     type: 'string',
-                     description: 'Пока не введена авторизация требуется ID пользователя',
-                     example: '5ec6d47b2b889831c0c06715',
-                  },
-               },
-            },
-            example: {
-               selfId: '5ec6d47b2b889831c0c06715',
-            },
-         },
-      },
-   },
+   summary: 'Delete user from service. Пока заблокирован во избежание',
    responses: {
       '200': {
          description: 'Возвращается удаляемый пользователь',
@@ -282,7 +202,7 @@ const deleteUser = {
    },
 }
 
-const getSelfContacts = {
+const getContacts = {
    tags: ['user'],
    summary: 'Get user contacts (до введения авторизации - только testNickName, потом - сам пользователь)',
    responses: {
@@ -349,11 +269,6 @@ const addContact = {
             schema: {
                type: 'object',
                properties: {
-                  selfId: {
-                     type: 'string',
-                     description: 'Пока не введена авторизация требуется свой ID',
-                     example: '5ec6d47b2b889831c0c06715',
-                  },
                   userId: {
                      type: 'string',
                      description: 'ID пользователя, которого добавляем в свои контакты',
@@ -417,11 +332,6 @@ const removeContact = {
             schema: {
                type: 'object',
                properties: {
-                  selfId: {
-                     type: 'string',
-                     description: 'Пока не введена авторизация требуется свой ID',
-                     example: '5ec6d47b2b889831c0c06715',
-                  },
                   userId: {
                      type: 'string',
                      description: 'ID пользователя, которого удаляем из своих контактов',
@@ -478,11 +388,10 @@ const removeContact = {
 
 module.exports = {
    createUser,
-   getSelf,
    getUser,
    updateUser,
    deleteUser,
-   getSelfContacts,
+   getContacts,
    addContact,
    removeContact,
 }

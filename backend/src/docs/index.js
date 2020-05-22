@@ -67,15 +67,12 @@ const swaggerDocument = {
       },
       '/user/': {
          post: UserSwagger.createUser,
-         get: UserSwagger.getSelf,
+         get: UserSwagger.getUser,
          put: UserSwagger.updateUser,
          delete: UserSwagger.deleteUser,
       },
-      '/user/{userId}': {
-         get: UserSwagger.getUser,
-      },
       '/user/contact': {
-         get: UserSwagger.getSelfContacts,
+         get: UserSwagger.getContacts,
          put: UserSwagger.addContact,
          delete: UserSwagger.removeContact,
       },
