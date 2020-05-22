@@ -1,6 +1,6 @@
 import {
    GET_BOARD_SUCCESS,
-   GET_CARDS,
+   GET_TAB_CARDS,
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
@@ -12,6 +12,8 @@ import {
 const initialState = {
    tabs: [],
    cards: [],
+   currentCards: [],
+   isFiltered: false,
    isLoading: false,
    failureLoading: false,
    errorMessage: '',
@@ -22,14 +24,10 @@ export default function boardReducer(state = initialState, action) {
       case GET_BOARD_SUCCESS: {
          return {
             ...state,
-            tabs: action.payload,
+            tabs: action.payload.tabs,
+            cards: action.payload.cards,
             isLoading: false,
          }
-      }
-
-      case GET_CARDS: {
-         const index = state.tabs.findIndex((tab) => tab._id === action.payload)
-         return { ...state, cards: state.tabs[index].cards }
       }
 
       case ADD_CARD_SUCCESS: {
@@ -68,6 +66,35 @@ export default function boardReducer(state = initialState, action) {
             ],
          }
       }
+
+      case GET_TAB_CARDS: {
+         return {
+            ...state,
+            isFiltered: false,
+            currentCards: state.cards.filter(
+               (card) =>
+                  action.payload === 'all' ||
+                  (card.category &&
+                     card.category.title ===
+                        state.tabs.find((tab) => tab._id === action.payload)
+                           .title)
+            ),
+         }
+      }
+
+      case GET_BOARD_FILTER: {
+         return {
+            ...state,
+            isFiltered: true,
+            currentCards: state.cards.filter(
+               (card) =>
+                  !!card.payers.find(
+                     (payer) => payer.user._id === action.payload
+                  )
+            ),
+         }
+      }
+
       case FETCH_LOADING: {
          return {
             ...state,
@@ -82,18 +109,6 @@ export default function boardReducer(state = initialState, action) {
             isLoading: false,
             failureLoading: true,
             errorMessage: action.payload,
-         }
-      }
-
-      case GET_BOARD_FILTER: {
-         return {
-            ...state,
-            cards: state.cards.filter(
-               (card) =>
-                  !!card.payers.find(
-                     (payer) => payer.user._id === action.payload
-                  )
-            ),
          }
       }
 
