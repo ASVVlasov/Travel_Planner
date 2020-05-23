@@ -9,6 +9,10 @@
         padding-left: 80px;
         display: inline-flex;
     }
+    &__rightSide {
+        display: flex;
+        justify-content: space-between;
+    }
     &__paymentInfo{
         display: flex;
         justify-content: flex-end;
@@ -27,16 +31,35 @@
     }
     &__description {
         &_large {
-            color: $color-gray-2;
+            color: $color-secondary-main;
             @include Title-1-SemiBold ;
         }
         &_medium {
-            color: $color-gray-2;
+            color: $color-primary-light;
             @include Subtitle-1-Regular;
         }
         &_small {
             @include Caption-1-Regular;
-            color: $color-gray-4;
+            color: $color-secondary-light;
+        }
+    }
+    &__settingsBtn {
+        height: 40px;
+        width: 40px;
+        margin-left: 30px;
+        display: block;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        &:focus {
+            outline: none;
+        }         
+    }
+    &__settingsBtn svg { 
+        fill: $color-secondary-main;
+        &:hover { 
+            fill: $color-secondary-light;
+            // @include IconActive; //EDIT FRAME for shadow
         }
     }
 }
