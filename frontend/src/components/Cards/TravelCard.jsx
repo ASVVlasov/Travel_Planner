@@ -40,18 +40,31 @@ export default class TravelCard extends Component {
       ))
 
    render() {
-      const { _id, title, beginDate, endDate, users } = this.props.travel
+      const {
+         _id,
+         status,
+         title,
+         beginDate,
+         endDate,
+         users,
+      } = this.props.travel
 
       return (
          <Link to={`/travel/${_id}/transport`}>
             <div className={styles.card}>
+               {status === 'АРХИВНАЯ' && (
+                  <span
+                     className={styles.card__status}
+                     children={status.toLowerCase()}
+                  />
+               )}
                <h2 className={styles.card__title} children={title} />
                <div className={styles.card__dates}>
                   <span
                      className={styles.date}
                      children={this.convertDate(beginDate)}
                   />
-                  {' – '}
+                  &nbsp; &mdash; &nbsp;
                   <span
                      className={styles.date}
                      children={this.convertDate(endDate)}

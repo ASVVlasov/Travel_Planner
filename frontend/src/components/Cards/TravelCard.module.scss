@@ -11,6 +11,9 @@ a {
    justify-content: flex-end;
    position: relative;
    padding: 5px;
+   &__status {
+      color: $color-secondary-light;
+   }
    &__title {
       @include Title-1-SemiBold;
       color: $color-primary-main;
@@ -22,6 +25,7 @@ a {
    &__travelers {
       display: flex;
       flex-wrap: wrap;
+      height: 100px;
    }
 }
 
