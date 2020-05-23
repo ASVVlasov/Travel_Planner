@@ -9,7 +9,7 @@
 .switch__labelText {
   margin-left: 8px;
   @include Subtitle-1-Regular;
-  color: $color-gray-4;
+  color: $color-secondary-light;
 }
 
 .switch__toggle {
@@ -18,7 +18,7 @@
   height: 24px;
   width: 48px;
   border-radius: 15px;
-  background: $color-gray-5;
+  background: $color-secondary-light;
   overflow: hidden;
 }
 
@@ -39,7 +39,7 @@
   left: 0;
   height: 100%;
   width: 200%;
-  background:  $color-gray-3;
+  background:  $color-success-dark;
   transform: translate3d(-100%, 0, 0);
   transition: transform 0.05s linear 0.17s;
 }
