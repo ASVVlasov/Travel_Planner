@@ -2,13 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './UserHeader.module.scss'
 
-//redux
-import { bindActionCreators } from 'redux'
-import connect from 'react-redux/es/connect/connect'
-
 import { ReactComponent as LogoutIcon } from '../../assets/images/icons/exit.svg'
 
-class UserHeader extends React.Component {
+export default class UserHeader extends React.Component {
    static propTypes = {
       user: PropTypes.object.isRequired,
    }
@@ -32,11 +28,3 @@ class UserHeader extends React.Component {
       )
    }
 }
-
-const mapStateToProps = ({ userReducer }) => ({
-   user: userReducer,
-})
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserHeader)
