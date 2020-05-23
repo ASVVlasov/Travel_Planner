@@ -53,8 +53,11 @@ class UserBoard extends Component {
          />
       ))
 
-   mapCardsToRender = (tab, cards) =>
-      cards.map((card) => (
+   mapCardsToRender = (tab, filter, cards) => {
+      if (tab === 'travels' && filter) {
+         cards = cards.filter((card) => card.status === 'АКТИВНАЯ')
+      }
+      return cards.map((card) => (
          <div
             key={card._id}
             className={styles.board__card}
@@ -67,15 +70,14 @@ class UserBoard extends Component {
             }
          />
       ))
-
-   // componentDidMount() {}
-   // componentDidUpdate(prevProps) {}
+   }
 
    render() {
       const {
          match: {
             params: { tab },
          },
+         filter,
       } = this.props
 
       return (
@@ -94,7 +96,7 @@ class UserBoard extends Component {
             <BoardSlider
                className={styles.board__cards}
                slides={[
-                  ...this.mapCardsToRender(tab, this.props[tab]),
+                  ...this.mapCardsToRender(tab, filter, this.props[tab]),
                   <button
                      className={styles.board__card_add}
                      onClick={this.openModal}
@@ -109,9 +111,10 @@ class UserBoard extends Component {
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
+const mapStateToProps = ({ userReducer, boardReducer }) => ({
    travels: userReducer.travels,
    contacts: userReducer.contacts,
+   filter: boardReducer.historyFilter,
 })
 // const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
