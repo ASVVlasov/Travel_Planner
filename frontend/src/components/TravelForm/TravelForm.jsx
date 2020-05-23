@@ -31,10 +31,11 @@ export default class TravelForm extends Component {
    }
 
    submit = () => {
-      const users = this.state.selected.map((o) => ({
-         ...o,
-      }))
-      this.props.onSubmit({ ...this.state, users })
+      const refactor = ({ options, selected, ...obj }) => ({
+         ...obj,
+         users: selected,
+      })
+      this.props.onSubmit(refactor(this.state))
    }
 
    componentDidMount() {
@@ -48,13 +49,11 @@ export default class TravelForm extends Component {
    }
 
    render() {
-      const { onClose, onSubmit } = this.props
+      const { onClose } = this.props
       const { title, beginDate, endDate } = this.state
       const prop = {
          selectSomeItems: 'Пригласите друзей в поездку',
          allItemsAreSelected: 'Приглашены все друзья',
-         selectAll: 'safdt All',
-         search: 'Seasdsrch',
       }
 
       return (
