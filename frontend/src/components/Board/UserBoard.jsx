@@ -11,6 +11,7 @@ import Button from '../../controls/Button/Button'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import TravelCard from '../Cards/TravelCard'
+import ContactCard from '../Cards/ContactCard'
 
 class UserBoard extends Component {
    static propTypes = {
@@ -58,7 +59,11 @@ class UserBoard extends Component {
             key={card._id}
             className={styles.board__card}
             children={
-               tab === 'travels' ? <TravelCard travel={card} /> : card.nickName
+               tab === 'travels' ? (
+                  <TravelCard travel={card} />
+               ) : (
+                  <ContactCard contact={card} />
+               )
             }
          />
       ))
@@ -98,7 +103,7 @@ class UserBoard extends Component {
                ]}
             />
 
-            {/* {this.state.isModalOpen && <div children="Форма создания поездки" />} */}
+            {/* {this.state.isModalOpen && <TravelForm />} */}
          </div>
       )
    }
