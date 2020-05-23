@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import styles from './Board.module.scss'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 // import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -10,9 +10,13 @@ import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
+import TravelCard from '../Cards/TravelCard'
 
-class Board extends Component {
-   // static propTypes = {}
+class UserBoard extends Component {
+   static propTypes = {
+      travels: PropTypes.arrayOf(PropTypes.object),
+      contacts: PropTypes.arrayOf(PropTypes.object),
+   }
 
    state = {
       isModalOpen: false,
@@ -48,48 +52,44 @@ class Board extends Component {
          />
       ))
 
-   mapCardsToRender = () => {
-      //TODO replace with Cards components
-      if (this.props.match.params.tab === 'travels') {
-         return this.props.travels.map((travel) => (
-            <Link
-               to={`/travel/${travel._id}/transport`}
-               children={travel.title}
-            />
-         ))
-      } else {
-         return this.props.contacts.map((contact) => (
-            <div
-               key={contact._id}
-               className={styles.board__card}
-               children={contact.nickName}
-            />
-         ))
-      }
-   }
+   mapCardsToRender = (tab, cards) =>
+      cards.map((card) => (
+         <div
+            key={card._id}
+            className={styles.board__card}
+            children={
+               tab === 'travels' ? <TravelCard travel={card} /> : card.nickName
+            }
+         />
+      ))
 
    // componentDidMount() {}
    // componentDidUpdate(prevProps) {}
 
    render() {
+      const {
+         match: {
+            params: { tab },
+         },
+      } = this.props
+
       return (
          <div className={styles.board}>
             <div className={styles.board__controlPanel}>
                <nav children={this.mapTabsToRender()} />
-
-               {/* {this.props.cards.length > 2 && ( */}
                <Button
                   onClick={this.openModal}
-                  text="Новая поездка"
                   kind="action"
+                  text={
+                     tab === 'travels' ? 'Новая поездка' : 'Добавить контакт'
+                  }
                />
-               {/* )} */}
             </div>
 
             <BoardSlider
                className={styles.board__cards}
                slides={[
-                  ...this.mapCardsToRender(),
+                  ...this.mapCardsToRender(tab, this.props[tab]),
                   <button
                      className={styles.board__card_add}
                      onClick={this.openModal}
@@ -110,4 +110,4 @@ const mapStateToProps = ({ userReducer }) => ({
 })
 // const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, null)(Board)
+export default connect(mapStateToProps)(UserBoard)
