@@ -54,7 +54,7 @@ class UserBoard extends Component {
       ))
 
    mapCardsToRender = (tab, filter, cards) => {
-      if (tab === 'travels' && filter) {
+      if (tab === 'travels' && !filter) {
          cards = cards.filter((card) => card.status === 'АКТИВНАЯ')
       }
       return cards.map((card) => (
