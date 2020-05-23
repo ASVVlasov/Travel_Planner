@@ -15,7 +15,7 @@
   }
   &__avatar {
     @include AvatarEmpty(45px);
-    margin-right: 50px;
+    margin-right: 40px;
     cursor: pointer;
     & img {
       @include AvatarImg(45px);
@@ -25,5 +25,5 @@
 }
 
 .icons {
-  @include IconBright(30px);
+  @include IconBright(40px);
 }
