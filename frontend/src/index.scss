@@ -8,3 +8,10 @@
    @include Text-Regular;
    color: $color-primary-main;
 }
+
+a {
+   text-decoration: none;
+   &:hover {
+      color: $color-secondary-main;
+   }
+}
