@@ -8,6 +8,7 @@ import {
    GET_BOARD_FILTER,
    SET_USER_FILTER,
    SET_TAB_FILTER,
+   SET_HISTORY_FILTER,
 } from '../types'
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
    currentCards: [],
    tabFilter: 'all',
    userFilter: '',
+   historyFilter: false,
    isLoading: false,
    failureLoading: false,
    errorMessage: '',
@@ -80,6 +82,13 @@ export default function boardReducer(state = initialState, action) {
          return {
             ...state,
             tabFilter: action.payload,
+         }
+      }
+
+      case SET_HISTORY_FILTER: {
+         return {
+            ...state,
+            historyFilter: action.payload,
          }
       }
 
