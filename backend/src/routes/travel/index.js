@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
+const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
 const mock = require('../mock-id')
 const userRouter = require('./user')
@@ -16,7 +17,11 @@ router.get(
 router.post(
    '/',
    asyncHandler(async (req, res) => {
-      res.json(await TravelModel.create(req.body))
+      const travel = new TravelModel(req.body)
+      await travel.save()
+      const update = { $push: { travels: travel.id } }
+      await UserModel.findByIdAndUpdate(mock.SELFID, update)
+      res.json(travel)
    })
 )
 
