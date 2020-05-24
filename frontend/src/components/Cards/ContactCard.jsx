@@ -12,9 +12,7 @@ export default class ContactCard extends Component {
    }
 
    state = {
-      surname: 'Фамилия',
-      name: 'Имя',
-      email: 'test@mail.tu',
+      email: 'test@mail.tu', //TODO remove after real data appear
    }
 
    //TODO remove
@@ -23,8 +21,8 @@ export default class ContactCard extends Component {
       : window.location.origin + '/card/file/'
 
    render() {
-      const { avatar, nickName } = this.props.contact
-      const { surname, name, email } = this.state
+      const { avatar, nickName, surname, name } = this.props.contact
+      const { email } = this.state
 
       const fullName = name
          ? surname
@@ -41,15 +39,19 @@ export default class ContactCard extends Component {
                children={fullName || nickName}
             />
 
-            {fullName && (
-               <span className={styles.contact__nickName} children={nickName} />
-            )}
-
-            <a
-               className={styles.contact__email}
-               href={`mailto:${email}`}
-               children={email}
-            />
+            <div className={styles.contact__additional}>
+               {fullName && (
+                  <span
+                     className={styles.contact__nickName}
+                     children={nickName}
+                  />
+               )}
+               <a
+                  className={styles.contact__email}
+                  href={`mailto:${email}`}
+                  children={email}
+               />
+            </div>
 
             <div className={styles.contact__avatar}>
                {!avatar && nickName[0]}

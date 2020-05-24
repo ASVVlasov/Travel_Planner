@@ -13,19 +13,23 @@
    &__name {
       @include Title-1-SemiBold;
       color: $color-primary-main;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+   }
+   &__additional {
+      height: 40px;
+      margin-bottom: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
    }
    &__nickName, &__email {
       @include Caption-1-Regular;
       color: $color-primary-light;
    }
-   &__email {
-      margin-bottom: 25px;
-   }
    &__avatar {
-      @include AvatarEmpty(65px);
+      @include AvatarEmpty(80px);
       & img {
-         @include AvatarImg(65px);
+         @include AvatarImg(80px);
       }
    }
 }
