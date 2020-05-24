@@ -1,0 +1,35 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.card {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   justify-content: flex-end;
+   position: relative;
+   padding: 5px;
+}
+
+.contact {
+   &__name {
+      @include Title-1-SemiBold;
+      color: $color-primary-main;
+      margin-bottom: 5px;
+   }
+   &__additional {
+      height: 40px;
+      margin-bottom: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+   }
+   &__nickName, &__email {
+      @include Caption-1-Regular;
+      color: $color-primary-light;
+   }
+   &__avatar {
+      @include AvatarEmpty(80px);
+      & img {
+         @include AvatarImg(80px);
+      }
+   }
+}

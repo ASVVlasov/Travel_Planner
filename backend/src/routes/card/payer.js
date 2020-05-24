@@ -2,13 +2,11 @@ const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
 const PayerModel = require('../../models/payer')
 const CardModel = require('../../models/card')
-const mock = require('../mock-id')
 
 router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      console.log(cardId)
       let newPayer = new PayerModel({
          user: userId,
          cardId: cardId,
@@ -47,7 +45,8 @@ router.put(
 router.get(
    '/summary/:travelId',
    asyncHandler(async (req, res) => {
-      res.json(await CardModel.summaryForPays({ travelId: mock.TRAVELID, userId: mock.USERID }))
+      let { travelId } = req.params
+      res.json(await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id }))
    })
 )
 

@@ -1,0 +1,61 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+   background: $color-background-light;
+   border-radius: 20px;
+   padding: 25px 30px 30px 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   z-index: 300;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   &__title {
+      @include Title-2-SemiBold ;
+      color: $color-secondary-main;
+      margin-bottom: 35px;
+   }
+   &__inputs {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+   }
+   &__actions {
+      margin-left: auto;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.icon__cross {
+   position: absolute;
+   top: 25px;
+   right: 25px;
+   border: none;
+   outline: none;
+   background: transparent;
+   cursor: pointer;
+   svg {
+      width: 30px;
+      fill: $color-secondary-light;
+      opacity: 0.5;
+   }
+}
+
+.input {
+   &_users,
+   &_title {
+      width: 100%;
+   }
+   &_beginDate {
+      margin-right: 25px;
+   }
+   &_endDate {
+      margin-left: 25px;
+   }
+}

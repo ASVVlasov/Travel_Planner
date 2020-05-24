@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getBoard } from '../../redux/board/operations'
-import { getCards } from '../../redux/cards/actions'
 
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
@@ -14,11 +12,13 @@ import CardFormContainer from '../../containers/CardFormContainer'
 import CardShort from '../Cards/CardShort'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
+import { setTabFilter } from '../../redux/board/actions'
+import { getBoard } from '../../redux/board/operations'
 
 class Board extends Component {
    static propTypes = {
       getBoard: PropTypes.func.isRequired,
-      getCards: PropTypes.func.isRequired,
+      setTabFilter: PropTypes.func.isRequired,
       tabs: PropTypes.array.isRequired,
       cards: PropTypes.array.isRequired,
    }
@@ -70,17 +70,17 @@ class Board extends Component {
    componentDidUpdate(prevProps) {
       const {
          getBoard,
-         getCards,
+         setTabFilter,
          match: {
             params: { travelId, board, tab },
          },
       } = this.props
 
       if (prevProps.match.params.board !== board) {
-         getBoard(travelId, board.toUpperCase(), tab)
+         getBoard(travelId, board.toUpperCase())
       }
       if (prevProps.match.params.tab !== tab) {
-         getCards(tab)
+         setTabFilter(tab)
       }
    }
 
@@ -88,12 +88,10 @@ class Board extends Component {
       return (
          <div className={styles.board}>
             <div className={styles.board__controlPanel}>
-               <nav className={styles.board__tabs}>
-                  {this.mapTabsToRender()}
-               </nav>
+               <nav children={this.mapTabsToRender()} />
 
                {this.props.cards.length > 2 && (
-                  <Button onClick={this.openModal} size="small" text="+" />
+                  <Button onClick={this.openModal} text="+" kind="action" />
                )}
             </div>
 
@@ -121,12 +119,12 @@ class Board extends Component {
 
 const mapStateToProps = ({ boardReducer }) => ({
    tabs: boardReducer.tabs,
-   cards: boardReducer.cards,
+   cards: boardReducer.currentCards,
    isLoading: boardReducer.isLoading,
    failureLoading: boardReducer.failureLoading,
    errorMessage: boardReducer.errorMessage,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getBoard, getCards }, dispatch)
+   bindActionCreators({ getBoard, setTabFilter }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board)

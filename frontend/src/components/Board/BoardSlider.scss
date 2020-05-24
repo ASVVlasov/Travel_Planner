@@ -1,4 +1,4 @@
-@import '../../styles/colors';
+@import '../../styles/colors', '../../styles/mixins';
 
 .swiper-container {
    width: 100%;
@@ -12,11 +12,14 @@
    min-height: 400px;
    max-height: 570px;
    background-color: $color-white;
-   box-shadow: 1px 1px 20px change-color($color-gray-1, $alpha: 0.1);
+   @include BaseShadow;
    border-radius: 20px;
    padding: 25px;
    &:last-child {
-      box-shadow: 1px 1px 10px change-color($color-gray-1, $alpha: 0.08);
+      @include LightShadow;
+   }
+   &:hover {
+      @include BaseShadowHover;
    }
 }
 

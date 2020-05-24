@@ -12,11 +12,13 @@ import {
    deleteFile,
    changePayerStatus,
 } from '../../redux/cards/operations'
+import { getBudget } from '../../redux/travel/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
+import UserPicker from '../../controls/UserPicker/UserPicker'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -27,6 +29,10 @@ class CardFull extends Component {
       toClose: PropTypes.func.isRequired,
       changeCard: PropTypes.func.isRequired,
       deleteCard: PropTypes.func.isRequired,
+      uploadFile: PropTypes.func.isRequired,
+      deleteFile: PropTypes.func.isRequired,
+      changePayerStatus: PropTypes.func.isRequired,
+      getBudget: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
    }
 
@@ -34,23 +40,40 @@ class CardFull extends Component {
       comment: '',
       cost: 0,
       isCardFormOpen: false,
+      isUserPickerOpen: false,
+      userPickerPosition: {},
    }
 
-   openForm = () => {
-      this.setState({ isCardFormOpen: true })
+   //TODO remove
+   FILE_URL = window.location.port
+      ? 'http://localhost:3300/card/file/'
+      : window.location.origin + '/card/file/'
+
+   openForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: true })
    }
 
-   closeForm = () => {
-      this.setState({ isCardFormOpen: false })
+   closeForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: false })
+   }
+
+   setPosition = (x, y) => {
+      return {
+         position: 'absolute',
+         top: y + 'px',
+         left: x + 'px',
+      }
    }
 
    commentInput = createRef()
    filesInput = createRef()
+   costInput = createRef()
 
-   focusCommentInput = () => {
-      const el = this.commentInput.current
-      el.focus()
-      el.setSelectionRange(el.value.length, el.value.length)
+   focusInput = (input) => {
+      input.focus()
+      if (input.name === 'comment') {
+         input.setSelectionRange(input.value.length, input.value.length)
+      }
    }
 
    uploadFileHandler = (e) => {
@@ -102,7 +125,7 @@ class CardFull extends Component {
          <span key={file._id} className={styles.docs__file}>
             <a
                download
-               href={`http://localhost:3300/card/file/${file._id}`} //TODO replace with Link(?)
+               href={this.FILE_URL + file._id}
                children={file.fileName}
                className={styles.docs__link}
             />
@@ -115,15 +138,25 @@ class CardFull extends Component {
    }
 
    payersToRender = () => {
-      const { card, changePayerStatus } = this.props
+      const { card, changePayerStatus, getBudget } = this.props
 
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
-            <div className={styles.travelers__avatar}>
-               {/* <img src={ payer.user.avatar } alt={ payer.user.nickName } title={ payer.user.nickName } /> */}
+            <div
+               className={styles.travelers__avatar}
+               title={payer.user.nickName}
+            >
+               {!payer.user.avatar && payer.user.nickName[0]}
+               {payer.user.avatar && (
+                  <img
+                     src={this.FILE_URL + payer.user.avatar}
+                     alt={payer.user.nickName}
+                  />
+               )}
             </div>
             <span
                className={styles.travelers__name}
+               title={payer.user.nickName}
                children={payer.user.nickName}
             />
             <div
@@ -133,6 +166,7 @@ class CardFull extends Component {
                      checked={payer.isPayer}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, isPayer: e })
+                        getBudget(card.travelId)
                      }}
                   />
                }
@@ -144,6 +178,7 @@ class CardFull extends Component {
                      checked={payer.hasPayed}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, hasPayed: e })
+                        getBudget(card.travelId)
                      }}
                   />
                }
@@ -152,18 +187,33 @@ class CardFull extends Component {
       ))
    }
 
+   setCostFormat = (number) => {
+      if (number) {
+         return number
+            .toString()
+            .split(' ')
+            .join('')
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+      }
+      return '0'
+   }
+
    splitGeneralCost = () => {
       const { payers, cost } = this.props.card
+      const personalCost = this.setCostFormat(parseInt(cost / payers.length))
+
       return payers.map((payer) => (
-         // TODO add formatting for cost
          <span
             key={payer._id}
             className={styles.card__cost_personal}
-            children={`${cost / payers.length} Р`}
+            children={personalCost + ' P'}
          />
       ))
    }
 
+   componentDidMount() {
+      this.setState({ cost: this.props.card.cost })
+   }
    render() {
       const { toClose, deleteCard, card } = this.props
 
@@ -177,7 +227,7 @@ class CardFull extends Component {
          endPoint,
          endDate,
          comment,
-         cost,
+         payers,
       } = card
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
@@ -201,7 +251,7 @@ class CardFull extends Component {
                         <h2>{routeSectionTitle}</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.openForm}
+                           onClick={() => this.openForm('CardForm')}
                         />
                      </div>
 
@@ -266,7 +316,9 @@ class CardFull extends Component {
                         <h2>Комментарии</h2>
                         <EditIcon
                            className={styles.icons}
-                           onClick={this.focusCommentInput}
+                           onClick={() =>
+                              this.focusInput(this.commentInput.current)
+                           }
                         />
                      </div>
                      <textarea
@@ -283,56 +335,60 @@ class CardFull extends Component {
 
                <div className={styles.card__rightSide}>
                   <section className={styles.card__travelers}>
-                     <h2>Участники</h2>
-
-                     <div className={styles.travelers__columns}>
-                        <span
-                           className={styles.travelers__columnTitle}
-                           children="заплатил за всех"
-                        />
-                        <span
-                           className={styles.travelers__columnTitle}
-                           children="заплатил за себя"
+                     <div className={styles.section__title}>
+                        <h2>Участники</h2>
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={(e) => {
+                              this.setState({
+                                 userPickerPosition: this.setPosition(
+                                    e.clientX - 140,
+                                    e.clientY + 20
+                                 ),
+                              })
+                              this.openForm('UserPicker')
+                           }}
                         />
                      </div>
+                     {payers.length > 0 && (
+                        <div className={styles.travelers__columns}>
+                           <span
+                              className={styles.travelers__columnTitle}
+                              children="заплатил за всех"
+                           />
+                           <span
+                              className={styles.travelers__columnTitle}
+                              children="заплатил за себя"
+                           />
+                        </div>
+                     )}
 
                      {this.payersToRender()}
-
-                     {/* TODO add function for choosing additional contacts*/}
-                     <div
-                        className={classNames(
-                           styles.travelers__person,
-                           styles.travelers__person_add
-                        )}
-                        key={100}
-                     >
-                        <div
-                           className={classNames(
-                              styles.travelers__avatar,
-                              styles.travelers__avatar_add
-                           )}
-                        />
-                        <span
-                           className={classNames(
-                              styles.travelers__name,
-                              styles.travelers__name_add
-                           )}
-                           children={'добавить'}
-                        />
-                     </div>
                   </section>
 
                   <section className={styles.card__cost}>
-                     <h2>Стоимость</h2>
-                     {/* TODO add formatting for cost */}
+                     <div className={styles.section__title}>
+                        <h2>Стоимость</h2>
+                        <EditIcon
+                           className={styles.icons}
+                           onClick={() =>
+                              this.focusInput(this.costInput.current)
+                           }
+                        />
+                     </div>
                      <span className={styles.card__cost_general}>
                         <input
                            name="cost"
-                           type="number"
-                           value={this.state.cost || cost}
+                           type="text"
+                           value={this.setCostFormat(this.state.cost)}
+                           ref={this.costInput}
                            onChange={(e) => this.handleChange(e)}
+                           onKeyDown={(e) => this.handleChange(e)}
                            onBlur={(e) =>
-                              this.updateCard(e.target.name, e.target.value)
+                              this.updateCard(
+                                 e.target.name,
+                                 +e.target.value.split(' ').join('')
+                              )
                            }
                         />
                         {' Р'}
@@ -347,15 +403,27 @@ class CardFull extends Component {
                            toClose()
                         }}
                         text="Удалить карточку"
-                        kind="cancel"
+                        kind="delete"
                      />
-                     <Button onClick={toClose} text="OK" />
+                     <Button onClick={toClose} text="OK" ml={20} />
                   </div>
                </div>
             </div>
 
             {this.state.isCardFormOpen && (
-               <CardFormContainer onClose={this.closeForm} card={card} />
+               <CardFormContainer
+                  onClose={() => this.closeForm('CardForm')}
+                  card={card}
+               />
+            )}
+
+            {this.state.isUserPickerOpen && (
+               <UserPicker
+                  onClose={() => this.closeForm('UserPicker')}
+                  position={this.state.userPickerPosition}
+                  payers={payers}
+                  cardId={card._id}
+               />
             )}
          </ModalBase>
       )
@@ -364,7 +432,14 @@ class CardFull extends Component {
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
-      { changeCard, deleteCard, uploadFile, deleteFile, changePayerStatus },
+      {
+         changeCard,
+         deleteCard,
+         uploadFile,
+         deleteFile,
+         changePayerStatus,
+         getBudget,
+      },
       dispatch
    )
 

@@ -1,0 +1,55 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.picker {
+   z-index: 400;
+   width: fit-content;
+   max-width: 395px;
+   padding: 10px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   border-radius: 10px;
+   background-color: $color-white;
+   box-shadow: 2px 2px 10px change-color($color-gray-1,$alpha: 0.1);
+}
+
+.user {
+   width: 63px;
+   margin: 10px;
+   display: flex;
+   flex-direction: column;
+   &__avatar {
+      @include AvatarEmpty(45px);
+      margin: 0 auto;
+      position: relative;
+      & img {
+         @include AvatarImg(45px);
+         border-radius: 50%;
+      }
+   }
+   &__name {
+      @include Caption-1-Regular;
+      color: $color-gray-1;
+      margin-top: 8px;
+      text-align: center;
+      overflow: hidden;   
+      text-overflow: ellipsis;
+      white-space: nowrap;
+   }
+}
+
+.icons {
+   position: absolute;
+   top: 24px;
+   left: 24px;
+   width: 20px;
+   cursor: pointer;
+   border-radius: 50%;
+   fill: $color-gray-6;
+   &__delete {
+      background-color: $color-gray-3;
+   }
+   &__add {
+      background-color: $color-gray-4;
+   }
+}

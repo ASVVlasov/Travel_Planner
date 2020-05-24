@@ -1,17 +1,24 @@
 import {
    GET_BOARD_SUCCESS,
-   GET_CARDS,
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
+   FETCH_LOADING,
    FETCH_ERROR,
    GET_BOARD_FILTER,
+   SET_USER_FILTER,
+   SET_TAB_FILTER,
+   SET_HISTORY_FILTER,
 } from '../types'
 
 const initialState = {
    tabs: [],
    cards: [],
-   isLoading: true,
+   currentCards: [],
+   tabFilter: 'all',
+   userFilter: '',
+   historyFilter: false,
+   isLoading: false,
    failureLoading: false,
    errorMessage: '',
 }
@@ -21,20 +28,17 @@ export default function boardReducer(state = initialState, action) {
       case GET_BOARD_SUCCESS: {
          return {
             ...state,
-            tabs: action.payload,
+            tabs: action.payload.tabs,
+            cards: action.payload.cards,
             isLoading: false,
          }
-      }
-
-      case GET_CARDS: {
-         const index = state.tabs.findIndex((tab) => tab._id === action.payload)
-         return { ...state, cards: state.tabs[index].cards }
       }
 
       case ADD_CARD_SUCCESS: {
          return {
             ...state,
             cards: [...state.cards, action.payload],
+            isLoading: false,
          }
       }
 
@@ -44,6 +48,7 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
+            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                action.payload,
@@ -58,6 +63,7 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
+            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                ...state.cards.slice(index + 1),
@@ -65,24 +71,59 @@ export default function boardReducer(state = initialState, action) {
          }
       }
 
-      case FETCH_ERROR: {
+      case SET_USER_FILTER: {
          return {
             ...state,
-            isLoading: false,
-            failureLoading: true,
-            errorMessage: action.payload,
+            userFilter: action.payload,
+         }
+      }
+
+      case SET_TAB_FILTER: {
+         return {
+            ...state,
+            tabFilter: action.payload,
+         }
+      }
+
+      case SET_HISTORY_FILTER: {
+         return {
+            ...state,
+            historyFilter: action.payload,
          }
       }
 
       case GET_BOARD_FILTER: {
          return {
             ...state,
-            cards: state.cards.filter(
+            currentCards: state.cards.filter(
                (card) =>
-                  !!card.payers.find(
-                     (payer) => payer.user._id === action.payload
-                  )
+                  (state.tabFilter === 'all' ||
+                     (card.category &&
+                        card.category.title ===
+                           state.tabs.find((tab) => tab._id === state.tabFilter)
+                              .title)) &&
+                  (!state.userFilter ||
+                     !!card.payers.find(
+                        (payer) => payer.user._id === state.userFilter
+                     ))
             ),
+         }
+      }
+
+      case FETCH_LOADING: {
+         return {
+            ...state,
+            isLoading: true,
+            failureLoading: false,
+            errorMessage: '',
+         }
+      }
+      case FETCH_ERROR: {
+         return {
+            ...state,
+            isLoading: false,
+            failureLoading: true,
+            errorMessage: action.payload,
          }
       }
 

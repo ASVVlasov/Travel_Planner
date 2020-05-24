@@ -1,8 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 //redux
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
+import { getTravel } from '../../redux/travel/operations'
 
 import styles from './Header.module.scss'
 import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
@@ -13,50 +15,68 @@ import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
 import Calendar from '../../controls/Calendar/Calendar'
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+   static propTypes = {
+      travel: PropTypes.object.isRequired,
+      getTravel: PropTypes.func.isRequired,
+   }
+   constructor(props) {
+      super(props)
+      this.state = {}
+   }
 
-    }
-  }
+   componentDidMount() {
+      const travelId = '5ec2628732d87634b0b0063b'
+      this.props.getTravel(travelId) //action
+   }
 
-  render() {
-    return (
-    <header className={styles.header}>
-      <div className={styles["back-btn"]}>
-        <BackBtnSVG />
-      </div>
-      <div className={styles["trip-data"]}>
-        <div className={styles["trip-data__item"]}>
-          <div className={styles["trip-data__title-text"]}>
-            <HeaderTitle/>
-          </div>
-        </div>
-        <div className={styles["trip-data__item"]}>
-          <div className={styles["trip-data__period-text"]}>
-            <Calendar/>
-          </div>
-            <EditBtnSVG className={styles["trip-data__edit-btn"]} />
-        </div>
-      </div>
+   mapUsersToRender = () => {
+      const { users } = this.props.travel
 
-      <div className={styles['travellers']}>
-        <div className={styles['travellers-item']}></div>
-        <div className={styles['travellers-item']}></div>
-        <div className={styles['travellers-item']}></div>
-        <div className={styles['travellers-item']}></div>
-        <div className={styles['travellers-else']}>+2</div>
-      </div>
-      <div className={styles["user-profile"]}>
-        <UserProfileSVG />
-      </div>
-    </header>
-    )
-  }
+      if (users) {
+         return users.map((user) => (
+            <div className={styles['travellers-item']} key={user._id}>
+               {user.nickName.charAt(0)}
+            </div>
+         ))
+      }
+   }
+
+   render() {
+      return (
+         <header className={styles.header}>
+            <div className={styles['back-btn']}>
+               <BackBtnSVG />
+            </div>
+            <div className={styles['trip-data']}>
+               <div className={styles['trip-data__item']}>
+                  <div className={styles['trip-data__title-text']}>
+                     <HeaderTitle />
+                  </div>
+               </div>
+               <div className={styles['trip-data__item']}>
+                  <div className={styles['trip-data__period-text']}>
+                     <Calendar />
+                  </div>
+                  <EditBtnSVG className={styles['trip-data__edit-btn']} />
+               </div>
+            </div>
+
+            <div className={styles['travellers']}>
+               {this.mapUsersToRender()}
+            </div>
+            <div className={styles['user-profile']}>
+               <UserProfileSVG />
+            </div>
+         </header>
+      )
+   }
 }
 
-const mapStateToProps = ({}) => ({})
+const mapStateToProps = ({ travelReducer }) => ({
+   travel: travelReducer.travel,
+})
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ getTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

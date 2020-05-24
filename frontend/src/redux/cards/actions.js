@@ -1,12 +1,12 @@
 import {
-   GET_CARDS,
+   GET_TAB_CARDS,
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
 } from '../types'
 
 export const getCards = (activeTabId) => ({
-   type: GET_CARDS,
+   type: GET_TAB_CARDS,
    payload: activeTabId,
 })
 

@@ -26,6 +26,11 @@ export default class CardShort extends Component {
       fullInfoOpened: false,
    }
 
+   //TODO remove
+   FILE_URL = window.location.port
+      ? 'http://localhost:3300/card/file/'
+      : window.location.origin + '/card/file/'
+
    showFullInfo = () => {
       this.setState({ fullInfoOpened: true })
    }
@@ -50,8 +55,18 @@ export default class CardShort extends Component {
 
    avatarsToRender = () => {
       return this.props.payers.map((payer) => (
-         <div className={styles.travelers__avatar} key={payer._id}>
-            {/* <img src={ payer.user.avatar } alt={ payer.user.nickName } title={ payer.user.nickName } /> */}
+         <div
+            className={styles.travelers__avatar}
+            title={payer.user.nickName}
+            key={payer._id}
+         >
+            {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
+            {payer.user.avatar && (
+               <img
+                  src={this.FILE_URL + payer.user.avatar}
+                  alt={payer.user.nickName}
+               />
+            )}
          </div>
       ))
    }

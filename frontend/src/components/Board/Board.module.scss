@@ -7,24 +7,21 @@
 }
 
 .board__controlPanel {
+   height: 42px;
    display: flex;
    justify-content: space-between;
-   align-items: flex-end;
+   align-items: center;
    padding: 0 120px;
-}
-
-.board__tabs {
-   height: 42px;
 }
 
 .board__tabsLink {
    display: inline-block;
    margin-right: 40px;
-   @include H1;
-   color: $color-gray-4;
+   @include Title-1-SemiBold ;
+   color: $color-secondary-light;
    text-decoration: none;
    &_active {
-      color: $color-gray-1;
+      color: $color-secondary-main;
    }
 }
 
@@ -38,6 +35,7 @@
    cursor: pointer;
    svg {
       width: 45px;
-      fill: $color-gray-5;
+      fill: $color-secondary-light;
+      opacity: 0.3;
    }
 }

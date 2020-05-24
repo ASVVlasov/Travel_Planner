@@ -4,17 +4,16 @@ import Switch from '../../controls/Switch/Switch.jsx'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getSummary } from '../../redux/travel/operations'
-import { getBoardFilter } from '../../redux/board/actions'
-import { withRouter } from 'react-router-dom'
-import { getCards } from '../../redux/cards/actions'
+import { getBudget } from '../../redux/travel/operations'
+import { setUserFilter } from '../../redux/board/actions'
 
 class Footer extends React.Component {
    static propTypes = {
+      travelId: PropTypes.string,
+      userId: PropTypes.string,
       summary: PropTypes.object.isRequired,
-      getSummary: PropTypes.func.isRequired,
-      getBoardFilter: PropTypes.func.isRequired,
-      getCards: PropTypes.func.isRequired,
+      getBudget: PropTypes.func.isRequired,
+      setUserFilter: PropTypes.func.isRequired,
    }
 
    state = {
@@ -22,16 +21,14 @@ class Footer extends React.Component {
    }
 
    componentDidMount() {
-      // TODO заменить адын на реальный travelId из роута в будущем
-      this.props.getSummary(1)
+      this.props.getBudget(this.props.travelId)
    }
 
    changeFilter = (value) => {
       if (value) {
-         this.props.getBoardFilter('5eb9af4dc82bd95234d9ccd6')
+         this.props.setUserFilter(this.props.userId)
       } else {
-         // TODO заменить в будущем на реальную табу
-         this.props.getCards('all')
+         this.props.setUserFilter('')
       }
       this.setState({ filter: value })
    }
@@ -85,10 +82,11 @@ class Footer extends React.Component {
       )
    }
 }
-const mapStateToProps = ({ travelReducer }) => ({
-   summary: travelReducer.summary,
+const mapStateToProps = ({ travelReducer, userReducer }) => ({
+   summary: travelReducer.budget,
+   userId: userReducer._id,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getSummary, getBoardFilter, getCards }, dispatch)
+   bindActionCreators({ getBudget, setUserFilter }, dispatch)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Footer))
+export default connect(mapStateToProps, mapDispatchToProps)(Footer)
