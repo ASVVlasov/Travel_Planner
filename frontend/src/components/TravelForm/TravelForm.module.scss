@@ -1,0 +1,91 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+   background: $color-background-light;
+   border-radius: 20px;
+   padding: 25px 30px 30px 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   z-index: 300;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   &__title {
+      @include Title-2-SemiBold ;
+      color: $color-secondary-main;
+      margin-bottom: 35px;
+   }
+   &__inputs {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+   }
+   &__actions {
+      margin-left: auto;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.icon__cross {
+   position: absolute;
+   top: 25px;
+   right: 25px;
+   border: none;
+   outline: none;
+   background: transparent;
+   cursor: pointer;
+   svg {
+      width: 30px;
+      fill: $color-secondary-light;
+      opacity: 0.5;
+   }
+}
+
+.label {
+   @include Caption-1-Regular;
+   color: $color-primary-light;
+   margin-bottom: 6px;
+}
+
+.multiSelect {
+   @include FormInput;
+   padding: 8px 10px;
+   --rmsc-primary: none!important;
+   --rmsc-hover: #{$color-secondary-main}!important;
+   --rmsc-selected: #{lighten($color-secondary-light, 20%)} !important;
+   --rmsc-border: none!important;
+   --rmsc-gray: #{$color-secondary-light}!important;
+   --rmsc-height: auto!important;
+}
+
+.input {
+   @include FormInput;
+   &__block {
+      display: flex;
+      flex: 1 1;
+      flex-direction: column;
+      position: relative;
+      &_hint {
+         position: absolute;
+         right: 0;
+         top:0;
+         color: $color-secondary-light;
+      }
+      &_beginDate {
+         margin-right: 25px;
+      }
+      &_endDate {
+         margin-left: 25px;
+      }
+   }
+}
+
+.hidden {
+   visibility: hidden;
+}
