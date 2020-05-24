@@ -11,7 +11,8 @@ router.use('/user', userRouter)
 router.get(
    '/:travelId',
    asyncHandler(async (req, res) => {
-      res.json(await TravelModel.findOne({ _id: mock.TRAVELID }))
+      const { travelId } = req.params
+      res.json(await TravelModel.findOne({ _id: travelId }))
    })
 )
 router.post(
@@ -39,8 +40,9 @@ router.put(
 router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
-      await CardModel.deleteCards(mock.TRAVELID)
-      const travel = await TravelModel.findByIdAndRemove(mock.TRAVELID)
+      const { travelId } = req.params
+      await CardModel.deleteCards(travelId)
+      const travel = await TravelModel.findByIdAndRemove(travelId)
       res.json(travel)
    })
 )
