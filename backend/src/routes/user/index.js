@@ -6,22 +6,20 @@ const mock = require('../mock-id')
 
 router.use('/contact', contactRouter)
 
-router.post(
-   '/',
-   asyncHandler(async (req, res) => {
-      // TODO: заменить после авторизации
-      let newUser = await UserModel.create(req.body)
-      res.json(newUser)
-   })
-)
+// Эммигрировал в auth/signup.js
+// router.post(
+//    '/',
+//    asyncHandler(async (req, res) => {
+//       let newUser = await UserModel.create(req.body)
+//       res.json(newUser)
+//    })
+// )
 
 router.get(
    '/',
    asyncHandler(async (req, res) => {
-      // TODO: выпилить selfId после добавления авторизации
-      const selfId = mock.SELFID
       res.json(
-         await UserModel.findById(selfId).populate({
+         await UserModel.findById(req.user._id).populate({
             path: 'travels',
             populate: { path: 'users', select: 'nickName avatar' },
          })
