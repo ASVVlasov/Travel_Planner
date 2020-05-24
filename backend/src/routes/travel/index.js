@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
-const mock = require('../mock-id')
 const userRouter = require('./user')
 
 router.use('/user', userRouter)
@@ -21,7 +20,7 @@ router.post(
       const travel = new TravelModel(req.body)
       await travel.save()
       const update = { $push: { travels: travel.id } }
-      await UserModel.findByIdAndUpdate(mock.SELFID, update)
+      await UserModel.findByIdAndUpdate(req.user._id, update)
       res.json(travel)
    })
 )

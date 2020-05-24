@@ -11,7 +11,7 @@ const authenticate = async (req, res, next) => {
             next() // Потом токен
          })
          .catch((err) => {
-            res.status(401).send(err)
+            res.status(403).send(err)
          })
    }
 }
