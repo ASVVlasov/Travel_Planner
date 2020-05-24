@@ -2,8 +2,6 @@ const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
 const UserModel = require('../../models/user')
 
-const mock = require('../mock-id')
-
 router.post(
    '/',
    asyncHandler(async (req, res) => {
