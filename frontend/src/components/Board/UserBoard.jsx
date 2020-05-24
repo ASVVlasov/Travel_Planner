@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styles from './Board.module.scss'
 import { NavLink } from 'react-router-dom'
 
-// import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { createTravel } from '../../redux/travel/operations'
 
 import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
@@ -18,10 +19,13 @@ class UserBoard extends Component {
    static propTypes = {
       travels: PropTypes.arrayOf(PropTypes.object),
       contacts: PropTypes.arrayOf(PropTypes.object),
+      user: PropTypes.object,
+      createTravel: PropTypes.func,
    }
 
    state = {
-      isModalOpen: false,
+      travelsModalOpen: false,
+      contactsModalOpen: false,
       tabs: [
          {
             _id: 'travels',
@@ -34,12 +38,17 @@ class UserBoard extends Component {
       ],
    }
 
-   openModal = () => {
-      this.setState({ isModalOpen: true })
+   openModal = (tab) => {
+      this.setState({ [`${tab}ModalOpen`]: true })
    }
 
    closeModal = () => {
-      this.setState({ isModalOpen: false })
+      this.setState({ travelsModalOpen: false, contactsModalOpen: false })
+   }
+
+   addNewTravel = async (travelData) => {
+      await this.props.createTravel(travelData)
+      this.closeModal()
    }
 
    mapTabsToRender = () =>
@@ -87,7 +96,7 @@ class UserBoard extends Component {
             <div className={styles.board__controlPanel}>
                <nav children={this.mapTabsToRender()} />
                <Button
-                  onClick={this.openModal}
+                  onClick={() => this.openModal(tab)}
                   kind="action"
                   text={
                      tab === 'travels' ? 'Новая поездка' : 'Добавить контакт'
@@ -101,17 +110,17 @@ class UserBoard extends Component {
                   ...this.mapCardsToRender(tab, filter, this.props[tab]),
                   <button
                      className={styles.board__card_add}
-                     onClick={this.openModal}
+                     onClick={() => this.openModal(tab)}
                      children={<PlusIcon />}
                   />,
                ]}
             />
 
-            {this.state.isModalOpen && (
+            {this.state.travelsModalOpen && (
                <TravelForm
                   users={contacts}
                   onClose={this.closeModal}
-                  onSubmit={() => {}}
+                  onSubmit={(data) => this.addNewTravel(data)}
                />
             )}
          </div>
@@ -124,6 +133,7 @@ const mapStateToProps = ({ userReducer, boardReducer }) => ({
    contacts: userReducer.contacts,
    filter: boardReducer.historyFilter,
 })
-// const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ createTravel }, dispatch)
 
-export default connect(mapStateToProps)(UserBoard)
+export default connect(mapStateToProps, mapDispatchToProps)(UserBoard)
