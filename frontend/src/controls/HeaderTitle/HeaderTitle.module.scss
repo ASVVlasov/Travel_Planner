@@ -1,15 +1,9 @@
 @import '../../styles/colors', '../../styles/mixins';
 
-.headerTitle_DefauitView,
-.headerTitle_EditView{
-    border-bottom: 2px solid;
+.headerTitle{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.headerTitle_DefauitView{
-    border-bottom-color: $color-white;
 }
 
 .headerTitle__input{
@@ -17,8 +11,9 @@
     color: $color-gray-2;
     outline: none;
     border:none;
-    & :focus{
-        border:none;
+    border-bottom: 2px solid $color-white;
+    &:focus{
+        border-bottom: 2px solid;
     }
 }
 

@@ -21,3 +21,9 @@ export const changeTravel = (title) =>
 
 export const createTravel = (travelData) =>
    fetchRequest.post(MAIN_URL, createTravelSuccess, travelData)
+
+export const addTraveler = (traveler) =>
+   fetchRequest.post('/travel/user', changeTravelSuccess, traveler)
+
+export const deleteTraveler = (traveler) =>
+   fetchRequest.delete('/travel/user', changeTravelSuccess, traveler)

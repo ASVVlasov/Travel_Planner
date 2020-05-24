@@ -423,6 +423,7 @@ class CardFull extends Component {
                   position={this.state.userPickerPosition}
                   payers={payers}
                   cardId={card._id}
+                  type={'card'}
                />
             )}
          </ModalBase>

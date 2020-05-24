@@ -4,3 +4,15 @@
 .DateRangePickerInput__withBorder{
     border: none!important;
 }
+.CalendarDay__selected{
+    background: #2F80ED!important; /* $color-secondary-main: #2F80ED; */
+    border: 1px double #2F80ED!important;
+}
+.CalendarDay__selected_span {
+    background: #91AED4!important; /* $color-secondary-light: #91AED4; */
+    opacity: 0.8;
+    border: 1px double #91AED4!important;
+}
+.DayPickerKeyboardShortcuts_show__bottomRight::before {
+    border-right: 33px solid #2F80ED!important;;
+}
