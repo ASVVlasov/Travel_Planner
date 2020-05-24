@@ -73,7 +73,7 @@ const swaggerDocument = {
       },
       '/user/contact': {
          get: UserSwagger.getContacts,
-         put: UserSwagger.addContact,
+         post: UserSwagger.addContact,
          delete: UserSwagger.removeContact,
       },
    },

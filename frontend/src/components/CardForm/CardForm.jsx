@@ -5,6 +5,7 @@ import styles from './CardForm.module.scss'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
+import { Input } from '../../controls/Input/Input'
 
 export default class CardForm extends Component {
    static propTypes = {
@@ -68,6 +69,7 @@ export default class CardForm extends Component {
                      label={`${captions.labels.title}*`}
                      type="text"
                      name="title"
+                     styles={styles.input_title}
                      placeholder={captions.placeholders.title}
                      value={title}
                      onChange={this.handleChange}
@@ -76,15 +78,18 @@ export default class CardForm extends Component {
                      label={captions.labels.company}
                      type="text"
                      name="company"
+                     styles={styles.input_company}
                      placeholder={captions.placeholders.company}
                      value={company}
                      onChange={this.handleChange}
                   />
-
+               </div>
+               <div className={styles.form__inputs}>
                   <Input
                      label={captions.labels.beginPoint}
                      type="text"
                      name="beginPoint"
+                     styles={styles.input_beginPoint}
                      placeholder={captions.placeholders.beginPoint}
                      value={beginPoint}
                      onChange={this.handleChange}
@@ -94,19 +99,19 @@ export default class CardForm extends Component {
                      type="datetime-local"
                      name="beginDate"
                      value={beginDate}
+                     styles={styles.input_beginDate}
                      onChange={this.handleChange}
                   />
-
+               </div>
+               <div className={styles.form__inputs}>
                   {captions.category !== 'entertainment' && (
                      <>
                         <Input
-                           styles={
-                              captions.category === 'accomodation' &&
-                              styles.hidden
-                           }
                            label={captions.labels.endPoint}
                            type="text"
                            name="endPoint"
+                           styles={styles.input_endPoint}
+                           hidden={captions.category === 'accomodation'}
                            placeholder={captions.placeholders.endPoint}
                            value={endPoint}
                            onChange={this.handleChange}
@@ -115,6 +120,7 @@ export default class CardForm extends Component {
                            label={captions.labels.endDate}
                            type="datetime-local"
                            name="endDate"
+                           styles={styles.input_endDate}
                            value={endDate}
                            onChange={this.handleChange}
                         />
@@ -144,27 +150,3 @@ export default class CardForm extends Component {
       )
    }
 }
-
-const Input = (props) => (
-   <div
-      className={`${styles.input__block} ${
-         styles[`input__block_${props.name}`]
-      } ${props.styles}`}
-   >
-      <label
-         className={styles.label}
-         htmlFor={props.name}
-         children={props.label}
-      />
-      <input
-         className={styles.input}
-         type={props.type}
-         name={props.name}
-         placeholder={props.placeholder}
-         value={props.value}
-         onChange={(event) => {
-            props.onChange(event)
-         }}
-      />
-   </div>
-)

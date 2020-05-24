@@ -1,4 +1,4 @@
-$width: 1440px;
+@import '../../styles/colors';
 
 .userPage {
     height: 100vh;
@@ -6,4 +6,5 @@ $width: 1440px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: $color-background-light;
 }

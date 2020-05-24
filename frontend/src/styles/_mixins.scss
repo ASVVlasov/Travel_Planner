@@ -97,7 +97,8 @@
    &::placeholder {
       color: $color-secondary-light;
    }
-   &[type='datetime-local'] {
+   &[type='datetime-local'],
+   &[type='date']{
       color: $color-secondary-light;
    }
 }

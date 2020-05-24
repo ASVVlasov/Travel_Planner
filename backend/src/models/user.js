@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
+const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
    login: {
@@ -58,6 +59,19 @@ const userSchema = new Schema({
          ref: 'Travel',
       },
    ],
+})
+
+userSchema.methods.comparePassword = function (candidate) {
+   // HARDCODE. Пока не созданы нормальные пользователи по роуту signup
+   return true
+   // return bcrypt.compareSync(candidate, this.password)
+}
+userSchema.pre('save', function (next) {
+   if (this.isModified('password')) {
+      const salt = bcrypt.genSaltSync(+process.env.SALT_ROUNDS)
+      this.password = bcrypt.hashSync(this.password, salt)
+   }
+   next()
 })
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
