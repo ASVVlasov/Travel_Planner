@@ -123,27 +123,3 @@ export default class TravelForm extends Component {
       )
    }
 }
-
-// const Input = (props) => (
-//    <div
-//       className={`${styles.input__block} ${
-//          styles[`input__block_${props.name}`]
-//       } ${props.styles}`}
-//    >
-//       <label
-//          className={styles.label}
-//          htmlFor={props.name}
-//          children={props.label}
-//       />
-//       <input
-//          className={styles.input}
-//          type={props.type}
-//          name={props.name}
-//          placeholder={props.placeholder}
-//          value={props.value}
-//          onChange={(event) => {
-//             props.onChange(event)
-//          }}
-//       />
-//    </div>
-// )

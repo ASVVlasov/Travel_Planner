@@ -8,11 +8,13 @@ export const Input = (props) => (
          props.hidden && styles.control_hidden
       }`}
    >
-      <label
-         className={styles.control__label}
-         htmlFor={props.name}
-         children={props.label}
-      />
+      {props.label && (
+         <label
+            className={styles.control__label}
+            htmlFor={props.name}
+            children={props.label}
+         />
+      )}
       {props.hintLabel && (
          <label
             className={`${styles.control__label} ${styles.control__label_hintLabel}`}
