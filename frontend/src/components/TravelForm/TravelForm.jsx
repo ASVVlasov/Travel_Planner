@@ -5,7 +5,7 @@ import styles from './TravelForm.module.scss'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
-import MultiSelect from 'react-multi-select-component'
+import { Input } from '../../controls/Input/Input'
 
 export default class TravelForm extends Component {
    static propTypes = {
@@ -49,9 +49,10 @@ export default class TravelForm extends Component {
    }
 
    render() {
+      console.log(this.state)
       const { onClose } = this.props
       const { title, beginDate, endDate } = this.state
-      const prop = {
+      const overrideStrings = {
          selectSomeItems: 'Пригласите друзей в поездку',
          allItemsAreSelected: 'Приглашены все друзья',
       }
@@ -74,6 +75,7 @@ export default class TravelForm extends Component {
                      label="Название поездки"
                      type="text"
                      name="title"
+                     styles={styles.input_title}
                      placeholder="Евротур"
                      value={title}
                      onChange={this.handleChange}
@@ -84,6 +86,7 @@ export default class TravelForm extends Component {
                      label="Начало"
                      type="date"
                      name="beginDate"
+                     styles={styles.input_beginDate}
                      value={beginDate}
                      onChange={this.handleChange}
                   />
@@ -91,32 +94,24 @@ export default class TravelForm extends Component {
                      label="Окончание"
                      type="date"
                      name="endDate"
+                     styles={styles.input_endDate}
                      value={endDate}
                      onChange={this.handleChange}
                   />
                </div>
                <div className={styles.form__inputs}>
-                  <div className={styles.input__block}>
-                     <label
-                        className={styles.label}
-                        htmlFor="users"
-                        children="Участники"
-                     />
-                     <label
-                        className={`${styles.label} ${styles.input__block_hint}`}
-                        children="можно добавить позже"
-                     />
-                     <MultiSelect
-                        className={styles.multiSelect}
-                        options={this.state.options}
-                        value={this.state.selected}
-                        selectAllLabel="Выбрать всех"
-                        onChange={this.setSelected}
-                        labelledBy={'Select'}
-                        disableSearch="true"
-                        overrideStrings={prop}
-                     />
-                  </div>
+                  <Input
+                     label="Участники"
+                     type="multiselect"
+                     name="users"
+                     styles={styles.input_users}
+                     hintLabel="можно добавить позже"
+                     options={this.state.options}
+                     value={this.state.selected}
+                     onChange={this.setSelected}
+                     disableSearch="true"
+                     overrideStrings={overrideStrings}
+                  />
                </div>
 
                <div className={styles.form__actions}>
@@ -129,26 +124,26 @@ export default class TravelForm extends Component {
    }
 }
 
-const Input = (props) => (
-   <div
-      className={`${styles.input__block} ${
-         styles[`input__block_${props.name}`]
-      } ${props.styles}`}
-   >
-      <label
-         className={styles.label}
-         htmlFor={props.name}
-         children={props.label}
-      />
-      <input
-         className={styles.input}
-         type={props.type}
-         name={props.name}
-         placeholder={props.placeholder}
-         value={props.value}
-         onChange={(event) => {
-            props.onChange(event)
-         }}
-      />
-   </div>
-)
+// const Input = (props) => (
+//    <div
+//       className={`${styles.input__block} ${
+//          styles[`input__block_${props.name}`]
+//       } ${props.styles}`}
+//    >
+//       <label
+//          className={styles.label}
+//          htmlFor={props.name}
+//          children={props.label}
+//       />
+//       <input
+//          className={styles.input}
+//          type={props.type}
+//          name={props.name}
+//          placeholder={props.placeholder}
+//          value={props.value}
+//          onChange={(event) => {
+//             props.onChange(event)
+//          }}
+//       />
+//    </div>
+// )

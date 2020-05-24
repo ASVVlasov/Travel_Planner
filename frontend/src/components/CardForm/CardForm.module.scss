@@ -23,10 +23,11 @@
       flex-direction: row;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
    }
    &__actions {
       margin-left: auto;
+      margin-top: 30px;
       display: flex;
       justify-content: space-between;
    }
@@ -47,18 +48,7 @@
    }
 }
 
-.label {
-   @include Caption-1-Regular;
-   color: $color-primary-light;
-   margin-bottom: 6px;
-}
-
 .input {
-   @include FormInput;
-   &__block {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
       &_title {
          width: 325px;
       }
@@ -71,9 +61,4 @@
       &_beginDate, &_endDate {
          width: 230px;
       }
-   }
-}
-
-.hidden {
-   visibility: hidden;
 }
