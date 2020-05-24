@@ -17,13 +17,16 @@
 }
 
 .sidebar__link svg { 
-    fill: $color-gray-4;
-}
-
-.sidebar__link svg:hover { 
-    fill: $color-gray-1;
+    fill: $color-secondary-light;
+    // fill-opacity: 0;
+    &:hover { 
+        fill: $color-gray-1;
+        @include IconLight(40); //EDIT FRAME for shadow
+    }
 }
 
 .sidebar__link_active svg{
-    fill: $color-gray-1;
+    fill: $color-secondary-main;
+    // @include IconBright(40) 
+    @include ButtonShadow
 }

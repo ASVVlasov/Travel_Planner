@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './switch.module.scss'
+import classNames from 'classnames'
+
 
 export default class Switch extends React.Component {
    static propTypes = {
@@ -28,7 +30,13 @@ export default class Switch extends React.Component {
                <div className={styles.switch__toggleInner}>
                   <div className={styles.switch__indicator}></div>
                </div>
-               <div className={styles.switch__activeBg}></div>
+               { !this.props.labelText && <div className={classNames(
+                     styles.switch__activeBg, styles.switch__activeBg_card)}
+               /> }
+
+               { this.props.labelText && <div className={classNames(
+                     styles.switch__activeBg)}
+               /> }               
             </div>
             <div
                className={styles.switch__labelText}

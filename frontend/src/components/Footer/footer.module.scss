@@ -58,8 +58,8 @@
     &__settingsBtn svg { 
         fill: $color-secondary-main;
         &:hover { 
-            fill: $color-secondary-light;
-            // @include IconActive; //EDIT FRAME for shadow
+            @include IconActive
         }
     }
 }
+//switch green
