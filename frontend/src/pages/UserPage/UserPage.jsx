@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 
 import { bindActionCreators } from 'redux'
@@ -12,6 +13,11 @@ import UserFooter from '../../components/Footer/UserFooter'
 import { Loader } from '../../controls/Loader/Loader'
 
 class UserPage extends React.Component {
+   static propTypes = {
+      getUserInfo: PropTypes.func.isRequired,
+      user: PropTypes.object.isRequired,
+   }
+
    isPropsReceived = (object) => Object.keys(object).length
 
    componentDidMount() {
