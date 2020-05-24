@@ -12,6 +12,7 @@ import Button from '../../controls/Button/Button'
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import TravelCard from '../Cards/TravelCard'
 import ContactCard from '../Cards/ContactCard'
+import TravelForm from '../TravelForm/TravelForm'
 
 class UserBoard extends Component {
    static propTypes = {
@@ -78,6 +79,7 @@ class UserBoard extends Component {
             params: { tab },
          },
          filter,
+         contacts,
       } = this.props
 
       return (
@@ -105,7 +107,13 @@ class UserBoard extends Component {
                ]}
             />
 
-            {/* {this.state.isModalOpen && <TravelForm />} */}
+            {this.state.isModalOpen && (
+               <TravelForm
+                  users={contacts}
+                  onClose={this.closeModal}
+                  onSubmit={() => {}}
+               />
+            )}
          </div>
       )
    }
