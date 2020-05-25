@@ -33,6 +33,10 @@ const swaggerDocument = {
          name: 'user',
          description: 'Operations with service users',
       },
+      {
+         name: 'auth',
+         description: 'Authorization operations',
+      },
    ],
    paths: {
       '/card/': {
@@ -40,7 +44,6 @@ const swaggerDocument = {
          put: CardSwagger.updateCard,
       },
       '/card/{cardId}': {
-         get: CardSwagger.getCard,
          delete: CardSwagger.deleteCard,
       },
       '/card/{cardType}/{travelId}': {
@@ -50,11 +53,12 @@ const swaggerDocument = {
          post: CardSwagger.uploadFile,
          delete: CardSwagger.deleteFile,
       },
-      '/card/file/{fileName}': {
+      '/card/file/{fileId}': {
          get: CardSwagger.downloadFile,
       },
       '/card/payer/': {
          post: CardSwagger.addPayer,
+         put: CardSwagger.updatePayer,
          delete: CardSwagger.removePayer,
       },
       '/travel/{travelId}': {

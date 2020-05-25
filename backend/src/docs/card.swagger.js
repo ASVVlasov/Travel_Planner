@@ -13,10 +13,10 @@ const uploadFile = {
                      description: 'ID карты, к которой прикрепляется файл',
                      example: '5ec15e0815e6cb257867d880',
                   },
-                  file: {
+                  files: {
                      type: 'string',
                      format: 'binary',
-                     description: 'Прикрепляемый файл',
+                     description: 'Прикрепляемые файлы',
                   },
                },
             },
@@ -98,7 +98,7 @@ const downloadFile = {
       {
          in: 'path',
          name: 'fileId',
-         description: 'Id файла, которое используется на сервере(uploadName)',
+         description: 'Id файла, который скачиваем',
          schema: {
             type: 'string',
             example: '5ec2c524098bf941b4934131',
@@ -147,7 +147,7 @@ const deleteFile = {
                properties: {
                   cardId: {
                      type: 'string',
-                     description: 'ID карты, к которой прикрепляется файл',
+                     description: 'ID карты, к которой прикреплен файл',
                      example: '5ec15e0815e6cb257867d880',
                   },
                   fileId: {
@@ -331,6 +331,63 @@ const addPayer = {
       },
    },
 }
+const updatePayer = {
+   tags: ['card'],
+   summary: 'Update payer in card',
+   requestBody: {
+      required: true,
+      content: {
+         'application/json': {
+            schema: {
+               $ref: '#/components/schemas/Payer',
+            },
+            example: {
+               _id: '5ebf96eec82bd95234d9cce3',
+               user: '5eb9a98ac82bd95234d9ccd4',
+               isPayer: true,
+               hasPayed: false,
+               cardId: '5ebe888ba7084db6560f3d4a',
+            },
+         },
+      },
+   },
+   responses: {
+      '200': {
+         description: 'Возвращается обновленная карточка плательщика',
+         content: {
+            'application/json': {
+               schema: {
+                  $ref: '#/components/schemas/Payer',
+               },
+               example: {
+                  _id: '5ebf96eec82bd95234d9cce3',
+                  user: '5eb9a98ac82bd95234d9ccd4',
+                  isPayer: true,
+                  hasPayed: false,
+                  cardId: '5ebe888ba7084db6560f3d4a',
+               },
+            },
+         },
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't update entry",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
 const removePayer = {
    tags: ['card'],
    summary: 'Remove payer from card',
@@ -343,13 +400,13 @@ const removePayer = {
                properties: {
                   cardId: {
                      type: 'string',
-                     description: 'ID карточки в которую добавляем пользователя',
+                     description: 'ID карточки из которой удаляем пользователя',
                      example: '5ec15e0815e6cb257867d880',
                      required: true,
                   },
                   userId: {
                      type: 'string',
-                     description: 'ID пользователя, которого добавляем на карточку',
+                     description: 'ID пользователя, которого удаляем из карточки',
                      example: '5eb9af4dc82bd95234d9ccd6',
                      required: true,
                   },
@@ -508,104 +565,6 @@ const createCard = {
                         type: 'string',
                         description: 'Описание ошибки',
                         example: "Unknown server error: can't create entry",
-                     },
-                  },
-               },
-            },
-         },
-      },
-   },
-}
-const getCard = {
-   tags: ['card'],
-   summary: 'Get card from travel board',
-   parameters: [
-      {
-         in: 'path',
-         name: 'cardId',
-         description: 'ID карточки которую нужно получить',
-         schema: {
-            type: 'string',
-            example: '5ec15e0815e6cb257867d880',
-         },
-         required: true,
-      },
-   ],
-   responses: {
-      '200': {
-         description: 'Возвращается карточка события',
-         content: {
-            'application/json': {
-               schema: {
-                  $ref: '#/components/schemas/Card',
-               },
-               example: {
-                  description: '',
-                  comment: 'Свежий комментарий',
-                  cost: 0,
-                  isDone: false,
-                  users: [
-                     {
-                        _id: '5eb9a98ac82bd95234d9ccd4',
-                        nickName: 'testNickName',
-                     },
-                     {
-                        _id: '5eb9af4dc82bd95234d9ccd6',
-                        nickName: 'testContactNickName',
-                     },
-                  ],
-                  payers: [
-                     {
-                        isPayer: false,
-                        hasPayed: false,
-                        _id: '5ec18065065afe20ec2587de',
-                        user: {
-                           _id: '5eb9a98ac82bd95234d9ccd4',
-                           nickName: 'testNickName',
-                        },
-                        cardId: '5ec15e0815e6cb257867d880',
-                        __v: 0,
-                     },
-                     {
-                        isPayer: false,
-                        hasPayed: false,
-                        _id: '5ec244c280945b0c74de8e04',
-                        user: {
-                           _id: '5eb9af4dc82bd95234d9ccd6',
-                           nickName: 'testContactNickName',
-                        },
-                        cardId: '5ec15e0815e6cb257867d880',
-                        __v: 0,
-                     },
-                  ],
-                  files: [
-                     {
-                        _id: '5ec238be13f9ca15342963ee',
-                        originalName: 'task.txt',
-                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
-                        __v: 0,
-                     },
-                  ],
-                  _id: '5ec15e0815e6cb257867d880',
-                  travelId: '5eb9a8ae468c2a28eb4220f0',
-                  title: 'Test card API(create)',
-                  type: 'Проживание',
-                  __v: 4,
-               },
-            },
-         },
-      },
-      '500': {
-         description: 'Произошла ошибка',
-         content: {
-            'applcation/json': {
-               schema: {
-                  type: 'object',
-                  properties: {
-                     ErrorMessage: {
-                        type: 'string',
-                        description: 'Описание ошибки',
-                        example: "Unknown server error: can't read entry",
                      },
                   },
                },
@@ -1039,21 +998,16 @@ const updateCard = {
       content: {
          'application/json': {
             schema: {
-               type: 'object',
-               properties: {
-                  card: {
-                     $ref: '#/components/schemas/Card',
-                  },
-               },
+               $ref: '#/components/schemas/Card',
             },
             example: {
-               _id: '5ec15e0815e6cb257867d880',
+               _id: '5ec26d3e54784d464185952b',
                description:
                   'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
                comment: 'Свежий комментарий',
-               cost: 0,
+               cost: 100,
                isDone: false,
-               users: ['5eb9a98ac82bd95234d9ccd4'],
+               users: ['5eb9af4dc82bd95234d9ccd6', '5eb9a98ac82bd95234d9ccd4'],
                payers: ['5ec18065065afe20ec2587de'],
                files: [],
                travelId: '5eb9a8ae468c2a28eb4220f0',
@@ -1075,55 +1029,21 @@ const updateCard = {
                   description:
                      'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
                   comment: 'Свежий комментарий',
-                  cost: 0,
+                  cost: 100,
                   isDone: false,
-                  users: [
-                     {
-                        _id: '5eb9a98ac82bd95234d9ccd4',
-                        nickName: 'testNickName',
-                     },
-                     {
-                        _id: '5eb9af4dc82bd95234d9ccd6',
-                        nickName: 'testContactNickName',
-                     },
-                  ],
-                  payers: [
-                     {
-                        isPayer: false,
-                        hasPayed: false,
-                        _id: '5ec18065065afe20ec2587de',
-                        user: {
-                           _id: '5eb9a98ac82bd95234d9ccd4',
-                           nickName: 'testNickName',
-                        },
-                        cardId: '5ec15e0815e6cb257867d880',
-                        __v: 0,
-                     },
-                     {
-                        isPayer: false,
-                        hasPayed: false,
-                        _id: '5ec244c280945b0c74de8e04',
-                        user: {
-                           _id: '5eb9af4dc82bd95234d9ccd6',
-                           nickName: 'testContactNickName',
-                        },
-                        cardId: '5ec15e0815e6cb257867d880',
-                        __v: 0,
-                     },
-                  ],
-                  files: [
-                     {
-                        _id: '5ec238be13f9ca15342963ee',
-                        originalName: 'task.txt',
-                        uploadName: '51523c2a8de472766846e0b83b75be44.txt',
-                        __v: 0,
-                     },
-                  ],
-                  _id: '5ec15e0815e6cb257867d880',
+                  payers: [],
+                  files: [],
+                  _id: '5ec26d3e54784d464185952b',
+                  users: ['5eb9af4dc82bd95234d9ccd6', '5eb9a98ac82bd95234d9ccd4'],
                   travelId: '5eb9a8ae468c2a28eb4220f0',
-                  title: 'Test card API(create)',
                   type: 'Проживание',
-                  __v: 4,
+                  title: 'Test card API(create)',
+                  company: 'asdasd',
+                  beginPoint: 'asdasd',
+                  beginDate: '2020-05-18T08:10:46.000Z',
+                  endPoint: 'asdasd',
+                  endDate: '2020-05-18T08:10:46.000Z',
+                  __v: 0,
                },
             },
          },
@@ -1164,14 +1084,31 @@ const deleteCard = {
    ],
    responses: {
       '200': {
-         description: 'Возвращается объект с полем message',
+         description: 'Возвращается удаленная карточка',
          content: {
             'application/json': {
                schema: {
                   type: 'object',
                },
                example: {
-                  message: 'Card deleted!',
+                  description:
+                     'Поля users, payers, files будут проигнорированы. Для них предусмотрены отдельные роуты в API',
+                  comment: 'Свежий комментарий',
+                  cost: 100,
+                  isDone: false,
+                  payers: [],
+                  files: [],
+                  _id: '5ec26d3e54784d464185952b',
+                  users: ['5eb9af4dc82bd95234d9ccd6', '5eb9a98ac82bd95234d9ccd4'],
+                  travelId: '5eb9a8ae468c2a28eb4220f0',
+                  type: 'Проживание',
+                  title: 'Test card API(create)',
+                  company: 'asdasd',
+                  beginPoint: 'asdasd',
+                  beginDate: '2020-05-18T08:10:46.000Z',
+                  endPoint: 'asdasd',
+                  endDate: '2020-05-18T08:10:46.000Z',
+                  __v: 0,
                },
             },
          },
@@ -1201,9 +1138,9 @@ module.exports = {
    downloadFile,
    deleteFile,
    addPayer,
+   updatePayer,
    removePayer,
    createCard,
-   getCard,
    getCategoryInTravel,
    updateCard,
    deleteCard,
