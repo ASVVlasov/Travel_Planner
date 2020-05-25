@@ -2,9 +2,10 @@ const router = require('express').Router()
 const UserModel = require('../../models/user')
 const asyncHandler = require('express-async-handler')
 const contactRouter = require('./contact')
+const avatarRouter = require('./avatar')
 
 router.use('/contact', contactRouter)
-
+router.use('/avatar', avatarRouter)
 // Эммигрировал в auth/signup.js
 // router.post(
 //    '/',
