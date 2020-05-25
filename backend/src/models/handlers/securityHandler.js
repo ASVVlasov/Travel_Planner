@@ -1,6 +1,6 @@
 const SecurityHandler = function (doc, next) {
    if (!!doc) {
-      delete doc.password
+      doc.set('password', undefined, { strict: false })
    }
    next()
 }
