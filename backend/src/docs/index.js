@@ -76,6 +76,11 @@ const swaggerDocument = {
          post: UserSwagger.addContact,
          delete: UserSwagger.removeContact,
       },
+      '/user/avatar': {
+         post: UserSwagger.addAvatar,
+         get: UserSwagger.getAvatar,
+         delete: UserSwagger.removeAvatar,
+      },
    },
    components: {
       schemas: Schemas,

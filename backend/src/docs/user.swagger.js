@@ -385,7 +385,189 @@ const removeContact = {
       },
    },
 }
-
+const addAvatar = {
+   tags: ['user'],
+   summary: 'Uploads avatar file to server and attach it to a user',
+   requestBody: {
+      required: true,
+      content: {
+         'multipart/form-data': {
+            schema: {
+               type: 'object',
+               properties: {
+                  file: {
+                     type: 'string',
+                     format: 'binary',
+                     description: 'Прикрепляемый файл аватара',
+                  },
+               },
+            },
+         },
+      },
+   },
+   responses: {
+      '200': {
+         description: 'Файл аватара успешно прикреплен. Возвращается обновленный пользователь',
+         content: {
+            'application/json': {
+               schema: {
+                  $ref: '#/components/schemas/User',
+               },
+               example: {
+                  _id: '5eb9a98ac82bd95234d9ccd4',
+                  login: 'testLogin',
+                  nickName: 'testNickName',
+                  avatar: '5ec83973231143d0263d84a6',
+                  travels: [
+                     '5ec9b1fbca838f238060bc23',
+                     '5eca7e10fef55e253842a023',
+                     '5eca8729fef55e253842a027',
+                     '5ecaaef6356d0c0017fb1e80',
+                     '5ecad6ae1bdd8321301eb869',
+                  ],
+                  contacts: [
+                     '5eb9af4dc82bd95234d9ccd6',
+                     '5ec43054c82bd95234d9ccea',
+                     '5ec42611c82bd95234d9cce9',
+                     '5ec4361dc82bd95234d9cceb',
+                     '5ec44289c82bd95234d9ccec',
+                     '5ec442fec82bd95234d9cced',
+                     '5ec44392c82bd95234d9ccee',
+                     '5ec44464c82bd95234d9ccef',
+                     '5ec6d47b2b889831c0c06715',
+                     '5ec7d9978c712c00176610b9',
+                     '5ec7d9fe8c712c00176610bb',
+                  ],
+                  email: 'fuck-you@mail.ru',
+                  name: 'Ник',
+               },
+            },
+         },
+      },
+      '403': {
+         description: 'Попытка перейти на роут не пройдя авторизацию.',
+         summary: 'Пока действует мидлвара userEmulator - аутентификация всегда будет успешна, возвращается testUser',
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't upload file",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
+const getAvatar = {
+   tags: ['card'],
+   summary: 'Download user avatar file from server',
+   responses: {
+      '200': {
+         description: 'Начинается загрузка файла',
+         content: {
+            '*/*': {
+               type: 'string',
+               format: 'base64',
+            },
+         },
+      },
+      '403': {
+         description: 'Попытка перейти на роут не пройдя авторизацию.',
+         summary: 'Пока действует мидлвара userEmulator - аутентификация всегда будет успешна, возвращается testUser',
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't upload file",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
+const removeAvatar = {
+   tags: ['card'],
+   summary: 'Drop avatar file from server and deattach it from a user',
+   responses: {
+      '200': {
+         description: 'Файл успешно удален. Возвращается обновленный пользователь',
+         content: {
+            'application/json': {
+               schema: {
+                  $ref: '#/components/schemas/User',
+               },
+               example: {
+                  _id: '5eb9a98ac82bd95234d9ccd4',
+                  login: 'testLogin',
+                  nickName: 'testNickName',
+                  avatar: '',
+                  travels: [
+                     '5ec9b1fbca838f238060bc23',
+                     '5eca7e10fef55e253842a023',
+                     '5eca8729fef55e253842a027',
+                     '5ecaaef6356d0c0017fb1e80',
+                     '5ecad6ae1bdd8321301eb869',
+                  ],
+                  contacts: [
+                     '5eb9af4dc82bd95234d9ccd6',
+                     '5ec43054c82bd95234d9ccea',
+                     '5ec42611c82bd95234d9cce9',
+                     '5ec4361dc82bd95234d9cceb',
+                     '5ec44289c82bd95234d9ccec',
+                     '5ec442fec82bd95234d9cced',
+                     '5ec44392c82bd95234d9ccee',
+                     '5ec44464c82bd95234d9ccef',
+                     '5ec6d47b2b889831c0c06715',
+                     '5ec7d9978c712c00176610b9',
+                     '5ec7d9fe8c712c00176610bb',
+                  ],
+                  email: 'fuck-you@mail.ru',
+                  name: 'Ник',
+               },
+            },
+         },
+      },
+      '403': {
+         description: 'Попытка перейти на роут не пройдя авторизацию.',
+         summary: 'Пока действует мидлвара userEmulator - аутентификация всегда будет успешна, возвращается testUser',
+      },
+      '500': {
+         description: 'Произошла ошибка',
+         content: {
+            'applcation/json': {
+               schema: {
+                  type: 'object',
+                  properties: {
+                     ErrorMessage: {
+                        type: 'string',
+                        description: 'Описание ошибки',
+                        example: "Unknown server error: can't drop file",
+                     },
+                  },
+               },
+            },
+         },
+      },
+   },
+}
 module.exports = {
    createUser,
    getUser,
@@ -394,4 +576,7 @@ module.exports = {
    getContacts,
    addContact,
    removeContact,
+   addAvatar,
+   getAvatar,
+   removeAvatar,
 }
