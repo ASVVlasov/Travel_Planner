@@ -1,63 +1,6 @@
-const createUser = {
-   tags: ['user'],
-   summary: 'Create new user',
-   requestBody: {
-      required: true,
-      content: {
-         'application/json': {
-            schema: {
-               $ref: '#/components/schemas/User',
-            },
-            example: {
-               login: 'API test login',
-               password: '12345',
-               nickName: 'API test user',
-            },
-         },
-      },
-   },
-   responses: {
-      '200': {
-         description: 'Возвращается созданный пользователь',
-         content: {
-            'application/json': {
-               schema: {
-                  $ref: '#/components/schemas/User',
-               },
-               example: {
-                  contacts: [],
-                  travels: [],
-                  _id: '5ec6d47b2b889831c0c06715',
-                  login: 'API test login',
-                  password: '12345',
-                  nickName: 'API test user',
-                  __v: 0,
-               },
-            },
-         },
-      },
-      '500': {
-         description: 'Произошла ошибка',
-         content: {
-            'applcation/json': {
-               schema: {
-                  type: 'object',
-                  properties: {
-                     ErrorMessage: {
-                        type: 'string',
-                        description: 'Описание ошибки',
-                        example: "Unknown server error: can't create entry",
-                     },
-                  },
-               },
-            },
-         },
-      },
-   },
-}
 const getUser = {
    tags: ['user'],
-   summary: 'Get user information about self',
+   summary: 'Get user information about self (only authorized users with session or token)',
    responses: {
       '200': {
          description: 'Возвращается сам пользователь',
@@ -71,13 +14,14 @@ const getUser = {
                      {
                         _id: '5eb9af4dc82bd95234d9ccd6',
                         nickName: 'testContactNickName',
+                        avatar: '',
                      },
                   ],
                   travels: [],
                   _id: '5eb9a98ac82bd95234d9ccd4',
                   login: 'testLogin',
-                  password: 'testPassword',
                   nickName: 'testNickName',
+                  avatar: '5ec83973231143d0263d84a6',
                },
             },
          },
@@ -103,7 +47,7 @@ const getUser = {
 }
 const updateUser = {
    tags: ['user'],
-   summary: 'Update user(пока не введена авторизация требуется ID)',
+   summary: 'Update user',
    requestBody: {
       required: true,
       content: {
@@ -112,7 +56,6 @@ const updateUser = {
                $ref: '#/components/schemas/User',
             },
             example: {
-               _id: '5ec6d47b2b889831c0c06715',
                email: 'example@mail.ru',
             },
          },
@@ -120,7 +63,7 @@ const updateUser = {
    },
    responses: {
       '200': {
-         description: 'Возвращается созданная карточка события',
+         description: 'Возвращается обновленный пользователь',
          content: {
             'application/json': {
                schema: {
@@ -131,7 +74,6 @@ const updateUser = {
                   travels: [],
                   _id: '5ec6d47b2b889831c0c06715',
                   login: 'API test login',
-                  password: '12345',
                   nickName: 'API test user',
                   email: 'example@mail.ru',
                   __v: 0,
@@ -225,8 +167,25 @@ const getContacts = {
                            description: 'Никнейм пользователя в контактах',
                            example: 'Konstantin Buzuev',
                         },
+                        name: {
+                           type: 'string',
+                           description: 'Имя пользователя в контактах',
+                           example: 'Konstantin',
+                        },
+                        surname: {
+                           type: 'string',
+                           description: 'Фамилия пользователя в контактах',
+                           example: 'Buzuev',
+                        },
+                        middleName: {
+                           type: 'string',
+                           description: 'Отчество пользователя в контактах',
+                           example: 'Vladimirovich',
+                        },
                         avatar: {
-                           $ref: '#/components/schemas/File',
+                           type: 'string',
+                           description: 'ID файла аватара',
+                           example: '5ec83973231143d0263d84a6',
                         },
                      },
                   },
@@ -235,6 +194,74 @@ const getContacts = {
                   {
                      _id: '5eb9af4dc82bd95234d9ccd6',
                      nickName: 'testContactNickName',
+                  },
+                  {
+                     _id: '5ec43054c82bd95234d9ccea',
+                     nickName: 'Aleksandr Vlasov',
+                     name: 'Aleksandr',
+                     surname: 'Vlasov',
+                     middleName: 'Sergeevich',
+                     avatar: '5ec431108d7cc200177eade8',
+                  },
+                  {
+                     _id: '5ec42611c82bd95234d9cce9',
+                     nickName: 'Lena Maltseva',
+                     name: 'Lena',
+                     surname: 'Maltseva',
+                     middleName: '',
+                     avatar: '5ec431108d7cc200177eade8',
+                  },
+                  {
+                     _id: '5ec4361dc82bd95234d9cceb',
+                     nickName: 'Konstantin Buzuev',
+                     name: 'Konstantin',
+                     surname: 'Buzuev',
+                     middleName: '',
+                     avatar: '5ec4369047a2a7001734cfe3',
+                  },
+                  {
+                     _id: '5ec44289c82bd95234d9ccec',
+                     nickName: 'Maria Vatolina',
+                     name: 'Maria',
+                     surname: 'Vatolina',
+                     middleName: '',
+                     avatar: '5ec431108d7cc200177eade8',
+                  },
+                  {
+                     _id: '5ec442fec82bd95234d9cced',
+                     nickName: 'Boris Golovach',
+                     name: 'Boris',
+                     surname: 'Golovach',
+                     middleName: '',
+                     avatar: '5ec4369047a2a7001734cfe3',
+                  },
+                  {
+                     _id: '5ec44392c82bd95234d9ccee',
+                     nickName: 'Anatoly Sizyakin',
+                     name: 'Anatoly',
+                     surname: 'Sizyakin',
+                     middleName: '',
+                     avatar: '5ec431108d7cc200177eade8',
+                  },
+                  {
+                     _id: '5ec44464c82bd95234d9ccef',
+                     nickName: 'Ruslan Rakushov',
+                     name: 'Ruslan',
+                     surname: 'Rakushov',
+                     middleName: '',
+                     avatar: '5ec431108d7cc200177eade8',
+                  },
+                  {
+                     _id: '5ec6d47b2b889831c0c06715',
+                     nickName: 'API test user',
+                  },
+                  {
+                     _id: '5ec7d9978c712c00176610b9',
+                     nickName: 'Алкоголиум',
+                  },
+                  {
+                     _id: '5ec7d9fe8c712c00176610bb',
+                     nickName: 'Алкоголиум',
                   },
                ],
             },
@@ -277,7 +304,6 @@ const addContact = {
                },
             },
             example: {
-               selfId: '5ec6d47b2b889831c0c06715',
                userId: '5ec4361dc82bd95234d9cceb',
             },
          },
@@ -285,18 +311,26 @@ const addContact = {
    },
    responses: {
       '200': {
-         description: 'Возвращаются контакты текущего пользователя',
+         description: 'Возвращается обновленный пользователь',
          content: {
             'application/json': {
                schema: {
                   $ref: '#/components/schemas/User',
                },
                example: {
-                  contacts: ['5ec4361dc82bd95234d9cceb'],
+                  contacts: [
+                     {
+                        _id: '5ec4361dc82bd95234d9cceb',
+                        nickName: 'Konstantin Buzuev',
+                        name: 'Konstantin',
+                        surname: 'Buzuev',
+                        middleName: '',
+                        avatar: '5ec4369047a2a7001734cfe3',
+                     },
+                  ],
                   travels: [],
                   _id: '5ec6d47b2b889831c0c06715',
                   login: 'API test login',
-                  password: '12345',
                   nickName: 'API test user',
                   __v: 0,
                },
@@ -340,7 +374,6 @@ const removeContact = {
                },
             },
             example: {
-               selfId: '5ec6d47b2b889831c0c06715',
                userId: '5ec4361dc82bd95234d9cceb',
             },
          },
@@ -348,7 +381,7 @@ const removeContact = {
    },
    responses: {
       '200': {
-         description: 'Возвращаются контакты текущего пользователя',
+         description: 'Возвращается обновленный пользователь',
          content: {
             'application/json': {
                schema: {
@@ -359,7 +392,6 @@ const removeContact = {
                   travels: [],
                   _id: '5ec6d47b2b889831c0c06715',
                   login: 'API test login',
-                  password: '12345',
                   nickName: 'API test user',
                   __v: 0,
                },
@@ -387,7 +419,6 @@ const removeContact = {
 }
 
 module.exports = {
-   createUser,
    getUser,
    updateUser,
    deleteUser,

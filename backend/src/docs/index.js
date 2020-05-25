@@ -2,6 +2,28 @@ const Schemas = require('./schemas.js')
 const CardSwagger = require('./card.swagger.js')
 const TravelSwagger = require('./travel.swagger.js')
 const UserSwagger = require('./user.swagger.js')
+const AuthSwagger = require('./auth.swagger.js')
+
+/* Add-ons */
+const authParams = {
+   type: 'object',
+   properties: {
+      login: {
+         type: 'string',
+         required: true,
+         description: 'user login',
+      },
+      password: {
+         type: 'string',
+         required: true,
+         description: 'user password',
+      },
+      rememberMe: {
+         type: 'boolean',
+         description: 'true - чтобы получить куку на месяц и не париться с сессией',
+      },
+   },
+}
 
 const swaggerDocument = {
    openapi: '3.0.0',
@@ -74,7 +96,6 @@ const swaggerDocument = {
          delete: TravelSwagger.removeUser,
       },
       '/user/': {
-         post: UserSwagger.createUser,
          get: UserSwagger.getUser,
          put: UserSwagger.updateUser,
          delete: UserSwagger.deleteUser,
@@ -84,9 +105,13 @@ const swaggerDocument = {
          post: UserSwagger.addContact,
          delete: UserSwagger.removeContact,
       },
+      '/signup': {
+         post: AuthSwagger.createUser,
+      },
    },
    components: {
       schemas: Schemas,
+      authParams: authParams,
    },
 }
 
