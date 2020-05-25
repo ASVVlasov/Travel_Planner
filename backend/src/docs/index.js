@@ -108,6 +108,12 @@ const swaggerDocument = {
       '/signup': {
          post: AuthSwagger.createUser,
       },
+      '/signin': {
+         post: AuthSwagger.loginUser,
+      },
+      '/logout': {
+         get: AuthSwagger.logoutUser,
+      },
    },
    components: {
       schemas: Schemas,
