@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
+const SecurityHandler = require('./handlers/securityHandler')
 const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
@@ -75,6 +76,7 @@ userSchema.pre('save', function (next) {
 })
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
+userSchema.post('findOne', SecurityHandler)
 userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
 
