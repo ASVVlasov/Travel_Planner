@@ -3,6 +3,7 @@ import {
    GET_BOARD_SUCCESS,
    SET_TAB_FILTER,
    SET_USER_FILTER,
+   SET_HISTORY_FILTER,
 } from '../types'
 
 export const getBoardSuccess = (tabs) => ({
@@ -22,4 +23,9 @@ export const setUserFilter = (userId) => ({
 export const setTabFilter = (tabId) => ({
    type: SET_TAB_FILTER,
    payload: tabId,
+})
+
+export const setHistoryFilter = (bool) => ({
+   type: SET_HISTORY_FILTER,
+   payload: bool,
 })

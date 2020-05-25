@@ -2,38 +2,38 @@ const router = require('express').Router()
 const UserModel = require('../../models/user')
 const asyncHandler = require('express-async-handler')
 const contactRouter = require('./contact')
-const mock = require('../mock-id')
 
 router.use('/contact', contactRouter)
 
-router.post(
-   '/',
-   asyncHandler(async (req, res) => {
-      // TODO: заменить после авторизации
-      let newUser = await UserModel.create(req.body)
-      res.json(newUser)
-   })
-)
+// Эммигрировал в auth/signup.js
+// router.post(
+//    '/',
+//    asyncHandler(async (req, res) => {
+//       let newUser = await UserModel.create(req.body)
+//       res.json(newUser)
+//    })
+// )
 
 router.get(
    '/',
    asyncHandler(async (req, res) => {
-      // TODO: выпилить selfId после добавления авторизации
-      const selfId = mock.SELFID
-      res.json(await UserModel.findById(selfId))
+      res.json(
+         await UserModel.findById(req.user._id).populate({
+            path: 'travels',
+            populate: { path: 'users', select: 'nickName avatar' },
+         })
+      )
    })
 )
 
 router.put(
    '/',
    asyncHandler(async (req, res) => {
-      // TODO: выпилить selfId после добавления авторизации
-      const selfId = mock.SELFID
       const user = { ...req.body }
-      user._id = selfId
+      user._id = req.user._id
       delete user.contacts
       delete user.travels
-      res.json(await UserModel.findByIdAndUpdate(selfId, user, { new: true }))
+      res.json(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
    })
 )
 
@@ -44,7 +44,7 @@ router.delete(
       const { selfId } = null
       let deletedUser
       if (!!selfId) {
-         deletedUser = await UserModel.findByIdAndRemove(selfId)
+         deletedUser = await UserModel.findByIdAndRemove(req.user._id)
       }
       //TODO: Удаление пользователя из всех travel, cards, payer
       // либо замена его на dummyUser - по решению общего собрания

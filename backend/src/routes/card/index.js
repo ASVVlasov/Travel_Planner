@@ -5,17 +5,14 @@ const asyncHandler = require('express-async-handler')
 const fileRouter = require('./file')
 const payerRouter = require('./payer')
 
-const mock = require('../mock-id')
-
 router.use('/file', fileRouter)
 router.use('/payer', payerRouter)
 
 router.post(
    '/',
    asyncHandler(async (req, res) => {
-      req.body.travelId = mock.TRAVELID
-      let travelId = req.body.travelId
-      let newCard = await CardModel.create(req.body)
+      const { travelId } = req.body
+      const newCard = await CardModel.create(req.body)
       await TravelModel.findByIdAndUpdate(travelId, { $push: { cards: newCard.id } })
       res.json(newCard)
    })
@@ -42,8 +39,8 @@ router.delete(
 router.get(
    '/:cardType/:travelId',
    asyncHandler(async (req, res) => {
-      const { cardType } = req.params
-      res.json(await CardModel.getCardsByCardType(cardType, mock.TRAVELID))
+      const { cardType, travelId } = req.params
+      res.json(await CardModel.getCardsByCardType(cardType, travelId))
    })
 )
 
