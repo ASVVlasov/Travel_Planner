@@ -20,9 +20,9 @@ export default class CardForm extends Component {
       title: '',
       company: '',
       beginPoint: '',
-      beginDate: new Date(),
+      beginDate: '',
       endPoint: '',
-      endDate: new Date(),
+      endDate: '',
    }
 
    handleChange = (event) => {

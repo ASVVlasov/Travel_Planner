@@ -16,12 +16,22 @@ export default class DateControl extends Component {
       name: PropTypes.string.isRequired,
    }
    state = {
-      selectedValue: this.props.value,
+      value: this.props.value,
    }
 
    changeDate = (date) => {
-      this.setState({ selectedValue: date })
+      this.setState({ value: date })
       this.props.onChange({ name: this.props.name, value: date })
+   }
+
+   componentDidMount() {
+      this.setState({ value: this.props.value })
+   }
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.value !== this.props.value) {
+         this.setState({ value: this.props.value })
+      }
    }
 
    render() {
@@ -32,7 +42,8 @@ export default class DateControl extends Component {
          <DatePicker
             className={styles.control__input}
             locale="ru"
-            selected={this.state.selectedValue}
+            placeholderText="дд.мм.гггг"
+            selected={this.state.value}
             onChange={this.changeDate}
             showTimeSelect={this.props.showTimeSelect}
             timeFormat="HH:mm"

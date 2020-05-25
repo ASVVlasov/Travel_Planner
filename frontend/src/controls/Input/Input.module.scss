@@ -42,6 +42,7 @@
   @include Text-Regular;
   color: $color-primary-main;
   &:hover,
+  &--today,
   &--selected {
     background-color: $color-secondary-main;
     color: $color-white;

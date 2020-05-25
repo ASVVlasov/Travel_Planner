@@ -17,12 +17,22 @@ export default class MultiSelectControl extends Component {
    }
 
    state = {
-      value: this.props.value,
+      value: [],
    }
 
    onChange = (selected) => {
       this.setState({ value: selected })
       this.props.onChange({ name: this.props.name, value: selected })
+   }
+
+   componentDidMount() {
+      this.setState({ value: this.props.value })
+   }
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.value !== this.props.value) {
+         this.setState({ value: this.props.value })
+      }
    }
 
    render() {

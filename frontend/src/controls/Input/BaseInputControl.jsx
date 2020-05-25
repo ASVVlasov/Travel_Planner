@@ -14,12 +14,22 @@ export default class BaseInputControl extends Component {
    }
 
    state = {
-      value: this.props.value,
+      value: '',
    }
 
    onChange = (evt) => {
       this.setState({ value: evt.target.value })
       this.props.onChange(evt.target)
+   }
+
+   componentDidMount() {
+      this.setState({ value: this.props.value })
+   }
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.value !== this.props.value) {
+         this.setState({ value: this.props.value })
+      }
    }
 
    render() {

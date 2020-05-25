@@ -25,16 +25,19 @@ export default class InputControl extends Component {
       options: PropTypes.array,
       overrideStrings: PropTypes.object,
    }
+
    onChange = (target) => {
       this.props.onChange({ target })
    }
+
    renderControlByType = (type) => {
       switch (type) {
          case 'datetime':
          case 'date': {
+            const { value } = this.props
             return (
                <DateControl
-                  value={this.props.value}
+                  value={value ? new Date(value) : value}
                   onChange={this.onChange}
                   showTimeSelect={type === 'datetime'}
                   name={this.props.name}
