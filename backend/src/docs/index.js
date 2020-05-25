@@ -109,6 +109,7 @@ const swaggerDocument = {
          post: UserSwagger.addAvatar,
          get: UserSwagger.getAvatar,
          delete: UserSwagger.removeAvatar,
+      },
       '/signup': {
          post: AuthSwagger.createUser,
       },
