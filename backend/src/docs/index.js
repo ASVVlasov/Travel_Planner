@@ -69,6 +69,10 @@ const swaggerDocument = {
          post: TravelSwagger.createTravel,
          put: TravelSwagger.updateTravel,
       },
+      '/travel/user/': {
+         post: TravelSwagger.addUser,
+         delete: TravelSwagger.removeUser,
+      },
       '/user/': {
          post: UserSwagger.createUser,
          get: UserSwagger.getUser,
