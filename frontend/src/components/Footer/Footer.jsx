@@ -81,7 +81,7 @@ class Footer extends React.Component {
                   </div>
                </div>
                <button className={styles.footer__settingsBtn}>
-                  <Tune activeClassName={styles.footer__settingsBtn_active}/>
+                  <Tune />
                </button>
             </div>
             

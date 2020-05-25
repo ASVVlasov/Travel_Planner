@@ -9,6 +9,7 @@ export default class Switch extends React.Component {
       labelText: PropTypes.string,
       checked: PropTypes.bool,
       onChange: PropTypes.func,
+      checkedGreenColor: PropTypes.bool,
    }
    onChangeFunction = (e) => {
       if (this.props.onChange) {
@@ -30,13 +31,12 @@ export default class Switch extends React.Component {
                <div className={styles.switch__toggleInner}>
                   <div className={styles.switch__indicator}></div>
                </div>
-               { !this.props.labelText && <div className={classNames(
-                     styles.switch__activeBg, styles.switch__activeBg_card)}
-               /> }
 
-               { this.props.labelText && <div className={classNames(
-                     styles.switch__activeBg)}
-               /> }               
+               { <div className={classNames(
+                  styles.switch__activeBg,
+                  this.props.checkedGreenColor &&
+                     styles.switch__activeBg_colored)}
+               /> }
             </div>
             <div
                className={styles.switch__labelText}

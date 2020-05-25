@@ -42,11 +42,11 @@
   background:  $color-secondary-main;
   transform: translate3d(-100%, 0, 0);
   transition: transform 0.05s linear 0.17s;
-  
+  &_colored {
+    background: $color-success-main;
+  }
 }
-.switch__activeBg_card {
-  background:  $color-success-main;
-}
+
 
 .switch__toggleState {
   display: none;

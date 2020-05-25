@@ -21,6 +21,9 @@
    }
    &__breadcrumbs {
       @include Subtitle-1-Regular;
+      & strong {
+         @include Subtitle-1-SemiBold;
+      }
    }
 
    &__leftSide {
@@ -35,6 +38,7 @@
    &__companyName {
       width: 100%;
       @include Title-2-SemiBold;
+      color: $color-secondary-main;
       margin-bottom: 20px;
    }
    &__route {
@@ -78,23 +82,29 @@
       align-items: flex-end;
       &_general {
          @include Title-2-SemiBold;
-         color: $color-gray-1;
+         color: $color-secondary-main;
          text-align: right;
          margin-bottom: 30px;
          & input {
             @include Title-2-SemiBold;
             @include ImplicitInput;
-            color: $color-gray-1;
+            color: $color-secondary-main;
             text-align: right;
             max-width: 110px;
          }
       }
       &_personal {
          @include Text-Regular;
-         color: $color-gray-2;
+         color: $color-primary-main;
          text-align: right;
          height: 40px;
          margin-bottom: 10px;
+      }
+      &_myCoast {
+         @include Text-Bold
+      }
+      &_myCoastPayed {
+         color: $color-success-main;
       }
    }
    &__actions {
@@ -125,7 +135,7 @@
 }
 h2 {
    @include Subtitle-1-Regular;
-   color: $color-gray-4;
+   color: $color-secondary-light;
    margin-right: 6px;
 }
 
@@ -137,14 +147,23 @@ h2 {
    &__point {
       width: 10px;
       height: 10px;
-      background-color: $color-gray-5;
+      background-color: $color-secondary-light ;
       border-radius: 50%;
+      &_earlierDate {
+         background-color: $color-secondary-light;
+      }
+      &_currentDate {
+         background-color: $color-success-main;
+      }
    }
    &__path {
       width: 1px;
       height: 77%;
       flex: 1;
-      background-color: $color-gray-5;
+      background-color: $color-secondary-light;
+      &_currentDate {
+         background-color: $color-success-main;
+      }
    }
 }
 
@@ -159,11 +178,14 @@ h2 {
       display: block;
       margin-bottom: 6px;
       @include Subtitle-1-SemiBold;
-      color: $color-gray-1;
+      color: $color-primary-main;
    }
    &__date {
       @include Text-Regular;
-      color: $color-gray-2;
+      color: $color-primary-main;
+      &_currentDate {
+         color: $color-success-main;
+      }
    }
 }
 
@@ -180,6 +202,7 @@ h2 {
       overflow: hidden;   
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: $color-secondary-main;
    }
 }
 
@@ -195,7 +218,7 @@ h2 {
       margin-right: 14px;
       @include Caption-1-Regular;
       line-height: 14px;
-      color: $color-gray-4;
+      color: $color-secondary-light;
       text-align: center;
    }
    &__person {
@@ -215,11 +238,14 @@ h2 {
    &__name {
       width: 160px;
       @include Caption-1-Regular;
-      color: $color-gray-1;
+      color: $color-primary-main;
       margin-right: 15px;
       overflow: hidden;   
       text-overflow: ellipsis;
       white-space: nowrap;
+      &_itsMe {
+         @include Caption-1-SemiBold
+      }
    }
    &__switch {
       width: 50px;
