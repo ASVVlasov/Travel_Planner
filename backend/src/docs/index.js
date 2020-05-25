@@ -2,6 +2,28 @@ const Schemas = require('./schemas.js')
 const CardSwagger = require('./card.swagger.js')
 const TravelSwagger = require('./travel.swagger.js')
 const UserSwagger = require('./user.swagger.js')
+const AuthSwagger = require('./auth.swagger.js')
+
+/* Add-ons */
+const authParams = {
+   type: 'object',
+   properties: {
+      login: {
+         type: 'string',
+         required: true,
+         description: 'user login',
+      },
+      password: {
+         type: 'string',
+         required: true,
+         description: 'user password',
+      },
+      rememberMe: {
+         type: 'boolean',
+         description: 'true - чтобы получить куку на месяц и не париться с сессией',
+      },
+   },
+}
 
 const swaggerDocument = {
    openapi: '3.0.0',
@@ -33,6 +55,10 @@ const swaggerDocument = {
          name: 'user',
          description: 'Operations with service users',
       },
+      {
+         name: 'auth',
+         description: 'Authorization operations',
+      },
    ],
    paths: {
       '/card/': {
@@ -40,7 +66,6 @@ const swaggerDocument = {
          put: CardSwagger.updateCard,
       },
       '/card/{cardId}': {
-         get: CardSwagger.getCard,
          delete: CardSwagger.deleteCard,
       },
       '/card/{cardType}/{travelId}': {
@@ -50,11 +75,12 @@ const swaggerDocument = {
          post: CardSwagger.uploadFile,
          delete: CardSwagger.deleteFile,
       },
-      '/card/file/{fileName}': {
+      '/card/file/{fileId}': {
          get: CardSwagger.downloadFile,
       },
       '/card/payer/': {
          post: CardSwagger.addPayer,
+         put: CardSwagger.updatePayer,
          delete: CardSwagger.removePayer,
       },
       '/travel/{travelId}': {
@@ -65,8 +91,11 @@ const swaggerDocument = {
          post: TravelSwagger.createTravel,
          put: TravelSwagger.updateTravel,
       },
+      '/travel/user/': {
+         post: TravelSwagger.addUser,
+         delete: TravelSwagger.removeUser,
+      },
       '/user/': {
-         post: UserSwagger.createUser,
          get: UserSwagger.getUser,
          put: UserSwagger.updateUser,
          delete: UserSwagger.deleteUser,
@@ -80,10 +109,19 @@ const swaggerDocument = {
          post: UserSwagger.addAvatar,
          get: UserSwagger.getAvatar,
          delete: UserSwagger.removeAvatar,
+      '/signup': {
+         post: AuthSwagger.createUser,
+      },
+      '/signin': {
+         post: AuthSwagger.loginUser,
+      },
+      '/logout': {
+         get: AuthSwagger.logoutUser,
       },
    },
    components: {
       schemas: Schemas,
+      authParams: authParams,
    },
 }
 
