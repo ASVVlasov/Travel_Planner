@@ -468,7 +468,7 @@ const addAvatar = {
    },
 }
 const getAvatar = {
-   tags: ['card'],
+   tags: ['user'],
    summary: 'Download user avatar file from server',
    responses: {
       '200': {
@@ -504,7 +504,7 @@ const getAvatar = {
    },
 }
 const removeAvatar = {
-   tags: ['card'],
+   tags: ['user'],
    summary: 'Drop avatar file from server and deattach it from a user',
    responses: {
       '200': {
