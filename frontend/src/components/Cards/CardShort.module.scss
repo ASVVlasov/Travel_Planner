@@ -7,16 +7,17 @@
    justify-content: space-between;
    position: relative;
    &__header {
+      height: 56px;
       margin-bottom: 70px;
    }
    &__title {
       margin-bottom: 6px;
       @include Title-2-SemiBold ;
-      color: $color-gray-1;
+      color: $color-primary-main;
    }
    &__company {
       @include Subtitle-1-Regular;
-      color: $color-gray-1;
+      color: $color-primary-main;
    }
    &__badges {
       display: flex;
@@ -40,7 +41,7 @@
       width: 40px;
       fill: $color-gray-5;
       &_active {
-         fill: $color-gray-1;
+         fill: $color-success-main ;
       }
    }
 }
@@ -53,14 +54,20 @@
    &__point {
       width: 10px;
       height: 10px;
-      background-color: $color-gray-5;
+      background-color: $color-secondary-light ;
       border-radius: 50%;
+      &_currentDate {
+         background-color: $color-success-main;
+      }
    }
    &__path {
       width: 1px;
       height: 77%;
       flex: 1;
-      background-color: $color-gray-5;
+      background-color: $color-secondary-light;
+      &_currentDate {
+         background-color: $color-success-main;
+      }
    }
 }
 
@@ -72,29 +79,31 @@
       display: block;
       margin-bottom: 6px;
       @include Subtitle-1-Regular;
-      color: $color-gray-2;
+      color: $color-primary-main;
    }
    &__date {
-      @include Caption-1-Regular;
-      color: $color-gray-2;
+      @include Caption-1-SemiBold;
+      color: $color-primary-light;
+      &_currentDate {
+         color: $color-success-main;
+      }
    }
 }
 
 .travelers__avatar {
    width: 45px;
    height: 45px;
-   background-color: $color-gray-6;
-   border: 1px solid $color-gray-5;
+   background-color: $color-background-light;
    border-radius: 50%;
    margin-right: -10px;
    display: flex;
    justify-content: center;
    align-items: center;
    @include Title-2-SemiBold ;
-   color:$color-gray-5;
+   color:$color-secondary-light;
    & img {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
    }
 }
