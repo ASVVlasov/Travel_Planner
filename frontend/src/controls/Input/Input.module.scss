@@ -1,3 +1,4 @@
+@import '~react-datepicker/dist/react-datepicker-cssmodules.css';
 @import "../../styles/colors", "../../styles/mixins";
 
 .control {
@@ -26,10 +27,74 @@
 .multiSelect {
   @include FormInput;
   padding: 8px 10px;
+  ul {
+    max-height: 200px;
+  }
   --rmsc-primary: none!important;
   --rmsc-hover: #{$color-secondary-main}!important;
   --rmsc-selected: #{lighten($color-secondary-light, 20%)} !important;
   --rmsc-border: none!important;
   --rmsc-gray: #{$color-secondary-light}!important;
   --rmsc-height: auto!important;
+}
+
+@mixin reactDatepickerItem() {
+  @include Text-Regular;
+  color: $color-primary-main;
+  &:hover,
+  &--selected {
+    background-color: $color-secondary-main;
+    color: $color-white;
+  }
+}
+:global .react-datepicker {
+  border: 1px solid $color-secondary-light;
+  &-popper {
+    min-width: 330px;
+  }
+  &__header {
+    @include Text-Regular;
+    background-color: $color-white;
+    &--time {
+      border-color: $color-secondary-light;
+    }
+    border-color: $color-secondary-light;
+  }
+  &__time-container {
+    border-color: $color-secondary-light;
+  }
+  &__day,
+  &__time-container &__time &__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item{
+    @include reactDatepickerItem;
+    &--outside-month{
+      color: $color-secondary-light;
+    }
+  }
+  &__day-name,
+  &__time-name,
+  &-time__header {
+    @include Text-Regular;
+    color: $color-secondary-light;
+  }
+  &__current-month {
+    @include Text-Regular;
+    color: $color-secondary-main;
+  }
+  &__navigation--next,
+  &__navigation--next:hover{
+    border-left-color: $color-secondary-main;
+  }
+  &__navigation--next--with-time {
+    right: 95px;
+  }
+  &__navigation--previous,
+  &__navigation--previous:hover{
+    border-right-color: $color-secondary-main;
+  }
+  &__triangle {
+    border-bottom-color: $color-white!important;
+    &:before {
+      border-bottom-color: $color-secondary-light!important;
+    }
+  }
 }
