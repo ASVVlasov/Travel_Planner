@@ -28,7 +28,9 @@ class Header extends React.Component {
    }
 
    //TODO remove
-   FILE_URL = 'http://localhost:3300/card/file/'
+   FILE_URL = window.location.port
+      ? 'http://localhost:3300/card/file/'
+      : window.location.origin + '/card/file/'
 
    showHeaderMenu = () => {
       this.setState({
@@ -45,11 +47,13 @@ class Header extends React.Component {
    }
 
    setPosition = (x, y) => {
-      return {
-         position: 'absolute',
-         top: y + 'px',
-         left: x + 'px',
-      }
+      this.setState({
+         userPickerPosition: {
+            position: 'absolute',
+            top: y + 30 + 'px',
+            left: x - 195 + 'px',
+         },
+      })
    }
    archiveTrip = () => {
       //add functionality
@@ -61,29 +65,34 @@ class Header extends React.Component {
    }
 
    mapUsersToRender = () => {
-      const { users } = this.props.travel
-      let usersArray = []
+      const users = this.props.travel.users
+      const mainUser = this.props.user
 
-      if (users) {
-         users.map((user) =>
-            usersArray.push(
-               <div className={styles.travellers__item} key={user._id}>
-                  {!user.avatar && user.nickName[0].toUpperCase()}
-                  {user.avatar && (
-                     <img
-                        src={this.FILE_URL + user.avatar}
-                        alt={user.nickName}
-                     />
-                  )}
-               </div>
-            )
-         )
+      if (users.length > 1) {
+         return users.map((user) => (
+            <div
+               className={
+                  user._id === mainUser._id
+                     ? styles.travellers__item_mainUser
+                     : styles.travellers__item
+               }
+               key={user._id}
+            >
+               {!user.avatar && user.nickName[0].toUpperCase()}
+               {user.avatar && (
+                  <img src={this.FILE_URL + user.avatar} alt={user.nickName} />
+               )}
+            </div>
+         ))
       }
-      return usersArray
    }
 
    render() {
-      const mainUser = this.props.user
+      const users = this.props.travel.users
+      let travelersAdded = false
+      if (users && users.length > 1) {
+         travelersAdded = true
+      }
       return (
          <header className={styles.header}>
             <div className={styles['back-btn']}>
@@ -104,19 +113,28 @@ class Header extends React.Component {
             </div>
 
             <div className={styles['travellers']}>
-               <button
-                  className={styles.travellers__button}
-                  children={'+'}
-                  onClick={(e) => {
-                     this.setState({
-                        userPickerPosition: this.setPosition(
-                           e.clientX - 195,
-                           e.clientY + 30
-                        ),
-                     })
-                     this.openForm('UserPicker')
-                  }}
-               ></button>
+               {travelersAdded && (
+                  <button
+                     className={styles.travellers__buttonPlus}
+                     children={'+'}
+                     onClick={(e) => {
+                        this.setPosition(e.clientX, e.clientY)
+                        this.openForm('UserPicker')
+                     }}
+                  ></button>
+               )}
+
+               {!travelersAdded && (
+                  <button
+                     className={styles.travellers__addTravellersButton}
+                     onClick={(e) => {
+                        this.setPosition(e.clientX, e.clientY)
+                        this.openForm('UserPicker')
+                     }}
+                  >
+                     Добавить участников
+                  </button>
+               )}
 
                {this.state.isUserPickerOpen && (
                   <UserPicker
@@ -127,16 +145,6 @@ class Header extends React.Component {
                )}
 
                {this.mapUsersToRender()}
-
-               <div className={styles.travellers__item_mainUser}>
-                  {!mainUser.avatar && mainUser.nickName[0].toUpperCase()}
-                  {mainUser.avatar && (
-                     <img
-                        src={this.FILE_URL + mainUser.avatar}
-                        alt={mainUser.nickName}
-                     />
-                  )}
-               </div>
             </div>
             <div className={styles.headerMenu}>
                <div className={styles.headerMenu__burger}>

@@ -49,7 +49,6 @@ class UserPicker extends Component {
       if (type === 'card') {
          addPayer({ cardId, userId })
          getBudget(travelId)
-         console.log('addUserHandler', { cardId, userId })
       } else {
          addTraveler({ travelId, userId })
       }
@@ -78,7 +77,6 @@ class UserPicker extends Component {
       const allUsers = type === 'card' ? users : contacts
       const chosenUsers =
          type === 'card' ? payers.map((payer) => payer.user) : users
-
       return (
          <ModalBase toClose={onClose}>
             <div className={styles.picker} style={position}>
