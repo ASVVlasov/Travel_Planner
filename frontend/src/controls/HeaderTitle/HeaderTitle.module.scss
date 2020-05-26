@@ -11,7 +11,8 @@
     color: $color-primary-main;
     outline: none;
     border:none;
-    border-bottom: 2px solid $color-white;
+    border-bottom: 2px solid $color-background-light;
+    background-color: $color-background-light;
     &:focus{
         border-bottom: 2px solid;
     }
@@ -37,9 +38,7 @@
 }
 
 .headerTitle__editIcon{
-    fill: $color-secondary-light;
-    width: 25px;
-    height: 25px;
+    @include IconLight(24px);
     margin-left: 5px;
     cursor: pointer;
 }

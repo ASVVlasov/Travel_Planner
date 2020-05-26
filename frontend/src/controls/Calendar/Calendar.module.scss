@@ -11,9 +11,7 @@
         color: $color-primary-main;
     }
     &__editIcon{
-        fill: $color-secondary-light;
-        width: 25px;
-        height: 25px;
+        @include IconLight(24px);
         margin-left: 5px;
         cursor: pointer;
     }

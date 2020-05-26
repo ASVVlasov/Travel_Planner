@@ -3,6 +3,7 @@
 }
 .DateRangePickerInput__withBorder{
     border: none!important;
+    background-color: #F8FCFF!important;
 }
 .CalendarDay__selected{
     background: #2F80ED!important; /* $color-secondary-main: #2F80ED; */
@@ -26,8 +27,9 @@
     opacity: 0.8;
 }
 .DateInput_input__focused{
-   border-bottom: 2px solid #2F80ED!important;; 
+   border-bottom: 2px solid #2F80ED!important;
 }
 .DateInput_input{
    color: #0A3268!important;
+   background-color: #F8FCFF!important; /*$color-background-light */
 }

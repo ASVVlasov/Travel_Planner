@@ -1,14 +1,6 @@
 @import '../../styles/colors';
 @import '../../styles/mixins';
 
-@mixin clickableSvg {// TODO Move to styles/mixins
-  cursor: pointer;
-    fill: $color-gray-4;
-  &:hover {
-      fill: $color-gray-1;
-  }
-}
-
 .header {
   height: 85px;
   padding: 20px 30px;
@@ -17,9 +9,7 @@
   align-items: center;
 }
 .back-btn {
-  width: 30px;
-  height: 30px;
-  fill: $color-secondary-main;
+  @include IconBright(30px);
   cursor: pointer;
 }
 .trip-data {
@@ -116,8 +106,7 @@
   &__archiveTrip{
     width: 100%;
     height: 20px;
-    font-weight: 600;
-    font-size: 14px;
+    @include Caption-1-SemiBold;
     color: $color-primary-light;
     background: $color-white;
     border: none;
@@ -132,8 +121,7 @@
   &__deleteTrip{
     width: 100%;
     height: 20px;
-    font-weight: 600;
-    font-size: 14px;
+    @include Caption-1-SemiBold;
     color: $color-error-dark;
     background: $color-white;
     border: none;
