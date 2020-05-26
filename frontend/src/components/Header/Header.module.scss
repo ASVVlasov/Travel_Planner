@@ -49,27 +49,13 @@
     border: none;
     border-radius: 50%;
     margin: 0px -7px 0px 0px;
-    font-size: 18px;
-    font-weight: 500;
     color: $color-secondary-main;
     cursor: pointer;
     @include BaseShadow;
+    @include Subtitle-1-SemiBold;
     &:focus {
       outline: none;
     }
-  }
-  &__addTravellersButton{
-    width: 243px;
-    height: 40px;
-    color: $color-white;
-    background: $color-secondary-main;
-    @include ButtonShadow;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 18px;
-    cursor: pointer;
-    outline: none;
-    border: none;
   }
 }
 .travellers__item,

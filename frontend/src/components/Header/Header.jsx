@@ -7,12 +7,12 @@ import connect from 'react-redux/es/connect/connect'
 
 import styles from './Header.module.scss'
 import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
-import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 import { ReactComponent as HeaderMenuSVG } from '../../assets/images/icons/menu.svg'
 
 import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
 import Calendar from '../../controls/Calendar/Calendar'
 import UserPicker from '../../controls/UserPicker/UserPicker'
+import Button from '../../controls/Button/Button'
 
 class Header extends React.Component {
    static propTypes = {
@@ -31,6 +31,14 @@ class Header extends React.Component {
    FILE_URL = window.location.port
       ? 'http://localhost:3300/card/file/'
       : window.location.origin + '/card/file/'
+
+   returnToPreviousPage = () => {
+      const PAGE_URL = window.location.port
+         ? 'http://localhost:3000/profile/travels'
+         : window.location.origin + '/profile/travels'
+
+      window.location.assign(PAGE_URL)
+   }
 
    showHeaderMenu = () => {
       this.setState({
@@ -96,7 +104,7 @@ class Header extends React.Component {
       return (
          <header className={styles.header}>
             <div className={styles['back-btn']}>
-               <BackBtnSVG />
+               <BackBtnSVG onClick={this.returnToPreviousPage} />
             </div>
             <div className={styles['trip-data']}>
                <div className={styles['trip-data__item']}>
@@ -124,15 +132,13 @@ class Header extends React.Component {
                )}
 
                {!travelersAdded && (
-                  <button
-                     className={styles.travellers__addTravellersButton}
+                  <Button
                      onClick={(e) => {
                         this.setPosition(e.clientX, e.clientY)
                         this.openForm('UserPicker')
                      }}
-                  >
-                     Добавить участников
-                  </button>
+                     text="Добавить участников"
+                  />
                )}
 
                {this.state.isUserPickerOpen && (
