@@ -85,6 +85,8 @@ export default class CardShort extends Component {
 
       const cardIsPayed = payers.findIndex((payer) => payer.isPayer) >= 0
 
+      let today = (new Date()).toISOString()
+      
       return (
          <>
             <div className={styles.card} onClick={this.showFullInfo}>
@@ -108,14 +110,22 @@ export default class CardShort extends Component {
                         )}
                      />
                   </div>
-
                   <div className={styles.card__route}>
                      <div className={styles.schema}>
-                        {beginPoint && <div className={styles.schema__point} />}
+                        {beginPoint && 
+                           <div className={classNames(
+                              styles.schema__point,
+                              beginDate <= today && styles.schema__point_currentDate)}
+                           />
+                        }
                         {endPoint && (
                            <>
-                              <div className={styles.schema__path} />
-                              <div className={styles.schema__point} />
+                              <div className={classNames(
+                                 styles.schema__path,
+                                 endDate <= today && styles.schema__path_currentDate)} />
+                              <div className={classNames(
+                                 styles.schema__point,
+                                 endDate <= today && styles.schema__point_currentDate)} />
                            </>
                         )}
                      </div>
@@ -126,20 +136,24 @@ export default class CardShort extends Component {
                               className={styles.route__place}
                               children={beginPoint}
                            />
-                           <span
-                              className={styles.route__date}
-                              children={this.convertDate(beginDate)}
-                           />
+                           {beginPoint &&
+                              <div className={classNames(
+                                 styles.route__date,
+                                 beginDate <= today && styles.route__date_currentDate)}
+                                 children={this.convertDate(beginDate)}/>
+                           }
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
                               children={endPoint}
                            />
-                           <span
-                              className={styles.route__date}
-                              children={this.convertDate(endDate)}
-                           />
+                           {endPoint && (
+                                 <div className={classNames(
+                                    styles.route__date,
+                                    endDate <= today && styles.route__date_currentDate)} 
+                                    children={this.convertDate(endDate)}/>
+                           )}
                         </div>
                      </div>
                   </div>

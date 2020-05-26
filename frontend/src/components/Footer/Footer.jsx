@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './footer.module.scss'
 import Switch from '../../controls/Switch/Switch.jsx'
+import { ReactComponent as Tune} from '../../assets/images/icons/tune.svg'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -52,32 +53,36 @@ class Footer extends React.Component {
                   }}
                />
             </div>
-            <div className={styles.footer__paymentInfo}>
-               <div className={styles.footer__paid}>
-                  <div className={styles.footer__description_medium}>
-                     {this.splitNumber(this.props.summary.paid)} Р
+            <div className={styles.footer__rightSide}>
+               <div className={styles.footer__paymentInfo}>
+                  <div className={styles.footer__paid}>
+                     <div className={styles.footer__description_medium}>
+                        {this.splitNumber(this.props.summary.paid)} Р
+                     </div>
+                     <div className={styles.footer__description_small}>
+                        оплачено
+                     </div>
                   </div>
-                  <div className={styles.footer__description_small}>
-                     оплачено
+                  <div className={styles.footer__toPay}>
+                     <div className={styles.footer__description_medium}>
+                        {this.splitNumber(this.props.summary.toPay)} Р
+                     </div>
+                     <div className={styles.footer__description_small}>
+                        к оплате
+                     </div>
+                  </div>
+                  <div className={styles.footer__totalBudget}>
+                     <div className={styles.footer__description_large}>
+                        {this.splitNumber(this.props.summary.budget)} Р
+                     </div>
+                     <div className={styles.footer__description_small}>
+                        общий бюджет
+                     </div>
                   </div>
                </div>
-               <div className={styles.footer__toPay}>
-                  <div className={styles.footer__description_medium}>
-                     {this.splitNumber(this.props.summary.toPay)} Р
-                  </div>
-                  <div className={styles.footer__description_small}>
-                     к оплате
-                  </div>
-               </div>
-               <div className={styles.footer__totalBudget}>
-                  <div className={styles.footer__description_large}>
-                     {this.splitNumber(this.props.summary.budget)} Р
-                  </div>
-                  <div className={styles.footer__description_small}>
-                     общий бюджет
-                  </div>
-               </div>
+               <Tune className={styles.footer__settingsBtn}/>
             </div>
+            
          </footer>
       )
    }
