@@ -32,11 +32,11 @@ export default class Switch extends React.Component {
                   <div className={styles.switch__indicator}></div>
                </div>
 
-               { <div className={classNames(
+               <div className={classNames(
                   styles.switch__activeBg,
                   this.props.checkedGreenColor &&
                      styles.switch__activeBg_colored)}
-               /> }
+               />
             </div>
             <div
                className={styles.switch__labelText}

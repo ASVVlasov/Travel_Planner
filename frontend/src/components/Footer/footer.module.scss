@@ -44,22 +44,7 @@
         }
     }
     &__settingsBtn {
-        height: 40px;
-        width: 40px;
-        margin-left: 30px;
-        display: block;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        &:focus {
-            outline: none;
-        }         
-    }
-    &__settingsBtn svg { 
-        fill: $color-secondary-main;
-        &:hover { 
-            @include IconActive
-        }
+        @include IconBright(40px);
+        margin-left: 55px; 
     }
 }
-//switch green

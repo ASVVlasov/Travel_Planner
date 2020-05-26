@@ -39,7 +39,7 @@
 .badges {
    &__icon {
       width: 40px;
-      fill: $color-gray-5;
+      fill: $color-secondary-light;
       &_active {
          fill: $color-success-main ;
       }
@@ -82,28 +82,19 @@
       color: $color-primary-main;
    }
    &__date {
-      @include Caption-1-SemiBold;
+      @include Caption-1-Regular;
       color: $color-primary-light;
       &_currentDate {
+         @include Caption-1-SemiBold;
          color: $color-success-main;
       }
    }
 }
 
 .travelers__avatar {
-   width: 45px;
-   height: 45px;
-   background-color: $color-background-light;
-   border-radius: 50%;
-   margin-right: -10px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   @include Title-2-SemiBold ;
-   color:$color-secondary-light;
+   @include AvatarEmpty(40px);
+   margin-right: -5px;
    & img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      @include AvatarImg(40px);
    }
 }

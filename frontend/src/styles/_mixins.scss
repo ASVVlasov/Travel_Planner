@@ -18,7 +18,7 @@
 }
 @mixin Subtitle-1-SemiBold {
    @include Subtitle-1-Regular;
-   font-weight: 600;
+   font-weight: 500;
 }
 @mixin Text-Regular {
    font-weight: 400;
@@ -50,9 +50,12 @@
    box-shadow: 2px 2px 5px change-color($color-secondary-light, $alpha: 0.35);
 }
 @mixin ButtonShadow {
-   // box-shadow: 1px 4px 20px change-color($color-secondary-main, $alpha: 0.4);
+   box-shadow: 1px 4px 20px change-color($color-secondary-main, $alpha: 0.4);
+}
+@mixin IconShadow {
    -webkit-filter: drop-shadow( 1px 4px 20px change-color($color-secondary-main, $alpha: 0.6));
-  filter: drop-shadow( 1px 4px 20px change-color($color-secondary-main, $alpha: 0.6));
+   filter: drop-shadow( 1px 4px 20px change-color($color-secondary-main, $alpha: 0.6));
+   opacity: 1;
 }
 
 // Icons
@@ -77,7 +80,7 @@
 @mixin IconActive {
    background-color: transparent;
    fill: $color-secondary-main;
-   @include ButtonShadow;
+   @include IconShadow;
 }
 
 // Inputs
@@ -146,3 +149,12 @@
    height: $size;
    border-radius: 50%;
 }
+
+//svg
+@mixin clickableSvg {
+   cursor: pointer;
+     fill: $color-gray-4;
+   &:hover {
+       fill: $color-gray-1;
+   }
+ }

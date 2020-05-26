@@ -155,7 +155,7 @@ class CardFull extends Component {
                )}
             </div>
             <span
-               className={classNames(
+               className={classNames( styles.travelers__name,
                   payer.user._id === userId && styles.travelers__name_itsMe
                )}
                title={payer.user.nickName}
@@ -213,7 +213,7 @@ class CardFull extends Component {
             className={ classNames(
                styles.card__cost_personal,
                payer.user._id === userId && styles.card__cost_myCoast,
-               payer.user._id === userId && styles.card__cost_myCoastPayed)
+               payer.user._id === userId  && payer.hasPayed && styles.card__cost_myCoastPayed)
             }
          />
       ))
@@ -240,7 +240,11 @@ class CardFull extends Component {
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
 
-      let today = (new Date()).toISOString()
+      // let today = (new Date()).toISOString()
+
+      const today = new Date().toLocaleDateString()
+      const start = new Date(beginDate).toLocaleDateString()
+      const finish = new Date(endDate).toLocaleDateString()
 
       return (
          <ModalBase toClose={toClose}>
@@ -274,17 +278,17 @@ class CardFull extends Component {
                         {beginPoint && 
                            <div className={classNames(
                               styles.schema__point,
-                              beginDate <= today && styles.schema__point_currentDate)}
+                              start === today && styles.schema__point_currentDate)}
                            />
                         }
                         {endPoint && (
                            <>
                               <div className={classNames(
                                  styles.schema__path,
-                                 endDate <= today && styles.schema__path_currentDate)} />
+                                 finish === today && styles.schema__path_currentDate)} />
                               <div className={classNames(
                                  styles.schema__point,
-                                 endDate <= today && styles.schema__point_currentDate)} />
+                                 finish === today && styles.schema__point_currentDate)} />
                            </>
                         )}
                      </div>
@@ -298,7 +302,7 @@ class CardFull extends Component {
                             {beginPoint &&
                               <div className={classNames(
                                  styles.route__date,
-                                 beginDate <= today && styles.route__date_currentDate)}
+                                 start === today && styles.route__date_currentDate)}
                                  children={this.convertDate(beginDate)}/>
                            }
                         </div>
@@ -310,7 +314,7 @@ class CardFull extends Component {
                            {endPoint && (
                               <div className={classNames(
                                  styles.route__date,
-                                 endDate <= today && styles.route__date_currentDate)} 
+                                 finish === today && styles.route__date_currentDate)} 
                                  children={this.convertDate(endDate)}/>
                            )}
                         </div>
