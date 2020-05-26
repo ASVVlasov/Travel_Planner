@@ -1,0 +1,13 @@
+@import '../../styles/colors', '../../styles/mixins';
+.logotype{
+    @include Title-2-SemiBold;
+    color: $color-secondary-light;
+    margin-bottom: 106px;
+}
+.icon{
+    @include Icon(23px);
+    vertical-align: top;
+}
+.wrapper{
+    display:flex;
+}
