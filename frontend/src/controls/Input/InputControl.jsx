@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import DateControl from './DateControl'
 import PropTypes from 'prop-types'
 import styles from './Input.module.scss'
-import MultiSelect from 'react-multi-select-component'
 import MultiSelectControl from './MultiSelectControl'
 import BaseInputControl from './BaseInputControl'
 
