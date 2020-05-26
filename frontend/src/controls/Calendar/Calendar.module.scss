@@ -2,12 +2,19 @@
 @import '../../../node_modules/react-dates/lib/css/_datepicker.css';
 .calendar{
     @include Subtitle-1-Regular;
-    color: $color-gray-2;
+    color: $color-primary-main;
     display: flex;
     justify-content: space-between;
     align-items: center;
     &__amountOfDays{
         @include Subtitle-1-Regular;
-        color: $color-gray-2;
+        color: $color-primary-main;
+    }
+    &__editIcon{
+        fill: $color-secondary-light;
+        width: 25px;
+        height: 25px;
+        margin-left: 5px;
+        cursor: pointer;
     }
 }

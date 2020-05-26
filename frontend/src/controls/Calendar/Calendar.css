@@ -28,3 +28,6 @@
 .DateInput_input__focused{
    border-bottom: 2px solid #2F80ED!important;; 
 }
+.DateInput_input{
+   color: #0A3268!important;
+}

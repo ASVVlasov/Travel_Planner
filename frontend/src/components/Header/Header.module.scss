@@ -19,7 +19,8 @@
 .back-btn {
   width: 30px;
   height: 30px;
-  @include clickableSvg;
+  fill: $color-secondary-main;
+  cursor: pointer;
 }
 .trip-data {
   @include Subtitle-1-Regular;
@@ -36,12 +37,6 @@
   }
   &__period {
     display: flex;
-  }
-  &__edit-btn {
-    width: 24px;
-    height: 24px;
-    @include clickableSvg;
-    margin: 0px 0px 0px 12px;
   }
 }
 .travellers {

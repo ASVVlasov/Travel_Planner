@@ -108,7 +108,6 @@ class Header extends React.Component {
                   <div className={styles['trip-data__period-text']}>
                      <Calendar />
                   </div>
-                  <EditBtnSVG className={styles['trip-data__edit-btn']} />
                </div>
             </div>
 
