@@ -148,7 +148,11 @@ class Header extends React.Component {
             </div>
             <div className={styles.headerMenu}>
                <div className={styles.headerMenu__burger}>
-                  <HeaderMenuSVG onClick={this.showHeaderMenu} />
+                  <HeaderMenuSVG
+                     tabIndex="1"
+                     onClick={this.showHeaderMenu}
+                     onBlur={this.showHeaderMenu}
+                  />
                </div>
 
                {this.state.isHeaderMenuOpen && (
