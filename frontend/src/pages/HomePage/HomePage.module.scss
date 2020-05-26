@@ -1,0 +1,11 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+$width: 1440px;
+
+.wrapper{
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    width: $width;
+    margin: 0 auto;
+}
