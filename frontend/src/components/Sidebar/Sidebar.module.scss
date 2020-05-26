@@ -17,13 +17,9 @@
 }
 
 .sidebar__link svg { 
-    fill: $color-gray-4;
-}
-
-.sidebar__link svg:hover { 
-    fill: $color-gray-1;
+    @include IconLight(40);
 }
 
 .sidebar__link_active svg{
-    fill: $color-gray-1;
+    @include IconActive;
 }

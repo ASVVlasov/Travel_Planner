@@ -25,7 +25,8 @@ const PopulateHandler = {
       next()
    },
    userToClient: async function (doc, next) {
-      await doc.populate({ path: 'contacts', select: 'nickName avatar name surname middleName' }).execPopulate()
+      if (!!doc)
+         await doc.populate({ path: 'contacts', select: 'nickName avatar name surname middleName' }).execPopulate()
       next()
    },
 }

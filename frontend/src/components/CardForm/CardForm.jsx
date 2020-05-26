@@ -5,7 +5,7 @@ import styles from './CardForm.module.scss'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
-import { Input } from '../../controls/Input/Input'
+import InputControl from '../../controls/Input/InputControl'
 
 export default class CardForm extends Component {
    static propTypes = {
@@ -20,9 +20,9 @@ export default class CardForm extends Component {
       title: '',
       company: '',
       beginPoint: '',
-      beginDate: new Date().toISOString().split('.')[0],
+      beginDate: '',
       endPoint: '',
-      endDate: new Date().toISOString().split('.')[0],
+      endDate: '',
    }
 
    handleChange = (event) => {
@@ -65,7 +65,7 @@ export default class CardForm extends Component {
                />
 
                <div className={styles.form__inputs}>
-                  <Input
+                  <InputControl
                      label={`${captions.labels.title}*`}
                      type="text"
                      name="title"
@@ -74,7 +74,7 @@ export default class CardForm extends Component {
                      value={title}
                      onChange={this.handleChange}
                   />
-                  <Input
+                  <InputControl
                      label={captions.labels.company}
                      type="text"
                      name="company"
@@ -85,7 +85,7 @@ export default class CardForm extends Component {
                   />
                </div>
                <div className={styles.form__inputs}>
-                  <Input
+                  <InputControl
                      label={captions.labels.beginPoint}
                      type="text"
                      name="beginPoint"
@@ -94,9 +94,9 @@ export default class CardForm extends Component {
                      value={beginPoint}
                      onChange={this.handleChange}
                   />
-                  <Input
+                  <InputControl
                      label={captions.labels.beginDate}
-                     type="datetime-local"
+                     type="datetime"
                      name="beginDate"
                      value={beginDate}
                      styles={styles.input_beginDate}
@@ -106,7 +106,7 @@ export default class CardForm extends Component {
                <div className={styles.form__inputs}>
                   {captions.category !== 'entertainment' && (
                      <>
-                        <Input
+                        <InputControl
                            label={captions.labels.endPoint}
                            type="text"
                            name="endPoint"
@@ -116,9 +116,9 @@ export default class CardForm extends Component {
                            value={endPoint}
                            onChange={this.handleChange}
                         />
-                        <Input
+                        <InputControl
                            label={captions.labels.endDate}
-                           type="datetime-local"
+                           type="datetime"
                            name="endDate"
                            styles={styles.input_endDate}
                            value={endDate}

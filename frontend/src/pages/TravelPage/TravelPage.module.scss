@@ -1,8 +1,7 @@
-@import '../../styles/colors', '../../styles/mixins';
-
-$width: 1440px;
+@import '../../styles/colors';
 
 .travelPage {
+    background-color: $color-background-light;
     height: 100vh;
     position: relative;
     display: flex;

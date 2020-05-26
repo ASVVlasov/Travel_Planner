@@ -138,7 +138,7 @@ class CardFull extends Component {
    }
 
    payersToRender = () => {
-      const { card, changePayerStatus, getBudget } = this.props
+      const { card, changePayerStatus, getBudget, userId } = this.props
 
       return card.payers.map((payer) => (
          <div className={styles.travelers__person} key={payer._id}>
@@ -155,7 +155,9 @@ class CardFull extends Component {
                )}
             </div>
             <span
-               className={styles.travelers__name}
+               className={classNames( styles.travelers__name,
+                  payer.user._id === userId && styles.travelers__name_itsMe
+               )}
                title={payer.user.nickName}
                children={payer.user.nickName}
             />
@@ -163,6 +165,7 @@ class CardFull extends Component {
                className={styles.travelers__switch}
                children={
                   <Switch
+                     checkedGreenColor={payer.user._id === userId}
                      checked={payer.isPayer}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, isPayer: e })
@@ -175,6 +178,7 @@ class CardFull extends Component {
                className={styles.travelers__switch}
                children={
                   <Switch
+                     checkedGreenColor={payer.user._id === userId}
                      checked={payer.hasPayed}
                      onChange={(e) => {
                         changePayerStatus({ ...payer, hasPayed: e })
@@ -199,14 +203,18 @@ class CardFull extends Component {
    }
 
    splitGeneralCost = () => {
-      const { payers, cost } = this.props.card
+      const { card: {payers, cost}, userId } = this.props
+      
       const personalCost = this.setCostFormat(parseInt(cost / payers.length))
-
       return payers.map((payer) => (
          <span
             key={payer._id}
-            className={styles.card__cost_personal}
             children={personalCost + ' P'}
+            className={ classNames(
+               styles.card__cost_personal,
+               payer.user._id === userId && styles.card__cost_myCost,
+               payer.user._id === userId && payer.hasPayed && styles.card__cost_myCostPayed)
+            }
          />
       ))
    }
@@ -231,6 +239,10 @@ class CardFull extends Component {
       } = card
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
+
+      const today = new Date().toLocaleDateString()
+      const start = new Date(beginDate).toLocaleDateString()
+      const finish = new Date(endDate).toLocaleDateString()
 
       return (
          <ModalBase toClose={toClose}>
@@ -261,11 +273,20 @@ class CardFull extends Component {
                      />
 
                      <div className={styles.schema}>
-                        {beginPoint && <div className={styles.schema__point} />}
+                        {beginPoint && 
+                           <div className={classNames(
+                              styles.schema__point,
+                              start === today && styles.schema__point_currentDate)}
+                           />
+                        }
                         {endPoint && (
                            <>
-                              <div className={styles.schema__path} />
-                              <div className={styles.schema__point} />
+                              <div className={classNames(
+                                 styles.schema__path,
+                                 finish === today && styles.schema__path_currentDate)} />
+                              <div className={classNames(
+                                 styles.schema__point,
+                                 finish === today && styles.schema__point_currentDate)} />
                            </>
                         )}
                      </div>
@@ -276,20 +297,24 @@ class CardFull extends Component {
                               className={styles.route__place}
                               children={beginPoint}
                            />
-                           <span
-                              className={styles.route__date}
-                              children={this.convertDate(beginDate)}
-                           />
+                            {beginPoint &&
+                              <div className={classNames(
+                                 styles.route__date,
+                                 start === today && styles.route__date_currentDate)}
+                                 children={this.convertDate(beginDate)}/>
+                           }
                         </div>
                         <div className={styles.route__finish}>
                            <span
                               className={styles.route__place}
                               children={endPoint}
                            />
-                           <span
-                              className={styles.route__date}
-                              children={this.convertDate(endDate)}
-                           />
+                           {endPoint && (
+                              <div className={classNames(
+                                 styles.route__date,
+                                 finish === today && styles.route__date_currentDate)} 
+                                 children={this.convertDate(endDate)}/>
+                           )}
                         </div>
                      </div>
                   </section>
@@ -375,7 +400,7 @@ class CardFull extends Component {
                               this.focusInput(this.costInput.current)
                            }
                         />
-                     </div>
+                     </div> 
                      <span className={styles.card__cost_general}>
                         <input
                            name="cost"
@@ -431,6 +456,9 @@ class CardFull extends Component {
    }
 }
 
+const mapStateToProps = ({ userReducer }) => ({   
+   userId: userReducer._id,
+})
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
       {
@@ -444,4 +472,4 @@ const mapDispatchToProps = (dispatch) =>
       dispatch
    )
 
-export default connect(null, mapDispatchToProps)(CardFull)
+export default connect(mapStateToProps, mapDispatchToProps)(CardFull)

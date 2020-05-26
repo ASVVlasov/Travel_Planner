@@ -34,9 +34,9 @@
    font-size: 14px;
    line-height: 20px;
 }
-@mixin Caption-1-Bold {
+@mixin Caption-1-SemiBold {
    @include Caption-1-Regular;
-   font-weight: 600;
+   font-weight: 500;
 }
 
 // Shadows for cards, forms, buttons 
@@ -51,6 +51,11 @@
 }
 @mixin ButtonShadow {
    box-shadow: 1px 4px 20px change-color($color-secondary-main, $alpha: 0.4);
+}
+@mixin IconShadow {
+   -webkit-filter: drop-shadow( 1px 4px 20px change-color($color-secondary-main, $alpha: 0.6));
+   filter: drop-shadow( 1px 4px 20px change-color($color-secondary-main, $alpha: 0.6));
+   opacity: 1;
 }
 
 // Icons
@@ -75,7 +80,7 @@
 @mixin IconActive {
    background-color: transparent;
    fill: $color-secondary-main;
-   @include ButtonShadow;
+   @include IconShadow;
 }
 
 // Inputs
@@ -102,6 +107,7 @@
 }
 @mixin ImplicitInput {
    border: none;
+   background-color: transparent;
    border-bottom: 1px solid transparent;
    &:focus {
       outline: none;
