@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 //redux
 import { bindActionCreators } from 'redux'
@@ -31,14 +32,6 @@ class Header extends React.Component {
    FILE_URL = window.location.port
       ? 'http://localhost:3300/card/file/'
       : window.location.origin + '/card/file/'
-
-   returnToPreviousPage = () => {
-      const PAGE_URL = window.location.port
-         ? 'http://localhost:3000/profile/travels'
-         : window.location.origin + '/profile/travels'
-
-      window.location.assign(PAGE_URL)
-   }
 
    showHeaderMenu = () => {
       this.setState({
@@ -103,9 +96,12 @@ class Header extends React.Component {
       }
       return (
          <header className={styles.header}>
-            <div className={styles['back-btn']}>
-               <BackBtnSVG onClick={this.returnToPreviousPage} />
-            </div>
+            <Link to={'/profile/travels'}>
+               <div className={styles['back-btn']}>
+                  <BackBtnSVG />
+               </div>
+            </Link>
+
             <div className={styles['trip-data']}>
                <div className={styles['trip-data__item']}>
                   <div className={styles['trip-data__title-text']}>

@@ -42,6 +42,8 @@
 .travellers {
   display: flex;
   position: relative;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
   &__buttonPlus {
     width: 45px;
     height: 45px;
@@ -53,6 +55,7 @@
     cursor: pointer;
     @include BaseShadow;
     @include Subtitle-1-SemiBold;
+    order: 1;
     &:focus {
       outline: none;
     }
@@ -67,7 +70,7 @@
   }
   &_mainUser {
     border: 4px solid $color-secondary-main;
-    order: 1;
+    order: -1;
     & img {
       @include AvatarImg(100%);
    }
