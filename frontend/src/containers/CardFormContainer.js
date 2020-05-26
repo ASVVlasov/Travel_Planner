@@ -73,8 +73,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
    const type = captions.categoryRus
 
    if (card) {
-      const beginDate = card.beginDate ? card.beginDate.split('.')[0] : ''
-      const endDate = card.endDate ? card.endDate.split('.')[0] : ''
+      const beginDate = card.beginDate || ''
+      const endDate = card.endDate || ''
       card = { ...card, beginDate, endDate }
    }
 
