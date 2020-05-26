@@ -212,8 +212,8 @@ class CardFull extends Component {
             children={personalCost + ' P'}
             className={ classNames(
                styles.card__cost_personal,
-               payer.user._id === userId && styles.card__cost_myCoast,
-               payer.user._id === userId  && payer.hasPayed && styles.card__cost_myCoastPayed)
+               payer.user._id === userId && styles.card__cost_myCost,
+               payer.user._id === userId && payer.hasPayed && styles.card__cost_myCostPayed)
             }
          />
       ))
@@ -239,8 +239,6 @@ class CardFull extends Component {
       } = card
 
       const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
-
-      // let today = (new Date()).toISOString()
 
       const today = new Date().toLocaleDateString()
       const start = new Date(beginDate).toLocaleDateString()

@@ -149,12 +149,3 @@
    height: $size;
    border-radius: 50%;
 }
-
-//svg
-@mixin clickableSvg {
-   cursor: pointer;
-     fill: $color-gray-4;
-   &:hover {
-       fill: $color-gray-1;
-   }
- }
