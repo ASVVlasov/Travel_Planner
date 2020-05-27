@@ -11,8 +11,8 @@ export default class UserHeader extends React.Component {
    }
    //TODO remove
    FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    state = {
       isModalOpen: false,
