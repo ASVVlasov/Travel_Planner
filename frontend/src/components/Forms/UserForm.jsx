@@ -83,7 +83,7 @@ class UserForm extends Component {
                         hintLabel="не может быть пустым"
                         styles={styles.input__nickName}
                         name="nickName"
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={this.handleChange}
                      />
                      <InputControl
                         type="text"
@@ -136,7 +136,7 @@ class UserForm extends Component {
                      label="Имя"
                      styles={styles.input__name}
                      name="name"
-                     onChange={(e) => this.handleChange(e)}
+                     onChange={this.handleChange}
                   />
                   <InputControl
                      type="text"
@@ -144,7 +144,7 @@ class UserForm extends Component {
                      label="Фамилия"
                      styles={styles.input__name}
                      name="surname"
-                     onChange={(e) => this.handleChange(e)}
+                     onChange={this.handleChange}
                   />
                </div>
 
