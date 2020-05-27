@@ -1,16 +1,6 @@
 @import '../../styles/colors', '../../styles/mixins';
 
-.wrapper {
-    background-color: $color-background-light;
-    padding: 34px 50px 50px 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 50%;
-}
-
-.slider-container {
+.container {
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -18,7 +8,7 @@
     z-index: 1;
 }
 
-.slider-wrapper {
+.wrapper {
     position: relative;
     width: 100%;
     height: 100%;
@@ -29,8 +19,8 @@
     box-sizing: content-box;
 }
 
-.slider-button-prev,
-.slider-button-next {
+.button-prev,
+.button-next {
     position: absolute;
     top: 218px;
     width: 40px;
@@ -42,14 +32,14 @@
     background-repeat: no-repeat;
 }
 
-.slider-button-prev {
+.button-prev {
     @include IconLight(23px);
     left: 7px;
     right: auto;
     background-image: url('../../assets/images/icons/left.svg');
 }
 
-.slider-button-next {
+.button-next {
     @include IconLight(23px);
     right: 7px;
     left: auto;
@@ -60,7 +50,7 @@
 .slide {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     flex-shrink: 0;
     width: 100%;
     height: 100%;
@@ -72,7 +62,7 @@
     margin-bottom: 88px;
 }
 
-.slide-text {
+.text {
     text-align: center;
     @include Title-2-SemiBold;
     font-weight: 600;
@@ -93,17 +83,16 @@
     height: 390px;
 }
 
-.slide-image1 {
+.image1 {
     @include SlideImage('../../assets/images/slide1.svg')
 }
-.slide-image2 {
+.image2 {
     @include SlideImage('../../assets/images/slide2.svg')
 }
-.slide-image3 {
+.image3 {
     @include SlideImage('../../assets/images/slide3.svg')
 }
-
-.slider-pagination{
+.pagination{
     position: absolute;
     margin: 0 auto;
     width: 100%;
@@ -112,7 +101,7 @@
     bottom: 0px;
     text-align: center;
 }
-.slider-bullet{
+.bullet{
     width: 10px;
     height: 10px;
     background-color: $color-secondary-light;
