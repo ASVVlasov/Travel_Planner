@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
-import styles from './HeaderTitle.module.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { changeTravel } from '../../redux/travel/operations'
 
+import styles from './HeaderTitle.module.scss'
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
 
 export class HeaderTitle extends React.Component {
@@ -17,104 +17,77 @@ export class HeaderTitle extends React.Component {
       super(props)
       this.state = {
          value: '',
-         isInEditMode: false,
          inputSize: '',
-      }
-   }
-
-   changeEditMode = () => {
-      this.setState({
-         isInEditMode: !this.state.isInEditMode,
-      })
-   }
-   updateComponentValue = () => {
-      const travel = { ...this.props.travel }
-      travel.title = this.refs.theTextInput.value
-      this.props.changeTravel(travel)
-
-      this.setState({
          isInEditMode: false,
-         value: this.refs.theTextInput.value,
-      })
-   }
-   handleKeyUp = (evt) => {
-      if (evt.keyCode === 13) {
-         this.updateComponentValue()
       }
    }
-   inputChange = (evt) => {
+
+   headerInput = createRef()
+
+   onFocusInput = (input) => {
+      input.focus()
+   }
+   offFocusInput = (input) => {
+      input.blur()
+   }
+
+   handleKeyUp = (evt, value) => {
+      if (evt.keyCode === 13) {
+         this.updateComponentValue(value)
+         this.offFocusInput(this.headerInput.current)
+      }
+   }
+
+   updateComponentValue = (newValue) => {
+      const travel = { ...this.props.travel }
+      travel.title = newValue
+      this.props.changeTravel(travel)
+   }
+
+   handleChange = (event) => {
       this.setState({
-         value: this.refs.theTextInput.value,
+         value: event.target.value,
+         isInEditMode: true,
       })
-      if (evt.target.value.length >= 29) {
+
+      if (event.target.value.length >= 29) {
          this.setState({
-            inputSize: evt.target.value.length + 3,
+            inputSize: event.target.value.length + 2,
          })
       } else {
          this.setState({
-            inputSize: evt.target.value.length + 2,
+            inputSize: event.target.value.length + 1,
          })
       }
    }
 
-   componentDidMount = () => {
+   render() {
       const { title } = this.props.travel
-
+      let inputSize = 5
       if (title) {
-         this.setState({
-            value: title,
-            inputSize: title.length,
-         })
+         inputSize = this.state.inputSize || title.length
       }
-   }
-
-   renderEditView = () => {
-      const { title } = this.props.travel
-      const inputSize = title.length
       return (
-         <div
-            className={styles.headerTitle_EditView}
-            onKeyUp={this.handleKeyUp}
-         >
+         <div className={styles.headerTitle}>
             <input
                className={styles.headerTitle__input}
                type="text"
-               value={this.state.value || title}
-               ref="theTextInput"
-               onBlur={this.updateComponentValue}
-               onKeyUp={this.handleKeyUp}
-               autoFocus
+               value={this.state.isInEditMode ? this.state.value : title}
+               ref={this.headerInput}
                maxLength="30"
                size={inputSize > 5 ? inputSize : 5}
-               onChange={this.inputChange}
+               onKeyUp={(e) => this.handleKeyUp(e, e.target.value)}
+               onChange={(e) => this.handleChange(e)}
+               onBlur={(e) => this.updateComponentValue(e.target.value)}
             ></input>
-            <div className={styles.headerTitle__editIcon}>
-               <EditBtnSVG />
-            </div>
-         </div>
-      )
-   }
-   renderDefauitView = () => {
-      const { title } = this.props.travel
 
-      return (
-         <div
-            className={styles.headerTitle_DefauitView}
-            onClick={this.changeEditMode}
-         >
-            <div className={styles.headerTitle__value}>
-               {this.state.value || title}
-            </div>
             <div className={styles.headerTitle__editIcon}>
-               <EditBtnSVG />
+               <EditBtnSVG
+                  onClick={() => this.onFocusInput(this.headerInput.current)}
+               />
             </div>
          </div>
       )
-   }
-   render() {
-      return this.state.isInEditMode
-         ? this.renderEditView()
-         : this.renderDefauitView()
    }
 }
 
