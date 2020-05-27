@@ -453,7 +453,7 @@ const addAvatar = {
             schema: {
                type: 'object',
                properties: {
-                  file: {
+                  files: {
                      type: 'string',
                      format: 'binary',
                      description: 'Прикрепляемый файл аватара',
@@ -528,6 +528,18 @@ const addAvatar = {
 const getAvatar = {
    tags: ['user'],
    summary: 'Download user avatar file from server',
+   parameters: [
+      {
+         in: 'path',
+         name: 'fileId',
+         description: 'Id файла, который скачиваем',
+         schema: {
+            type: 'string',
+            example: '5ec2c524098bf941b4934131',
+         },
+         required: true,
+      },
+   ],
    responses: {
       '200': {
          description: 'Начинается загрузка файла',
