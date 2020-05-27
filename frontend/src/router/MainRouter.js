@@ -11,9 +11,9 @@ export default class MainRouter extends React.Component {
          <Switch>
             <Route path="/profile/:tab" component={UserPage} />
             <Route path="/travel/:travelId" component={TravelPage} />
-            <Route path="/home/" component={HomePage} />
+            <Route path="/home/:tab" component={HomePage} />
             {/* // FIX Temporary redirect  */}
-            <Redirect exact from="/" to="/profile/travels" />
+            <Redirect exact from="/" to="/home/signin" />
          </Switch>
       )
    }
