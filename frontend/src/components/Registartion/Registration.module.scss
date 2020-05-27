@@ -1,0 +1,54 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.form {
+    background-color: $color-white;
+    padding: 230px 200px 0px 200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    & button {
+        margin-top: 45px;
+        align-self: center;
+        justify-self: flex-end;
+    }
+}
+
+.tabs {
+    margin-bottom: 61px;
+
+    &_short {
+        margin-bottom: 35px;
+    }
+}
+
+.tabs-link {
+    display: inline-block;
+    margin-right: 40px;
+    @include Title-1-SemiBold;
+    color: $color-secondary-light;
+    text-decoration: none;
+
+    &_active {
+        color: $color-secondary-main;
+    }
+}
+
+.input {
+    width: 100%;
+    margin-bottom: 46px;
+
+    &:last-child {
+        margin-top: 20px;
+    }
+
+    &_wide {
+        margin-bottom: 20px;
+
+        &:nth-child(3) {
+            margin-top: 0px;
+            margin-bottom:70px;
+        }
+    }
+}
