@@ -1,34 +1,25 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
-import { bindActionCreators } from 'redux'
-import connect from 'react-redux/es/connect/connect'
 import { Route } from 'react-router-dom'
-import { getTravel } from '../../redux/travel/operations'
 
 import styles from './HomePage.module.scss'
 import Slider from '../../components/Slider/Slider.jsx'
+import { ReactComponent as LogoIcon } from '../../assets/images/icons/logo.svg'
+import Registration from '../../components/Registartion/Registration.jsx'
 
-class HomePage extends React.Component {
-   static propTypes = {
-      getTravel: PropTypes.func.isRequired,
-      travel: PropTypes.object.isRequired,
-   }
-
-   componentDidMount() {}
+export default class HomePage extends React.Component {
    render() {
+      const { match } = this.props
       return (
-         <div className={styles.wrapper}>
-            <Slider />
-            <div className={styles.homePage__registration}>b</div>
+         <div className={styles['page-wrapper']}>
+            <div className={styles['left-wrapper']}>
+               <div className={styles['logo-wrapper']}>
+                  <LogoIcon className={styles['icon']} />
+                  <div className={styles['logotype']}>TravelPlanner</div>
+               </div>
+               <Slider />
+            </div>
+            <Route path={match.path} component={Registration} />
          </div>
       )
    }
 }
-const mapStateToProps = ({ travelReducer }) => ({
-   travel: travelReducer.travel,
-})
-const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getTravel }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

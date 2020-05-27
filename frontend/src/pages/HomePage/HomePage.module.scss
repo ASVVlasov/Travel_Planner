@@ -2,10 +2,33 @@
 
 $width: 1440px;
 
-.wrapper{
+.page-wrapper{
     height: 100vh;
     display: flex;
     justify-content: space-between;
     width: $width;
     margin: 0 auto;
+}
+
+.left-wrapper {
+    background-color: $color-background-light;
+    padding: 34px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+}
+.logo-wrapper{
+    display:flex;
+    margin-bottom: 106px;
+}
+.logotype{
+    @include Title-2-SemiBold;
+    color: $color-secondary-light;
+    
+}
+.icon{
+    @include Icon(23px);
+    vertical-align: top;
 }
