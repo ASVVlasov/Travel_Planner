@@ -13,6 +13,9 @@ import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 import 'moment/locale/ru'
 
+import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
+import Button from '../../controls/Button/Button'
+
 export class Calendar extends React.Component {
    static propTypes = {
       travel: PropTypes.object.isRequired,
@@ -75,6 +78,9 @@ export class Calendar extends React.Component {
                displayFormat="DD.MM.YYYY"
                startDatePlaceholderText="дд.мм.гггг"
                endDatePlaceholderText="дд.мм.гггг"
+               customInputIcon={
+                  <EditBtnSVG className={styles.calendar__editIcon} />
+               }
             />
             <div className={styles.calendar__amountOfDays}>
                | {amountOfDays} дней

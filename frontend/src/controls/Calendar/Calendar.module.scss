@@ -1,12 +1,17 @@
 @import '../../styles/colors', '../../styles/mixins';
+@import '../../../node_modules/react-dates/lib/css/_datepicker.css';
 .calendar{
     @include Subtitle-1-Regular;
-    color: $color-gray-2;
+    color: $color-primary-main;
     display: flex;
     justify-content: space-between;
     align-items: center;
     &__amountOfDays{
         @include Subtitle-1-Regular;
-        color: $color-gray-2;
+        color: $color-primary-main;
+    }
+    &__editIcon{
+        @include IconLight(24px);
+        cursor: pointer; 
     }
 }

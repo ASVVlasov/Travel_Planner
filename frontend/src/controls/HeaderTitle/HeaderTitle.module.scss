@@ -1,24 +1,20 @@
 @import '../../styles/colors', '../../styles/mixins';
 
-.headerTitle_DefauitView,
-.headerTitle_EditView{
-    border-bottom: 2px solid;
+.headerTitle{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.headerTitle_DefauitView{
-    border-bottom-color: $color-white;
-}
-
 .headerTitle__input{
     @include Subtitle-1-Regular;
-    color: $color-gray-2;
+    color: $color-primary-main;
     outline: none;
     border:none;
-    & :focus{
-        border:none;
+    border-bottom: 2px solid $color-background-light;
+    background-color: $color-background-light;
+    &:focus{
+        border-bottom: 2px solid;
     }
 }
 
@@ -42,7 +38,7 @@
 }
 
 .headerTitle__editIcon{
-    fill: $color-gray-4;
-    width: 25px;
-    height: 25px;
+    @include IconLight(24px);
+    margin-bottom: -3px;
+    cursor: pointer;
 }
