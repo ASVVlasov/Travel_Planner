@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const UserModel = require('../../models/user.js')
 const FileModel = require('../../models/file.js')
+const CardModel = require('../../models/card.js')
 const fileMiddleware = require('../../middlewares/file.js')
 const asyncHandler = require('express-async-handler')
 
