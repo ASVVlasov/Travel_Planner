@@ -32,4 +32,13 @@
 .DateInput_input{
    color: #0A3268!important;
    background-color: #F8FCFF!important; /*$color-background-light */
+   position: relative!important;
+}
+
+.DateRangePickerInput_calendarIcon{
+    position: absolute;
+    right: -115px;
+    top: 9px;
+    padding: 0!important;
+    outline: none!important;
 }

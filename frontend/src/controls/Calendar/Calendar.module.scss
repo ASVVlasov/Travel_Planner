@@ -12,7 +12,6 @@
     }
     &__editIcon{
         @include IconLight(24px);
-        margin-left: 5px;
-        cursor: pointer;
+        cursor: pointer; 
     }
 }
