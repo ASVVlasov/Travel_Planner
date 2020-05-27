@@ -8,3 +8,6 @@ export const updateUserInfo = (updateFields) =>
 
 export const uploadAvatar = (file) =>
    fetchRequest.uploadFile('/user/avatar', updateUserSuccess, file)
+
+export const deleteAvatar = () =>
+   fetchRequest.delete('/user/avatar', updateUserSuccess, {})
