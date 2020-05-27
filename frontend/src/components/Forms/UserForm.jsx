@@ -45,8 +45,9 @@ class UserForm extends Component {
       e.target.value = null
    }
 
-   saveHandler = () => {
-      this.props.updateUserInfo(this.state)
+   saveHandler = async () => {
+      await this.props.updateUserInfo(this.state)
+      this.props.onClose()
    }
 
    componentDidMount() {
@@ -93,23 +94,24 @@ class UserForm extends Component {
                      />
                   </div>
 
-                  <div className={styles.avatar}>
-                     {!avatar && nickName[0]}
-                     {avatar && <img src={this.FILE_URL} alt="" />}
-                     <div
-                        className={styles.avatar__hover}
-                        onClick={() => this.avatarInput.current.click()}
-                     >
-                        {!avatar ? (
-                           <AddIcon
-                              className={`${styles.icon} ${styles.icon__upload}`}
-                           />
-                        ) : (
-                           <EditIcon
-                              className={`${styles.icon} ${styles.icon__upload}`}
-                           />
-                        )}
-                     </div>
+                  <div
+                     className={styles.avatar}
+                     onClick={() => this.avatarInput.current.click()}
+                  >
+                     {!avatar ? (
+                        <AddIcon
+                           className={`${styles.icon} ${styles.icon__upload}`}
+                        />
+                     ) : (
+                        <>
+                           <img src={this.FILE_URL + avatar} alt="" />
+                           <div className={styles.avatar__hover}>
+                              <EditIcon
+                                 className={`${styles.icon} ${styles.icon__upload} ${styles.icon__upload_edit}`}
+                              />
+                           </div>
+                        </>
+                     )}
                      <input
                         style={{ display: 'none' }}
                         type="file"

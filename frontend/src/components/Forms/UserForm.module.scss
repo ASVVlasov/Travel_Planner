@@ -50,14 +50,18 @@
    }
    &__upload {
       width: 50px;
-      position: absolute;
-      top: 50px;
-      left: 50px;
-      fill: $color-white
+      fill: $color-white;
+      &_edit {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+      }
    }
 }
 
 .avatar {
+   cursor: pointer;
    @include AvatarEmpty(170px);
    & img {
       @include AvatarImg(170px);
@@ -72,7 +76,6 @@
       height: 150px;
       background-color: change-color($color-secondary-main, $alpha: 0.4);
       border-radius: 50%;
-      cursor: pointer;
    }
 }
 
@@ -83,5 +86,4 @@
       &__name {
          width: 47%;
       }
-
 }
