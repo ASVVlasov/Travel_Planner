@@ -25,8 +25,8 @@ router.delete(
    asyncHandler(async (req, res) => {
       const fileId = (await UserModel.findById(req.user._id)).avatar
       await FileModel.deleteFiles([fileId])
-      let update = { avatar: '' }
-      res.json(await CardModel.findByIdAndUpdate(req.user._id, update, { new: true }))
+      let update = { avatar: null }
+      res.json(await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }))
    })
 )
 
