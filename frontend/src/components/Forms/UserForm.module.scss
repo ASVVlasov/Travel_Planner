@@ -1,0 +1,87 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+   background: $color-background-light;
+   min-width: 600px;
+   border-radius: 20px;
+   padding: 25px 30px 30px 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   z-index: 300;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   &__title {
+      @include Title-2-SemiBold ;
+      color: $color-secondary-main;
+      margin-bottom: 35px;
+   }
+   &__inputs {
+      display: flex; 
+      justify-content: space-between;
+      margin-bottom: 20px;
+      &_row {
+         flex-direction: row;
+         flex-wrap: wrap;
+      }
+      &_column {
+         flex-direction: column;
+         width: 60%;
+         margin-bottom: 0;
+      }
+   }
+   &__actions {
+      margin-left: auto;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.icon {
+   &__close {
+      @include IconLight(30px);
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      opacity: 0.5;
+   }
+   &__upload {
+      width: 50px;
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      fill: $color-white
+   }
+}
+
+.avatar {
+   @include AvatarEmpty(170px);
+   & img {
+      @include AvatarImg(170px);
+   }
+   &:hover &__hover {
+      display: block;
+   }
+   &__hover {
+      display: none;
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background-color: change-color($color-secondary-main, $alpha: 0.4);
+      border-radius: 50%;
+      cursor: pointer;
+   }
+}
+
+.input {
+      &__nickName  {
+         margin-bottom: 20px;
+      }
+      &__name {
+         width: 47%;
+      }
+
+}
