@@ -34,6 +34,9 @@
    background-color: #F8FCFF!important; /*$color-background-light */
    position: relative!important;
 }
+.DateRangePickerInput_arrow svg{
+    fill: #0A3268!important;
+}
 
 .DateRangePickerInput_calendarIcon{
     position: absolute;
