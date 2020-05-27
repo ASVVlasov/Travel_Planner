@@ -8,7 +8,7 @@ router.post(
    '/',
    fileMiddleware,
    asyncHandler(async (req, res) => {
-      let file = await FileModel.createFiles(req.files)
+      let [file] = await FileModel.createFiles(req.files)
       let update = { avatar: file }
       res.json(await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }))
    })
