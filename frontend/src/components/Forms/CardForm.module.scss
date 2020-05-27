@@ -33,19 +33,12 @@
    }
 }
 
-.icon__cross {
+.icon__close {
    position: absolute;
    top: 25px;
    right: 25px;
-   border: none;
-   outline: none;
-   background: transparent;
-   cursor: pointer;
-   svg {
-      width: 30px;
-      fill: $color-secondary-light;
-      opacity: 0.5;
-   }
+   @include IconLight(30px);
+   opacity: 0.5;
 }
 
 .input {
