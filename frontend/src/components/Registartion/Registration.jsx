@@ -3,17 +3,16 @@ import PropTypes from 'prop-types'
 import styles from './Registration.module.scss'
 import { NavLink } from 'react-router-dom'
 
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
-//import { signin, signup } from '../../redux/auth/operations'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { authorization } from '../../redux/auth/operations'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 
-export default class Registration extends Component {
+class Registration extends Component {
    static propTypes = {
-      signin: PropTypes.func,
-      signup: PropTypes.func,
+      authorization: PropTypes.func,
    }
 
    state = {
@@ -49,13 +48,15 @@ export default class Registration extends Component {
    }
    handleChange = (event) => {
       this.setState({ [event.target.name]: event.target.value })
-      console.log(this.state)
    }
 
-   submit = () => {
-      //this.props.onSubmit(this.state)
+   login = () => {
+      let authInfo = {}
+      authInfo.login = this.state.email
+      authInfo.password = this.state.password
+      authInfo.rememberMe = this.state.rememberMe
+      this.props.authorization(authInfo, '/' + this.props.match.params.tab)
    }
-
    mapTabsToRender = () =>
       this.state.tabs.map((tab) => (
          <NavLink
@@ -108,17 +109,17 @@ export default class Registration extends Component {
                   checked={this.props.rememberMe}
                   className={styles['switch']}
                   onChange={(value) => {
-                     this.setState({ ['rememberMe']: value })
+                     this.setState({ rememberMe: value })
                   }}
                />
             )}
-            <Button onClick={this.submit} text={tab.btnText} ml={0} />
+            <Button onClick={this.login} text={tab.btnText} ml={0} />
          </div>
       )
    }
 }
 
-// const mapDispatchToProps = (dispatch) =>
-//    bindActionCreators({ signin, signup }, dispatch)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ authorization }, dispatch)
 
-// export default connect(mapDispatchToProps)(Registration)
+export default connect(null, mapDispatchToProps)(Registration)
