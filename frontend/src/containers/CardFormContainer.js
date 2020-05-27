@@ -1,4 +1,4 @@
-import CardForm from '../components/CardForm/CardForm'
+import CardForm from '../components/Forms/CardForm'
 
 import { connect } from 'react-redux'
 import { createCard, changeCard } from '../redux/cards/operations'
