@@ -14,9 +14,9 @@ router.post(
    })
 )
 router.get(
-   '/',
+   '/:fileId',
    asyncHandler(async (req, res) => {
-      const fileId = (await UserModel.findById(req.user._id)).avatar
+      const { fileId } = req.params
       res.send(await FileModel.getFile(fileId))
    })
 )
