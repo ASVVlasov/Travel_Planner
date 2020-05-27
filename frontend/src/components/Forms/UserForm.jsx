@@ -4,7 +4,11 @@ import styles from './UserForm.module.scss'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { updateUserInfo, uploadAvatar } from '../../redux/user/operations'
+import {
+   updateUserInfo,
+   uploadAvatar,
+   deleteAvatar,
+} from '../../redux/user/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
@@ -55,7 +59,7 @@ class UserForm extends Component {
    }
 
    render() {
-      const { onClose, avatar } = this.props
+      const { onClose, avatar, deleteAvatar } = this.props
       const { email, nickName, name, surname } = this.state
 
       return (
@@ -70,12 +74,8 @@ class UserForm extends Component {
                   onClick={onClose}
                />
 
-               <div
-                  className={`${styles.form__inputs} ${styles.form__inputs_row}`}
-               >
-                  <div
-                     className={`${styles.form__inputs} ${styles.form__inputs_column}`}
-                  >
+               <div className={styles.form__inputs}>
+                  <div className={styles.form__inputs_column}>
                      <InputControl
                         type="text"
                         value={nickName}
@@ -94,36 +94,42 @@ class UserForm extends Component {
                      />
                   </div>
 
-                  <div
-                     className={styles.avatar}
-                     onClick={() => this.avatarInput.current.click()}
-                  >
-                     {!avatar ? (
-                        <AddIcon
-                           className={`${styles.icon} ${styles.icon__upload}`}
+                  <div className={styles.form__avatar}>
+                     <div
+                        className={styles.avatar}
+                        onClick={() => this.avatarInput.current.click()}
+                     >
+                        {!avatar ? (
+                           <AddIcon
+                              className={`${styles.icon} ${styles.icon__upload}`}
+                           />
+                        ) : (
+                           <>
+                              <img src={this.FILE_URL + avatar} alt="" />
+                              <div className={styles.avatar__hover}>
+                                 <EditIcon
+                                    className={`${styles.icon} ${styles.icon__upload} ${styles.icon__upload_edit}`}
+                                 />
+                              </div>
+                           </>
+                        )}
+                        <input
+                           style={{ display: 'none' }}
+                           type="file"
+                           ref={this.avatarInput}
+                           onChange={(e) => this.uploadAvatarHandler(e)}
                         />
-                     ) : (
-                        <>
-                           <img src={this.FILE_URL + avatar} alt="" />
-                           <div className={styles.avatar__hover}>
-                              <EditIcon
-                                 className={`${styles.icon} ${styles.icon__upload} ${styles.icon__upload_edit}`}
-                              />
-                           </div>
-                        </>
+                     </div>
+                     {avatar && (
+                        <span
+                           onClick={() => deleteAvatar()}
+                           children="удалить аватар"
+                        />
                      )}
-                     <input
-                        style={{ display: 'none' }}
-                        type="file"
-                        ref={this.avatarInput}
-                        onChange={(e) => this.uploadAvatarHandler(e)}
-                     />
                   </div>
                </div>
 
-               <div
-                  className={`${styles.form__inputs} ${styles.form__inputs_row}`}
-               >
+               <div className={styles.form__inputs}>
                   <InputControl
                      type="text"
                      value={name}
@@ -158,6 +164,6 @@ class UserForm extends Component {
 }
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ updateUserInfo, uploadAvatar }, dispatch)
+   bindActionCreators({ updateUserInfo, uploadAvatar, deleteAvatar }, dispatch)
 
 export default connect(null, mapDispatchToProps)(UserForm)

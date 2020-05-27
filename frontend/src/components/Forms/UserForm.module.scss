@@ -21,15 +21,27 @@
    &__inputs {
       display: flex; 
       justify-content: space-between;
+      flex-direction: row;
       margin-bottom: 20px;
-      &_row {
-         flex-direction: row;
-         flex-wrap: wrap;
-      }
       &_column {
          flex-direction: column;
-         width: 60%;
+         width: 65%;
          margin-bottom: 0;
+      }
+   }
+   &__avatar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      & span {
+         @include Caption-1-Regular;
+         color: $color-secondary-light;
+         cursor: pointer;
+         &:hover {
+            color: $color-secondary-main;
+            text-decoration: underline;
+         }
       }
    }
    &__actions {
@@ -62,9 +74,9 @@
 
 .avatar {
    cursor: pointer;
-   @include AvatarEmpty(170px);
+   @include AvatarEmpty(150px);
    & img {
-      @include AvatarImg(170px);
+      @include AvatarImg(150px);
    }
    &:hover &__hover {
       display: block;
@@ -72,9 +84,9 @@
    &__hover {
       display: none;
       position: absolute;
-      width: 150px;
-      height: 150px;
-      background-color: change-color($color-secondary-main, $alpha: 0.4);
+      width: 130px;
+      height: 130px;
+      background-color: change-color($color-secondary-main, $alpha: 0.6);
       border-radius: 50%;
    }
 }
