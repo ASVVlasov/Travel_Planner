@@ -5,7 +5,7 @@ import styles from './TravelForm.module.scss'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
-import { Input } from '../../controls/Input/Input'
+import InputControl from '../../controls/Input/InputControl'
 
 export default class TravelForm extends Component {
    static propTypes = {
@@ -16,26 +16,18 @@ export default class TravelForm extends Component {
 
    state = {
       title: '',
-      beginDate: new Date().toISOString().split('.')[0],
-      endDate: new Date().toISOString().split('.')[0],
+      beginDate: new Date(),
+      endDate: new Date(),
       options: [],
-      selected: [],
+      users: [],
    }
 
    handleChange = (event) => {
       this.setState({ [event.target.name]: event.target.value })
    }
 
-   setSelected = (selected) => {
-      this.setState({ selected })
-   }
-
    submit = () => {
-      const refactor = ({ options, selected, ...obj }) => ({
-         ...obj,
-         users: selected,
-      })
-      this.props.onSubmit(refactor(this.state))
+      this.props.onSubmit(this.state)
    }
 
    componentDidMount() {
@@ -71,7 +63,7 @@ export default class TravelForm extends Component {
                />
 
                <div className={styles.form__inputs}>
-                  <Input
+                  <InputControl
                      label="Название поездки"
                      type="text"
                      name="title"
@@ -82,34 +74,31 @@ export default class TravelForm extends Component {
                   />
                </div>
                <div className={styles.form__inputs}>
-                  <Input
+                  <InputControl
                      label="Начало"
                      type="date"
                      name="beginDate"
-                     styles={styles.input_beginDate}
                      value={beginDate}
                      onChange={this.handleChange}
                   />
-                  <Input
+                  <InputControl
                      label="Окончание"
                      type="date"
                      name="endDate"
-                     styles={styles.input_endDate}
                      value={endDate}
                      onChange={this.handleChange}
                   />
                </div>
                <div className={styles.form__inputs}>
-                  <Input
+                  <InputControl
                      label="Участники"
                      type="multiselect"
                      name="users"
                      styles={styles.input_users}
                      hintLabel="можно добавить позже"
                      options={this.state.options}
-                     value={this.state.selected}
-                     onChange={this.setSelected}
-                     disableSearch="true"
+                     value={this.state.users}
+                     onChange={this.handleChange}
                      overrideStrings={overrideStrings}
                   />
                </div>
