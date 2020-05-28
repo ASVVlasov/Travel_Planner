@@ -62,19 +62,21 @@
     margin-bottom: 88px;
 }
 
-.text {
+.text-container {
     text-align: center;
-    @include Title-2-SemiBold;
-    font-weight: 600;
     margin-bottom: 30px;
-    p:first-child {
-        color: $color-secondary-main;
-    }
-        p:last-child {
-        color: $color-secondary-light;
-    }
-
 }
+
+.text-main {
+    @include Title-2-SemiBold;
+    color: $color-secondary-main;
+}
+
+.text-secondary {
+    @include Title-2-SemiBold;
+    color: $color-secondary-light;
+}
+
 
 @mixin SlideImage ($url) {
     background-image: url($url);
@@ -86,13 +88,16 @@
 .image1 {
     @include SlideImage('../../assets/images/slide1.svg')
 }
+
 .image2 {
     @include SlideImage('../../assets/images/slide2.svg')
 }
+
 .image3 {
     @include SlideImage('../../assets/images/slide3.svg')
 }
-.pagination{
+
+.pagination {
     position: absolute;
     margin: 0 auto;
     width: 100%;
@@ -101,7 +106,8 @@
     bottom: 0px;
     text-align: center;
 }
-.bullet{
+
+.bullet {
     width: 10px;
     height: 10px;
     background-color: $color-secondary-light;
@@ -110,9 +116,8 @@
     vertical-align: top;
     cursor: pointer;
     border-radius: 100%;
-    &_active{
+
+    &_active {
         background-color: $color-secondary-main;
     }
 }
-
-
