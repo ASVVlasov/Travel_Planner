@@ -13,6 +13,7 @@ export default class InputControl extends Component {
          'text',
          'textarea',
          'multiselect',
+         'password',
       ]).isRequired,
       value: PropTypes.any.isRequired,
       placeholder: PropTypes.string,
@@ -55,9 +56,11 @@ export default class InputControl extends Component {
                />
             )
          }
-         default: {
+         case 'password':
+         case 'text': {
             return (
                <BaseInputControl
+                  type={type}
                   value={this.props.value}
                   placeholder={this.props.placeholder}
                   onChange={this.onChange}
@@ -69,6 +72,8 @@ export default class InputControl extends Component {
                />
             )
          }
+         default:
+            return <div>Не верный тип контрола!</div>
       }
    }
    render() {
