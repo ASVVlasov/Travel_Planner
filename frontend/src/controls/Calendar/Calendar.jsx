@@ -82,7 +82,7 @@ export class Calendar extends React.Component {
                }
             />
             <div className={styles.calendar__amountOfDays}>
-               | {amountOfDays} дней
+               | <span>{amountOfDays}</span> дней
             </div>
          </div>
       )

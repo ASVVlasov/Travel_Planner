@@ -40,8 +40,11 @@
 
 .DateRangePickerInput_calendarIcon{
     position: absolute;
-    right: -110px;
+    right: -115px;
     top: 10px;
     padding: 0!important;
     outline: none!important;
+}
+.DateInput{
+    width: 125px!important;
 }
