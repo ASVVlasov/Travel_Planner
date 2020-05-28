@@ -37,7 +37,7 @@ class TravelPage extends React.Component {
                <div className={styles.travelPage}>
                   <Header users={travel.users} />
                   <Route path={`${path}/:board/:tab`} component={Board} />
-                  <Footer travelId={travel.travelId} />
+                  <Footer travelId={travel._id} />
                   <div className={styles.travelPage__sidebarWrap}>
                      <Route path={path} component={Sidebar} />
                   </div>
