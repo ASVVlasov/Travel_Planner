@@ -116,7 +116,9 @@ class Header extends React.Component {
 
    handleClickOutside = (e) => {
       const burgerMenu = document.getElementById('headerMenuBurger')
-      if (!e.path.includes(burgerMenu) && this.state.isHeaderMenuOpen) {
+      const path = e.path || (e.composedPath && e.composedPath())
+
+      if (!path.includes(burgerMenu) && this.state.isHeaderMenuOpen) {
          this.setState({
             isHeaderMenuOpen: false,
          })
