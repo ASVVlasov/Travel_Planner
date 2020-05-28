@@ -18,9 +18,10 @@ export default class InputControl extends Component {
       placeholder: PropTypes.string,
       label: PropTypes.string,
       hintLabel: PropTypes.string,
+      disabled: PropTypes.bool,
       styles: PropTypes.string,
       name: PropTypes.string.isRequired,
-      onChange: PropTypes.func.isRequired,
+      onChange: PropTypes.func,
       options: PropTypes.array,
       overrideStrings: PropTypes.object,
    }
@@ -64,6 +65,7 @@ export default class InputControl extends Component {
                   name={this.props.name}
                   label={this.props.label}
                   hintLabel={this.props.hintLabel}
+                  disabled={this.props.disabled}
                />
             )
          }
