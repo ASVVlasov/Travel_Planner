@@ -52,6 +52,7 @@ class Registration extends Component {
 
    login = () => {
       let authInfo = {}
+      //TODO: Сделать email = email после коррекции моделей на бэке
       authInfo.login = this.state.email
       authInfo.password = this.state.password
       authInfo.rememberMe = this.state.rememberMe
@@ -75,14 +76,7 @@ class Registration extends Component {
       )
       return (
          <div className={styles['form']}>
-            <nav
-               className={
-                  this.props.match.params.tab === 'signin'
-                     ? styles['tabs']
-                     : styles['tabs_short']
-               }
-               children={this.mapTabsToRender()}
-            />
+            <nav className={styles['tabs']} children={this.mapTabsToRender()} />
             <InputControl
                type="text"
                name="email"

@@ -11,16 +11,11 @@
     & button {
         margin-top: 45px;
         align-self: center;
-        justify-self: flex-end;
     }
 }
 
 .tabs {
-    margin-bottom: 61px;
-
-    &_short {
-        margin-bottom: 35px;
-    }
+    margin-bottom: 35px;
 }
 
 .tabs-link {
@@ -37,18 +32,19 @@
 
 .input {
     width: 100%;
-    margin-bottom: 46px;
+    margin-bottom: 25px;
 
-    &:last-child {
-        margin-top: 20px;
+    &:nth-child(2) {
+        margin-top: 5px;
     }
 
     &_wide {
+        margin-top: 0px;
         margin-bottom: 20px;
 
         &:nth-child(3) {
             margin-top: 0px;
-            margin-bottom:70px;
+            margin-bottom:6px;
         }
     }
 }
