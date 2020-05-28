@@ -10,10 +10,7 @@ export default class MultiSelectControl extends Component {
       options: PropTypes.array.isRequired,
       onChange: PropTypes.func.isRequired,
       name: PropTypes.string.isRequired,
-      overrideStrings: PropTypes.objectOf({
-         selectSomeItems: PropTypes.string.isRequired,
-         allItemsAreSelected: PropTypes.string.isRequired,
-      }).isRequired,
+      overrideStrings: PropTypes.object.isRequired,
    }
 
    state = {
