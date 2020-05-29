@@ -5,6 +5,7 @@ import {
    getTravelSuccess,
    changeTravelSuccess,
    createTravelSuccess,
+   deleteTravelSuccess,
 } from './actions'
 
 const MAIN_URL = '/travel/'
@@ -27,3 +28,9 @@ export const addTraveler = (traveler) =>
 
 export const deleteTraveler = (traveler) =>
    fetchRequest.delete('/travel/user', changeTravelSuccess, traveler)
+
+export const changeStatusTravel = (travel) =>
+   fetchRequest.put(MAIN_URL, changeTravelSuccess, travel)
+
+export const deleteTravel = (travelId) =>
+   fetchRequest.delete(`${MAIN_URL}${travelId}`, deleteTravelSuccess)

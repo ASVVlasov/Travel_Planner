@@ -9,6 +9,9 @@
     &__amountOfDays{
         @include Subtitle-1-Regular;
         color: $color-primary-main;
+        & span {
+            margin-left: 6px;
+        }
     }
     &__editIcon{
         @include IconLight(24px);

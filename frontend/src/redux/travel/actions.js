@@ -3,6 +3,7 @@ import {
    GET_TRAVEL_SUCCESS,
    CHANGE_TRAVEL_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
+   DELETE_TRAVEL_SUCCESS,
 } from '../types'
 
 export const getBudgetSuccess = (summary) => ({
@@ -22,4 +23,9 @@ export const changeTravelSuccess = (updTravel) => ({
 export const createTravelSuccess = (newTravel) => ({
    type: CREATE_TRAVEL_SUCCESS,
    payload: newTravel,
+})
+
+export const deleteTravelSuccess = (delTravel) => ({
+   type: DELETE_TRAVEL_SUCCESS,
+   payload: delTravel,
 })
