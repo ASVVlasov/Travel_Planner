@@ -7,7 +7,7 @@
    justify-content: space-between;
    position: relative;
    &__header {
-      height: 56px;
+      min-height: 56px;
       margin-bottom: 70px;
    }
    &__title {
@@ -39,9 +39,11 @@
 .badges {
    &__icon {
       width: 40px;
+      opacity: 0.5;
       fill: $color-secondary-light;
       &_active {
          fill: $color-success-main ;
+         opacity: 1;
       }
    }
 }
@@ -76,12 +78,15 @@
       margin-bottom: 34px;
    }
    &__place {
+      min-height: 20px;
       display: block;
       margin-bottom: 6px;
       @include Subtitle-1-Regular;
       color: $color-primary-main;
    }
    &__date {
+      display: block;
+      min-height: 20px;
       @include Caption-1-Regular;
       color: $color-primary-light;
       &_currentDate {
@@ -98,3 +103,8 @@
       @include AvatarImg(40px);
    }
 }
+.defaultCaptions {
+   color: $color-primary-main;
+   opacity: 0.3;
+   font-weight: 400;
+ }
