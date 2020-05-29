@@ -131,6 +131,7 @@ export default class CardForm extends Component {
                         onClick={() => addCard(this.state)}
                         text="Добавить"
                         ml={20}
+                        disabled={!title}
                      />
                   )}
                   {!!card && (
@@ -138,6 +139,7 @@ export default class CardForm extends Component {
                         onClick={() => saveCard(this.state)}
                         text="Готово"
                         ml={20}
+                        disabled={!title}
                      />
                   )}
                </div>
