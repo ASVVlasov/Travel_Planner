@@ -41,6 +41,13 @@ export class Calendar extends React.Component {
       this.props.changeTravel(travel)
    }
 
+   isOutsideRange = (day) => {
+      return (
+         day.isBefore(this.props.travel.beginDate) ||
+         day.isAfter(this.props.travel.endDate)
+      )
+   }
+
    render() {
       let stringBeginDate = this.props.travel.beginDate
       let stringEndDate = this.props.travel.endDate
@@ -77,6 +84,7 @@ export class Calendar extends React.Component {
                displayFormat="DD.MM.YYYY"
                startDatePlaceholderText="дд.мм.гггг"
                endDatePlaceholderText="дд.мм.гггг"
+               isOutsideRange={this.isOutsideRange}
                customInputIcon={
                   <EditBtnSVG className={styles.calendar__editIcon} />
                }

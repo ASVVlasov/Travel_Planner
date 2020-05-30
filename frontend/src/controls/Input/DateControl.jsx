@@ -51,6 +51,7 @@ export default class DateControl extends Component {
             timeCaption="Время"
             dateFormat={dateFormat}
             shouldCloseOnSelect={false}
+            minDate={new Date()}
          />
       )
    }

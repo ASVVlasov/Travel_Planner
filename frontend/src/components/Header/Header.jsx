@@ -28,6 +28,7 @@ class Header extends React.Component {
          userPickerPosition: {},
          travelDeleted: false,
       }
+      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    //TODO remove
@@ -108,10 +109,6 @@ class Header extends React.Component {
 
    componentWillUnmount = () => {
       document.removeEventListener('click', this.handleClickOutside, false)
-   }
-
-   componentWillMount = () => {
-      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    handleClickOutside = (e) => {
