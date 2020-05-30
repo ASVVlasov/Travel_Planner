@@ -25,14 +25,13 @@
          @include Subtitle-1-SemiBold;
       }
    }
-
    &__leftSide {
       height: 90%;
       width: 51%;
       display: flex;
       flex-wrap: wrap;
       align-content: baseline;
-      border-right: 1px solid $color-secondary-light;
+      border-right: 1px solid change-color($color-secondary-light, $alpha: 0.5);
       margin-right: 30px;
    }
    &__companyName {
@@ -61,6 +60,9 @@
          @include ImplicitTextArea;
          width: 95%;
          height: 200px;
+         &:focus {
+            border-left: 1px solid change-color($color-secondary-light, $alpha: 0.5);
+         }
       }
    }
 
@@ -179,11 +181,14 @@ h2 {
    }
    &__place {
       display: block;
+      min-height: 20px;
       margin-bottom: 6px;
       @include Subtitle-1-SemiBold;
       color: $color-primary-main;
    }
    &__date {
+      display: block;
+      min-height: 20px;
       @include Text-Regular;
       color: $color-primary-main;
       &_currentDate {
@@ -206,6 +211,7 @@ h2 {
       text-overflow: ellipsis;
       white-space: nowrap;
       color: $color-secondary-main;
+      text-decoration: underline;
    }
 }
 
@@ -256,9 +262,8 @@ h2 {
    }
 }
 
-.hidden {
-   visibility: hidden;
-}
-.displayNone {
-   display: none;
-}
+.defaultCaptions {
+   color: $color-primary-main;
+   opacity: 0.3;
+   font-weight: 400;
+ }

@@ -16,8 +16,23 @@
       color: $color-secondary-light;
     }
   }
+  &__inputWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
   &__input {
     @include FormInput;
+    width: 100%;
+    &_disabled {
+      background-color: transparent;
+      color: $color-secondary-light;
+    }
+  }
+  &__eye {
+    @include IconLight(25px);
+    position: absolute;
+    right: 20px;
   }
   &_hidden {
     visibility: hidden;

@@ -3,6 +3,8 @@ const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
+const travelStatuses = require('../../models/types/enumTravelStatuses.js')
+const travelStatusesValues = Object.values(travelStatuses)
 const userRouter = require('./user')
 
 router.use('/user', userRouter)
@@ -17,11 +19,15 @@ router.get(
 router.post(
    '/',
    asyncHandler(async (req, res) => {
-      const travel = new TravelModel(req.body)
-      await travel.save()
-      const update = { $push: { travels: travel.id } }
-      await UserModel.findByIdAndUpdate(req.user._id, update)
-      res.json(travel)
+      const travel = { ...req.body }
+      travel.users.push(req.user)
+      const newTravel = new TravelModel(travel)
+      await newTravel.save()
+      const update = { $push: { travels: newTravel.id } }
+      for (const user of newTravel.users) {
+         await UserModel.findByIdAndUpdate(user.id, update)
+      }
+      res.json(newTravel)
    })
 )
 
@@ -29,6 +35,10 @@ router.put(
    '/',
    asyncHandler(async (req, res) => {
       const travelModel = req.body
+      // Если travelModel.status не входит в массив возможных значений
+      if (travelStatusesValues.indexOf(travelModel.status) === -1) {
+         delete travelModel.status
+      }
       delete travelModel.cards
       delete travelModel.users
       res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))

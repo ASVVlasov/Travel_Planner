@@ -4,7 +4,7 @@ import styles from './CardForm.module.scss'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
-import { ReactComponent as CrossIcon } from '../../assets/images/icons/cross.svg'
+import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import InputControl from '../../controls/Input/InputControl'
 
 export default class CardForm extends Component {
@@ -58,11 +58,7 @@ export default class CardForm extends Component {
                   className={styles.form__title}
                   children={`${formTitle} ${captions.categoryRus.toLowerCase()}`}
                />
-               <button
-                  className={styles.icon__cross}
-                  onClick={onClose}
-                  children={<CrossIcon />}
-               />
+               <CloseIcon className={styles.icon__close} onClick={onClose} />
 
                <div className={styles.form__inputs}>
                   <InputControl
@@ -135,6 +131,7 @@ export default class CardForm extends Component {
                         onClick={() => addCard(this.state)}
                         text="Добавить"
                         ml={20}
+                        disabled={!title}
                      />
                   )}
                   {!!card && (
@@ -142,6 +139,7 @@ export default class CardForm extends Component {
                         onClick={() => saveCard(this.state)}
                         text="Готово"
                         ml={20}
+                        disabled={!title}
                      />
                   )}
                </div>

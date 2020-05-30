@@ -13,7 +13,7 @@ import Button from '../../controls/Button/Button'
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import TravelCard from '../Cards/TravelCard'
 import ContactCard from '../Cards/ContactCard'
-import TravelForm from '../TravelForm/TravelForm'
+import TravelForm from '../Forms/TravelForm'
 
 class UserBoard extends Component {
    static propTypes = {
