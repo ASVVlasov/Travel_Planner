@@ -41,18 +41,21 @@ export default class Sidebar extends React.Component {
 
             <Switch>
                <Redirect
+                  exact
                   from={`${url}/transport/`}
                   to={`${url}/transport/all`}
                />
                <Redirect
+                  exact
                   from={`${url}/accomodation/`}
                   to={`${url}/accomodation/all`}
                />
                <Redirect
+                  exact
                   from={`${url}/entertainment/`}
                   to={`${url}/entertainment/all`}
                />
-               <Redirect from={`${url}/todo/`} to={`${url}/todo/all`} />
+               <Redirect exact from={`${url}/todo/`} to={`${url}/todo/all`} />
             </Switch>
          </>
       )
