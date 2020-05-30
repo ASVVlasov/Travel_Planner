@@ -33,9 +33,9 @@ class UserPicker extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    addUserHandler = (userId) => {
       const {
@@ -86,7 +86,7 @@ class UserPicker extends Component {
                         {!user.avatar && user.nickName[0]}
                         {user.avatar && (
                            <img
-                              src={this.FILE_URL + user.avatar}
+                              src={this.AVATAR_URL + user.avatar}
                               alt={user.nickName}
                               title={user.nickName}
                            />
@@ -108,7 +108,11 @@ class UserPicker extends Component {
                      <span
                         className={styles.user__name}
                         title={user.nickName}
-                        children={user.nickName}
+                        children={ 
+                           (!!user.name || !!user.surname) ? 
+                              (user.name + ' ' + user.surname) : 
+                                 user.nickName
+                        }
                      />
                   </div>
                ))}

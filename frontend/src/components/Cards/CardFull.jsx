@@ -171,8 +171,9 @@ class CardFull extends Component {
                )}
                title={payer.user.nickName}
                children={
-                  (payer.user.name + ' ' + payer.user.surname) ||
-                     payer.user.nickName
+                  (!!payer.user.name || !!payer.user.surname) ? 
+                  (payer.user.name + ' ' + payer.user.surname) :
+                  payer.user.nickName
                }
             />
             <div

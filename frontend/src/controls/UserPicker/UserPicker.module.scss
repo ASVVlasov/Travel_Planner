@@ -7,7 +7,6 @@
    padding: 10px;
    display: flex;
    flex-wrap: wrap;
-   justify-content: space-between;
    border-radius: 10px;
    background-color: $color-background-light;
    @include BaseShadow 
@@ -15,9 +14,12 @@
 
 .user {
    width: 63px;
-   margin: 10px;
+   margin: 10px 20px 10px 10px;
    display: flex;
    flex-direction: column;
+   &:nth-child(4n){
+      margin-right: 10px;
+   }
    &__avatar {
       @include AvatarEmpty(45px);
       margin: 0 auto;
