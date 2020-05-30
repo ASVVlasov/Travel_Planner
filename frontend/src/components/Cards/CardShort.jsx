@@ -27,9 +27,9 @@ export default class CardShort extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    showFullInfo = () => {
       this.setState({ fullInfoOpened: true })
@@ -63,7 +63,7 @@ export default class CardShort extends Component {
             {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
             {payer.user.avatar && (
                <img
-                  src={this.FILE_URL + payer.user.avatar}
+                  src={this.AVATAR_URL + payer.user.avatar}
                   alt={payer.user.nickName}
                />
             )}
