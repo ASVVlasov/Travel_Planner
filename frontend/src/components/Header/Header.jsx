@@ -74,13 +74,14 @@ class Header extends React.Component {
 
    deleteTrip = () => {
       this.showHeaderMenu()
+      if (window.confirm('Вы подтверждаете удаление?')) {
+         const travelId = this.props.travel._id
+         this.props.deleteTravel(travelId)
 
-      const travelId = this.props.travel._id
-      this.props.deleteTravel(travelId)
-
-      this.setState({
-         travelDeleted: true,
-      })
+         this.setState({
+            travelDeleted: true,
+         })
+      }
    }
 
    mapUsersToRender = () => {

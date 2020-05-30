@@ -484,7 +484,9 @@ class CardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           deleteCard(_id)
+                           if (window.confirm('Вы подтверждаете удаление?')) {
+                              deleteCard(_id)
+                           }
                            toClose()
                         }}
                         text="Удалить карточку"
