@@ -33,14 +33,17 @@ const userSchema = new Schema({
    surname: {
       type: String,
       description: 'Фамилия',
+      default: '',
    },
    name: {
       type: String,
       description: 'Имя',
+      default: '',
    },
    middleName: {
       type: String,
       description: 'Отчество',
+      default: '',
    },
    birthDate: {
       type: Date,
@@ -68,6 +71,9 @@ userSchema.methods.comparePassword = function (candidate) {
    // return bcrypt.compareSync(candidate, this.password)
 }
 userSchema.pre('save', function (next) {
+   if (!this.nickName) {
+      this.nickName = this.email.split('@')[0]
+   }
    if (this.isModified('password')) {
       const salt = bcrypt.genSaltSync(+process.env.SALT_ROUNDS)
       this.password = bcrypt.hashSync(this.password, salt)
