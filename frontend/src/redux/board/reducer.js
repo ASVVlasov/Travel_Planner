@@ -93,9 +93,8 @@ export default function boardReducer(state = initialState, action) {
       }
 
       case GET_BOARD_FILTER: {
-         return {
-            ...state,
-            currentCards: state.cards.filter(
+         function sortByCategories(cards) {
+            return cards.filter(
                (card) =>
                   (state.tabFilter === 'all' ||
                      (card.category &&
@@ -106,7 +105,30 @@ export default function boardReducer(state = initialState, action) {
                      !!card.payers.find(
                         (payer) => payer.user._id === state.userFilter
                      ))
-            ),
+            )
+         }
+
+         function sortByTime(cards) {
+            cards.sort(
+               (prev, next) =>
+                  Date.parse(prev.beginDate) - Date.parse(next.beginDate)
+            )
+
+            let upperBound = cards.length
+            for (let i = 0; i < upperBound; i++) {
+               if (Date.parse(cards[i].endDate) < new Date()) {
+                  cards.push(cards[i])
+                  cards.splice(i, 1)
+                  upperBound--
+                  i--
+               }
+            }
+            return cards
+         }
+
+         return {
+            ...state,
+            currentCards: sortByTime(sortByCategories(state.cards)),
          }
       }
 
