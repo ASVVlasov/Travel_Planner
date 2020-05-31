@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs')
 const userSchema = new Schema({
    login: {
       type: String,
-      required: true,
       description: 'Логин путешественника',
    },
    password: {
@@ -23,11 +22,11 @@ const userSchema = new Schema({
    },
    email: {
       type: String,
+      required: true,
       description: 'Электронная почта путешественника',
    },
    nickName: {
       type: String,
-      required: true,
       description: 'Отображаемое имя',
    },
    surname: {
