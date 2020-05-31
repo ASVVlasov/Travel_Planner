@@ -5,12 +5,12 @@ const UserModel = require('../models/user')
 passport.use(
    new Strategy(
       {
-         usernameField: 'login',
+         usernameField: 'email',
          passwordField: 'password',
       },
-      async (login, password, done) => {
+      async (email, password, done) => {
          const user = await UserModel.findOne({
-            login: login,
+            email: email,
          })
          if (!user || !user.comparePassword(password)) {
             return done(null, false) // error, not auth
