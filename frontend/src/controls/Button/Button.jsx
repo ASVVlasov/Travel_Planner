@@ -20,8 +20,7 @@ export default class Button extends Component {
             onClick={onClick}
             className={classNames(
                styles.button,
-               kind && styles[`button_${kind}`],
-               disabled && styles[`button_disabled`]
+               kind && styles[`button_${kind}`]
             )}
             style={{ marginLeft: ml + 'px' }}
             children={text}
