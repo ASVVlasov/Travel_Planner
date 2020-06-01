@@ -3,6 +3,7 @@ import {
    UPDATE_USER_SUCCESS,
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
+   CLEAR_CONTACTS_SEARCH,
 } from '../types'
 
 export const getUserSuccess = (userInfo) => ({
@@ -23,4 +24,8 @@ export const searchContactSuccess = (contact) => ({
 export const updateContactsSuccess = (updUserInfo) => ({
    type: UPDATE_CONTACTS_SUCCESS,
    payload: updUserInfo.contacts,
+})
+
+export const clearContactSearch = () => ({
+   type: CLEAR_CONTACTS_SEARCH,
 })

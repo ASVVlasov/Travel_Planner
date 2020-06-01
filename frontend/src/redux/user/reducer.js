@@ -4,9 +4,10 @@ import {
    CREATE_TRAVEL_SUCCESS,
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
+   CLEAR_CONTACTS_SEARCH,
 } from '../types'
 
-const initialState = {}
+const initialState = { newContacts: [], reqError: '' }
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
@@ -36,6 +37,13 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             contacts: action.payload,
+         }
+      }
+      case CLEAR_CONTACTS_SEARCH: {
+         return {
+            ...state,
+            newContacts: [],
+            reqError: '',
          }
       }
       default:
