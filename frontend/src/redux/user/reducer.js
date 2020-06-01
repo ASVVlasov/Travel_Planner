@@ -2,6 +2,8 @@ import {
    GET_USER_SUCCESS,
    UPDATE_USER_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
+   SEARCH_CONTACT_SUCCESS,
+   UPDATE_CONTACTS_SUCCESS,
 } from '../types'
 
 const initialState = {}
@@ -22,6 +24,18 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             travels: [...state.travels, action.payload],
+         }
+      }
+      case SEARCH_CONTACT_SUCCESS: {
+         return {
+            ...state,
+            newContact: action.payload,
+         }
+      }
+      case UPDATE_CONTACTS_SUCCESS: {
+         return {
+            ...state,
+            contacts: action.payload,
          }
       }
       default:
