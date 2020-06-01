@@ -4,15 +4,8 @@ import PropTypes from 'prop-types'
 
 export default class ContactCard extends Component {
    static propTypes = {
-      _id: PropTypes.string,
-      title: PropTypes.string,
-      beginDate: PropTypes.string,
-      endDate: PropTypes.string,
-      payers: PropTypes.arrayOf(PropTypes.object),
-   }
-
-   state = {
-      email: 'test@mail.tu', //TODO remove after real data appear
+      contact: PropTypes.object.isRequired,
+      deleteContact: PropTypes.func.isRequired,
    }
 
    //TODO remove
@@ -21,8 +14,7 @@ export default class ContactCard extends Component {
       : window.location.origin + '/card/file/'
 
    render() {
-      const { avatar, nickName, surname, name } = this.props.contact
-      const { email } = this.state
+      const { _id, avatar, nickName, surname, name, email } = this.props.contact
 
       const fullName = name
          ? surname
