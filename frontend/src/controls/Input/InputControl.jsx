@@ -33,7 +33,7 @@ export default class InputControl extends Component {
    }
 
    onKeyUp = (evt) => {
-      this.props.onKeyUp(evt)
+      if (this.props.onKeyUp) this.props.onKeyUp(evt)
    }
 
    renderControlByType = (type) => {

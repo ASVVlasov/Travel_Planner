@@ -31,7 +31,7 @@ export default class BaseInputControl extends Component {
    }
 
    onKeyUp = (evt) => {
-      this.props.onKeyUp(evt)
+      if (this.props.onKeyUp) this.props.onKeyUp(evt)
    }
 
    switchVisible = (e) => {
