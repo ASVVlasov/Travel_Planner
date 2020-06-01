@@ -82,7 +82,11 @@ userSchema.pre('save', function (next) {
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
 userSchema.post('findOne', SecurityHandler)
+userSchema.post('findOneAndUpdate', ErrorHandler)
+userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
+userSchema.post('findOneAndUpdate', SecurityHandler)
 userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
+userSchema.post('save', SecurityHandler)
 
 module.exports = mongoose.model('User', userSchema)
