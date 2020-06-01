@@ -27,7 +27,8 @@ const fetchData = (url, action, body, method, headers) => async (dispatch) => {
          body,
       })
       if (!res.ok) {
-         throw new Error(res.statusText)
+         const error = await res.json()
+         throw new Error(error.message)
       }
       const data = await res.json()
       dispatch(action(data))
