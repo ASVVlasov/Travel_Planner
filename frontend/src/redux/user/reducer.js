@@ -2,31 +2,52 @@ import {
    GET_USER_SUCCESS,
    UPDATE_USER_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
+   DELETE_TRAVEL_SUCCESS,
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
    FETCH_ERROR,
 } from '../types'
 
-const initialState = { newContacts: [], reqError: '' }
+const initialState = { user: {}, newContacts: [], reqError: '' }
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
       case GET_USER_SUCCESS: {
-         return { ...state, ...action.payload }
+         return { ...state, user: action.payload }
       }
       case UPDATE_USER_SUCCESS: {
          return {
             ...state,
-            ...action.payload,
-            travels: state.travels,
-            contacts: state.contacts,
+            user: {
+               ...action.payload,
+               travels: state.user.travels,
+               contacts: state.user.contacts,
+            },
          }
       }
       case CREATE_TRAVEL_SUCCESS: {
          return {
             ...state,
-            travels: [...state.travels, action.payload],
+            user: {
+               ...state.user,
+               travels: [...state.user.travels, action.payload],
+            },
+         }
+      }
+      case DELETE_TRAVEL_SUCCESS: {
+         const index = state.user.travels.findIndex(
+            (t) => t._id === action.payload._id
+         )
+         return {
+            ...state,
+            user: {
+               ...state.user,
+               travels: [
+                  ...state.user.travels.slice(0, index),
+                  ...state.user.travels.slice(index + 1),
+               ],
+            },
          }
       }
       case SEARCH_CONTACT_SUCCESS: {
@@ -39,7 +60,7 @@ export default function userReducer(state = initialState, action) {
       case UPDATE_CONTACTS_SUCCESS: {
          return {
             ...state,
-            contacts: action.payload,
+            user: { ...state.user, contacts: action.payload },
          }
       }
       case CLEAR_CONTACTS_SEARCH: {

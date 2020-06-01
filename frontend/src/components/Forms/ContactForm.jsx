@@ -153,7 +153,7 @@ class ContactForm extends Component {
 }
 
 const mapStateToProps = ({ userReducer }) => ({
-   contacts: userReducer.contacts,
+   contacts: userReducer.user.contacts,
    newContacts: userReducer.newContacts,
    reqError: userReducer.reqError,
 })

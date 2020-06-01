@@ -133,8 +133,8 @@ class UserBoard extends Component {
 }
 
 const mapStateToProps = ({ userReducer, boardReducer }) => ({
-   travels: userReducer.travels,
-   contacts: userReducer.contacts,
+   travels: userReducer.user.travels,
+   contacts: userReducer.user.contacts,
    filter: boardReducer.historyFilter,
 })
 const mapDispatchToProps = (dispatch) =>
