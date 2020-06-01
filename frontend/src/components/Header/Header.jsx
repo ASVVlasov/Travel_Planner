@@ -223,7 +223,7 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    travel: travelReducer.travel,
-   user: userReducer,
+   user: userReducer.user,
 })
 
 const mapDispatchToProps = (dispatch) =>

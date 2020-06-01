@@ -519,7 +519,7 @@ class CardFull extends Component {
 }
 
 const mapStateToProps = ({ userReducer }) => ({
-   userId: userReducer._id,
+   userId: userReducer.user._id,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
