@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import styles from './ContactCard.module.scss'
 import PropTypes from 'prop-types'
 
-export default class ContactCard extends Component {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { deleteContact } from '../../redux/user/operations'
+
+import { ReactComponent as UserRemoveIcon } from '../../assets/images/icons/cross.svg'
+
+class ContactCard extends Component {
    static propTypes = {
       contact: PropTypes.object.isRequired,
       deleteContact: PropTypes.func.isRequired,
@@ -26,6 +32,12 @@ export default class ContactCard extends Component {
 
       return (
          <div className={styles.card}>
+            <UserRemoveIcon
+               className={styles.icon}
+               title="Удалить из контактов"
+               onClick={() => this.props.deleteContact({ userId: _id })}
+            />
+
             <h2
                className={styles.contact__name}
                children={fullName || nickName}
@@ -53,3 +65,7 @@ export default class ContactCard extends Component {
       )
    }
 }
+
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ deleteContact }, dispatch)
+export default connect(null, mapDispatchToProps)(ContactCard)

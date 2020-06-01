@@ -7,6 +7,21 @@
    justify-content: flex-end;
    position: relative;
    padding: 30px;
+   &:hover .icon {
+      display: block;
+   }
+}
+
+.icon {
+   display: none;
+   position: absolute;
+   top: 17px;
+   right: 15px;
+   @include IconLight (30px);
+   opacity: 0.5;
+   &:hover {
+      fill: $color-error-dark;
+   }
 }
 
 .contact {
@@ -23,6 +38,7 @@
       justify-content: flex-end;
    }
    &__nickName, &__email {
+      min-height: 20px;
       @include Caption-1-Regular;
       color: $color-primary-light;
    }
