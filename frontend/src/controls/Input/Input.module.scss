@@ -86,6 +86,9 @@
       color: $color-secondary-light;
     }
   }
+  &__day--disabled{  
+    color: $color-secondary-light;
+  }
   &__day-name,
   &__time-name,
   &-time__header {
