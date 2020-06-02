@@ -43,18 +43,20 @@
 
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
-   @include IconLight(23px);
-   background-image: url('../../assets/images/icons/left.svg'); 
-   opacity: 0.2;
+   @include IconBright(23px);
+   mask-image: url('../../assets/images/icons/left.svg'); 
+   -webkit-mask-image: url('../../assets/images/icons/left.svg');
+   background-color: $color-secondary-main;
    left: 35px;
    right: auto;
 }
 
 .swiper-button-next,
 .swiper-container-rtl .swiper-button-prev {
-   @include IconLight(23px);
-   background-image: url('../../assets/images/icons/right.svg'); 
-   opacity: 0.2;
+   @include IconBright(23px);
+   mask-image: url('../../assets/images/icons/right.svg');
+   -webkit-mask-image: url('../../assets/images/icons/right.svg');
+   background-color: $color-secondary-main;
    right: 35px;
    left: auto;
 }
