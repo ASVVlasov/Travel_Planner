@@ -14,7 +14,6 @@ import moment from 'moment'
 import 'moment/locale/ru'
 
 import { ReactComponent as EditBtnSVG } from '../../assets/images/icons/pencil.svg'
-import Button from '../../controls/Button/Button'
 
 export class Calendar extends React.Component {
    static propTypes = {
@@ -83,7 +82,7 @@ export class Calendar extends React.Component {
                }
             />
             <div className={styles.calendar__amountOfDays}>
-               | {amountOfDays} дней
+               | <span>{amountOfDays}</span> дней
             </div>
          </div>
       )

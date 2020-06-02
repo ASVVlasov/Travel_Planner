@@ -16,12 +16,23 @@
       color: $color-secondary-light;
     }
   }
+  &__inputWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
   &__input {
     @include FormInput;
-    &_disabled {
+    width: 100%;
+    &:disabled {
       background-color: transparent;
       color: $color-secondary-light;
     }
+  }
+  &__eye {
+    @include IconLight(25px);
+    position: absolute;
+    right: 20px;
   }
   &_hidden {
     visibility: hidden;
@@ -74,6 +85,9 @@
     &--outside-month{
       color: $color-secondary-light;
     }
+  }
+  &__day--disabled{  
+    color: $color-secondary-light;
   }
   &__day-name,
   &__time-name,

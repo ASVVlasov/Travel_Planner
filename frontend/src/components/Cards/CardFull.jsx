@@ -45,9 +45,9 @@ class CardFull extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   URL = window.location.port ? 'http://localhost:3300' : window.location.origin
+   FILE_URL = this.URL + '/card/file/'
+   AVATAR_URL = this.URL + '/user/avatar/'
 
    openForm = (formName) => {
       this.setState({ [`is${formName}Open`]: true })
@@ -137,6 +137,16 @@ class CardFull extends Component {
       ))
    }
 
+   changeMainPayer = (e, mainPayer) => {
+      const { card, changePayerStatus } = this.props
+
+      card.payers.forEach((payer) => {
+         payer._id === mainPayer._id
+            ? changePayerStatus({ ...payer, isPayer: e })
+            : changePayerStatus({ ...payer, isPayer: false })
+      })
+   }
+
    payersToRender = () => {
       const { card, changePayerStatus, getBudget, userId } = this.props
 
@@ -149,13 +159,14 @@ class CardFull extends Component {
                {!payer.user.avatar && payer.user.nickName[0]}
                {payer.user.avatar && (
                   <img
-                     src={this.FILE_URL + payer.user.avatar}
+                     src={this.AVATAR_URL + payer.user.avatar}
                      alt={payer.user.nickName}
                   />
                )}
             </div>
             <span
-               className={classNames( styles.travelers__name,
+               className={classNames(
+                  styles.travelers__name,
                   payer.user._id === userId && styles.travelers__name_itsMe
                )}
                title={payer.user.nickName}
@@ -168,7 +179,7 @@ class CardFull extends Component {
                      checkedGreenColor={payer.user._id === userId}
                      checked={payer.isPayer}
                      onChange={(e) => {
-                        changePayerStatus({ ...payer, isPayer: e })
+                        this.changeMainPayer(e, payer)
                         getBudget(card.travelId)
                      }}
                   />
@@ -203,18 +214,23 @@ class CardFull extends Component {
    }
 
    splitGeneralCost = () => {
-      const { card: {payers, cost}, userId } = this.props
-      
+      const {
+         card: { payers, cost },
+         userId,
+      } = this.props
+
       const personalCost = this.setCostFormat(parseInt(cost / payers.length))
       return payers.map((payer) => (
          <span
             key={payer._id}
             children={personalCost + ' P'}
-            className={ classNames(
+            className={classNames(
                styles.card__cost_personal,
                payer.user._id === userId && styles.card__cost_myCost,
-               payer.user._id === userId && payer.hasPayed && styles.card__cost_myCostPayed)
-            }
+               payer.user._id === userId &&
+                  payer.hasPayed &&
+                  styles.card__cost_myCostPayed
+            )}
          />
       ))
    }
@@ -222,8 +238,9 @@ class CardFull extends Component {
    componentDidMount() {
       this.setState({ cost: this.props.card.cost })
    }
+
    render() {
-      const { toClose, deleteCard, card } = this.props
+      const { toClose, deleteCard, card, getBudget } = this.props
 
       const {
          _id,
@@ -236,9 +253,25 @@ class CardFull extends Component {
          endDate,
          comment,
          payers,
+         travelId,
       } = card
 
-      const routeSectionTitle = type === 'Транспорт' ? 'Маршрут' : 'Адрес'
+      const routeDefaultCaptions = [
+         {
+            type: 'Транспорт',
+            sectionTitle: 'Маршрут',
+            company: 'Компания',
+            beginPoint: 'Место отправления',
+            endPoint: 'Место назначения',
+         },
+         {
+            type,
+            sectionTitle: 'Адрес',
+            company: 'Название',
+            beginPoint: 'Адрес не указан',
+         },
+      ]
+      const captions = routeDefaultCaptions.find((c) => c.type === type)
 
       const today = new Date().toLocaleDateString()
       const start = new Date(beginDate).toLocaleDateString()
@@ -260,7 +293,7 @@ class CardFull extends Component {
                <div className={styles.card__leftSide}>
                   <section className={styles.card__route}>
                      <div className={styles.section__title}>
-                        <h2>{routeSectionTitle}</h2>
+                        <h2>{captions.sectionTitle}</h2>
                         <EditIcon
                            className={styles.icons}
                            onClick={() => this.openForm('CardForm')}
@@ -268,25 +301,39 @@ class CardFull extends Component {
                      </div>
 
                      <span
-                        className={styles.card__companyName}
-                        children={company}
+                        className={classNames(
+                           styles.card__companyName,
+                           !company && styles.defaultCaptions
+                        )}
+                        children={company || captions.company}
                      />
 
                      <div className={styles.schema}>
-                        {beginPoint && 
-                           <div className={classNames(
-                              styles.schema__point,
-                              start === today && styles.schema__point_currentDate)}
-                           />
-                        }
-                        {endPoint && (
-                           <>
-                              <div className={classNames(
-                                 styles.schema__path,
-                                 finish === today && styles.schema__path_currentDate)} />
-                              <div className={classNames(
+                        {captions.beginPoint && (
+                           <div
+                              className={classNames(
                                  styles.schema__point,
-                                 finish === today && styles.schema__point_currentDate)} />
+                                 start === today &&
+                                    styles.schema__point_currentDate
+                              )}
+                           />
+                        )}
+                        {captions.endPoint && (
+                           <>
+                              <div
+                                 className={classNames(
+                                    styles.schema__path,
+                                    finish === today &&
+                                       styles.schema__path_currentDate
+                                 )}
+                              />
+                              <div
+                                 className={classNames(
+                                    styles.schema__point,
+                                    finish === today &&
+                                       styles.schema__point_currentDate
+                                 )}
+                              />
                            </>
                         )}
                      </div>
@@ -294,27 +341,38 @@ class CardFull extends Component {
                      <div className={styles.route}>
                         <div className={styles.route__start}>
                            <span
-                              className={styles.route__place}
-                              children={beginPoint}
+                              className={classNames(
+                                 styles.route__place,
+                                 !beginPoint && styles.defaultCaptions
+                              )}
+                              children={beginPoint || captions.beginPoint}
                            />
-                            {beginPoint &&
-                              <div className={classNames(
+
+                           <span
+                              className={classNames(
                                  styles.route__date,
-                                 start === today && styles.route__date_currentDate)}
-                                 children={this.convertDate(beginDate)}/>
-                           }
+                                 start === today &&
+                                    styles.route__date_currentDate
+                              )}
+                              children={this.convertDate(beginDate)}
+                           />
                         </div>
                         <div className={styles.route__finish}>
                            <span
-                              className={styles.route__place}
-                              children={endPoint}
+                              className={classNames(
+                                 styles.route__place,
+                                 !endPoint && styles.defaultCaptions
+                              )}
+                              children={endPoint || captions.endPoint}
                            />
-                           {endPoint && (
-                              <div className={classNames(
+                           <span
+                              className={classNames(
                                  styles.route__date,
-                                 finish === today && styles.route__date_currentDate)} 
-                                 children={this.convertDate(endDate)}/>
-                           )}
+                                 finish === today &&
+                                    styles.route__date_currentDate
+                              )}
+                              children={this.convertDate(endDate)}
+                           />
                         </div>
                      </div>
                   </section>
@@ -327,10 +385,10 @@ class CardFull extends Component {
                            onClick={() => this.filesInput.current.click()}
                         />
                         <input
-                           className={styles.displayNone}
+                           style={{ display: 'none' }}
                            type="file"
                            ref={this.filesInput}
-                           onChange={(e) => this.uploadFileHandler(e)}
+                           onChange={this.uploadFileHandler}
                         />
                      </div>
                      {this.filesToRender()}
@@ -348,9 +406,10 @@ class CardFull extends Component {
                      </div>
                      <textarea
                         name="comment"
-                        value={this.state.comment || comment}
+                        defaultValue={comment}
+                        value={this.state.comment}
                         ref={this.commentInput}
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={this.handleChange}
                         onBlur={(e) =>
                            this.updateCard(e.target.name, e.target.value)
                         }
@@ -400,21 +459,22 @@ class CardFull extends Component {
                               this.focusInput(this.costInput.current)
                            }
                         />
-                     </div> 
+                     </div>
                      <span className={styles.card__cost_general}>
                         <input
                            name="cost"
                            type="text"
                            value={this.setCostFormat(this.state.cost)}
                            ref={this.costInput}
-                           onChange={(e) => this.handleChange(e)}
-                           onKeyDown={(e) => this.handleChange(e)}
-                           onBlur={(e) =>
+                           onChange={this.handleChange}
+                           onKeyDown={this.handleChange}
+                           onBlur={(e) => {
                               this.updateCard(
                                  e.target.name,
                                  +e.target.value.split(' ').join('')
                               )
-                           }
+                              getBudget(travelId)
+                           }}
                         />
                         {' Р'}
                      </span>
@@ -424,7 +484,9 @@ class CardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           deleteCard(_id)
+                           if (window.confirm('Вы подтверждаете удаление?')) {
+                              deleteCard(_id)
+                           }
                            toClose()
                         }}
                         text="Удалить карточку"
@@ -456,8 +518,8 @@ class CardFull extends Component {
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({   
-   userId: userReducer._id,
+const mapStateToProps = ({ userReducer }) => ({
+   userId: userReducer.user._id,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(

@@ -13,6 +13,7 @@ export default class InputControl extends Component {
          'text',
          'textarea',
          'multiselect',
+         'password',
       ]).isRequired,
       value: PropTypes.any.isRequired,
       placeholder: PropTypes.string,
@@ -22,12 +23,19 @@ export default class InputControl extends Component {
       styles: PropTypes.string,
       name: PropTypes.string.isRequired,
       onChange: PropTypes.func,
+      onKeyUp: PropTypes.func,
       options: PropTypes.array,
       overrideStrings: PropTypes.object,
    }
 
    onChange = (target) => {
       this.props.onChange({ target })
+   }
+
+   onKeyUp = (evt) => {
+      if (this.props.onKeyUp) {
+         this.props.onKeyUp(evt)
+      }
    }
 
    renderControlByType = (type) => {
@@ -55,12 +63,15 @@ export default class InputControl extends Component {
                />
             )
          }
-         default: {
+         case 'password':
+         case 'text': {
             return (
                <BaseInputControl
+                  type={type}
                   value={this.props.value}
                   placeholder={this.props.placeholder}
                   onChange={this.onChange}
+                  onKeyUp={this.onKeyUp}
                   styles={this.props.styles}
                   name={this.props.name}
                   label={this.props.label}
@@ -69,6 +80,8 @@ export default class InputControl extends Component {
                />
             )
          }
+         default:
+            return <div>Не верный тип контрола!</div>
       }
    }
    render() {

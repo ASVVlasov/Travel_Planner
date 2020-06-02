@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs')
 const userSchema = new Schema({
    login: {
       type: String,
-      required: true,
       description: 'Логин путешественника',
    },
    password: {
@@ -23,24 +22,27 @@ const userSchema = new Schema({
    },
    email: {
       type: String,
+      required: true,
       description: 'Электронная почта путешественника',
    },
    nickName: {
       type: String,
-      required: true,
       description: 'Отображаемое имя',
    },
    surname: {
       type: String,
       description: 'Фамилия',
+      default: '',
    },
    name: {
       type: String,
       description: 'Имя',
+      default: '',
    },
    middleName: {
       type: String,
       description: 'Отчество',
+      default: '',
    },
    birthDate: {
       type: Date,
@@ -68,6 +70,9 @@ userSchema.methods.comparePassword = function (candidate) {
    // return bcrypt.compareSync(candidate, this.password)
 }
 userSchema.pre('save', function (next) {
+   if (!this.nickName) {
+      this.nickName = this.email.split('@')[0]
+   }
    if (this.isModified('password')) {
       const salt = bcrypt.genSaltSync(+process.env.SALT_ROUNDS)
       this.password = bcrypt.hashSync(this.password, salt)
@@ -77,7 +82,11 @@ userSchema.pre('save', function (next) {
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
 userSchema.post('findOne', SecurityHandler)
+userSchema.post('findOneAndUpdate', ErrorHandler)
+userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
+userSchema.post('findOneAndUpdate', SecurityHandler)
 userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
+userSchema.post('save', SecurityHandler)
 
 module.exports = mongoose.model('User', userSchema)

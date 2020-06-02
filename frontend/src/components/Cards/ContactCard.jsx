@@ -2,17 +2,16 @@ import React, { Component } from 'react'
 import styles from './ContactCard.module.scss'
 import PropTypes from 'prop-types'
 
-export default class ContactCard extends Component {
-   static propTypes = {
-      _id: PropTypes.string,
-      title: PropTypes.string,
-      beginDate: PropTypes.string,
-      endDate: PropTypes.string,
-      payers: PropTypes.arrayOf(PropTypes.object),
-   }
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { deleteContact } from '../../redux/user/operations'
 
-   state = {
-      email: 'test@mail.tu', //TODO remove after real data appear
+import { ReactComponent as UserRemoveIcon } from '../../assets/images/icons/cross.svg'
+
+class ContactCard extends Component {
+   static propTypes = {
+      contact: PropTypes.object.isRequired,
+      deleteContact: PropTypes.func.isRequired,
    }
 
    //TODO remove
@@ -21,19 +20,18 @@ export default class ContactCard extends Component {
       : window.location.origin + '/card/file/'
 
    render() {
-      const { avatar, nickName, surname, name } = this.props.contact
-      const { email } = this.state
+      const { _id, avatar, nickName, surname, name, email } = this.props.contact
 
-      const fullName = name
-         ? surname
-            ? `${name} ${surname}`
-            : name
-         : surname
-         ? surname
-         : null
+      const fullName = name || surname ? `${name} ${surname}` : null
 
       return (
          <div className={styles.card}>
+            <UserRemoveIcon
+               className={styles.icon}
+               title="Удалить из контактов"
+               onClick={() => this.props.deleteContact({ userId: _id })}
+            />
+
             <h2
                className={styles.contact__name}
                children={fullName || nickName}
@@ -61,3 +59,7 @@ export default class ContactCard extends Component {
       )
    }
 }
+
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ deleteContact }, dispatch)
+export default connect(null, mapDispatchToProps)(ContactCard)

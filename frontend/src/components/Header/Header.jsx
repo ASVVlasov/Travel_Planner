@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 //redux
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
+import { changeStatusTravel, deleteTravel } from '../../redux/travel/operations'
 
 import styles from './Header.module.scss'
 import { ReactComponent as BackBtnSVG } from '../../assets/images/icons/arrow.svg'
@@ -25,7 +26,9 @@ class Header extends React.Component {
          isUserPickerOpen: false,
          isHeaderMenuOpen: false,
          userPickerPosition: {},
+         travelDeleted: false,
       }
+      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    //TODO remove
@@ -56,13 +59,30 @@ class Header extends React.Component {
          },
       })
    }
-   archiveTrip = () => {
-      //add functionality
+
+   archiveOrActivateTravel = () => {
       this.showHeaderMenu()
+      const travel = { ...this.props.travel }
+
+      if (travel.status === 'АРХИВНАЯ') {
+         travel.status = 'АКТИВНАЯ'
+      } else if (travel.status === 'АКТИВНАЯ') {
+         travel.status = 'АРХИВНАЯ'
+      }
+
+      this.props.changeStatusTravel(travel)
    }
+
    deleteTrip = () => {
-      //add functionality
       this.showHeaderMenu()
+      if (window.confirm('Вы подтверждаете удаление?')) {
+         const travelId = this.props.travel._id
+         this.props.deleteTravel(travelId)
+
+         this.setState({
+            travelDeleted: true,
+         })
+      }
    }
 
    mapUsersToRender = () => {
@@ -88,12 +108,32 @@ class Header extends React.Component {
       }
    }
 
+   componentWillUnmount = () => {
+      document.removeEventListener('click', this.handleClickOutside, false)
+   }
+
+   handleClickOutside = (e) => {
+      const burgerMenu = document.getElementById('headerMenuBurger')
+      const path = e.path || (e.composedPath && e.composedPath())
+
+      if (!path.includes(burgerMenu) && this.state.isHeaderMenuOpen) {
+         this.setState({
+            isHeaderMenuOpen: false,
+         })
+      }
+   }
+
    render() {
+      if (this.state.travelDeleted) {
+         return <Redirect to={'/profile/travels'} />
+      }
+
       const users = this.props.travel.users
       let travelersAdded = false
       if (users && users.length > 1) {
          travelersAdded = true
       }
+
       return (
          <header className={styles.header}>
             <Link to={'/profile/travels'}>
@@ -148,22 +188,20 @@ class Header extends React.Component {
 
                {this.mapUsersToRender()}
             </div>
-            <div className={styles.headerMenu}>
+            <div className={styles.headerMenu} id="headerMenuBurger">
                <div className={styles.headerMenu__burger}>
-                  <HeaderMenuSVG
-                     tabIndex="1"
-                     onClick={this.showHeaderMenu}
-                     onBlur={this.showHeaderMenu}
-                  />
+                  <HeaderMenuSVG onClick={this.showHeaderMenu} />
                </div>
 
                {this.state.isHeaderMenuOpen && (
                   <div className={styles.headerMenu__ul}>
                      <button
                         className={styles.headerMenu__archiveTrip}
-                        onClick={this.archiveTrip}
+                        onClick={this.archiveOrActivateTravel}
                      >
-                        Перенести в архив
+                        {this.props.travel.status === 'АКТИВНАЯ'
+                           ? 'Перенести в архив'
+                           : 'Вернуть из архива'}
                      </button>
                      <div className={styles.headerMenu__line}></div>
                      <button
@@ -182,9 +220,10 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    travel: travelReducer.travel,
-   user: userReducer,
+   user: userReducer.user,
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ changeStatusTravel, deleteTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

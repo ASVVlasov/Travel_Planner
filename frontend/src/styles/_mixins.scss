@@ -117,7 +117,7 @@
    }
 }
 @mixin ImplicitTextArea {
-   border: none;
+   border: 1px solid transparent;
    resize: none;
    background-color: transparent;
    @include Caption-1-Regular;
