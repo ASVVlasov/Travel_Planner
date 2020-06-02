@@ -43,7 +43,7 @@ class UserPage extends React.Component {
 }
 
 const mapStateToProps = ({ userReducer }) => ({
-   user: userReducer,
+   user: userReducer.user,
 })
 
 const mapDispatchToProps = (dispatch) =>

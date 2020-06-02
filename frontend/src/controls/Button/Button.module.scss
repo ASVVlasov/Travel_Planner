@@ -37,7 +37,7 @@
          box-shadow: none;
       }
    }
-   &_disabled {
+   &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
    }

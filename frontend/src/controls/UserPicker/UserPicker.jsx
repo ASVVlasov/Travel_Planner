@@ -121,7 +121,7 @@ class UserPicker extends Component {
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    travelId: travelReducer.travel._id,
    users: travelReducer.travel.users,
-   contacts: userReducer.contacts,
+   contacts: userReducer.user.contacts,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
