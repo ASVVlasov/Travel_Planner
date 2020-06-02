@@ -11,6 +11,8 @@ import {
    SET_HISTORY_FILTER,
 } from '../types'
 
+import { sortByCategories, sortByTime } from '../common/middlewares'
+
 const initialState = {
    tabs: [],
    cards: [],
@@ -93,42 +95,9 @@ export default function boardReducer(state = initialState, action) {
       }
 
       case GET_BOARD_FILTER: {
-         function sortByCategories(cards) {
-            return cards.filter(
-               (card) =>
-                  (state.tabFilter === 'all' ||
-                     (card.category &&
-                        card.category.title ===
-                           state.tabs.find((tab) => tab._id === state.tabFilter)
-                              .title)) &&
-                  (!state.userFilter ||
-                     !!card.payers.find(
-                        (payer) => payer.user._id === state.userFilter
-                     ))
-            )
-         }
-
-         function sortByTime(cards) {
-            cards.sort(
-               (prev, next) =>
-                  Date.parse(prev.beginDate) - Date.parse(next.beginDate)
-            )
-
-            let upperBound = cards.length
-            for (let i = 0; i < upperBound; i++) {
-               if (Date.parse(cards[i].endDate) < new Date()) {
-                  cards.push(cards[i])
-                  cards.splice(i, 1)
-                  upperBound--
-                  i--
-               }
-            }
-            return cards
-         }
-
          return {
             ...state,
-            currentCards: sortByTime(sortByCategories(state.cards)),
+            currentCards: sortByTime(sortByCategories(state, state.cards)),
          }
       }
 
