@@ -34,7 +34,7 @@ payerSchema.statics.deletePayers = async function (payerIds) {
 }
 payerSchema.statics.deletePayerCards = async function (user, cardIds) {
    for (const cardId of cardIds) {
-      await this.findOneAndDelete({ user, cardId })
+      await this.findOneAndRemove({ user, cardId })
    }
 }
 // payerSchema.post('findOne', populateHandler.travelToClient)

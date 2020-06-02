@@ -133,8 +133,6 @@ cardSchema.statics.summaryForPays = async function ({ travelId, userId }) {
 cardSchema.statics.deleteCards = async function (travelId) {
    const cards = await this.find({ travelId })
    for (const card of cards) {
-      await FileModel.deleteFiles(card.files)
-      await PayerModel.deletePayers(card.payers)
       await this.findOneAndRemove({ _id: card.id })
    }
 }
@@ -142,8 +140,7 @@ cardSchema.statics.removeUser = async function (travelId, userId) {
    const cards = await this.find({ travelId })
    for (const card of cards) {
       if (card.payers.length === 1 && card.payers[0].user.id == userId) {
-         await FileModel.deleteFiles(card.files)
-         await this.findByIdAndDelete(card._id)
+         await this.findByIdAndRemove(card._id)
          let update = { $pull: { cards: card._id } }
          await TravelModel.findByIdAndUpdate(travelId, update)
       } else {
