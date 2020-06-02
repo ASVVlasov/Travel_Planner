@@ -31,7 +31,9 @@ export default class BaseInputControl extends Component {
    }
 
    onKeyUp = (evt) => {
-      if (this.props.onKeyUp) this.props.onKeyUp(evt)
+      if (this.props.onKeyUp) {
+         this.props.onKeyUp(evt)
+      }
    }
 
    switchVisible = (e) => {
@@ -60,9 +62,7 @@ export default class BaseInputControl extends Component {
       return (
          <div className={styles.control__inputWrap}>
             <input
-               className={`${styles.control__input} ${
-                  this.props.disabled && styles.control__input_disabled
-               }`}
+               className={styles.control__input}
                type={this.state.type}
                name={this.props.name}
                placeholder={this.props.placeholder}

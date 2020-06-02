@@ -33,7 +33,8 @@ class ContactForm extends Component {
       search: '',
    }
 
-   handleChange = (e) => this.setState({ [e.target.name]: e.target.value })
+   handleChange = (e) =>
+      this.setState({ [e.target.name]: e.target.value.toLowerCase() })
 
    handleKeyUp = (e) => {
       if (e.keyCode === 13) {
@@ -43,45 +44,29 @@ class ContactForm extends Component {
 
    searchContact = () => this.props.searchContact({ email: this.state.search })
 
-   contactToggle = async (e, userId) => {
-      const button = e.target
-      if (button.innerHTML === 'добавить') {
-         await this.props.addContact({ userId })
-         button.innerHTML = 'удалить'
-         button.setAttribute('name', 'delete')
-      } else {
-         await this.props.deleteContact({ userId })
-         button.innerHTML = 'добавить'
-         button.setAttribute('name', 'add')
-      }
-   }
-
    mapContactsToRender = (newContacts, contacts) =>
-      newContacts.map((nc) => {
-         const buttonAttr = {}
-         if (contacts.find((c) => c._id === nc._id)) {
-            buttonAttr.text = 'удалить'
-            buttonAttr.name = 'delete'
-         } else {
-            buttonAttr.text = 'добавить'
-            buttonAttr.name = 'add'
-         }
-
-         return (
-            <div className={styles.result} key={nc._id}>
-               <span
-                  className={styles.result__user}
-                  children={`${nc.nickName} (${nc.email})`}
-               />
+      newContacts.map((nc) => (
+         <div className={styles.result} key={nc._id}>
+            <span
+               className={styles.result__user}
+               children={`${nc.nickName} (${nc.email})`}
+            />
+            {contacts.find((c) => c._id === nc._id) ? (
                <button
                   className={styles.result__button}
-                  children={buttonAttr.text}
-                  name={buttonAttr.name}
-                  onClick={(e) => this.contactToggle(e, nc._id)}
+                  children="удалить"
+                  name="delete"
+                  onClick={() => this.props.deleteContact({ userId: nc._id })}
                />
-            </div>
-         )
-      })
+            ) : (
+               <button
+                  className={styles.result__button}
+                  children="добавить"
+                  onClick={() => this.props.addContact({ userId: nc._id })}
+               />
+            )}
+         </div>
+      ))
 
    clear = () => {
       this.props.clearContactSearch()
@@ -96,9 +81,6 @@ class ContactForm extends Component {
 
    render() {
       const { onClose, contacts, newContacts, reqError } = this.props
-      const error = reqError
-         ? reqError.charAt(0).toUpperCase() + reqError.slice(1)
-         : null
 
       return (
          <ModalBase toClose={onClose}>
@@ -129,8 +111,11 @@ class ContactForm extends Component {
 
                {reqError && (
                   <div className={`${styles.result} ${styles.result_wrong}`}>
-                     <span className={styles.result__error} children={error} />
-                     {error.includes('не найден') && (
+                     <span
+                        className={styles.result__error}
+                        children={reqError}
+                     />
+                     {reqError.includes('не найден') && (
                         <p className={styles.result__description}>
                            Проверьте правильность введенного адреса.
                            <br />

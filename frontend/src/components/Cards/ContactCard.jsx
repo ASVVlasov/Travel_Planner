@@ -22,13 +22,7 @@ class ContactCard extends Component {
    render() {
       const { _id, avatar, nickName, surname, name, email } = this.props.contact
 
-      const fullName = name
-         ? surname
-            ? `${name} ${surname}`
-            : name
-         : surname
-         ? surname
-         : null
+      const fullName = name || surname ? `${name} ${surname}` : null
 
       return (
          <div className={styles.card}>
