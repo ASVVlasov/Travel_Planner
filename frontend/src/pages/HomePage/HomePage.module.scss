@@ -19,16 +19,9 @@ $width: 1440px;
     align-items: center;
     width: 50%;
 }
-.logo-wrapper{
-    display:flex;
-    margin-bottom: 106px;
-}
-.logotype{
-    @include Title-2-SemiBold;
-    color: $color-secondary-light;
-    
-}
 .icon{
-    @include Icon(23px);
+    @include Icon(170px);
     vertical-align: top;
+        margin-bottom: 106px;
+
 }

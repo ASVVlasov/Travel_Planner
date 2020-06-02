@@ -12,10 +12,7 @@ export default class HomePage extends React.Component {
       return (
          <div className={styles['page-wrapper']}>
             <div className={styles['left-wrapper']}>
-               <div className={styles['logo-wrapper']}>
-                  <LogoIcon className={styles['icon']} />
-                  <div className={styles['logotype']}>TravelPlanner</div>
-               </div>
+               <LogoIcon className={styles['icon']} />
                <Slider />
             </div>
             <Route path={match.path} component={Registration} />

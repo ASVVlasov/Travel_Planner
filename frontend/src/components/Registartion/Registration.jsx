@@ -49,13 +49,41 @@ class Registration extends Component {
    handleChange = (event) => {
       this.setState({ [event.target.name]: event.target.value })
    }
+   passwordIsValid = (value) => (value.length >= 6 ? true : false)
+   emailIsValid = (value) => {
+      let reg = new RegExp('[^@]+@[^@]+.[^@]+')
+      return reg.test(value)
+   }
 
    login = () => {
       let authInfo = {}
-      //TODO: Сделать email = email после коррекции моделей на бэке
-      authInfo.login = this.state.email
+      authInfo.email = this.state.email
       authInfo.password = this.state.password
       authInfo.rememberMe = this.state.rememberMe
+
+      let tabs = this.state.tabs
+      const index = this.state.tabs.findIndex(
+         (tab) => tab._id === this.props.match.params.tab
+      )
+
+      if (!this.emailIsValid(authInfo.email)) {
+         tabs[index].emailLabel =
+            'Введите правильный email, например, example@mail.ru'
+         this.setState({ tabs: tabs })
+         return
+      } else {
+         tabs[index].emailLabel = index ? 'Введите почту' : ''
+         this.setState({ tabs: tabs })
+      }
+
+      if (!this.passwordIsValid(authInfo.password)) {
+         tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
+         this.setState({ tabs: tabs })
+         return
+      } else {
+         tabs[index].passwordLabel = index ? 'Придумайте пароль' : ''
+         this.setState({ tabs: tabs })
+      }
       this.props.authorization(authInfo, '/' + this.props.match.params.tab)
    }
    mapTabsToRender = () =>
@@ -88,7 +116,7 @@ class Registration extends Component {
                onChange={this.handleChange}
             />
             <InputControl
-               type="text"
+               type="password"
                name="password"
                styles={styles[tab.inputStyle]}
                placeholder={tab.passwordPlaceholder}
