@@ -484,7 +484,9 @@ class CardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           deleteCard(_id)
+                           if (window.confirm('Вы подтверждаете удаление?')) {
+                              deleteCard(_id)
+                           }
                            toClose()
                         }}
                         text="Удалить карточку"
@@ -517,7 +519,7 @@ class CardFull extends Component {
 }
 
 const mapStateToProps = ({ userReducer }) => ({
-   userId: userReducer._id,
+   userId: userReducer.user._id,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(

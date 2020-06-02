@@ -21,7 +21,7 @@ router.get(
       res.json(
          await UserModel.findById(req.user._id).populate({
             path: 'travels',
-            populate: { path: 'users', select: 'nickName avatar' },
+            populate: { path: 'users', select: 'nickName avatar name surname middleName email' },
          })
       )
    })

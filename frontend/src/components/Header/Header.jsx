@@ -28,6 +28,7 @@ class Header extends React.Component {
          userPickerPosition: {},
          travelDeleted: false,
       }
+      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    //TODO remove
@@ -74,13 +75,14 @@ class Header extends React.Component {
 
    deleteTrip = () => {
       this.showHeaderMenu()
+      if (window.confirm('Вы подтверждаете удаление?')) {
+         const travelId = this.props.travel._id
+         this.props.deleteTravel(travelId)
 
-      const travelId = this.props.travel._id
-      this.props.deleteTravel(travelId)
-
-      this.setState({
-         travelDeleted: true,
-      })
+         this.setState({
+            travelDeleted: true,
+         })
+      }
    }
 
    mapUsersToRender = () => {
@@ -108,10 +110,6 @@ class Header extends React.Component {
 
    componentWillUnmount = () => {
       document.removeEventListener('click', this.handleClickOutside, false)
-   }
-
-   componentWillMount = () => {
-      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    handleClickOutside = (e) => {
@@ -222,7 +220,7 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    travel: travelReducer.travel,
-   user: userReducer,
+   user: userReducer.user,
 })
 
 const mapDispatchToProps = (dispatch) =>

@@ -14,6 +14,7 @@ import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import TravelCard from '../Cards/TravelCard'
 import ContactCard from '../Cards/ContactCard'
 import TravelForm from '../Forms/TravelForm'
+import ContactForm from '../Forms/ContactForm'
 
 class UserBoard extends Component {
    static propTypes = {
@@ -123,14 +124,17 @@ class UserBoard extends Component {
                   onSubmit={(data) => this.addNewTravel(data)}
                />
             )}
+            {this.state.contactsModalOpen && (
+               <ContactForm onClose={this.closeModal} />
+            )}
          </div>
       )
    }
 }
 
 const mapStateToProps = ({ userReducer, boardReducer }) => ({
-   travels: userReducer.travels,
-   contacts: userReducer.contacts,
+   travels: userReducer.user.travels,
+   contacts: userReducer.user.contacts,
    filter: boardReducer.historyFilter,
 })
 const mapDispatchToProps = (dispatch) =>

@@ -4,6 +4,8 @@ const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
 const PayerModel = require('../../models/payer')
+const travelStatuses = require('../../models/types/enumTravelStatuses.js')
+const travelStatusesValues = Object.values(travelStatuses)
 const userRouter = require('./user')
 
 router.use('/user', userRouter)
@@ -34,6 +36,10 @@ router.put(
    '/',
    asyncHandler(async (req, res) => {
       const travelModel = req.body
+      // Если travelModel.status не входит в массив возможных значений
+      if (travelStatusesValues.indexOf(travelModel.status) === -1) {
+         delete travelModel.status
+      }
       delete travelModel.cards
       delete travelModel.users
       res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))

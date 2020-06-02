@@ -1,0 +1,82 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+   background: $color-background-light;
+   width: 600px;
+   border-radius: 20px;
+   padding: 25px 30px 30px 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   z-index: 300;
+   position: absolute;
+   top: 25%;
+   left: 50%;
+   transform: translate(-50%, 0);
+   &__title {
+      @include Title-2-SemiBold ;
+      color: $color-secondary-main;
+      margin-bottom: 35px;
+   }
+   &__inputs:focus-within .icon__search {
+      @include IconBright(24px);
+   }
+   &__actions {
+      margin-left: auto;
+      margin-top: 30px;
+   }
+}
+
+.icon {
+   position: absolute;
+   @include IconLight(30px);
+   &__close {
+      top: 25px;
+      right: 25px;
+      opacity: 0.5;
+   }
+   &__search {
+      width: 24px;
+      top: 97px;
+      right: 50px;
+   }
+}
+
+
+.result {
+   display: flex; 
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 20px;
+   &_wrong {
+      flex-direction: column;
+      text-align: center;
+   }
+   &__user {
+      @include Text-Regular;
+   }
+   &__button {
+      border: none;
+      outline: none;
+      background: none;
+      cursor: pointer;
+      @include Text-Regular;
+      color: $color-secondary-main;
+      &:hover {
+         text-decoration: underline;
+      }
+      &[name='delete'] {
+         color: $color-error-dark;
+      }
+   }
+   &__error {
+      color: $color-error-dark;
+   }
+   &__description {
+      display: block;
+      width: 80%;
+      margin: 0 auto;
+      color: $color-primary-light;
+   }
+}
+

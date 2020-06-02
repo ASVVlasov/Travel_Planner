@@ -46,7 +46,7 @@ router.get(
    '/summary/:travelId',
    asyncHandler(async (req, res) => {
       let { travelId } = req.params
-      res.json(await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id }))
+      res.json(await CardModel.summaryForPays({ travelId: travelId, userId: req.user.id }))
    })
 )
 
