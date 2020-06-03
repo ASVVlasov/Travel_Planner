@@ -25,7 +25,7 @@ class Registration extends Component {
             title: 'Вход',
             emailPlaceholder: 'Email',
             emailLabel: '',
-            emailHintLabel: '',
+            emailHintLabel: 'asd',
             passwordPlaceholder: 'Пароль',
             passwordLabel: '',
             passwordHintLabel: '',
@@ -47,11 +47,16 @@ class Registration extends Component {
       ],
    }
    handleChange = (event) => {
-      this.setState({ [event.target.name]: event.target.value })
+      this.setState({
+         [event.target.name]: event.target.value,
+      })
    }
-   passwordIsValid = (value) => (value.length > 5 ? true : false)
+   passwordIsValid = (value) => {
+      let res = value.length > 5 ? true : false
+      return res
+   }
    emailIsValid = (value) => {
-      const reg = new RegExp('^[w._-]+@(w+[.a-z])*$')
+      const reg = new RegExp(/^[\w._-]+@\w+(\.[a-z]{2,4})*$/i)
       return reg.test(value)
    }
 
@@ -61,28 +66,45 @@ class Registration extends Component {
       const index = this.state.tabs.findIndex(
          (tab) => tab._id === this.props.match.params.tab
       )
-
       if (!this.emailIsValid(email)) {
          tabs[index].emailLabel =
             'Введите правильный email, например, example@mail.ru'
-         this.setState({ tabs: tabs })
+         this.setState({
+            tabs: tabs,
+         })
          return
       } else {
          tabs[index].emailLabel = index ? 'Введите почту' : ''
-         this.setState({ tabs: tabs })
+         this.setState({
+            tabs: tabs,
+         })
       }
 
       if (!this.passwordIsValid(password)) {
-         tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
-         this.setState({ tabs: tabs })
+         console.log('password invalid')
+         tabs[index].passwordHintLabel =
+            'Пароль должен быть не менее 6 символов'
+         this.setState({
+            tabs: tabs,
+            password: '',
+         })
          return
       } else {
-         tabs[index].passwordLabel = index ? 'Придумайте пароль' : ''
-         this.setState({ tabs: tabs })
+         console.log(index === 1 ? 'Придумайте пароль' : '')
+         tabs[index].passwordHintLabel = index === 1 ? 'Придумайте пароль' : ''
+         this.setState({
+            tabs: tabs,
+         })
+         console.log('password valid')
       }
-      await this.props
+
+      this.props
          .authorization(
-            { email, password, rememberMe },
+            {
+               email,
+               password,
+               rememberMe,
+            },
             '/' + this.props.match.params.tab
          )
          .then(
@@ -110,7 +132,7 @@ class Registration extends Component {
       )
       return (
          <div className={styles['form']}>
-            <nav className={styles['tabs']} children={this.mapTabsToRender()} />
+            <nav className={styles['tabs']} children={this.mapTabsToRender()} />{' '}
             <InputControl
                type="text"
                name="email"
@@ -120,7 +142,7 @@ class Registration extends Component {
                hintLabel={tab.emailHintLabel}
                value={email}
                onChange={this.handleChange}
-            />
+            />{' '}
             <InputControl
                type="password"
                name="password"
@@ -130,24 +152,31 @@ class Registration extends Component {
                hintLabel={tab.passwordHintLabel}
                value={password}
                onChange={this.handleChange}
-            />
+            />{' '}
             {this.props.match.params.tab === 'signin' && (
                <Switch
                   labelText="Запомнить меня"
                   checked={this.props.rememberMe}
                   className={styles['switch']}
                   onChange={(value) => {
-                     this.setState({ rememberMe: value })
+                     this.setState({
+                        rememberMe: value,
+                     })
                   }}
                />
-            )}
-            <Button onClick={this.login} text={tab.btnText} ml={0} />
+            )}{' '}
+            <Button onClick={this.login} text={tab.btnText} ml={0} />{' '}
          </div>
       )
    }
 }
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ authorization }, dispatch)
+   bindActionCreators(
+      {
+         authorization,
+      },
+      dispatch
+   )
 
 export default connect(null, mapDispatchToProps)(Registration)
