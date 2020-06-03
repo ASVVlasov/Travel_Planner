@@ -5,8 +5,6 @@ import {
    GET_TRAVELS_FILTER,
 } from '../types'
 
-import { sortByTime } from '../common/middlewares'
-
 const initialState = {}
 
 export default function userReducer(state = initialState, action) {
@@ -28,6 +26,23 @@ export default function userReducer(state = initialState, action) {
          }
       }
       case GET_TRAVELS_FILTER: {
+         const sortByTime = (array) => {
+            array.sort(
+               (prev, next) =>
+                  Date.parse(prev.beginDate) - Date.parse(next.beginDate)
+            )
+
+            let today = new Date()
+            let unsorted = array.length - 1
+            for (let i = 0; i < unsorted; i++) {
+               while (Date.parse(array[i].endDate) < today) {
+                  array.push(array[i])
+                  array.splice(i, 1)
+                  unsorted--
+               }
+            }
+            return array
+         }
          return {
             ...state,
             travels: sortByTime(state.travels),

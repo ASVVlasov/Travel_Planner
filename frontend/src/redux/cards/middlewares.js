@@ -7,6 +7,7 @@ import {
    SET_USER_FILTER,
 } from '../types'
 import { getBoardFilter } from '../board/actions'
+import { getCardsFilter } from './actions'
 
 export default (store) => (next) => (action) => {
    next(action)
@@ -19,6 +20,7 @@ export default (store) => (next) => (action) => {
       case SET_TAB_FILTER:
       case SET_USER_FILTER: {
          store.dispatch(getBoardFilter())
+         store.dispatch(getCardsFilter())
          break
       }
       default:
