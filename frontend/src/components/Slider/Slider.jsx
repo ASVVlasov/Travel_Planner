@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import Swiper from 'react-id-swiper'
-import 'swiper/swiper.scss'
-import './Slider.module.scss'
 import styles from './Slider.module.scss'
 
 export default class Slider extends Component {
@@ -26,10 +24,6 @@ export default class Slider extends Component {
             onlyInViewport: false,
          },
          loop: true,
-         //  autoplay: {
-         //     delay: 2500,
-         //     disableOnInteraction: true,
-         //  },
       }
       return (
          <Swiper {...params}>
