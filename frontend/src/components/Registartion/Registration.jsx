@@ -56,17 +56,13 @@ class Registration extends Component {
    }
 
    login = async () => {
-      let authInfo = {}
-      authInfo.email = this.state.email
-      authInfo.password = this.state.password
-      authInfo.rememberMe = this.state.rememberMe
-
+      const { email, password, rememberMe } = this.state
       let tabs = this.state.tabs
       const index = this.state.tabs.findIndex(
          (tab) => tab._id === this.props.match.params.tab
       )
 
-      if (!this.emailIsValid(authInfo.email)) {
+      if (!this.emailIsValid(email)) {
          tabs[index].emailLabel =
             'Введите правильный email, например, example@mail.ru'
          this.setState({ tabs: tabs })
@@ -76,7 +72,7 @@ class Registration extends Component {
          this.setState({ tabs: tabs })
       }
 
-      if (!this.passwordIsValid(authInfo.password)) {
+      if (!this.passwordIsValid(password)) {
          tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
          this.setState({ tabs: tabs })
          return
@@ -85,7 +81,10 @@ class Registration extends Component {
          this.setState({ tabs: tabs })
       }
       await this.props
-         .authorization(authInfo, '/' + this.props.match.params.tab)
+         .authorization(
+            { email, password, rememberMe },
+            '/' + this.props.match.params.tab
+         )
          .then(
             () => {
                history.push('/profile/travels')
