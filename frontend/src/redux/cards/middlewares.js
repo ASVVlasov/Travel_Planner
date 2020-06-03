@@ -21,7 +21,7 @@ export default (store) => (next) => (action) => {
       case SET_USER_FILTER: {
          store.dispatch(getBoardFilter())
 
-         const sortCards = action.payload.cards
+         const sortCards = store.getState().boardReducer.cards
          sortCards.sort(
             (prev, next) =>
                Date.parse(prev.beginDate) - Date.parse(next.beginDate)

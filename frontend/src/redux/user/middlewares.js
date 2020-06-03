@@ -7,7 +7,7 @@ export default (store) => (next) => (action) => {
    switch (action.type) {
       case GET_USER_SUCCESS:
       case CREATE_TRAVEL_SUCCESS: {
-         const sortTravels = action.payload.travels
+         const sortTravels = store.getState().userReducer.travels
          sortTravels.sort(
             (prev, next) =>
                Date.parse(prev.beginDate) - Date.parse(next.beginDate)
