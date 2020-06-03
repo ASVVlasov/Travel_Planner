@@ -1,27 +1,27 @@
 @import '../../styles/colors', '../../styles/mixins';
 
-$width: 1440px;
-
-.page-wrapper{
+.page {
     height: 100vh;
     display: flex;
     justify-content: space-between;
-    width: $width;
+    width: 1440px;
     margin: 0 auto;
-}
 
-.left-wrapper {
-    background-color: $color-background-light;
-    padding: 34px 50px 50px 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 50%;
-}
-.icon{
-    @include Icon(170px);
-    vertical-align: top;
+    &__slider {
+        background-color: $color-background-light;
+        padding: 34px 50px 50px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 50%;
+    }
+
+    &__logo {
+        width: 170px;
+        background: transparent;
+        vertical-align: top;
         margin-bottom: 106px;
 
+    }
 }
