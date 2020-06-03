@@ -25,7 +25,7 @@ class Registration extends Component {
             title: 'Вход',
             emailPlaceholder: 'Email',
             emailLabel: '',
-            emailHintLabel: 'asd',
+            emailHintLabel: '',
             passwordPlaceholder: 'Пароль',
             passwordLabel: '',
             passwordHintLabel: '',
@@ -82,8 +82,7 @@ class Registration extends Component {
 
       if (!this.passwordIsValid(password)) {
          console.log('password invalid')
-         tabs[index].passwordHintLabel =
-            'Пароль должен быть не менее 6 символов'
+         tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
          this.setState({
             tabs: tabs,
             password: '',
@@ -91,7 +90,7 @@ class Registration extends Component {
          return
       } else {
          console.log(index === 1 ? 'Придумайте пароль' : '')
-         tabs[index].passwordHintLabel = index === 1 ? 'Придумайте пароль' : ''
+         tabs[index].passwordLabel = index === 1 ? 'Придумайте пароль' : ''
          this.setState({
             tabs: tabs,
          })
