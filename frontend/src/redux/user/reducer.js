@@ -80,7 +80,10 @@ export default function userReducer(state = initialState, action) {
       case GET_TRAVELS_FILTER: {
          return {
             ...state,
-            travels: action.payload,
+            user: {
+               ...state.user,
+               travels: action.payload,
+            },
          }
       }
       default:
