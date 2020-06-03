@@ -13,6 +13,7 @@ import Switch from '../../controls/Switch/Switch'
 class Registration extends Component {
    static propTypes = {
       authorization: PropTypes.func,
+      reqError: PropTypes.string,
    }
 
    state = {
@@ -81,7 +82,6 @@ class Registration extends Component {
       }
 
       if (!this.passwordIsValid(password)) {
-         console.log('password invalid')
          tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
          this.setState({
             tabs: tabs,
@@ -89,14 +89,11 @@ class Registration extends Component {
          })
          return
       } else {
-         console.log(index === 1 ? 'Придумайте пароль' : '')
          tabs[index].passwordLabel = index === 1 ? 'Придумайте пароль' : ''
          this.setState({
             tabs: tabs,
          })
-         console.log('password valid')
       }
-
       this.props
          .authorization(
             {
@@ -106,13 +103,16 @@ class Registration extends Component {
             },
             '/' + this.props.match.params.tab
          )
-         .then(
-            () => {
+         .then((data) => {
+            if (this.props.reqError) {
+               // TODO: Сделать вывод соолбщения об ошибке
+               alert('Введен неправильный логин/пароль')
+            } else {
                history.push('/profile/travels')
-            },
-            () => {}
-         )
+            }
+         })
    }
+
    mapTabsToRender = () =>
       this.state.tabs.map((tab) => (
          <NavLink
@@ -123,7 +123,6 @@ class Registration extends Component {
             key={tab._id}
          />
       ))
-
    render() {
       const { email, password } = this.state
       const tab = this.state.tabs.find(
@@ -169,6 +168,9 @@ class Registration extends Component {
       )
    }
 }
+const mapStateToProps = ({ userReducer }) => ({
+   reqError: userReducer.reqError,
+})
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
@@ -178,4 +180,4 @@ const mapDispatchToProps = (dispatch) =>
       dispatch
    )
 
-export default connect(null, mapDispatchToProps)(Registration)
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)
