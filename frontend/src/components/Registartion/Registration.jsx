@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Registration.module.scss'
 import { NavLink } from 'react-router-dom'
-
+import { history } from '../../redux/store'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { authorization } from '../../redux/auth/operations'
@@ -49,13 +49,13 @@ class Registration extends Component {
    handleChange = (event) => {
       this.setState({ [event.target.name]: event.target.value })
    }
-   passwordIsValid = (value) => (value.length >= 6 ? true : false)
+   passwordIsValid = (value) => (value.length > 5 ? true : false)
    emailIsValid = (value) => {
-      let reg = new RegExp('[^@]+@[^@]+.[^@]+')
+      const reg = new RegExp('^[w._-]+@(w+[.a-z])*$')
       return reg.test(value)
    }
 
-   login = () => {
+   login = async () => {
       let authInfo = {}
       authInfo.email = this.state.email
       authInfo.password = this.state.password
@@ -84,7 +84,14 @@ class Registration extends Component {
          tabs[index].passwordLabel = index ? 'Придумайте пароль' : ''
          this.setState({ tabs: tabs })
       }
-      this.props.authorization(authInfo, '/' + this.props.match.params.tab)
+      await this.props
+         .authorization(authInfo, '/' + this.props.match.params.tab)
+         .then(
+            () => {
+               history.push('/profile/travels')
+            },
+            () => {}
+         )
    }
    mapTabsToRender = () =>
       this.state.tabs.map((tab) => (
