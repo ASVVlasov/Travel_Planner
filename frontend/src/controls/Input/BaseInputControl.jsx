@@ -11,6 +11,7 @@ export default class BaseInputControl extends Component {
       value: PropTypes.any.isRequired,
       placeholder: PropTypes.string,
       onChange: PropTypes.func,
+      onKeyUp: PropTypes.func,
       name: PropTypes.string.isRequired,
       label: PropTypes.string,
       hintLabel: PropTypes.string,
@@ -27,6 +28,12 @@ export default class BaseInputControl extends Component {
    onChange = (evt) => {
       this.setState({ value: evt.target.value })
       this.props.onChange(evt.target)
+   }
+
+   onKeyUp = (evt) => {
+      if (this.props.onKeyUp) {
+         this.props.onKeyUp(evt)
+      }
    }
 
    switchVisible = (e) => {
@@ -55,14 +62,13 @@ export default class BaseInputControl extends Component {
       return (
          <div className={styles.control__inputWrap}>
             <input
-               className={`${styles.control__input} ${
-                  this.props.disabled && styles.control__input_disabled
-               }`}
+               className={styles.control__input}
                type={this.state.type}
                name={this.props.name}
                placeholder={this.props.placeholder}
                value={this.state.value}
                onChange={this.onChange}
+               onKeyUp={this.onKeyUp}
                disabled={this.props.disabled}
             />
             {this.state.isPasswordInput &&

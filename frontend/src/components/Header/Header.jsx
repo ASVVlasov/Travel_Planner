@@ -28,12 +28,13 @@ class Header extends React.Component {
          userPickerPosition: {},
          travelDeleted: false,
       }
+      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    showHeaderMenu = () => {
       this.setState({
@@ -100,7 +101,7 @@ class Header extends React.Component {
             >
                {!user.avatar && user.nickName[0].toUpperCase()}
                {user.avatar && (
-                  <img src={this.FILE_URL + user.avatar} alt={user.nickName} />
+                  <img src={this.AVATAR_URL + user.avatar} alt={user.nickName} />
                )}
             </div>
          ))
@@ -109,10 +110,6 @@ class Header extends React.Component {
 
    componentWillUnmount = () => {
       document.removeEventListener('click', this.handleClickOutside, false)
-   }
-
-   componentWillMount = () => {
-      document.addEventListener('click', this.handleClickOutside, false)
    }
 
    handleClickOutside = (e) => {
@@ -223,7 +220,7 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    travel: travelReducer.travel,
-   user: userReducer,
+   user: userReducer.user,
 })
 
 const mapDispatchToProps = (dispatch) =>

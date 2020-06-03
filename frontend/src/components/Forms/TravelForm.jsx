@@ -34,7 +34,7 @@ export default class TravelForm extends Component {
       this.setState({
          options: this.props.users.map((u) => ({
             ...u,
-            label: u.nickName,
+            label: (u.name || u.surname) ? `${u.name} ${u.surname}`.trim() : u.nickName,
             value: u._id,
          })),
       })

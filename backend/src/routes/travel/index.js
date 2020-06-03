@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
+const PayerModel = require('../../models/payer')
 const travelStatuses = require('../../models/types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
 const userRouter = require('./user')
@@ -50,10 +51,15 @@ router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
-      await CardModel.deleteCards(travelId)
-      const travel = await TravelModel.findByIdAndRemove(travelId)
+      const update = { $pull: { users: req.user.id } }
+      let travel = await TravelModel.findByIdAndUpdate(travelId, update, { new: true })
+      if (!travel.users.length) {
+         await CardModel.deleteCards(travelId)
+         travel = await TravelModel.findByIdAndRemove(travelId)
+      } else {
+         await CardModel.removeUser(travelId, req.user.id)
+      }
       res.json(travel)
    })
 )
-
 module.exports = router

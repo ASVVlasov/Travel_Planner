@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import React from 'react'
+import connect from 'react-redux/es/connect/connect'
 import DatePicker from 'react-datepicker/es'
 import styles from './Input.module.scss'
 //import 'react-datepicker/dist/react-datepicker.css'
@@ -8,7 +9,7 @@ import { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 registerLocale('ru', ru)
 
-export default class DateControl extends Component {
+export class DateControl extends Component {
    static propTypes = {
       value: PropTypes.any.isRequired,
       onChange: PropTypes.func.isRequired,
@@ -38,6 +39,17 @@ export default class DateControl extends Component {
       const dateFormat = this.props.showTimeSelect
          ? 'dd.MM.yyyy HH:mm'
          : 'dd.MM.yyyy'
+
+      let limitDates = this.props.showTimeSelect //boolean
+
+      let startDateTravel = new Date()
+      let endDateTravel = null
+
+      if (limitDates) {
+         startDateTravel = Date.parse(this.props.travel.beginDate)
+         endDateTravel = Date.parse(this.props.travel.endDate)
+      }
+
       return (
          <DatePicker
             className={styles.control__input}
@@ -51,7 +63,15 @@ export default class DateControl extends Component {
             timeCaption="Время"
             dateFormat={dateFormat}
             shouldCloseOnSelect={false}
+            minDate={
+               startDateTravel < new Date() ? new Date() : startDateTravel
+            }
+            maxDate={endDateTravel}
          />
       )
    }
 }
+const mapStateToProps = ({ travelReducer }) => ({
+   travel: travelReducer.travel,
+})
+export default connect(mapStateToProps, null)(DateControl)

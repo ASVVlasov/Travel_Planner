@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './footer.module.scss'
 import Switch from '../../controls/Switch/Switch.jsx'
-import { ReactComponent as Tune} from '../../assets/images/icons/tune.svg'
+import { ReactComponent as Tune } from '../../assets/images/icons/tune.svg'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -80,16 +80,15 @@ class Footer extends React.Component {
                      </div>
                   </div>
                </div>
-               <Tune className={styles.footer__settingsBtn}/>
+               <Tune className={styles.footer__settingsBtn} />
             </div>
-            
          </footer>
       )
    }
 }
 const mapStateToProps = ({ travelReducer, userReducer }) => ({
    summary: travelReducer.budget,
-   userId: userReducer._id,
+   userId: userReducer.user._id,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ getBudget, setUserFilter }, dispatch)
