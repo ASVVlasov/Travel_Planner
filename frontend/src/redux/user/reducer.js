@@ -2,6 +2,7 @@ import {
    GET_USER_SUCCESS,
    UPDATE_USER_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
+   GET_TRAVELS_FILTER,
    DELETE_TRAVEL_SUCCESS,
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
@@ -74,6 +75,12 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             reqError: action.payload.message,
+         }
+      }
+      case GET_TRAVELS_FILTER: {
+         return {
+            ...state,
+            travels: action.payload,
          }
       }
       default:

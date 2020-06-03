@@ -9,6 +9,7 @@ import {
    SET_USER_FILTER,
    SET_TAB_FILTER,
    SET_HISTORY_FILTER,
+   GET_CARDS_FILTER,
 } from '../types'
 
 const initialState = {
@@ -107,6 +108,13 @@ export default function boardReducer(state = initialState, action) {
                         (payer) => payer.user._id === state.userFilter
                      ))
             ),
+         }
+      }
+
+      case GET_CARDS_FILTER: {
+         return {
+            ...state,
+            currentCards: action.payload,
          }
       }
 

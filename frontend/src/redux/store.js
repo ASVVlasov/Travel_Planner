@@ -3,6 +3,7 @@ import { createHashHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import cardsMiddleware from './cards/middlewares'
+import travelsMiddleware from './user/middlewares'
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -27,7 +28,12 @@ export default function initStore(preloadedState) {
       pReducer,
       preloadedState,
       compose(
-         applyMiddleware(routerMiddleware(history), thunk, cardsMiddleware),
+         applyMiddleware(
+            routerMiddleware(history),
+            thunk,
+            cardsMiddleware,
+            travelsMiddleware
+         ),
          window.__REDUX_DEVTOOLS_EXTENSION__
             ? window.__REDUX_DEVTOOLS_EXTENSION__()
             : (f) => f
