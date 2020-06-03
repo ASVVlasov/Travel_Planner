@@ -20,7 +20,23 @@ export default (store) => (next) => (action) => {
       case SET_TAB_FILTER:
       case SET_USER_FILTER: {
          store.dispatch(getBoardFilter())
-         store.dispatch(getCardsFilter())
+
+         const sortCards = action.payload.cards
+         sortCards.sort(
+            (prev, next) =>
+               Date.parse(prev.beginDate) - Date.parse(next.beginDate)
+         )
+         let today = new Date()
+         let unsorted = sortCards.length - 1
+         for (let i = 0; i < unsorted; i++) {
+            while (Date.parse(sortCards[i].endDate) < today) {
+               sortCards.push(sortCards[i])
+               sortCards.splice(i, 1)
+               unsorted--
+            }
+         }
+
+         store.dispatch(getCardsFilter(sortCards))
          break
       }
       default:

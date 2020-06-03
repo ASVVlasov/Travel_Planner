@@ -26,6 +26,7 @@ export const deleteCardSuccess = (delCard) => ({
    payload: delCard._id,
 })
 
-export const getCardsFilter = () => ({
+export const getCardsFilter = (sortCards) => ({
    type: GET_CARDS_FILTER,
+   payload: sortCards,
 })

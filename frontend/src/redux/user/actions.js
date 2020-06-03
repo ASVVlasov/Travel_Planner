@@ -14,6 +14,7 @@ export const updateUserSuccess = (updUserInfo) => ({
    payload: updUserInfo,
 })
 
-export const getTravelsFilter = () => ({
+export const getTravelsFilter = (sortTravels) => ({
    type: GET_TRAVELS_FILTER,
+   payload: sortTravels,
 })
