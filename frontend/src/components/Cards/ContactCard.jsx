@@ -15,9 +15,9 @@ class ContactCard extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    render() {
       const { _id, avatar, nickName, surname, name, email } = this.props.contact
@@ -53,7 +53,7 @@ class ContactCard extends Component {
 
             <div className={styles.contact__avatar}>
                {!avatar && nickName[0]}
-               {avatar && <img src={this.FILE_URL + avatar} alt="" />}
+               {avatar && <img src={this.AVATAR_URL + avatar} alt="" />}
             </div>
          </div>
       )
