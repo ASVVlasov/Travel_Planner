@@ -117,8 +117,8 @@ class Registration extends Component {
       this.state.tabs.map((tab) => (
          <NavLink
             to={`${tab._id}`}
-            className={styles['tabs-link']}
-            activeClassName={styles['tabs-link_active']}
+            className={styles['tabs__link']}
+            activeClassName={styles['tabs__link_active']}
             children={tab.title}
             key={tab._id}
          />
