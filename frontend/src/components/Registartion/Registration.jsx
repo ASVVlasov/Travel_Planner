@@ -30,7 +30,7 @@ class Registration extends Component {
             passwordPlaceholder: 'Пароль',
             passwordLabel: '',
             passwordHintLabel: '',
-            inputStyle: 'input',
+            inputStyle: 'input__signin',
             btnText: 'Войти',
          },
          {
@@ -42,7 +42,7 @@ class Registration extends Component {
             passwordPlaceholder: '',
             passwordLabel: 'Придумайте пароль',
             passwordHintLabel: 'не менее 6 символов',
-            inputStyle: 'input_wide',
+            inputStyle: 'input__signup',
             btnText: 'Зарегистрироваться',
          },
       ],
