@@ -3,6 +3,7 @@ import {
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
+   GET_CARDS_FILTER,
 } from '../types'
 
 export const getCards = (activeTabId) => ({
@@ -23,4 +24,9 @@ export const changeCardSuccess = (updCard) => ({
 export const deleteCardSuccess = (delCard) => ({
    type: DELETE_CARD_SUCCESS,
    payload: delCard._id,
+})
+
+export const getCardsFilter = (sortCards) => ({
+   type: GET_CARDS_FILTER,
+   payload: sortCards,
 })

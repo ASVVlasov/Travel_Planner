@@ -170,7 +170,11 @@ class CardFull extends Component {
                   payer.user._id === userId && styles.travelers__name_itsMe
                )}
                title={payer.user.nickName}
-               children={payer.user.nickName}
+               children={
+                  (!!payer.user.name || !!payer.user.surname) ? 
+                  (payer.user.name + ' ' + payer.user.surname) :
+                  payer.user.nickName
+               }
             />
             <div
                className={styles.travelers__switch}

@@ -13,9 +13,9 @@ export default class TravelCard extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    convertDate = (date = null) => {
       if (date) {
@@ -34,7 +34,7 @@ export default class TravelCard extends Component {
          <div className={styles.avatar} title={user.nickName} key={user._id}>
             {!user.avatar && user.nickName[0]}
             {user.avatar && (
-               <img src={this.FILE_URL + user.avatar} alt={user.nickName} />
+               <img src={this.AVATAR_URL + user.avatar} alt={user.nickName} />
             )}
          </div>
       ))

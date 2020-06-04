@@ -27,9 +27,9 @@ export default class CardShort extends Component {
    }
 
    //TODO remove
-   FILE_URL = window.location.port
-      ? 'http://localhost:3300/card/file/'
-      : window.location.origin + '/card/file/'
+   AVATAR_URL = window.location.port
+      ? 'http://localhost:3300/user/avatar/'
+      : window.location.origin + '/user/avatar/'
 
    showFullInfo = () => {
       this.setState({ fullInfoOpened: true })
@@ -63,7 +63,7 @@ export default class CardShort extends Component {
             {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
             {payer.user.avatar && (
                <img
-                  src={this.FILE_URL + payer.user.avatar}
+                  src={this.AVATAR_URL + payer.user.avatar}
                   alt={payer.user.nickName}
                />
             )}
@@ -74,6 +74,7 @@ export default class CardShort extends Component {
    render() {
       const {
          title,
+         type,
          company,
          beginPoint,
          beginDate,
@@ -83,9 +84,28 @@ export default class CardShort extends Component {
          payers,
       } = this.props
 
+      const routeDefaultCaptions = [
+         {
+            type: 'Транспорт',
+            sectionTitle: 'Маршрут',
+            company: 'Компания',
+            beginPoint: 'Место отправления',
+            endPoint: 'Место назначения',
+         },
+         {
+            type,
+            sectionTitle: 'Адрес',
+            company: 'Название',
+            beginPoint: 'Адрес не указан',
+         },
+      ]
+      const captions = routeDefaultCaptions.find((c) => c.type === type)
+
       const cardIsPayed = payers.findIndex((payer) => payer.isPayer) >= 0
 
-      let today = (new Date()).toISOString()
+      const today = new Date().toLocaleDateString()
+      const start = new Date(beginDate).toLocaleDateString()
+      const finish = new Date(endDate).toLocaleDateString()
       
       return (
          <>
@@ -93,7 +113,13 @@ export default class CardShort extends Component {
                <div>
                   <div className={styles.card__header}>
                      <h2 className={styles.card__title} children={title} />
-                     <p className={styles.card__company} children={company} />
+                     <p 
+                        className={classNames(
+                           styles.card__company,
+                           !company && styles.defaultCaptions
+                        )}
+                        children={company || captions.company}
+                     />
                   </div>
 
                   <div className={styles.card__badges}>
@@ -112,20 +138,23 @@ export default class CardShort extends Component {
                   </div>
                   <div className={styles.card__route}>
                      <div className={styles.schema}>
-                        {beginPoint && 
+                        {captions.beginPoint && 
                            <div className={classNames(
                               styles.schema__point,
-                              beginDate <= today && styles.schema__point_currentDate)}
+                              start === today && 
+                                 styles.schema__point_currentDate)}
                            />
                         }
-                        {endPoint && (
+                        {captions.endPoint && (
                            <>
                               <div className={classNames(
                                  styles.schema__path,
-                                 endDate <= today && styles.schema__path_currentDate)} />
+                                 finish === today && 
+                                    styles.schema__path_currentDate)} />
                               <div className={classNames(
                                  styles.schema__point,
-                                 endDate <= today && styles.schema__point_currentDate)} />
+                                 finish === today && 
+                                    styles.schema__point_currentDate)} />
                            </>
                         )}
                      </div>
@@ -133,27 +162,35 @@ export default class CardShort extends Component {
                      <div className={styles.route}>
                         <div className={styles.route__start}>
                            <span
-                              className={styles.route__place}
-                              children={beginPoint}
+                              className={classNames(
+                                 styles.route__place,
+                                 !beginPoint && styles.defaultCaptions
+                              )}
+                              children={beginPoint || captions.beginPoint}
                            />
-                           {beginPoint &&
-                              <div className={classNames(
+                          <span
+                              className={classNames(
                                  styles.route__date,
-                                 beginDate <= today && styles.route__date_currentDate)}
-                                 children={this.convertDate(beginDate)}/>
-                           }
+                                 start === today &&
+                                    styles.route__date_currentDate
+                              )}
+                              children={this.convertDate(beginDate)}
+                           />
                         </div>
                         <div className={styles.route__finish}>
                            <span
-                              className={styles.route__place}
-                              children={endPoint}
+                              className={classNames(
+                                 styles.route__place,
+                                 !endPoint && styles.defaultCaptions
+                              )}
+                              children={endPoint || captions.endPoint}
                            />
-                           {endPoint && (
-                                 <div className={classNames(
-                                    styles.route__date,
-                                    endDate <= today && styles.route__date_currentDate)} 
-                                    children={this.convertDate(endDate)}/>
-                           )}
+                           {/* TODO edit location of dates */}
+                           <span className={classNames(
+                              styles.route__date,
+                              finish === today && styles.route__date_currentDate)} 
+                              children={this.convertDate(endDate)}/>
+                           
                         </div>
                      </div>
                   </div>
