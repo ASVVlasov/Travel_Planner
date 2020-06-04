@@ -53,8 +53,7 @@ class Registration extends Component {
       })
    }
    passwordIsValid = (value) => {
-      let res = value.length > 5 ? true : false
-      return res
+      return value.length > 5 ? true : false
    }
    emailIsValid = (value) => {
       const reg = new RegExp(/^[\w._-]+@\w+(\.[a-z]{2,4})*$/i)
