@@ -64,7 +64,7 @@ class Registration extends Component {
    login = async () => {
       const { email, password, rememberMe } = this.state
       const tabs = this.state.tabs
-      const index = this.state.tabs.findIndex(
+      const index = tabs.findIndex(
          (tab) => tab._id === this.props.match.params.tab
       )
       if (!this.emailIsValid(email)) {
