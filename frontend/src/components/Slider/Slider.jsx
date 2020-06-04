@@ -53,8 +53,7 @@ export default class Slider extends Component {
                <div className={styles.slide__textContainer}>
                   <p className={styles.slide__text_main}>
                      В поездке останется наслаждаться
-                  </p>
-                  <p className={styles.slide__text_main}>
+                     <br></br>
                      новыми впечатлениями
                   </p>
                </div>

@@ -80,13 +80,13 @@
     }
 
     &__text {
-        @include Title-2-SemiBold;
-
         &_main {
+            @include Title-2-SemiBold;
             color: $color-secondary-main;
         }
 
         &_secondary {
+            @include Title-2-SemiBold;
             color: $color-secondary-light;
         }
     }
