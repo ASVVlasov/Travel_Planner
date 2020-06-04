@@ -9,7 +9,7 @@ router.post(
    // Авторизация по паспорту
    passport.authenticate,
    (req, res) => {
-      res.send()
+      res.json({ auth: true })
    }
 )
 

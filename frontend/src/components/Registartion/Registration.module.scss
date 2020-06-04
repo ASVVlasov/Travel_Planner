@@ -1,0 +1,54 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.form {
+    background-color: $color-white;
+    padding: 230px 200px 0px 200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    & button {
+        margin-top: 45px;
+        align-self: center;
+    }
+}
+
+.tabs {
+    margin-bottom: 35px;
+
+    &__link {
+        display: inline-block;
+        margin-right: 40px;
+        @include Title-1-SemiBold;
+        color: $color-secondary-light;
+        text-decoration: none;
+
+        &_active {
+            color: $color-secondary-main;
+        }
+
+    }
+}
+
+.input {
+    &__signin {
+        width: 100%;
+        margin-bottom: 25px;
+
+        &:nth-child(2) {
+            margin-top: 5px;
+        }
+
+    }
+
+    &__signup {
+        margin-top: 0px;
+        margin-bottom: 20px;
+
+        &:nth-child(3) {
+            margin-top: 0px;
+            margin-bottom: 6px;
+        }
+    }
+}

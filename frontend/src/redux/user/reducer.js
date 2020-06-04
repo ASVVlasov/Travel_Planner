@@ -8,6 +8,7 @@ import {
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
    FETCH_ERROR,
+   AUTHORIZATION_SUCCESS,
 } from '../types'
 
 const initialState = { user: {}, newContacts: [], reqError: '' }
@@ -75,6 +76,12 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             reqError: action.payload.message,
+         }
+      }
+      case AUTHORIZATION_SUCCESS: {
+         return {
+            ...state,
+            reqError: '',
          }
       }
       case GET_TRAVELS_FILTER: {
