@@ -111,8 +111,8 @@ class Registration extends Component {
       this.state.tabs.map((tab) => (
          <NavLink
             to={`${tab._id}`}
-            className={styles['tabs__link']}
-            activeClassName={styles['tabs__link_active']}
+            className={styles.tabs__link}
+            activeClassName={styles.tabs__link_active}
             children={tab.title}
             key={tab._id}
          />
@@ -123,8 +123,8 @@ class Registration extends Component {
          (tab) => tab._id === this.props.match.params.tab
       )
       return (
-         <div className={styles['form']}>
-            <nav className={styles['tabs']} children={this.mapTabsToRender()} />{' '}
+         <div className={styles.form}>
+            <nav className={styles.tabs} children={this.mapTabsToRender()} />{' '}
             <InputControl
                type="text"
                name="email"
@@ -134,7 +134,7 @@ class Registration extends Component {
                hintLabel={tab.emailHintLabel}
                value={email}
                onChange={this.handleChange}
-            />{' '}
+            />
             <InputControl
                type="password"
                name="password"
@@ -144,20 +144,20 @@ class Registration extends Component {
                hintLabel={tab.passwordHintLabel}
                value={password}
                onChange={this.handleChange}
-            />{' '}
+            />
             {this.props.match.params.tab === 'signin' && (
                <Switch
                   labelText="Запомнить меня"
                   checked={this.props.rememberMe}
-                  className={styles['switch']}
+                  className={styles.switch}
                   onChange={(value) => {
                      this.setState({
                         rememberMe: value,
                      })
                   }}
                />
-            )}{' '}
-            <Button onClick={this.login} text={tab.btnText} />{' '}
+            )}
+            <Button onClick={this.login} text={tab.btnText} />
          </div>
       )
    }

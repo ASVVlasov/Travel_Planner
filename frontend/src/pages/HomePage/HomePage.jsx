@@ -10,9 +10,9 @@ export default class HomePage extends React.Component {
    render() {
       const { match } = this.props
       return (
-         <div className={styles['page']}>
-            <div className={styles['page__slider']}>
-               <Logo className={styles['page__logo']} />
+         <div className={styles.page}>
+            <div className={styles.page__slider}>
+               <Logo className={styles.page__logo} />
                <Slider />
             </div>
             <Route path={match.path} component={Registration} />
