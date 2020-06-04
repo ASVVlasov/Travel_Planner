@@ -70,15 +70,11 @@ class Registration extends Component {
       if (!this.emailIsValid(email)) {
          tabs[index].emailLabel =
             'Введите правильный email, например, example@mail.ru'
-         this.setState({
-            tabs: tabs,
-         })
+         this.setState({ tabs })
          return
       } else {
          tabs[index].emailLabel = index ? 'Введите почту' : ''
-         this.setState({
-            tabs: tabs,
-         })
+         this.setState({ tabs })
       }
 
       if (!this.passwordIsValid(password)) {
@@ -90,9 +86,7 @@ class Registration extends Component {
          return
       } else {
          tabs[index].passwordLabel = index === 1 ? 'Придумайте пароль' : ''
-         this.setState({
-            tabs: tabs,
-         })
+         this.setState({ tabs })
       }
       this.props
          .authorization(
@@ -163,7 +157,7 @@ class Registration extends Component {
                   }}
                />
             )}{' '}
-            <Button onClick={this.login} text={tab.btnText} ml={0} />{' '}
+            <Button onClick={this.login} text={tab.btnText} />{' '}
          </div>
       )
    }
