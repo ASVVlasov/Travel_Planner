@@ -19,33 +19,43 @@
     box-sizing: content-box;
 }
 
-.button-prev,
-.button-next {
-    position: absolute;
-    top: 218px;
-    width: 40px;
-    height: 40px;
-    z-index: 10;
-    cursor: pointer;
-    background-size: 22px 40px;
-    background-position: center;
+.button {
+
+    &__prev,
+    &__next {
+        position: absolute;
+        top: 218px;
+        width: 40px;
+        height: 40px;
+        z-index: 10;
+        cursor: pointer;
+        background-size: 22px 40px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__prev {
+        @include IconLight(23px);
+        left: 7px;
+        right: auto;
+        background-image: url('../../assets/images/icons/left.svg');
+    }
+
+    &__next {
+        @include IconLight(23px);
+        right: 7px;
+        left: auto;
+        background-image: url('../../assets/images/icons/right.svg');
+
+    }
+}
+
+@mixin SlideImage ($url) {
+    background-image: url($url);
+    background-size: contain;
     background-repeat: no-repeat;
+    height: 390px;
 }
-
-.button-prev {
-    @include IconLight(23px);
-    left: 7px;
-    right: auto;
-    background-image: url('../../assets/images/icons/left.svg');
-}
-
-.button-next {
-    @include IconLight(23px);
-    right: 7px;
-    left: auto;
-    background-image: url('../../assets/images/icons/right.svg');
-}
-
 
 .slide {
     display: flex;
@@ -60,42 +70,43 @@
     position: relative;
     transition-property: transform;
     margin-bottom: 88px;
+
+    &__textContainer {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    &__text {
+        @include Title-2-SemiBold;
+
+        &_main {
+            color: $color-secondary-main;
+        }
+
+        &_secondary {
+            color: $color-secondary-light;
+        }
+    }
+
+    &__image {
+        &_1 {
+            @include SlideImage('../../assets/images/slide1.svg')
+        }
+
+        &_2 {
+            @include SlideImage('../../assets/images/slide2.svg')
+        }
+
+        &_3 {
+            @include SlideImage('../../assets/images/slide3.svg')
+        }
+    }
+
 }
 
-.text-container {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.text-main {
-    @include Title-2-SemiBold;
-    color: $color-secondary-main;
-}
-
-.text-secondary {
-    @include Title-2-SemiBold;
-    color: $color-secondary-light;
-}
 
 
-@mixin SlideImage ($url) {
-    background-image: url($url);
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 390px;
-}
 
-.image1 {
-    @include SlideImage('../../assets/images/slide1.svg')
-}
-
-.image2 {
-    @include SlideImage('../../assets/images/slide2.svg')
-}
-
-.image3 {
-    @include SlideImage('../../assets/images/slide3.svg')
-}
 
 .pagination {
     position: absolute;
@@ -105,19 +116,20 @@
     height: 10px;
     bottom: 0px;
     text-align: center;
-}
 
-.bullet {
-    width: 10px;
-    height: 10px;
-    background-color: $color-secondary-light;
-    margin: 0 10px;
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-    border-radius: 100%;
+    &__bullet {
+        width: 10px;
+        height: 10px;
+        background-color: $color-secondary-light;
+        margin: 0 10px;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        border-radius: 100%;
 
-    &_active {
-        background-color: $color-secondary-main;
+        &_active {
+            background-color: $color-secondary-main;
+        }
+
     }
 }
