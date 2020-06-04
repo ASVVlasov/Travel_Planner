@@ -12,6 +12,7 @@ export default class BaseInputControl extends Component {
       placeholder: PropTypes.string,
       onChange: PropTypes.func,
       onKeyUp: PropTypes.func,
+      onBlur: PropTypes.func,
       name: PropTypes.string.isRequired,
       label: PropTypes.string,
       hintLabel: PropTypes.string,
@@ -33,6 +34,12 @@ export default class BaseInputControl extends Component {
    onKeyUp = (evt) => {
       if (this.props.onKeyUp) {
          this.props.onKeyUp(evt)
+      }
+   }
+
+   onBlur = (evt) => {
+      if (this.props.onBlur) {
+         this.props.onBlur(evt.target)
       }
    }
 
@@ -69,6 +76,7 @@ export default class BaseInputControl extends Component {
                value={this.state.value}
                onChange={this.onChange}
                onKeyUp={this.onKeyUp}
+               onBlur={this.onBlur}
                disabled={this.props.disabled}
             />
             {this.state.isPasswordInput &&
