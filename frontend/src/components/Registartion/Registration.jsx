@@ -20,26 +20,23 @@ class Registration extends Component {
       email: '',
       password: '',
       rememberMe: false,
+      emailErrorLabel: '',
+      passwordErrorLabel: '',
+      signInError: '',
       tabs: [
          {
             _id: 'signin',
             title: 'Вход',
             emailPlaceholder: 'Email',
-            emailLabel: '',
-            emailHintLabel: '',
             passwordPlaceholder: 'Пароль',
-            passwordLabel: '',
-            passwordHintLabel: '',
             inputStyle: 'input__signin',
             btnText: 'Войти',
          },
          {
             _id: 'signup',
             title: 'Регистрация',
-            emailPlaceholder: '',
             emailLabel: 'Введите почту',
             emailHintLabel: 'она же будет логином',
-            passwordPlaceholder: '',
             passwordLabel: 'Придумайте пароль',
             passwordHintLabel: 'не менее 6 символов',
             inputStyle: 'input__signup',
@@ -53,57 +50,34 @@ class Registration extends Component {
       })
    }
    passwordIsValid = (value) => {
-      return value.length > 5 ? true : false
+      value.length > 5
+         ? this.setState({ passwordErrorLabel: '' })
+         : this.setState({ passwordErrorLabel: 'Пароль менее 6 символов' })
    }
    emailIsValid = (value) => {
-      const reg = new RegExp(/^[\w._-]+@\w+(\.[a-z]{2,4})*$/i)
-      return reg.test(value)
+      const reg = new RegExp(/^[\w._-]+@[\w._-]+(\.[a-z]{2,6})$/i)
+      reg.test(value)
+         ? this.setState({ emailErrorLabel: '' })
+         : this.setState({ emailErrorLabel: 'Проверьте введеный email' })
    }
 
    login = async () => {
-      const { email, password, rememberMe } = this.state
-      const tabs = this.state.tabs
-      const index = tabs.findIndex(
-         (tab) => tab._id === this.props.match.params.tab
-      )
-      if (!this.emailIsValid(email)) {
-         tabs[index].emailLabel =
-            'Введите правильный email, например, example@mail.ru'
-         this.setState({ tabs })
-         return
-      } else {
-         tabs[index].emailLabel = index ? 'Введите почту' : ''
-         this.setState({ tabs })
-      }
+      const { password, rememberMe } = this.state
+      const email = this.state.email.toLowerCase()
 
-      if (!this.passwordIsValid(password)) {
-         tabs[index].passwordLabel = 'Пароль должен быть не менее 6 символов'
-         this.setState({
-            tabs: tabs,
-            password: '',
-         })
-         return
+      this.setState({ signInError: '' })
+
+      await this.props.authorization(
+         { email, password, rememberMe },
+         '/' + this.props.match.params.tab
+      )
+
+      if (this.props.reqError) {
+         // TODO: Сделать вывод соолбщения об ошибке
+         alert('Введен неправильный логин/пароль')
       } else {
-         tabs[index].passwordLabel = index === 1 ? 'Придумайте пароль' : ''
-         this.setState({ tabs })
+         history.push('/profile/travels')
       }
-      this.props
-         .authorization(
-            {
-               email,
-               password,
-               rememberMe,
-            },
-            '/' + this.props.match.params.tab
-         )
-         .then((data) => {
-            if (this.props.reqError) {
-               // TODO: Сделать вывод соолбщения об ошибке
-               alert('Введен неправильный логин/пароль')
-            } else {
-               history.push('/profile/travels')
-            }
-         })
    }
 
    mapTabsToRender = () =>
@@ -116,14 +90,20 @@ class Registration extends Component {
             key={tab._id}
          />
       ))
+
    render() {
-      const { email, password } = this.state
-      const tab = this.state.tabs.find(
-         (tab) => tab._id === this.props.match.params.tab
-      )
+      const {
+         email,
+         password,
+         emailErrorLabel,
+         passwordErrorLabel,
+         tabs,
+      } = this.state
+      const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
+
       return (
          <div className={styles.form}>
-            <nav className={styles.tabs} children={this.mapTabsToRender()} />{' '}
+            <nav className={styles.tabs} children={this.mapTabsToRender()} />
             <InputControl
                type="text"
                name="email"
@@ -131,8 +111,10 @@ class Registration extends Component {
                placeholder={tab.emailPlaceholder}
                label={tab.emailLabel}
                hintLabel={tab.emailHintLabel}
+               errorLabel={email && emailErrorLabel}
                value={email}
                onChange={this.handleChange}
+               onBlur={(e) => this.emailIsValid(e.target.value)}
             />
             <InputControl
                type="password"
@@ -141,12 +123,14 @@ class Registration extends Component {
                placeholder={tab.passwordPlaceholder}
                label={tab.passwordLabel}
                hintLabel={tab.passwordHintLabel}
+               errorLabel={password && passwordErrorLabel}
                value={password}
                onChange={this.handleChange}
+               onBlur={(e) => this.passwordIsValid(e.target.value)}
             />
             {this.props.match.params.tab === 'signin' && (
                <Switch
-                  labelText="Запомнить меня"
+                  labelText="запомнить меня"
                   checked={this.props.rememberMe}
                   className={styles.switch}
                   onChange={(value) => {
@@ -156,7 +140,13 @@ class Registration extends Component {
                   }}
                />
             )}
-            <Button onClick={this.login} text={tab.btnText} />
+            <Button
+               onClick={this.login}
+               text={tab.btnText}
+               disabled={
+                  !email || !password || emailErrorLabel || passwordErrorLabel
+               }
+            />
          </div>
       )
    }
@@ -166,11 +156,6 @@ const mapStateToProps = ({ userReducer }) => ({
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators(
-      {
-         authorization,
-      },
-      dispatch
-   )
+   bindActionCreators({ authorization }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration)
