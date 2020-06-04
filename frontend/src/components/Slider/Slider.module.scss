@@ -29,24 +29,27 @@
         height: 40px;
         z-index: 10;
         cursor: pointer;
+        opacity: 0.7;
         background-size: 22px 40px;
         background-position: center;
         background-repeat: no-repeat;
+
+        &:hover {
+            fill: $color-secondary-main;
+            opacity: 1;
+        }
     }
 
     &__prev {
-        @include IconLight(23px);
         left: 7px;
         right: auto;
         background-image: url('../../assets/images/icons/left.svg');
     }
 
     &__next {
-        @include IconLight(23px);
         right: 7px;
         left: auto;
         background-image: url('../../assets/images/icons/right.svg');
-
     }
 }
 
