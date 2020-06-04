@@ -19,6 +19,7 @@ export default class InputControl extends Component {
       placeholder: PropTypes.string,
       label: PropTypes.string,
       hintLabel: PropTypes.string,
+      errorLabel: PropTypes.string,
       disabled: PropTypes.bool,
       styles: PropTypes.string,
       name: PropTypes.string.isRequired,
@@ -84,6 +85,32 @@ export default class InputControl extends Component {
             return <div>Не верный тип контрола!</div>
       }
    }
+   renderLabels = () => {
+      return (
+         <div className={styles.control__labelContainer}>
+            {this.props.errorLabel && (
+               <label
+                  className={`${styles.control__label} ${styles.control__label_error}`}
+                  htmlFor={this.props.name}
+                  children={this.props.errorLabel}
+               />
+            )}
+            {this.props.label && !this.props.errorLabel && (
+               <label
+                  className={styles.control__label}
+                  htmlFor={this.props.name}
+                  children={this.props.label}
+               />
+            )}
+            {this.props.hintLabel && !this.props.errorLabel && (
+               <label
+                  className={`${styles.control__label} ${styles.control__label_hintLabel}`}
+                  children={this.props.hintLabel}
+               />
+            )}
+         </div>
+      )
+   }
    render() {
       const { type } = this.props
       return (
@@ -92,19 +119,7 @@ export default class InputControl extends Component {
                this.props.hidden && styles.control_hidden
             }`}
          >
-            {this.props.label && (
-               <label
-                  className={styles.control__label}
-                  htmlFor={this.props.name}
-                  children={this.props.label}
-               />
-            )}
-            {this.props.hintLabel && (
-               <label
-                  className={`${styles.control__label} ${styles.control__label_hintLabel}`}
-                  children={this.props.hintLabel}
-               />
-            )}
+            {this.renderLabels()}
             {this.renderControlByType(type)}
          </div>
       )

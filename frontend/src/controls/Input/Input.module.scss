@@ -4,16 +4,20 @@
 .control {
   display: flex;
   flex-direction: column;
-  position: relative;
+  &__labelContainer {
+    display: flex;
+    justify-content: space-between;
+    min-height: 26px;
+  }
   &__label {
     @include Caption-1-Regular;
     color: $color-primary-light;
     margin-bottom: 6px;
     &_hintLabel {
-      position: absolute;
-      right: 0;
-      top:0;
       color: $color-secondary-light;
+    }
+    &_error {
+      color: $color-error-dark;
     }
   }
   &__inputWrap {
