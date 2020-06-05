@@ -33,6 +33,10 @@ const PopulateHandler = {
       if (!!doc)
          await doc
             .populate({ path: 'contacts', select: 'nickName avatar name surname middleName email' })
+            .populate({
+               path: 'travels',
+               populate: { path: 'users', select: 'nickName avatar name surname middleName email' },
+            })
             .execPopulate()
       next()
    },
