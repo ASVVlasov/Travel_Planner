@@ -5,10 +5,6 @@ const ErrorHandler = require('./handlers/errorHandler')
 const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
-   login: {
-      type: String,
-      description: 'Логин путешественника',
-   },
    password: {
       type: String,
       required: true,
@@ -76,6 +72,7 @@ userSchema.pre('save', function (next) {
    }
    next()
 })
+
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
 userSchema.post('findOneAndUpdate', ErrorHandler)
