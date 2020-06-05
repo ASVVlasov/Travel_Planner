@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import { getUserInfo } from '../../redux/user/operations'
+import { logout } from '../../redux/auth/operations'
 
 import styles from './UserPage.module.scss'
 import UserHeader from '../../components/Header/UserHeader'
@@ -25,12 +26,12 @@ class UserPage extends React.Component {
    }
 
    render() {
-      const { match, user } = this.props
+      const { match, user, logout } = this.props
       return (
          <>
             {this.isPropsReceived(user) ? (
                <div className={styles.userPage}>
-                  <UserHeader user={user} />
+                  <UserHeader user={user} logout={logout} />
                   <Route path={match.path} component={UserBoard} />
                   <UserFooter />
                </div>
@@ -47,6 +48,6 @@ const mapStateToProps = ({ userReducer }) => ({
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getUserInfo }, dispatch)
+   bindActionCreators({ getUserInfo, logout }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage)

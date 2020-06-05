@@ -8,6 +8,7 @@ import UserForm from '../Forms/UserForm'
 export default class UserHeader extends React.Component {
    static propTypes = {
       user: PropTypes.object.isRequired,
+      logout: PropTypes.func.isRequired,
    }
    //TODO remove
    FILE_URL = window.location.port
@@ -37,7 +38,10 @@ export default class UserHeader extends React.Component {
                {avatar && <img src={this.FILE_URL + avatar} alt="" />}
             </div>
 
-            <LogoutIcon className={styles.icons} />
+            <LogoutIcon
+               className={styles.icons}
+               onClick={() => this.props.logout()}
+            />
 
             {this.state.isModalOpen && (
                <UserForm
