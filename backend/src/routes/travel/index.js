@@ -20,7 +20,9 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const travel = { ...req.body }
-      travel.users.push(req.user)
+      if (travel.users.indexOf(req.user.id) === -1) {
+         travel.users.push(req.user)
+      }
       const newTravel = new TravelModel(travel)
       await newTravel.save()
       const update = { $push: { travels: newTravel.id } }
