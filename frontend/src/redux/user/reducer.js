@@ -9,9 +9,10 @@ import {
    CLEAR_CONTACTS_SEARCH,
    FETCH_ERROR,
    AUTHORIZATION_SUCCESS,
+   LOGOUT_SUCCESS,
 } from '../types'
 
-const initialState = { user: {}, newContacts: [], reqError: '' }
+const initialState = { auth: false, user: {}, newContacts: [], reqError: '' }
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
@@ -81,7 +82,14 @@ export default function userReducer(state = initialState, action) {
       case AUTHORIZATION_SUCCESS: {
          return {
             ...state,
+            ...action.payload,
             reqError: '',
+         }
+      }
+      case LOGOUT_SUCCESS: {
+         return {
+            ...state,
+            auth: false,
          }
       }
       case GET_TRAVELS_FILTER: {
