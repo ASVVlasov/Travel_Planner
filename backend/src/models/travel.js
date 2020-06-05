@@ -42,10 +42,22 @@ const travelSchema = new Schema({
       },
    ],
 })
-
+function isArchive(doc, next) {
+   let today = Date.now()
+   if (Date.parse(doc.endDate) < today) {
+      doc.status = travelStatuses.ARCHIVE
+      doc.save()
+      next()
+   } else {
+      next()
+   }
+}
+travelSchema.post('findOne', isArchive)
 travelSchema.post('findOne', populateHandler.travelToClient)
+travelSchema.post('findOneAndUpdate', isArchive)
 travelSchema.post('findOneAndUpdate', errorHandler)
 travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
+travelSchema.post('save', isArchive)
 travelSchema.post('save', errorHandler)
 travelSchema.post('save', populateHandler.travelToClient)
 
