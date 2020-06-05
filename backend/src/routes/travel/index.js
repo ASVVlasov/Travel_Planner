@@ -53,17 +53,18 @@ router.delete(
       let travel = await TravelModel.findById(travelId)
       if (travel.status === travelStatuses.ARCHIVE) {
          res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
-         return
-      }
-      travel.users.pull(req.user.id)
-      travel.save()
-      if (!travel.users.length) {
-         await CardModel.deleteCards(travelId)
-         travel = await TravelModel.findByIdAndRemove(travelId)
       } else {
-         await CardModel.removeUser(travelId, req.user.id)
+         travel.users.pull(req.user.id)
+         travel.save()
+         if (!travel.users.length) {
+            await CardModel.deleteCards(travelId)
+            travel = await TravelModel.findByIdAndRemove(travelId)
+         } else {
+            await CardModel.removeUser(travelId, req.user.id)
+         }
+         await UserModel.findByIdAndUpdate(req.user.id, { $pull: { travels: travelId } })
+         res.json(travel)
       }
-      res.json(travel)
    })
 )
 module.exports = router
