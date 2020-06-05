@@ -9,9 +9,7 @@ passport.use(
          passwordField: 'password',
       },
       async (email, password, done) => {
-         const user = await UserModel.findOne({
-            email: email,
-         })
+         const user = await UserModel.findOne({ email })
          if (!user || !user.comparePassword(password)) {
             return done(null, false) // error, not auth
          }
