@@ -2,14 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
-const SecurityHandler = require('./handlers/securityHandler')
 const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
-   login: {
-      type: String,
-      description: 'Логин путешественника',
-   },
    password: {
       type: String,
       required: true,
@@ -65,9 +60,7 @@ const userSchema = new Schema({
 })
 
 userSchema.methods.comparePassword = function (candidate) {
-   // HARDCODE. Пока не созданы нормальные пользователи по роуту signup
-   return true
-   // return bcrypt.compareSync(candidate, this.password)
+   return bcrypt.compareSync(candidate, this.password)
 }
 userSchema.pre('save', function (next) {
    if (!this.nickName) {
@@ -79,14 +72,12 @@ userSchema.pre('save', function (next) {
    }
    next()
 })
+
 userSchema.post('findOne', ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
-userSchema.post('findOne', SecurityHandler)
 userSchema.post('findOneAndUpdate', ErrorHandler)
 userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
-userSchema.post('findOneAndUpdate', SecurityHandler)
 userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
-userSchema.post('save', SecurityHandler)
 
 module.exports = mongoose.model('User', userSchema)

@@ -2,9 +2,9 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const save = async (req, res) => {
-   const { login, password } = req.body
+   const { email, password } = req.body
    const user = await User.findOne({
-      login,
+      email,
    })
    if (user && user.comparePassword(password)) {
       const plainUser = JSON.parse(JSON.stringify(user))

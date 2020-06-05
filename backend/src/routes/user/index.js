@@ -18,12 +18,16 @@ router.use('/avatar', avatarRouter)
 router.get(
    '/',
    asyncHandler(async (req, res) => {
-      res.json(
-         await UserModel.findById(req.user._id).populate({
-            path: 'travels',
-            populate: { path: 'users', select: 'nickName avatar name surname middleName email' },
-         })
+      const user = JSON.parse(
+         JSON.stringify(
+            await UserModel.findOne({ _id: req.user._id }).populate({
+               path: 'travels',
+               populate: { path: 'users', select: 'nickName avatar name surname middleName email' },
+            })
+         )
       )
+      delete user.password
+      res.json(user)
    })
 )
 
@@ -34,7 +38,11 @@ router.put(
       user._id = req.user._id
       delete user.contacts
       delete user.travels
-      res.json(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
+      const updatedUser = JSON.parse(
+         JSON.stringify(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
+      )
+      delete updatedUser.password
+      res.json(updatedUser)
    })
 )
 
@@ -45,8 +53,9 @@ router.delete(
       const { selfId } = null
       let deletedUser
       if (!!selfId) {
-         deletedUser = await UserModel.findByIdAndRemove(req.user._id)
+         deletedUser = JSON.parse(JSON.stringify(await UserModel.findByIdAndRemove(req.user._id)))
       }
+      delete deletedUser.password
       //TODO: Удаление пользователя из всех travel, cards, payer
       // либо замена его на dummyUser - по решению общего собрания
       // Либо вообще запретить удаление пользователей. Пусть будут вечными! %)
