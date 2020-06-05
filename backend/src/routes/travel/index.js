@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
-const PayerModel = require('../../models/payer')
 const travelStatuses = require('../../models/types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
 const userRouter = require('./user')
@@ -51,8 +50,13 @@ router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
-      const update = { $pull: { users: req.user.id } }
-      let travel = await TravelModel.findByIdAndUpdate(travelId, update, { new: true })
+      let travel = await TravelModel.findById(travelId)
+      if (travel.status === travelStatuses.ARCHIVE) {
+         res.json({ message: 'Travel is archive. You cannot leave travel.' })
+         return
+      }
+      travel.users.pull(req.user.id)
+      travel.save()
       if (!travel.users.length) {
          await CardModel.deleteCards(travelId)
          travel = await TravelModel.findByIdAndRemove(travelId)
