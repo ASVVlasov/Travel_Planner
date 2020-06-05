@@ -20,14 +20,14 @@ const check = async (req, res) => {
    return new Promise((resolve, reject) => {
       if (!req.cookies) {
          let err = JSON.stringify({
-            message: 'No token',
+            message: 'Токен отсутствует',
          })
          reject(err)
       }
       jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY, (err, payload) => {
          if (err) {
             let err = JSON.stringify({
-               message: 'Wrong token',
+               message: 'Неправильный токен',
             })
             reject(err)
          }

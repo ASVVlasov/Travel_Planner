@@ -52,7 +52,7 @@ router.delete(
       const { travelId } = req.params
       let travel = await TravelModel.findById(travelId)
       if (travel.status === travelStatuses.ARCHIVE) {
-         res.json({ message: 'Travel is archive. You cannot leave travel.' })
+         res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
          return
       }
       travel.users.pull(req.user.id)

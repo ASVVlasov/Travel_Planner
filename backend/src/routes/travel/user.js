@@ -10,7 +10,7 @@ router.post(
       const { travelId, userId } = req.body
       const travel = await TravelModel.findById(travelId)
       if (travel.users.find((u) => u.id === userId) || !userId) {
-         throw createError(400, 'неправильный userId')
+         throw createError(400, 'Неправильный userId')
       }
       await UserModel.findByIdAndUpdate(userId, { $push: { travels: travelId } })
       const update = { $push: { users: userId } }
