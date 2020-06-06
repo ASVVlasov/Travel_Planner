@@ -7,20 +7,46 @@ export default (store) => (next) => (action) => {
    switch (action.type) {
       case GET_USER_SUCCESS:
       case CREATE_TRAVEL_SUCCESS: {
-         const sortTravels = store.getState().userReducer.user.travels
-         sortTravels.sort(
-            (prev, next) =>
-               Date.parse(prev.beginDate) - Date.parse(next.beginDate)
-         )
-         let today = new Date()
-         let unsorted = sortTravels.length - 1
-         for (let i = 0; i < unsorted; i++) {
-            while (Date.parse(sortTravels[i].endDate) < today) {
-               sortTravels.push(sortTravels[i])
-               sortTravels.splice(i, 1)
-               unsorted--
-            }
+         function sortByTime(travels) {
+            travels.sort(function (prev, next) {
+               let a = Math.round(
+                  new Date(prev.beginDate) / (24 * 60 * 60 * 1000) //start date of trip as number of days from 1970.
+               )
+               let b = Math.round(
+                  new Date(next.beginDate) / (24 * 60 * 60 * 1000)
+               )
+
+               if (a > b) {
+                  return 1
+               }
+               if (
+                  //if there are trips starting on the same day, they are compared by end date
+                  a === b &&
+                  new Date(prev.endDate).getDate() <
+                     new Date(next.endDate).getDate()
+               ) {
+                  return -1
+               }
+               if (a < b) {
+                  return -1
+               }
+               return 0
+            })
+            return travels
          }
+
+         let sortTravels = store.getState().userReducer.user.travels
+
+         let activeTravels = sortTravels.filter(
+            (travel) => travel.status === 'АКТИВНАЯ'
+         )
+         let archivalTravels = sortTravels.filter(
+            (travel) => travel.status === 'АРХИВНАЯ'
+         )
+
+         sortByTime(activeTravels)
+         sortByTime(archivalTravels)
+         sortTravels = activeTravels.concat(archivalTravels)
 
          store.dispatch(getTravelsFilter(sortTravels))
          break
