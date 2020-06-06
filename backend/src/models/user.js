@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
+const UniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
@@ -18,6 +19,8 @@ const userSchema = new Schema({
    email: {
       type: String,
       required: true,
+      index: true,
+      unique: true,
       description: 'Электронная почта путешественника',
    },
    nickName: {
@@ -79,5 +82,7 @@ userSchema.post('findOneAndUpdate', ErrorHandler)
 userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
 userSchema.post('save', ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
+
+userSchema.plugin(UniqueValidator)
 
 module.exports = mongoose.model('User', userSchema)
