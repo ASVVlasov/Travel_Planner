@@ -26,7 +26,6 @@ class Header extends React.Component {
          isUserPickerOpen: false,
          isHeaderMenuOpen: false,
          userPickerPosition: {},
-         travelDeleted: false,
       }
       document.addEventListener('click', this.handleClickOutside, false)
    }
@@ -78,10 +77,6 @@ class Header extends React.Component {
       if (window.confirm('Вы подтверждаете удаление?')) {
          const travelId = this.props.travel._id
          this.props.deleteTravel(travelId)
-
-         this.setState({
-            travelDeleted: true,
-         })
       }
    }
 
@@ -128,7 +123,11 @@ class Header extends React.Component {
    }
 
    render() {
-      if (this.state.travelDeleted) {
+      const travelId = this.props.travel._id
+      const travel = this.props.user.travels.filter(
+         (travel) => travel._id === travelId
+      )
+      if (travel.length == 0) {
          return <Redirect to={'/profile/travels'} />
       }
 
