@@ -47,7 +47,7 @@ const fileHandler = {
             if (err) {
                throw createError(500, err)
             } else {
-               resolve(data.Body)
+               resolve(data)
             }
          })
       })
