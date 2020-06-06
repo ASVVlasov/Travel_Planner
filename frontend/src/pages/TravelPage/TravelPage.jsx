@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import { Route } from 'react-router-dom'
-import { getTravel } from '../../redux/travel/operations'
+import { getTravel, getBudget } from '../../redux/travel/operations'
 
 import styles from './TravelPage.module.scss'
 import Header from '../../components/Header/Header'
@@ -23,6 +23,7 @@ class TravelPage extends React.Component {
 
    componentDidMount() {
       this.props.getTravel(this.props.match.params.travelId)
+      this.props.getBudget(this.props.match.params.travelId)
    }
 
    render() {
@@ -30,7 +31,6 @@ class TravelPage extends React.Component {
          match: { path },
          travel,
       } = this.props
-
       return (
          <>
             {this.isPropsReceived(travel) ? (
@@ -54,6 +54,6 @@ const mapStateToProps = ({ travelReducer }) => ({
    travel: travelReducer.travel,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getTravel }, dispatch)
+   bindActionCreators({ getTravel, getBudget }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TravelPage)
