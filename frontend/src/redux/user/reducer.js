@@ -7,12 +7,23 @@ import {
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
+   FETCH_LOADING,
    FETCH_ERROR,
-   AUTHORIZATION_SUCCESS,
+   REGISTRATION_ERROR,
+   LOGIN_SUCCESS,
+   LOGIN_ERROR,
    LOGOUT_SUCCESS,
+   UNAUTHORIZED,
 } from '../types'
 
-const initialState = { auth: false, user: {}, newContacts: [], reqError: '' }
+const initialState = {
+   regError: '',
+   auth: false,
+   authError: '',
+   user: {},
+   newContacts: [],
+   reqError: '',
+}
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
@@ -73,23 +84,28 @@ export default function userReducer(state = initialState, action) {
             reqError: '',
          }
       }
+      case FETCH_LOADING: {
+         return {
+            ...state,
+            regError: '',
+            authError: '',
+            reqError: '',
+         }
+      }
       case FETCH_ERROR: {
          return {
             ...state,
             reqError: action.payload.message,
          }
       }
-      case AUTHORIZATION_SUCCESS: {
+      case REGISTRATION_ERROR:
+      case LOGIN_ERROR:
+      case LOGIN_SUCCESS:
+      case LOGOUT_SUCCESS:
+      case UNAUTHORIZED: {
          return {
             ...state,
             ...action.payload,
-            reqError: '',
-         }
-      }
-      case LOGOUT_SUCCESS: {
-         return {
-            ...state,
-            auth: false,
          }
       }
       case GET_TRAVELS_FILTER: {

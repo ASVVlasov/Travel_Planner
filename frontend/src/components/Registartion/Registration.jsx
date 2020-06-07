@@ -5,15 +5,17 @@ import { NavLink } from 'react-router-dom'
 import { history } from '../../redux/store'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { authorization } from '../../redux/auth/operations'
+import { register, login } from '../../redux/auth/operations'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 
 class Registration extends Component {
    static propTypes = {
-      authorization: PropTypes.func,
-      reqError: PropTypes.string,
+      register: PropTypes.func,
+      login: PropTypes.func,
+      regError: PropTypes.string,
+      authError: PropTypes.string,
    }
 
    state = {
@@ -31,6 +33,7 @@ class Registration extends Component {
             passwordPlaceholder: 'Пароль',
             inputStyle: 'input__signin',
             btnText: 'Войти',
+            btnOnClick: () => this.login(),
          },
          {
             _id: 'signup',
@@ -41,6 +44,7 @@ class Registration extends Component {
             passwordHintLabel: 'не менее 6 символов',
             inputStyle: 'input__signup',
             btnText: 'Зарегистрироваться',
+            btnOnClick: () => this.register(),
          },
       ],
    }
@@ -61,18 +65,28 @@ class Registration extends Component {
          : this.setState({ emailErrorLabel: 'Проверьте введеный email' })
    }
 
+   register = async () => {
+      const password = this.state.password
+      const email = this.state.email.toLowerCase()
+
+      await this.props.register({ email, password })
+      if (this.props.regError) {
+         // TODO: Сделать вывод соолбщения об ошибке
+         alert('Пользователь с таким адресом уже существует')
+      } else {
+         history.push('/home/signin')
+      }
+   }
+
    login = async () => {
       const { password, rememberMe } = this.state
       const email = this.state.email.toLowerCase()
 
       this.setState({ signInError: '' })
 
-      await this.props.authorization(
-         { email, password, rememberMe },
-         '/' + this.props.match.params.tab
-      )
+      await this.props.login({ email, password, rememberMe })
 
-      if (this.props.reqError) {
+      if (this.props.authError) {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Введен неправильный логин/пароль')
       } else {
@@ -141,10 +155,13 @@ class Registration extends Component {
                />
             )}
             <Button
-               onClick={this.login}
+               onClick={tab.btnOnClick}
                text={tab.btnText}
                disabled={
-                  !email || !password || emailErrorLabel || passwordErrorLabel
+                  !email ||
+                  !password ||
+                  !!emailErrorLabel ||
+                  !!passwordErrorLabel
                }
             />
          </div>
@@ -152,10 +169,11 @@ class Registration extends Component {
    }
 }
 const mapStateToProps = ({ userReducer }) => ({
-   reqError: userReducer.reqError,
+   regError: userReducer.regError,
+   authError: userReducer.authError,
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ authorization }, dispatch)
+   bindActionCreators({ register, login }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration)
