@@ -109,7 +109,14 @@ export default class CardShort extends Component {
       
       return (
          <>
-            <div className={styles.card} onClick={this.showFullInfo}>
+            <div
+               className={
+                  new Date(endDate) > new Date()
+                     ? styles.card
+                     : `${styles.card} ${styles.card_archiveCard}`
+               }
+               onClick={this.showFullInfo}
+            >
                <div>
                   <div className={styles.card__header}>
                      <h2 className={styles.card__title} children={title} />
