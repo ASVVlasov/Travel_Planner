@@ -18,7 +18,9 @@ router.get(
    '/:fileId',
    asyncHandler(async (req, res) => {
       const { fileId } = req.params
-      res.send(await FileModel.getFile(fileId))
+      let file = await FileModel.getFile(fileId)
+      res.setHeader('Content-Disposition', file.ContentDisposition)
+      res.send(file.Body)
    })
 )
 router.delete(
