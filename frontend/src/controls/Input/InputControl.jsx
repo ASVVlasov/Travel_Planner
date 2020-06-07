@@ -25,6 +25,7 @@ export default class InputControl extends Component {
       name: PropTypes.string.isRequired,
       onChange: PropTypes.func,
       onKeyUp: PropTypes.func,
+      onBlur: PropTypes.func,
       options: PropTypes.array,
       overrideStrings: PropTypes.object,
    }
@@ -36,6 +37,12 @@ export default class InputControl extends Component {
    onKeyUp = (evt) => {
       if (this.props.onKeyUp) {
          this.props.onKeyUp(evt)
+      }
+   }
+
+   onBlur = (target) => {
+      if (this.props.onBlur) {
+         this.props.onBlur({ target })
       }
    }
 
@@ -73,6 +80,7 @@ export default class InputControl extends Component {
                   placeholder={this.props.placeholder}
                   onChange={this.onChange}
                   onKeyUp={this.onKeyUp}
+                  onBlur={this.onBlur}
                   styles={this.props.styles}
                   name={this.props.name}
                   label={this.props.label}

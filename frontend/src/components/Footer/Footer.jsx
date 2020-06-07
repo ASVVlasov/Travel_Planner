@@ -21,10 +21,6 @@ class Footer extends React.Component {
       filter: false,
    }
 
-   componentDidMount() {
-      this.props.getBudget(this.props.travelId)
-   }
-
    changeFilter = (value) => {
       if (value) {
          this.props.setUserFilter(this.props.userId)

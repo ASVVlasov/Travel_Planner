@@ -1,22 +1,26 @@
 import { isLoading, hadError } from '../fetch/actions'
+import { authError } from '../auth/actions'
 
 export const fetchRequest = {
-   get: (url, action) => fetchData(url, action),
+   get: (url, actions) => fetchData(url, actions),
 
-   post: (url, action, body) =>
-      fetchData(url, action, JSON.stringify(body), 'POST'),
+   post: (url, actions, body) =>
+      fetchData(url, actions, JSON.stringify(body), 'POST'),
 
-   put: (url, action, body) =>
-      fetchData(url, action, JSON.stringify(body), 'PUT'),
+   put: (url, actions, body) =>
+      fetchData(url, actions, JSON.stringify(body), 'PUT'),
 
-   delete: (url, action, body) =>
-      fetchData(url, action, JSON.stringify(body), 'DELETE'),
+   delete: (url, actions, body) =>
+      fetchData(url, actions, JSON.stringify(body), 'DELETE'),
 
-   uploadFile: (url, action, body) => fetchData(url, action, body, 'POST', {}),
+   uploadFile: (url, actions, body) =>
+      fetchData(url, actions, body, 'POST', {}),
 }
 
-const fetchData = (url, action, body, method, headers) => async (dispatch) => {
+const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
    dispatch(isLoading())
+
+   const [successAction, errorAction] = actions
 
    try {
       const res = await fetch(url, {
@@ -27,12 +31,16 @@ const fetchData = (url, action, body, method, headers) => async (dispatch) => {
          body,
       })
       if (!res.ok) {
-         const error = await res.json()
-         throw new Error(error.message)
+         if (res.status === 401 || res.status === 403) {
+            dispatch(authError())
+         } else {
+            const error = await res.json()
+            throw new Error(error.message)
+         }
       }
       const data = await res.json()
-      dispatch(action(data))
+      dispatch(successAction(data))
    } catch (error) {
-      dispatch(hadError(error))
+      errorAction ? dispatch(errorAction(error)) : dispatch(hadError(error))
    }
 }

@@ -44,7 +44,7 @@ export default class Slider extends Component {
                      Соберите все документы в одном месте:
                   </p>
                   <p className={styles.slide__text_secondary}>
-                     билеты и бронирования всегда будут под рукой
+                     билеты и бронирования будут под рукой
                   </p>
                </div>
                <div className={styles.slide__image_2}></div>
@@ -53,7 +53,7 @@ export default class Slider extends Component {
                <div className={styles.slide__textContainer}>
                   <p className={styles.slide__text_main}>
                      В поездке останется наслаждаться
-                     <br></br>
+                     <br />
                      новыми впечатлениями
                   </p>
                </div>
