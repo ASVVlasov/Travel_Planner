@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler')
 const CardModel = require('../../models/card')
 const UserModel = require('../../models/user')
 const TravelModel = require('../../models/travel')
-const PayerModel = require('../../models/payer')
 const travelStatuses = require('../../models/types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
 const userRouter = require('./user')
@@ -21,7 +20,9 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const travel = { ...req.body }
-      travel.users.push(req.user)
+      if (travel.users.indexOf(req.user.id) === -1) {
+         travel.users.push(req.user)
+      }
       const newTravel = new TravelModel(travel)
       await newTravel.save()
       const update = { $push: { travels: newTravel.id } }
@@ -51,15 +52,21 @@ router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
-      const update = { $pull: { users: req.user.id } }
-      let travel = await TravelModel.findByIdAndUpdate(travelId, update, { new: true })
-      if (!travel.users.length) {
-         await CardModel.deleteCards(travelId)
-         travel = await TravelModel.findByIdAndRemove(travelId)
+      let travel = await TravelModel.findById(travelId)
+      if (travel.status === travelStatuses.ARCHIVE) {
+         res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
       } else {
-         await CardModel.removeUser(travelId, req.user.id)
+         travel.users.pull(req.user.id)
+         travel.save()
+         if (!travel.users.length) {
+            await CardModel.deleteCards(travelId)
+            travel = await TravelModel.findByIdAndRemove(travelId)
+         } else {
+            await CardModel.removeUser(travelId, req.user.id)
+         }
+         await UserModel.findByIdAndUpdate(req.user.id, { $pull: { travels: travelId } })
+         res.json(travel)
       }
-      res.json(travel)
    })
 )
 module.exports = router

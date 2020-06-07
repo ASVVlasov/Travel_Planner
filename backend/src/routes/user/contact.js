@@ -23,7 +23,7 @@ router.post(
          }
          res.json(user)
       } else {
-         throw createError(404, 'пользователь не найден')
+         throw createError(404, 'Пользователь не найден')
       }
    })
 )
