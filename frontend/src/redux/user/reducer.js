@@ -13,6 +13,7 @@ import {
    LOGIN_SUCCESS,
    LOGIN_ERROR,
    LOGOUT_SUCCESS,
+   LOGOUT_ERROR,
    UNAUTHORIZED,
 } from '../types'
 
@@ -102,6 +103,7 @@ export default function userReducer(state = initialState, action) {
       case LOGIN_ERROR:
       case LOGIN_SUCCESS:
       case LOGOUT_SUCCESS:
+      case LOGOUT_ERROR:
       case UNAUTHORIZED: {
          return {
             ...state,

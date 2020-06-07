@@ -4,6 +4,7 @@ import {
    LOGIN_SUCCESS,
    LOGIN_ERROR,
    LOGOUT_SUCCESS,
+   LOGOUT_ERROR,
    UNAUTHORIZED,
 } from '../types'
 
@@ -27,6 +28,10 @@ export const loginError = (err) => ({
 export const logoutSuccess = () => ({
    type: LOGOUT_SUCCESS,
    payload: { auth: false },
+})
+export const logoutError = () => ({
+   type: LOGOUT_ERROR,
+   payload: { auth: true },
 })
 
 export const authError = () => ({

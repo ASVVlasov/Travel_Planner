@@ -5,6 +5,7 @@ import {
    loginSuccess,
    loginError,
    logoutSuccess,
+   logoutError,
 } from './actions'
 
 export const register = (newUser) =>
@@ -13,4 +14,5 @@ export const register = (newUser) =>
 export const login = (authInfo) =>
    fetchRequest.post('/signin', [loginSuccess, loginError], authInfo)
 
-export const logout = () => fetchRequest.get('/logout', [logoutSuccess])
+export const logout = () =>
+   fetchRequest.get('/logout', [logoutSuccess, logoutError])
