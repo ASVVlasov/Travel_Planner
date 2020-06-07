@@ -16,7 +16,7 @@
    &__title {
       @include Title-2-SemiBold ;
       color: $color-secondary-main;
-      margin-bottom: 35px;
+      margin-bottom: 10px;
    }
    &__inputs:focus-within .icon__search {
       @include IconBright(24px);

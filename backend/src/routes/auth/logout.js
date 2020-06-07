@@ -17,7 +17,7 @@ router.get(
          .catch((err) => {})
       req.logout()
       res.clearCookie('connect.sid')
-      res.status(200).send()
+      res.json({ success: true })
    })
 )
 

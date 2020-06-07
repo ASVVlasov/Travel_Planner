@@ -1,5 +1,18 @@
 import { fetchRequest } from '../fetch/operations'
-import { authorizationSuccess } from './actions'
+import {
+   regSuccess,
+   regError,
+   loginSuccess,
+   loginError,
+   logoutSuccess,
+   logoutError,
+} from './actions'
 
-export const authorization = (authInfo, path) =>
-   fetchRequest.post(path, authorizationSuccess, authInfo)
+export const register = (newUser) =>
+   fetchRequest.post('/signup', [regSuccess, regError], newUser)
+
+export const login = (authInfo) =>
+   fetchRequest.post('/signin', [loginSuccess, loginError], authInfo)
+
+export const logout = () =>
+   fetchRequest.get('/logout', [logoutSuccess, logoutError])
