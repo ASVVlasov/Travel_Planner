@@ -37,7 +37,7 @@ class UserPicker extends Component {
       ? 'http://localhost:3300/user/avatar/'
       : window.location.origin + '/user/avatar/'
 
-   addUserHandler = (userId) => {
+   addUserHandler = async (userId) => {
       const {
          type,
          cardId,
@@ -47,7 +47,7 @@ class UserPicker extends Component {
          addTraveler,
       } = this.props
       if (type === 'card') {
-         addPayer({ cardId, userId })
+         await addPayer({ cardId, userId })
          getBudget(travelId)
       } else {
          addTraveler({ travelId, userId })

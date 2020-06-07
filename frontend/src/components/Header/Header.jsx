@@ -73,12 +73,11 @@ class Header extends React.Component {
       this.props.changeStatusTravel(travel)
    }
 
-   deleteTrip = () => {
+   deleteTrip = async () => {
       this.showHeaderMenu()
       if (window.confirm('Вы подтверждаете удаление?')) {
          const travelId = this.props.travel._id
-         this.props.deleteTravel(travelId)
-
+         await this.props.deleteTravel(travelId)
          this.setState({
             travelDeleted: true,
          })
@@ -97,11 +96,15 @@ class Header extends React.Component {
                      ? styles.travellers__item_mainUser
                      : styles.travellers__item
                }
+               title={user.nickName}
                key={user._id}
             >
                {!user.avatar && user.nickName[0].toUpperCase()}
                {user.avatar && (
-                  <img src={this.AVATAR_URL + user.avatar} alt={user.nickName} />
+                  <img
+                     src={this.AVATAR_URL + user.avatar}
+                     alt={user.nickName}
+                  />
                )}
             </div>
          ))
