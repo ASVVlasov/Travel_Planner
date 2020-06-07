@@ -40,7 +40,7 @@ const fileHandler = {
       const getParams = {
          Bucket: process.env.S3_BUCKET_NAME,
          Key: genFileName(file),
-         ResponseContentDisposition: `attachment; filename ="${file.fileName}"`,
+         ResponseContentDisposition: `attachment; filename ="${encodeURIComponent(file.fileName)}"`,
       }
       return new Promise((resolve, reject) => {
          s3.getObject(getParams, function (err, data) {
