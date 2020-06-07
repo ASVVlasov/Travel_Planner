@@ -1,5 +1,10 @@
-import { GET_USER_SUCCESS, CREATE_TRAVEL_SUCCESS } from '../types'
+import {
+   GET_USER_SUCCESS,
+   CREATE_TRAVEL_SUCCESS,
+   UPDATE_USER_SUCCESS,
+} from '../types'
 import { getTravelsFilter } from './actions'
+import { getUserInfo } from './operations'
 
 export default (store) => (next) => (action) => {
    next(action)
@@ -24,6 +29,9 @@ export default (store) => (next) => (action) => {
 
          store.dispatch(getTravelsFilter(sortTravels))
          break
+      }
+      case UPDATE_USER_SUCCESS: {
+         store.dispatch(getUserInfo())
       }
       default:
          break
