@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Registration.module.scss'
 import { NavLink } from 'react-router-dom'
-import { history } from '../../redux/store'
+import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { register, login } from '../../redux/auth/operations'
@@ -74,7 +74,7 @@ class Registration extends Component {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Пользователь с таким адресом уже существует')
       } else {
-         history.push('/home/signin')
+         push('/home/signin')
       }
    }
 
@@ -90,7 +90,7 @@ class Registration extends Component {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Введен неправильный логин/пароль')
       } else {
-         history.push('/profile/travels')
+         push('/profile/travels')
       }
    }
 
@@ -174,6 +174,6 @@ const mapStateToProps = ({ userReducer }) => ({
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ register, login }, dispatch)
+   bindActionCreators({ register, login, push }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration)
