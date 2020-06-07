@@ -51,7 +51,13 @@ export default class TravelCard extends Component {
 
       return (
          <Link to={`/travel/${_id}/transport`}>
-            <div className={styles.card}>
+            <div
+               className={
+                  status === 'АКТИВНАЯ'
+                     ? styles.card
+                     : `${styles.card} ${styles.card_archiveCard}`
+               }
+            >
                {status === 'АРХИВНАЯ' && (
                   <span
                      className={styles.card__status}

@@ -35,6 +35,9 @@
       flex-direction: row-reverse;
       justify-content: flex-end;
    }
+   &_archiveCard{
+      opacity: 0.5;
+   }
 }
 
 .badges {
