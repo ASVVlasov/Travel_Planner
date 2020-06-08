@@ -106,12 +106,14 @@ export default class CardShort extends Component {
       const today = new Date().toLocaleDateString()
       const start = new Date(beginDate).toLocaleDateString()
       const finish = new Date(endDate).toLocaleDateString()
-      
+      const unexpiredCard =
+         new Date(endDate) > new Date() || finish === '01.01.1970'
+
       return (
          <>
             <div
                className={
-                  new Date(endDate) > new Date()
+                  unexpiredCard
                      ? styles.card
                      : `${styles.card} ${styles.card_archiveCard}`
                }
@@ -148,7 +150,7 @@ export default class CardShort extends Component {
                         {captions.beginPoint && 
                            <div className={classNames(
                               styles.schema__point,
-                              start === today && 
+                              start === today && unexpiredCard && 
                                  styles.schema__point_currentDate)}
                            />
                         }
@@ -156,11 +158,11 @@ export default class CardShort extends Component {
                            <>
                               <div className={classNames(
                                  styles.schema__path,
-                                 finish === today && 
+                                 finish === today && unexpiredCard && 
                                     styles.schema__path_currentDate)} />
                               <div className={classNames(
                                  styles.schema__point,
-                                 finish === today && 
+                                 finish === today && unexpiredCard && 
                                     styles.schema__point_currentDate)} />
                            </>
                         )}
@@ -178,7 +180,7 @@ export default class CardShort extends Component {
                           <span
                               className={classNames(
                                  styles.route__date,
-                                 start === today &&
+                                 start === today && unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(beginDate)}
@@ -193,9 +195,12 @@ export default class CardShort extends Component {
                               children={endPoint || captions.endPoint}
                            />
                            {/* TODO edit location of dates */}
-                           <span className={classNames(
-                              styles.route__date,
-                              finish === today && styles.route__date_currentDate)} 
+                           <span 
+                              className={classNames(
+                                 styles.route__date,
+                                 finish === today && unexpiredCard && 
+                                    styles.route__date_currentDate
+                              )} 
                               children={this.convertDate(endDate)}/>
                            
                         </div>
