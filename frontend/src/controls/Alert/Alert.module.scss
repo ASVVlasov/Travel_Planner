@@ -1,0 +1,63 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+
+.alert {
+   width: 350px;
+   position: absolute;
+   top: 80px;
+   right: 40px;
+   z-index: 900;
+   border-radius: 10px;
+   @include BaseShadow;
+   padding: 12px;
+   &_success {
+      background-color: $color-success-light;
+      & span, p {
+         color: $color-success-dark;
+      }
+      & .icon, .icon:hover {
+         fill: $color-success-dark;
+      }
+   }
+   &_warning {
+      background-color: $color-warning-light;
+      & span, p {
+         color: $color-warning-dark;
+      }
+      & .icon, .icon:hover {
+         fill: $color-warning-dark;
+      }
+   }
+   &_error {
+      background-color: $color-error-light;
+      & span, p {
+         color: $color-error-dark;
+      }
+      & .icon, .icon:hover {
+         fill: $color-error-dark;
+      }
+   }
+
+   &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+   }
+   &__title {
+      @include Caption-1-SemiBold;
+      margin-bottom: 5px;
+   }
+
+   &__body {
+      @include Caption-1-Regular;
+   }
+
+   & button {
+      margin-top: 10px;
+   }
+}
+
+.icon {
+   @include IconLight(20px)
+}
+
