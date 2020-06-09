@@ -15,21 +15,29 @@
    &:hover {
       @include BaseShadowHover;
    }
+   
+   &_small {
+      padding: 6px 17px;
+      @include Caption-1-SemiBold;
+   }
+
    &_cancel {
       background-color: $color-secondary-light;
-      opacity: 0.4;
+      opacity: 0.6;
       &:hover {
          opacity: 0.8;
       }
    }
+
    &_delete {
       background-color: $color-secondary-light;
-      opacity: 0.4;
+      opacity: 0.6;
       &:hover {
          opacity: 1;
          background-color: $color-error-dark;
       }
    }
+
    &_action {
       padding: 9px 17px;
       @include ButtonShadow;
@@ -37,6 +45,27 @@
          box-shadow: none;
       }
    }
+
+   &_outline {
+      background-color: transparent;
+      &:hover {
+         box-shadow: none;
+      }
+   }
+
+   &_success {
+      border: 1px solid $color-success-dark;
+      color: $color-success-dark;
+   }
+   &_warning {
+      border: 1px solid $color-warning-dark;
+      color: $color-warning-dark;
+   }
+   &_error {
+      border: 1px solid $color-error-dark;
+      color: $color-error-dark;
+   }
+
    &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
