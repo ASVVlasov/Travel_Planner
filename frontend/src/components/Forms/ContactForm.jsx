@@ -129,7 +129,7 @@ class ContactForm extends Component {
                {newContacts && this.mapContactsToRender(newContacts, contacts)}
 
                <div className={styles.form__actions}>
-                  <Button text="Очистить" kind="cancel" onClick={this.clear} />
+                  <Button text="Очистить" type="cancel" onClick={this.clear} />
                </div>
             </div>
          </ModalBase>

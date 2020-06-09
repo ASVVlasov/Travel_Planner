@@ -91,7 +91,7 @@ class Board extends Component {
                <nav children={this.mapTabsToRender()} />
 
                {this.props.cards.length > 2 && (
-                  <Button onClick={this.openModal} text="+" kind="action" />
+                  <Button onClick={this.openModal} text="+" type="action" />
                )}
             </div>
 

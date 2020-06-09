@@ -176,7 +176,7 @@ class Header extends React.Component {
                         this.setPosition(e.clientX, e.clientY)
                         this.openForm('UserPicker')
                      }}
-                     kind="action"
+                     type="action"
                      text="Добавить участников"
                   />
                )}

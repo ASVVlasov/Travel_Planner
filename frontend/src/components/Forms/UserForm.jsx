@@ -149,7 +149,7 @@ class UserForm extends Component {
                </div>
 
                <div className={styles.form__actions}>
-                  <Button kind="cancel" text="Закрыть" onClick={onClose} />
+                  <Button type="cancel" text="Закрыть" onClick={onClose} />
                   <Button
                      text="Сохранить"
                      ml={20}
