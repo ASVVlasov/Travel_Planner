@@ -1,0 +1,31 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.pageNotFound{
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    background-color: $color-background-light;
+    padding: 100px;
+    &__content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+    }
+    &__picture{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60%;
+    }
+    &__description{
+        & p{
+            @include Title-1-SemiBold;
+            color: $color-secondary-main;
+        }
+    }
+    &__backBtn{
+        margin-top: 40px;
+    }
+}
