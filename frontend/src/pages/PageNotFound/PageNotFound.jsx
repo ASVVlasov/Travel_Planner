@@ -15,7 +15,7 @@ export default class PageNotFound extends React.Component {
                   <p>Такой страницы здесь нет :(</p>
                   <Link to={'/profile/travels'}>
                      <div className={styles.pageNotFound__backBtn}>
-                        <Button kind="action" text="Вернуться назад" />
+                        <Button type="action" text="Вернуться назад" />
                      </div>
                   </Link>
                </div>
