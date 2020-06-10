@@ -98,7 +98,7 @@ class UserBoard extends Component {
                <nav children={this.mapTabsToRender()} />
                <Button
                   onClick={() => this.openModal(tab)}
-                  kind="action"
+                  type="action"
                   text={
                      tab === 'travels' ? 'Новая поездка' : 'Добавить контакт'
                   }

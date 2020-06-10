@@ -125,7 +125,7 @@ export default class CardForm extends Component {
                </div>
 
                <div className={styles.form__actions}>
-                  <Button onClick={onClose} text="Отмена" kind="cancel" />
+                  <Button onClick={onClose} text="Отмена" type="cancel" />
                   {!card && (
                      <Button
                         onClick={() => addCard(this.state)}

@@ -34,7 +34,10 @@ export default class TravelForm extends Component {
       this.setState({
          options: this.props.users.map((u) => ({
             ...u,
-            label: (u.name || u.surname) ? `${u.name} ${u.surname}`.trim() : u.nickName,
+            label:
+               u.name || u.surname
+                  ? `${u.name} ${u.surname}`.trim()
+                  : u.nickName,
             value: u._id,
          })),
       })
@@ -99,7 +102,7 @@ export default class TravelForm extends Component {
                </div>
 
                <div className={styles.form__actions}>
-                  <Button onClick={onClose} text="Отмена" kind="cancel" />
+                  <Button onClick={onClose} text="Отмена" type="cancel" />
                   <Button onClick={this.submit} text="Создать" ml={20} />
                </div>
             </div>

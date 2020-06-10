@@ -171,9 +171,9 @@ class CardFull extends Component {
                )}
                title={payer.user.nickName}
                children={
-                  (!!payer.user.name || !!payer.user.surname) ? 
-                  (payer.user.name + ' ' + payer.user.surname) :
-                  payer.user.nickName
+                  !!payer.user.name || !!payer.user.surname
+                     ? payer.user.name + ' ' + payer.user.surname
+                     : payer.user.nickName
                }
             />
             <div
@@ -495,7 +495,7 @@ class CardFull extends Component {
                            toClose()
                         }}
                         text="Удалить карточку"
-                        kind="delete"
+                        type="delete"
                      />
                      <Button onClick={toClose} text="OK" ml={20} />
                   </div>

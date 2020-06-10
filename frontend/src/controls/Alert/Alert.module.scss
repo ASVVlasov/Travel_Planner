@@ -1,0 +1,67 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+@mixin alertTheme ($colorBg, $colorText) {
+   background-color: $colorBg;
+   & span, p {
+      color: $colorText;
+   }
+   & .icon, .icon:hover {
+      fill: $colorText;
+   }
+}
+
+.alert {
+   width: 350px;
+   position: absolute;
+   top: 80px;
+   right: 40px;
+   z-index: 900;
+   border-radius: 10px;
+   @include BaseShadow;
+   padding: 12px;
+   animation: appear 300ms ease-out;
+   &_success {
+      @include alertTheme ($color-success-light, $color-success-dark)
+   }
+   &_warning {
+      @include alertTheme ($color-warning-light, $color-warning-dark)
+   }
+   &_error {
+      @include alertTheme ($color-error-light, $color-error-dark)
+   }
+
+   &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+   }
+   &__title {
+      @include Caption-1-SemiBold;
+      margin-bottom: 5px;
+   }
+
+   &__body {
+      @include Caption-1-Regular;
+   }
+
+   & button {
+      margin-top: 10px;
+   }
+}
+
+.icon {
+   @include IconLight(20px)
+}
+
+@keyframes appear {
+   0% {
+      opacity: 0;
+      transform: translateX(400px)
+   }
+   50% {
+      opacity: 1;
+   }
+   100% {
+      transform: translateX(0px);
+   }
+}
