@@ -40,6 +40,7 @@ export default (store) => (next) => (action) => {
       }
       case UPDATE_USER_SUCCESS: {
          store.dispatch(getUserInfo())
+         break
       }
       default:
          break

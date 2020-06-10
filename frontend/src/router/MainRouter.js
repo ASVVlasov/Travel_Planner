@@ -22,7 +22,7 @@ class MainRouter extends React.Component {
          <Switch>
             <Route path="/profile/:tab" component={UserPage} />
             <Route path="/travel/:travelId" component={TravelPage} />
-            <Route path="*" component={PageNotFound} />
+            <Route path="/404" component={PageNotFound} />
             <Redirect to="/profile/travels" />
          </Switch>
       )

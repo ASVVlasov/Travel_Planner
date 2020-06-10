@@ -24,8 +24,8 @@
             @include Title-1-SemiBold;
             color: $color-secondary-main;
         }
-    }
-    &__backBtn{
-        margin-top: 40px;
+        & button{
+            margin-top: 40px;
+        }
     }
 }
