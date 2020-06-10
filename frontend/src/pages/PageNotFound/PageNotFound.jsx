@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { history } from '../../redux/store'
 
 import styles from './PageNotFound.module.scss'
 import Button from '../../controls/Button/Button'
@@ -13,11 +13,11 @@ export default class PageNotFound extends React.Component {
                <div className={styles.pageNotFound__description}>
                   <p>Кажется, мы потерялись...</p>
                   <p>Такой страницы здесь нет :(</p>
-                  <Link to={'/profile/travels'}>
-                     <div className={styles.pageNotFound__backBtn}>
-                        <Button type="action" text="Вернуться назад" />
-                     </div>
-                  </Link>
+                  <Button
+                     type="action"
+                     text="Вернуться назад"
+                     onClick={history.goBack}
+                  />
                </div>
             </div>
             <div className={styles.pageNotFound__picture}>
