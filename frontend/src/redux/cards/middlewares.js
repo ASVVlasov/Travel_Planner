@@ -9,6 +9,16 @@ import {
 import { getBoardFilter } from '../board/actions'
 import { getCardsFilter } from './actions'
 
+function sortByTime(cards) {
+   cards.sort(function (prev, next) {
+      const beginD = new Date(prev.beginDate).setHours(0, 0, 0, 0)
+      const endD = new Date(next.beginDate).setHours(0, 0, 0, 0)
+      const beginDiff = beginD - endD
+      const endDiff = new Date(prev.endDate) - new Date(next.endDate)
+      return beginDiff > 0 ? 1 : beginDiff < 0 ? -1 : endDiff > 0 ? 1 : -1
+   })
+}
+
 export default (store) => (next) => (action) => {
    next(action)
 
@@ -22,24 +32,18 @@ export default (store) => (next) => (action) => {
          store.dispatch(getBoardFilter())
 
          let sortCards = store.getState().boardReducer.currentCards
-         let activeCards = sortCards.filter(
+         const activeCards = sortCards.filter(
             (card) => Date.parse(card.endDate) > new Date()
          )
-         let cardsWithoutDate = sortCards.filter(
+         const cardsWithoutDate = sortCards.filter(
             (card) => card.endDate === null
          )
-         let archivalCards = sortCards.filter(
+         const archivalCards = sortCards.filter(
             (card) => Date.parse(card.endDate) < new Date()
          )
 
-         activeCards.sort(
-            (prev, next) =>
-               Date.parse(prev.beginDate) - Date.parse(next.beginDate)
-         )
-         archivalCards.sort(
-            (prev, next) =>
-               Date.parse(prev.beginDate) - Date.parse(next.beginDate)
-         )
+         sortByTime(activeCards)
+         sortByTime(archivalCards)
 
          sortCards = activeCards.concat(cardsWithoutDate, archivalCards)
          store.dispatch(getCardsFilter(sortCards))
