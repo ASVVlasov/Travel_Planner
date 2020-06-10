@@ -13,6 +13,7 @@ export default class Alert extends Component {
    }
 
    state = {
+      shown: false,
       success: {
          title: 'Все получилось!',
          text: 'Данные успешно обновлены, отвечаем 😎',
@@ -31,35 +32,45 @@ export default class Alert extends Component {
       },
    }
 
+   toClose = () => {
+      this.setState({ shown: false })
+   }
+
+   componentDidMount = () => {
+      this.setState({ shown: true })
+   }
+
    render() {
       const typeAttr = this.state[this.props.type]
 
       return (
-         <div className={`${styles.alert} ${typeAttr.style}`}>
-            <header className={styles.alert__header}>
-               <span
-                  className={styles.alert__title}
-                  children={typeAttr.title}
-               />
-               <CloseIcon
-                  className={styles.icon}
-                  onClick={() => {
-                     console.log('clicked')
-                  }}
-               />
-            </header>
-            <p className={styles.alert__body} children={typeAttr.text} />
+         <>
+            {this.state.shown ? (
+               <div className={`${styles.alert} ${typeAttr.style}`}>
+                  <header className={styles.alert__header}>
+                     <span
+                        className={styles.alert__title}
+                        children={typeAttr.title}
+                     />
+                     <CloseIcon
+                        className={styles.icon}
+                        onClick={this.toClose}
+                     />
+                  </header>
+                  <p className={styles.alert__body} children={typeAttr.text} />
 
-            {this.props.type === 'error' && (
-               <Button
-                  text="Повторить"
-                  styleView="outline"
-                  size="small"
-                  kind="error"
-                  onClick={this.props.requestForRepeat}
-               />
-            )}
-         </div>
+                  {this.props.type === 'error' && (
+                     <Button
+                        text="Повторить"
+                        styleView="outline"
+                        size="small"
+                        kind="error"
+                        onClick={this.props.requestForRepeat}
+                     />
+                  )}
+               </div>
+            ) : null}
+         </>
       )
    }
 }
