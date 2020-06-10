@@ -18,7 +18,9 @@ router.use('/avatar', avatarRouter)
 router.get(
    '/',
    asyncHandler(async (req, res) => {
-      res.json(await UserModel.findById(req.user._id))
+      const user = JSON.parse(JSON.stringify(await UserModel.findById(req.user._id)))
+      delete user.password
+      res.json(user)
    })
 )
 

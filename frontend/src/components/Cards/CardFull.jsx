@@ -280,6 +280,7 @@ class CardFull extends Component {
       const today = new Date().toLocaleDateString()
       const start = new Date(beginDate).toLocaleDateString()
       const finish = new Date(endDate).toLocaleDateString()
+      const unexpiredCard = new Date(endDate) > new Date()
 
       return (
          <ModalBase toClose={toClose}>
@@ -317,7 +318,7 @@ class CardFull extends Component {
                            <div
                               className={classNames(
                                  styles.schema__point,
-                                 start === today &&
+                                 start === today && unexpiredCard &&
                                     styles.schema__point_currentDate
                               )}
                            />
@@ -327,14 +328,14 @@ class CardFull extends Component {
                               <div
                                  className={classNames(
                                     styles.schema__path,
-                                    finish === today &&
+                                    finish === today && unexpiredCard &&
                                        styles.schema__path_currentDate
                                  )}
                               />
                               <div
                                  className={classNames(
                                     styles.schema__point,
-                                    finish === today &&
+                                    finish === today && unexpiredCard &&
                                        styles.schema__point_currentDate
                                  )}
                               />
@@ -355,7 +356,7 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 start === today &&
+                                 start === today && unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(beginDate)}
@@ -372,7 +373,7 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 finish === today &&
+                                 finish === today && unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(endDate)}
