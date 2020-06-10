@@ -6,22 +6,16 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import Button from '../Button/Button'
 
 export default class Alert extends Component {
-   static propTypes = {
-      type: PropTypes.oneOf(['success', 'warning', 'error']),
-      warningText: PropTypes.string,
-      requestForRepeat: PropTypes.func,
-   }
-
    state = {
       shown: false,
       success: {
          title: 'Все получилось!',
-         text: 'Данные успешно обновлены, отвечаем 😎',
+         text: this.props.alertText || 'Данные успешно сохранены, отвечаем 😎',
          style: styles.alert_success,
       },
       warning: {
          title: 'Тут такое дело...',
-         text: this.props.warningText,
+         text: this.props.alertText,
          style: styles.alert_warning,
       },
       error: {
@@ -65,7 +59,10 @@ export default class Alert extends Component {
                         styleView="outline"
                         size="small"
                         kind="error"
-                        onClick={this.props.requestForRepeat}
+                        onClick={() => {
+                           this.props.requestForRepeat()
+                           this.toClose()
+                        }}
                      />
                   )}
                </div>
@@ -73,4 +70,32 @@ export default class Alert extends Component {
          </>
       )
    }
+}
+
+Alert.propTypes = {
+   type: PropTypes.oneOf(['success', 'warning', 'error']).isRequired,
+   alertText: function (props, propName, componentName) {
+      if (props.type === 'warning' && props[propName] === undefined) {
+         return new Error(
+            `The prop \`${propName}\` is marked as required in \`${componentName}\` with type \`${props.type}\`, but its value is \`undefined\`.`
+         )
+      } else if (props[propName] && typeof props[propName] !== 'string') {
+         return new Error(
+            `Invalid prop \`${propName}\` supplied to \`${componentName}\` with type \`${props.type}\`, expected \`string\`\`.`
+         )
+      }
+   },
+   requestForRepeat: function (props, propName, componentName) {
+      if (props.type === 'error') {
+         if (props[propName] === undefined) {
+            return new Error(
+               `The prop \`${propName}\` is marked as required in \`${componentName}\` with type \`${props.type}\`, but its value is \`undefined\`.`
+            )
+         } else if (typeof props[propName] !== 'function') {
+            return new Error(
+               `Invalid prop \`${propName}\` supplied to \`${componentName}\` with type \`${props.type}\`, expected \`function\`\`.`
+            )
+         }
+      }
+   },
 }

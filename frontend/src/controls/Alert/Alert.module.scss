@@ -1,5 +1,14 @@
 @import '../../styles/colors', '../../styles/mixins';
 
+@mixin alertTheme ($colorBg, $colorText) {
+   background-color: $colorBg;
+   & span, p {
+      color: $colorText;
+   }
+   & .icon, .icon:hover {
+      fill: $colorText;
+   }
+}
 
 .alert {
    width: 350px;
@@ -12,31 +21,13 @@
    padding: 12px;
    animation: appear 300ms ease-out;
    &_success {
-      background-color: $color-success-light;
-      & span, p {
-         color: $color-success-dark;
-      }
-      & .icon, .icon:hover {
-         fill: $color-success-dark;
-      }
+      @include alertTheme ($color-success-light, $color-success-dark)
    }
    &_warning {
-      background-color: $color-warning-light;
-      & span, p {
-         color: $color-warning-dark;
-      }
-      & .icon, .icon:hover {
-         fill: $color-warning-dark;
-      }
+      @include alertTheme ($color-warning-light, $color-warning-dark)
    }
    &_error {
-      background-color: $color-error-light;
-      & span, p {
-         color: $color-error-dark;
-      }
-      & .icon, .icon:hover {
-         fill: $color-error-dark;
-      }
+      @include alertTheme ($color-error-light, $color-error-dark)
    }
 
    &__header {
