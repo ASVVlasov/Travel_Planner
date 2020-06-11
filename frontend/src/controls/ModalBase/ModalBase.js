@@ -14,7 +14,7 @@ export default class ModalBase extends React.Component {
    bgClass = styles.background.toString()
 
    handleEvent(e) {
-      if (e.target.classList.value === this.bgClass) {
+      if (e.target.classList.value === this.bgClass && this.props.toClose) {
          this.props.toClose()
       }
    }

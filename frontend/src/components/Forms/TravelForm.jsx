@@ -52,7 +52,7 @@ export default class TravelForm extends Component {
       }
 
       return (
-         <ModalBase toClose={onClose}>
+         <ModalBase>
             <div className={styles.form}>
                <span
                   className={styles.form__title}
