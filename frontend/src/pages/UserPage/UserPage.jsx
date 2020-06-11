@@ -10,7 +10,7 @@ import styles from './UserPage.module.scss'
 import UserHeader from '../../components/Header/UserHeader'
 import UserBoard from '../../components/Board/UserBoard'
 import UserFooter from '../../components/Footer/UserFooter'
-import { Loader } from '../../controls/Loader/Loader'
+import Loader from '../../controls/Loader/Loader'
 
 class UserPage extends React.Component {
    static propTypes = {
