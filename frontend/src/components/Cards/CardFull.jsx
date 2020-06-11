@@ -19,7 +19,6 @@ import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
 import UserPicker from '../../controls/UserPicker/UserPicker'
-import Loader from '../../controls/Loader/Loader'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -397,7 +396,6 @@ class CardFull extends Component {
                         />
                      </div>
                      {this.filesToRender()}
-                     <Loader type={'small'} />
                   </section>
 
                   <section className={styles.card__comments}>
