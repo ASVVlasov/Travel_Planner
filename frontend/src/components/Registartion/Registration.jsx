@@ -74,7 +74,7 @@ class Registration extends Component {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Пользователь с таким адресом уже существует')
       } else {
-         push('/home/signin')
+         this.props.push('/home/signin')
       }
    }
 
@@ -90,7 +90,7 @@ class Registration extends Component {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Введен неправильный логин/пароль')
       } else {
-         push('/profile/travels')
+         this.props.push('/profile/travels')
       }
    }
 
