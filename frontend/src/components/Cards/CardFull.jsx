@@ -240,7 +240,10 @@ class CardFull extends Component {
    }
 
    componentDidMount() {
-      this.setState({ cost: this.props.card.cost })
+      this.setState({
+         cost: this.props.card.cost,
+         comment: this.props.card.comment,
+      })
    }
 
    render() {
@@ -255,7 +258,6 @@ class CardFull extends Component {
          beginDate,
          endPoint,
          endDate,
-         comment,
          payers,
          travelId,
       } = card
@@ -318,7 +320,8 @@ class CardFull extends Component {
                            <div
                               className={classNames(
                                  styles.schema__point,
-                                 start === today && unexpiredCard &&
+                                 start === today &&
+                                    unexpiredCard &&
                                     styles.schema__point_currentDate
                               )}
                            />
@@ -328,14 +331,16 @@ class CardFull extends Component {
                               <div
                                  className={classNames(
                                     styles.schema__path,
-                                    finish === today && unexpiredCard &&
+                                    finish === today &&
+                                       unexpiredCard &&
                                        styles.schema__path_currentDate
                                  )}
                               />
                               <div
                                  className={classNames(
                                     styles.schema__point,
-                                    finish === today && unexpiredCard &&
+                                    finish === today &&
+                                       unexpiredCard &&
                                        styles.schema__point_currentDate
                                  )}
                               />
@@ -356,7 +361,8 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 start === today && unexpiredCard &&
+                                 start === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(beginDate)}
@@ -373,7 +379,8 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 finish === today && unexpiredCard &&
+                                 finish === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(endDate)}
@@ -411,7 +418,6 @@ class CardFull extends Component {
                      </div>
                      <textarea
                         name="comment"
-                        defaultValue={comment}
                         value={this.state.comment}
                         ref={this.commentInput}
                         onChange={this.handleChange}
