@@ -70,54 +70,54 @@ class UserPicker extends Component {
          deleteTraveler({ travelId, userId })
       }
    }
-   avatarRender = (user, chosenUsers) => {
+   getUserName = (user, isAvatarName = false) => {
       const { nickName, surname, name } = user
-      const avaName = (name && surname
-         ? name[0] + surname[0]
-         : nickName[0]
-      ).toUpperCase()
-      return (
-         <div className={styles.user__avatar}>
-            {!user.avatar && avaName}
-            {user.avatar && (
-               <img
-                  src={this.AVATAR_URL + user.avatar}
-                  alt={user.nickName}
-                  title={user.nickName}
-               />
-            )}
-            {chosenUsers.findIndex((cUser) => cUser._id === user._id) >= 0 ? (
-               <DeleteIcon
-                  className={`${styles.icons} ${styles.icons__delete}`}
-                  onClick={() => this.deleteUserHandler(user._id)}
-               />
-            ) : (
-               <AddIcon
-                  className={`${styles.icons} ${styles.icons__add}`}
-                  onClick={() => this.addUserHandler(user._id)}
-               />
-            )}
-         </div>
-      )
+      if (isAvatarName) {
+         return name
+            ? surname
+               ? `${name[0]}${surname[0]}`
+               : name[0]
+            : nickName[0]
+      }
+      return name || surname ? `${name} ${surname}`.trim() : nickName
    }
-   usersRender = (users, chosenUsers) => {
-      return users.map((user) => {
+   avatarRender = (user, chosenUsers) => (
+      <div className={styles.user__avatar}>
+         {!user.avatar && this.getUserName(user, true)}
+         {user.avatar && (
+            <img
+               src={this.AVATAR_URL + user.avatar}
+               alt={this.getUserName(user)}
+               title={this.getUserName(user)}
+            />
+         )}
+         {chosenUsers.findIndex((cUser) => cUser._id === user._id) >= 0 ? (
+            <DeleteIcon
+               className={`${styles.icons} ${styles.icons__delete}`}
+               onClick={() => this.deleteUserHandler(user._id)}
+            />
+         ) : (
+            <AddIcon
+               className={`${styles.icons} ${styles.icons__add}`}
+               onClick={() => this.addUserHandler(user._id)}
+            />
+         )}
+      </div>
+   )
+
+   usersRender = (users, chosenUsers) =>
+      users.map((user) => {
          return (
             <div className={styles.user} key={user._id}>
                {this.avatarRender(user, chosenUsers)}
                <span
                   className={styles.user__name}
-                  title={user.nickName}
-                  children={
-                     !!user.name || !!user.surname
-                        ? user.name + ' ' + user.surname
-                        : user.nickName
-                  }
+                  title={this.getUserName(user)}
+                  children={this.getUserName(user)}
                />
             </div>
          )
       })
-   }
 
    render() {
       const { type, onClose, position, contacts, users, payers } = this.props

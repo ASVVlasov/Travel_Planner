@@ -53,24 +53,33 @@ export default class CardShort extends Component {
       }
    }
 
+   getUserName = (user, isAvatarName = false) => {
+      const { nickName, surname, name } = user
+      if (isAvatarName) {
+         return name
+            ? surname
+               ? `${name[0]}${surname[0]}`
+               : name[0]
+            : nickName[0]
+      }
+      return name || surname ? `${name} ${surname}`.trim() : nickName
+   }
+
    avatarsToRender = () => {
       return this.props.payers.map((payer) => {
-         const { nickName, surname, name } = payer.user
-         const avaName = (name && surname
-            ? name[0] + surname[0]
-            : nickName[0]
-         ).toUpperCase()
+         const { user } = payer
          return (
             <div
                className={styles.travelers__avatar}
-               title={payer.user.nickName}
+               title={this.getUserName(user)}
                key={payer._id}
             >
-               {!payer.user.avatar && avaName}
+               {!payer.user.avatar && this.getUserName(user, true)}
                {payer.user.avatar && (
                   <img
                      src={this.AVATAR_URL + payer.user.avatar}
-                     alt={payer.user.nickName}
+                     alt={this.getUserName(user)}
+                     title={this.getUserName(user)}
                   />
                )}
             </div>

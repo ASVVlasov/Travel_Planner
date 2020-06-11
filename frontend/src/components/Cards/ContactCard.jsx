@@ -19,13 +19,17 @@ class ContactCard extends Component {
       ? 'http://localhost:3300/user/avatar/'
       : window.location.origin + '/user/avatar/'
 
+   getUserName = (user, isAvatarName = false) => {
+      const { nickName, surname, name } = user
+      if (isAvatarName) {
+         return name && surname ? name[0] + surname[0] : nickName[0]
+      }
+      return name || surname ? `${name} ${surname}`.trim() : nickName
+   }
+
    render() {
       const { _id, avatar, nickName, surname, name, email } = this.props.contact
-      const avaName = (name && surname
-         ? name[0] + surname[0]
-         : nickName[0]
-      ).toUpperCase()
-      const fullName = name || surname ? `${name} ${surname}` : null
+      const fullName = name || surname
 
       return (
          <div className={styles.card}>
@@ -37,7 +41,7 @@ class ContactCard extends Component {
 
             <h2
                className={styles.contact__name}
-               children={fullName || nickName}
+               children={this.getUserName(this.props.contact)}
             />
 
             <div className={styles.contact__additional}>
@@ -55,8 +59,13 @@ class ContactCard extends Component {
             </div>
 
             <div className={styles.contact__avatar}>
-               {!avatar && avaName}
-               {avatar && <img src={this.AVATAR_URL + avatar} alt="" />}
+               {!avatar && this.getUserName(this.props.contact, true)}
+               {avatar && (
+                  <img
+                     src={this.AVATAR_URL + avatar}
+                     alt={this.getUserName(this.props.contact)}
+                  />
+               )}
             </div>
          </div>
       )
