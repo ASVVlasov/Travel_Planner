@@ -30,14 +30,24 @@ export default class TravelCard extends Component {
    }
 
    avatarsToRender = (users) =>
-      users.map((user) => (
-         <div className={styles.avatar} title={user.nickName} key={user._id}>
-            {!user.avatar && user.nickName[0]}
-            {user.avatar && (
-               <img src={this.AVATAR_URL + user.avatar} alt={user.nickName} />
-            )}
-         </div>
-      ))
+      users.map((user) => {
+         const { nickName, name, surname } = user
+         const avaName = (name && surname
+            ? name[0] + surname[0]
+            : nickName[0]
+         ).toUpperCase()
+         return (
+            <div className={styles.avatar} title={user.nickName} key={user._id}>
+               {!user.avatar && avaName}
+               {user.avatar && (
+                  <img
+                     src={this.AVATAR_URL + user.avatar}
+                     alt={user.nickName}
+                  />
+               )}
+            </div>
+         )
+      })
 
    render() {
       const {

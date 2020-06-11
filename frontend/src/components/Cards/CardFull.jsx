@@ -150,60 +150,67 @@ class CardFull extends Component {
    payersToRender = () => {
       const { card, changePayerStatus, getBudget, userId } = this.props
 
-      return card.payers.map((payer) => (
-         <div className={styles.travelers__person} key={payer._id}>
-            <div
-               className={styles.travelers__avatar}
-               title={payer.user.nickName}
-            >
-               {!payer.user.avatar && payer.user.nickName[0]}
-               {payer.user.avatar && (
-                  <img
-                     src={this.AVATAR_URL + payer.user.avatar}
-                     alt={payer.user.nickName}
-                  />
-               )}
+      return card.payers.map((payer) => {
+         const { nickName, surname, name } = payer.user
+         const avaName = (name && surname
+            ? name[0] + surname[0]
+            : nickName[0]
+         ).toUpperCase()
+         return (
+            <div className={styles.travelers__person} key={payer._id}>
+               <div
+                  className={styles.travelers__avatar}
+                  title={payer.user.nickName}
+               >
+                  {!payer.user.avatar && avaName}
+                  {payer.user.avatar && (
+                     <img
+                        src={this.AVATAR_URL + payer.user.avatar}
+                        alt={payer.user.nickName}
+                     />
+                  )}
+               </div>
+               <span
+                  className={classNames(
+                     styles.travelers__name,
+                     payer.user._id === userId && styles.travelers__name_itsMe
+                  )}
+                  title={payer.user.nickName}
+                  children={
+                     !!payer.user.name || !!payer.user.surname
+                        ? payer.user.name + ' ' + payer.user.surname
+                        : payer.user.nickName
+                  }
+               />
+               <div
+                  className={styles.travelers__switch}
+                  children={
+                     <Switch
+                        checkedGreenColor={payer.user._id === userId}
+                        checked={payer.isPayer}
+                        onChange={(e) => {
+                           this.changeMainPayer(e, payer)
+                           getBudget(card.travelId)
+                        }}
+                     />
+                  }
+               />
+               <div
+                  className={styles.travelers__switch}
+                  children={
+                     <Switch
+                        checkedGreenColor={payer.user._id === userId}
+                        checked={payer.hasPayed}
+                        onChange={(e) => {
+                           changePayerStatus({ ...payer, hasPayed: e })
+                           getBudget(card.travelId)
+                        }}
+                     />
+                  }
+               />
             </div>
-            <span
-               className={classNames(
-                  styles.travelers__name,
-                  payer.user._id === userId && styles.travelers__name_itsMe
-               )}
-               title={payer.user.nickName}
-               children={
-                  !!payer.user.name || !!payer.user.surname
-                     ? payer.user.name + ' ' + payer.user.surname
-                     : payer.user.nickName
-               }
-            />
-            <div
-               className={styles.travelers__switch}
-               children={
-                  <Switch
-                     checkedGreenColor={payer.user._id === userId}
-                     checked={payer.isPayer}
-                     onChange={(e) => {
-                        this.changeMainPayer(e, payer)
-                        getBudget(card.travelId)
-                     }}
-                  />
-               }
-            />
-            <div
-               className={styles.travelers__switch}
-               children={
-                  <Switch
-                     checkedGreenColor={payer.user._id === userId}
-                     checked={payer.hasPayed}
-                     onChange={(e) => {
-                        changePayerStatus({ ...payer, hasPayed: e })
-                        getBudget(card.travelId)
-                     }}
-                  />
-               }
-            />
-         </div>
-      ))
+         )
+      })
    }
 
    setCostFormat = (number) => {
@@ -318,7 +325,8 @@ class CardFull extends Component {
                            <div
                               className={classNames(
                                  styles.schema__point,
-                                 start === today && unexpiredCard &&
+                                 start === today &&
+                                    unexpiredCard &&
                                     styles.schema__point_currentDate
                               )}
                            />
@@ -328,14 +336,16 @@ class CardFull extends Component {
                               <div
                                  className={classNames(
                                     styles.schema__path,
-                                    finish === today && unexpiredCard &&
+                                    finish === today &&
+                                       unexpiredCard &&
                                        styles.schema__path_currentDate
                                  )}
                               />
                               <div
                                  className={classNames(
                                     styles.schema__point,
-                                    finish === today && unexpiredCard &&
+                                    finish === today &&
+                                       unexpiredCard &&
                                        styles.schema__point_currentDate
                                  )}
                               />
@@ -356,7 +366,8 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 start === today && unexpiredCard &&
+                                 start === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(beginDate)}
@@ -373,7 +384,8 @@ class CardFull extends Component {
                            <span
                               className={classNames(
                                  styles.route__date,
-                                 finish === today && unexpiredCard &&
+                                 finish === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(endDate)}

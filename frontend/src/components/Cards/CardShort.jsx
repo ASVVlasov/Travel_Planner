@@ -54,21 +54,28 @@ export default class CardShort extends Component {
    }
 
    avatarsToRender = () => {
-      return this.props.payers.map((payer) => (
-         <div
-            className={styles.travelers__avatar}
-            title={payer.user.nickName}
-            key={payer._id}
-         >
-            {!payer.user.avatar && payer.user.nickName[0].toUpperCase()}
-            {payer.user.avatar && (
-               <img
-                  src={this.AVATAR_URL + payer.user.avatar}
-                  alt={payer.user.nickName}
-               />
-            )}
-         </div>
-      ))
+      return this.props.payers.map((payer) => {
+         const { nickName, surname, name } = payer.user
+         const avaName = (name && surname
+            ? name[0] + surname[0]
+            : nickName[0]
+         ).toUpperCase()
+         return (
+            <div
+               className={styles.travelers__avatar}
+               title={payer.user.nickName}
+               key={payer._id}
+            >
+               {!payer.user.avatar && avaName}
+               {payer.user.avatar && (
+                  <img
+                     src={this.AVATAR_URL + payer.user.avatar}
+                     alt={payer.user.nickName}
+                  />
+               )}
+            </div>
+         )
+      })
    }
 
    render() {
@@ -122,7 +129,7 @@ export default class CardShort extends Component {
                <div>
                   <div className={styles.card__header}>
                      <h2 className={styles.card__title} children={title} />
-                     <p 
+                     <p
                         className={classNames(
                            styles.card__company,
                            !company && styles.defaultCaptions
@@ -147,23 +154,34 @@ export default class CardShort extends Component {
                   </div>
                   <div className={styles.card__route}>
                      <div className={styles.schema}>
-                        {captions.beginPoint && 
-                           <div className={classNames(
-                              styles.schema__point,
-                              start === today && unexpiredCard && 
-                                 styles.schema__point_currentDate)}
+                        {captions.beginPoint && (
+                           <div
+                              className={classNames(
+                                 styles.schema__point,
+                                 start === today &&
+                                    unexpiredCard &&
+                                    styles.schema__point_currentDate
+                              )}
                            />
-                        }
+                        )}
                         {captions.endPoint && (
                            <>
-                              <div className={classNames(
-                                 styles.schema__path,
-                                 finish === today && unexpiredCard && 
-                                    styles.schema__path_currentDate)} />
-                              <div className={classNames(
-                                 styles.schema__point,
-                                 finish === today && unexpiredCard && 
-                                    styles.schema__point_currentDate)} />
+                              <div
+                                 className={classNames(
+                                    styles.schema__path,
+                                    finish === today &&
+                                       unexpiredCard &&
+                                       styles.schema__path_currentDate
+                                 )}
+                              />
+                              <div
+                                 className={classNames(
+                                    styles.schema__point,
+                                    finish === today &&
+                                       unexpiredCard &&
+                                       styles.schema__point_currentDate
+                                 )}
+                              />
                            </>
                         )}
                      </div>
@@ -177,10 +195,11 @@ export default class CardShort extends Component {
                               )}
                               children={beginPoint || captions.beginPoint}
                            />
-                          <span
+                           <span
                               className={classNames(
                                  styles.route__date,
-                                 start === today && unexpiredCard &&
+                                 start === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
                               )}
                               children={this.convertDate(beginDate)}
@@ -195,14 +214,15 @@ export default class CardShort extends Component {
                               children={endPoint || captions.endPoint}
                            />
                            {/* TODO edit location of dates */}
-                           <span 
+                           <span
                               className={classNames(
                                  styles.route__date,
-                                 finish === today && unexpiredCard && 
+                                 finish === today &&
+                                    unexpiredCard &&
                                     styles.route__date_currentDate
-                              )} 
-                              children={this.convertDate(endDate)}/>
-                           
+                              )}
+                              children={this.convertDate(endDate)}
+                           />
                         </div>
                      </div>
                   </div>

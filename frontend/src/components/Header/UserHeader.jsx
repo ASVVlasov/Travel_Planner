@@ -39,12 +39,16 @@ class UserHeader extends React.Component {
 
    render() {
       const { avatar, nickName, name, email, surname } = this.props.user
+      const avaName = (name && surname
+         ? name[0] + surname[0]
+         : nickName[0]
+      ).toUpperCase()
 
       return (
          <header className={styles.header}>
             <span className={styles.user__name} children={name || nickName} />
             <div className={styles.user__avatar} onClick={this.openModal}>
-               {!avatar && (name[0] || nickName[0])}
+               {!avatar && avaName}
                {avatar && <img src={this.FILE_URL + avatar} alt="" />}
             </div>
 

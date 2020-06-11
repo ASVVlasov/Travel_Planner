@@ -21,7 +21,10 @@ class ContactCard extends Component {
 
    render() {
       const { _id, avatar, nickName, surname, name, email } = this.props.contact
-
+      const avaName = (name && surname
+         ? name[0] + surname[0]
+         : nickName[0]
+      ).toUpperCase()
       const fullName = name || surname ? `${name} ${surname}` : null
 
       return (
@@ -52,7 +55,7 @@ class ContactCard extends Component {
             </div>
 
             <div className={styles.contact__avatar}>
-               {!avatar && nickName[0]}
+               {!avatar && avaName}
                {avatar && <img src={this.AVATAR_URL + avatar} alt="" />}
             </div>
          </div>

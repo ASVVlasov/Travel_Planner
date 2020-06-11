@@ -89,25 +89,32 @@ class Header extends React.Component {
       const mainUser = this.props.user
 
       if (users.length > 1) {
-         return users.map((user) => (
-            <div
-               className={
-                  user._id === mainUser._id
-                     ? styles.travellers__item_mainUser
-                     : styles.travellers__item
-               }
-               title={user.nickName}
-               key={user._id}
-            >
-               {!user.avatar && user.nickName[0].toUpperCase()}
-               {user.avatar && (
-                  <img
-                     src={this.AVATAR_URL + user.avatar}
-                     alt={user.nickName}
-                  />
-               )}
-            </div>
-         ))
+         return users.map((user) => {
+            const { name, surname, nickName } = user
+            const avaName = (name && surname
+               ? name[0] + surname[0]
+               : nickName[0]
+            ).toUpperCase()
+            return (
+               <div
+                  className={
+                     user._id === mainUser._id
+                        ? styles.travellers__item_mainUser
+                        : styles.travellers__item
+                  }
+                  title={user.nickName}
+                  key={user._id}
+               >
+                  {!user.avatar && avaName}
+                  {user.avatar && (
+                     <img
+                        src={this.AVATAR_URL + user.avatar}
+                        alt={user.nickName}
+                     />
+                  )}
+               </div>
+            )
+         })
       }
    }
 
@@ -132,10 +139,7 @@ class Header extends React.Component {
       }
 
       const users = this.props.travel.users
-      let travelersAdded = false
-      if (users && users.length > 1) {
-         travelersAdded = true
-      }
+      let travelersAdded = users && users.length > 1
 
       return (
          <header className={styles.header}>
@@ -167,7 +171,7 @@ class Header extends React.Component {
                         this.setPosition(e.clientX, e.clientY)
                         this.openForm('UserPicker')
                      }}
-                  ></button>
+                  />
                )}
 
                {!travelersAdded && (
