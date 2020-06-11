@@ -63,7 +63,7 @@ class UserForm extends Component {
       const { email, nickName, name, surname } = this.state
 
       return (
-         <ModalBase toClose={onClose}>
+         <ModalBase>
             <div className={styles.form}>
                <span
                   className={styles.form__title}
