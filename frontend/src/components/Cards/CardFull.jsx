@@ -247,7 +247,10 @@ class CardFull extends Component {
    }
 
    componentDidMount() {
-      this.setState({ cost: this.props.card.cost })
+      this.setState({
+         cost: this.props.card.cost,
+         comment: this.props.card.comment,
+      })
    }
 
    render() {
@@ -262,7 +265,6 @@ class CardFull extends Component {
          beginDate,
          endPoint,
          endDate,
-         comment,
          payers,
          travelId,
       } = card
@@ -423,7 +425,6 @@ class CardFull extends Component {
                      </div>
                      <textarea
                         name="comment"
-                        defaultValue={comment}
                         value={this.state.comment}
                         ref={this.commentInput}
                         onChange={this.handleChange}
