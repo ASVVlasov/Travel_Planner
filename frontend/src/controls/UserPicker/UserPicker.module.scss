@@ -12,7 +12,8 @@
    @include BaseShadow;
    &__notification {
       text-align: center;
-      margin: 10px;
+      margin: 5px;
+      @include Caption-1-Regular
    }
 }
 
