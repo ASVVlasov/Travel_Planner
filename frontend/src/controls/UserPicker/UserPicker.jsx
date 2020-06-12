@@ -127,7 +127,14 @@ class UserPicker extends Component {
       return (
          <ModalBase toClose={onClose}>
             <div className={styles.picker} style={position}>
-               {this.usersRender(allUsers, chosenUsers)}
+               {allUsers.length > 0 ? (
+                  this.usersRender(allUsers, chosenUsers)
+               ) : (
+                  <p className={styles.picker__notification}>
+                     У вас пока нет контактов. <br /> Добавьте друзей в профиле,
+                     <br /> чтобы потом добавить их в поездку.
+                  </p>
+               )}
             </div>
          </ModalBase>
       )
