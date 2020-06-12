@@ -37,15 +37,37 @@ class UserHeader extends React.Component {
       push('/')
    }
 
+   getUserName = (user, isAvatarName = false) => {
+      const { nickName, surname, name } = user
+      if (isAvatarName) {
+         return name
+            ? surname
+               ? `${name[0]}${surname[0]}`
+               : name[0]
+            : nickName[0]
+      }
+      return name || surname ? `${name} ${surname}`.trim() : nickName
+   }
+
    render() {
       const { avatar, nickName, name, email, surname } = this.props.user
+      const user = this.props.user
 
       return (
          <header className={styles.header}>
-            <span className={styles.user__name} children={name || nickName} />
+            <span
+               className={styles.user__name}
+               children={this.getUserName(user)}
+            />
             <div className={styles.user__avatar} onClick={this.openModal}>
-               {!avatar && (name[0] || nickName[0])}
-               {avatar && <img src={this.FILE_URL + avatar} alt="" />}
+               {!avatar && this.getUserName(user, true)}
+               {avatar && (
+                  <img
+                     src={this.FILE_URL + avatar}
+                     alt={this.getUserName(user)}
+                     title={this.getUserName(user)}
+                  />
+               )}
             </div>
 
             <LogoutIcon className={styles.icons} onClick={this.logout} />

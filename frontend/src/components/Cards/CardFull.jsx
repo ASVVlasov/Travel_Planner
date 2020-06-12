@@ -150,60 +150,60 @@ class CardFull extends Component {
    payersToRender = () => {
       const { card, changePayerStatus, getBudget, userId } = this.props
 
-      return card.payers.map((payer) => (
-         <div className={styles.travelers__person} key={payer._id}>
-            <div
-               className={styles.travelers__avatar}
-               title={payer.user.nickName}
-            >
-               {!payer.user.avatar && payer.user.nickName[0]}
-               {payer.user.avatar && (
-                  <img
-                     src={this.AVATAR_URL + payer.user.avatar}
-                     alt={payer.user.nickName}
-                  />
-               )}
+      return card.payers.map((payer) => {
+         const { user } = payer
+         return (
+            <div className={styles.travelers__person} key={payer._id}>
+               <div
+                  className={styles.travelers__avatar}
+                  title={this.getUserName(user)}
+               >
+                  {!user.avatar && this.getUserName(user, true)}
+                  {user.avatar && (
+                     <img
+                        src={this.AVATAR_URL + user.avatar}
+                        alt={this.getUserName(user)}
+                        title={this.getUserName(user)}
+                     />
+                  )}
+               </div>
+               <span
+                  className={classNames(
+                     styles.travelers__name,
+                     user._id === userId && styles.travelers__name_itsMe
+                  )}
+                  title={this.getUserName(user)}
+                  children={this.getUserName(user)}
+               />
+               <div
+                  className={styles.travelers__switch}
+                  children={
+                     <Switch
+                        checkedGreenColor={user._id === userId}
+                        checked={payer.isPayer}
+                        onChange={(e) => {
+                           this.changeMainPayer(e, payer)
+                           getBudget(card.travelId)
+                        }}
+                     />
+                  }
+               />
+               <div
+                  className={styles.travelers__switch}
+                  children={
+                     <Switch
+                        checkedGreenColor={user._id === userId}
+                        checked={payer.hasPayed}
+                        onChange={(e) => {
+                           changePayerStatus({ ...payer, hasPayed: e })
+                           getBudget(card.travelId)
+                        }}
+                     />
+                  }
+               />
             </div>
-            <span
-               className={classNames(
-                  styles.travelers__name,
-                  payer.user._id === userId && styles.travelers__name_itsMe
-               )}
-               title={payer.user.nickName}
-               children={
-                  !!payer.user.name || !!payer.user.surname
-                     ? payer.user.name + ' ' + payer.user.surname
-                     : payer.user.nickName
-               }
-            />
-            <div
-               className={styles.travelers__switch}
-               children={
-                  <Switch
-                     checkedGreenColor={payer.user._id === userId}
-                     checked={payer.isPayer}
-                     onChange={(e) => {
-                        this.changeMainPayer(e, payer)
-                        getBudget(card.travelId)
-                     }}
-                  />
-               }
-            />
-            <div
-               className={styles.travelers__switch}
-               children={
-                  <Switch
-                     checkedGreenColor={payer.user._id === userId}
-                     checked={payer.hasPayed}
-                     onChange={(e) => {
-                        changePayerStatus({ ...payer, hasPayed: e })
-                        getBudget(card.travelId)
-                     }}
-                  />
-               }
-            />
-         </div>
-      ))
+         )
+      })
    }
 
    setCostFormat = (number) => {
@@ -244,6 +244,18 @@ class CardFull extends Component {
          cost: this.props.card.cost,
          comment: this.props.card.comment,
       })
+   }
+
+   getUserName = (user, isAvatarName = false) => {
+      const { nickName, surname, name } = user
+      if (isAvatarName) {
+         return name
+            ? surname
+               ? `${name[0]}${surname[0]}`
+               : name[0]
+            : nickName[0]
+      }
+      return name || surname ? `${name} ${surname}`.trim() : nickName
    }
 
    render() {
