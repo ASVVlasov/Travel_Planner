@@ -51,20 +51,22 @@ router.put(
 router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
+      console.log('deleting travel')
       const { travelId } = req.params
       let travel = await TravelModel.findById(travelId)
       if (travel.status === travelStatuses.ARCHIVE) {
          res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
       } else {
-         travel.users.pull(req.user.id)
+         travel.users.pull(req.user._id)
          travel.save()
+         console.log(travel.users)
          if (!travel.users.length) {
             await CardModel.deleteCards(travelId)
             travel = await TravelModel.findByIdAndRemove(travelId)
          } else {
             await CardModel.removeUser(travelId, req.user.id)
          }
-         await UserModel.findByIdAndUpdate(req.user.id, { $pull: { travels: travelId } })
+         await UserModel.findByIdAndUpdate(req.user._id, { $pull: { travels: travelId } })
          res.json(travel)
       }
    })
