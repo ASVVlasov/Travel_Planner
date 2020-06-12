@@ -106,18 +106,25 @@ class UserPicker extends Component {
    )
 
    usersRender = (users, chosenUsers) =>
-      users.map((user) => {
-         return (
-            <div className={styles.user} key={user._id}>
-               {this.avatarRender(user, chosenUsers)}
-               <span
-                  className={styles.user__name}
-                  title={this.getUserName(user)}
-                  children={this.getUserName(user)}
-               />
-            </div>
-         )
-      })
+      users.length > 0 ? (
+         users.map((user) => {
+            return (
+               <div className={styles.user} key={user._id}>
+                  {this.avatarRender(user, chosenUsers)}
+                  <span
+                     className={styles.user__name}
+                     title={this.getUserName(user)}
+                     children={this.getUserName(user)}
+                  />
+               </div>
+            )
+         })
+      ) : (
+         <p className={styles.picker__notification}>
+            У вас пока нет контактов. <br /> Добавьте друзей в профиле,
+            <br /> чтобы потом добавить их в поездку.
+         </p>
+      )
 
    render() {
       const { type, onClose, position, contacts, users, payers } = this.props
@@ -127,14 +134,7 @@ class UserPicker extends Component {
       return (
          <ModalBase toClose={onClose}>
             <div className={styles.picker} style={position}>
-               {allUsers.length > 0 ? (
-                  this.usersRender(allUsers, chosenUsers)
-               ) : (
-                  <p className={styles.picker__notification}>
-                     У вас пока нет контактов. <br /> Добавьте друзей в профиле,
-                     <br /> чтобы потом добавить их в поездку.
-                  </p>
-               )}
+               {this.usersRender(allUsers, chosenUsers)}
             </div>
          </ModalBase>
       )
