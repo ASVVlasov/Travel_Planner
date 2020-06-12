@@ -16,6 +16,8 @@ export default class InputControl extends Component {
          'password',
       ]).isRequired,
       value: PropTypes.any.isRequired,
+      beginDate: PropTypes.any,
+      endDate: PropTypes.any,
       placeholder: PropTypes.string,
       label: PropTypes.string,
       hintLabel: PropTypes.string,
@@ -57,6 +59,9 @@ export default class InputControl extends Component {
                   onChange={this.onChange}
                   showTimeSelect={type === 'datetime'}
                   name={this.props.name}
+                  label={this.props.label}
+                  beginDate={this.props.beginDate}
+                  endDate={this.props.endDate}
                />
             )
          }

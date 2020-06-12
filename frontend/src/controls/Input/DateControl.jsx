@@ -15,6 +15,9 @@ export class DateControl extends Component {
       onChange: PropTypes.func.isRequired,
       showTimeSelect: PropTypes.bool.isRequired,
       name: PropTypes.string.isRequired,
+      label: PropTypes.string,
+      beginDate: PropTypes.any,
+      endDate: PropTypes.any,
    }
    state = {
       value: this.props.value,
@@ -50,6 +53,17 @@ export class DateControl extends Component {
          endDateTravel = Date.parse(this.props.travel.endDate)
       }
 
+      let cardBeginDate = null
+      let cardEndDate = null
+      if (this.props.label === 'Прибытие' && this.props.beginDate) {
+         cardBeginDate = Date.parse(this.props.beginDate)
+      } else if (
+         this.props.label === 'Отправление' &&
+         !this.props.beginDate &&
+         this.props.endDate
+      ) {
+         cardEndDate = Date.parse(this.props.endDate)
+      }
       return (
          <DatePicker
             className={styles.control__input}
@@ -64,9 +78,13 @@ export class DateControl extends Component {
             dateFormat={dateFormat}
             shouldCloseOnSelect={false}
             minDate={
-               startDateTravel < new Date() ? new Date() : startDateTravel
+               cardBeginDate
+                  ? cardBeginDate
+                  : startDateTravel < new Date()
+                  ? new Date()
+                  : startDateTravel
             }
-            maxDate={endDateTravel}
+            maxDate={cardEndDate ? cardEndDate : endDateTravel}
          />
       )
    }
