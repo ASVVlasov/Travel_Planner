@@ -21,13 +21,13 @@ router.post(
    asyncHandler(async (req, res) => {
       const travel = { ...req.body }
       if (travel.users.indexOf(req.user.id) === -1) {
-         travel.users.push(req.user)
+         travel.users.push(req.user._id)
       }
       const newTravel = new TravelModel(travel)
       await newTravel.save()
-      const update = { $push: { travels: newTravel.id } }
+      const update = { $push: { travels: newTravel._id } }
       for (const user of newTravel.users) {
-         await UserModel.findByIdAndUpdate(user.id, update)
+         await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
       res.json(newTravel)
    })
