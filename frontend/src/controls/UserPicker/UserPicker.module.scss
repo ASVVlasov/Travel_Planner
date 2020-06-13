@@ -9,7 +9,12 @@
    flex-wrap: wrap;
    border-radius: 10px;
    background-color: $color-background-light;
-   @include BaseShadow 
+   @include BaseShadow;
+   &__notification {
+      text-align: center;
+      margin: 5px;
+      @include Caption-1-Regular
+   }
 }
 
 .user {
