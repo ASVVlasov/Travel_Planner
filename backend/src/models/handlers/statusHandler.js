@@ -3,7 +3,7 @@ const travelStatuses = require('../types/enumTravelStatuses.js')
 function updateStatus(doc) {
    const today = new Date()
    today.setHours(0, 0, 0, 0)
-   if (doc.status != travelStatuses.ARCHIVE && Date.parse(doc.endDate) < today) {
+   if (doc.status !== travelStatuses.ARCHIVE && Date.parse(doc.endDate) < today) {
       doc.status = travelStatuses.ARCHIVE
       doc.save()
    }
