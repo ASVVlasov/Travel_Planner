@@ -41,9 +41,7 @@ router.put(
       if (travelStatusesValues.indexOf(travelModel.status) === -1) {
          delete travelModel.status
       }
-      // delete travelModel.cards
-      delete travelModel.users
-      res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))
+      res.json(await TravelModel.updateTravel(travelModel))
    })
 )
 

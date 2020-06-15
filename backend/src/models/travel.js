@@ -46,37 +46,46 @@ const travelSchema = new Schema({
    ],
 })
 
-travelSchema.post('findOne', errorHandler.ErrorTravelHandler)
-travelSchema.post('findOne', statusHandler)
-travelSchema.post('findOne', populateHandler.travelToClient)
-travelSchema.pre('findOneAndUpdate', async function (next) {
-   const updateBeginDate = new Date(this._update.beginDate)
-   const updateEndDate = new Date(this._update.endDate)
+travelSchema.statics.pushUser = async function (travelId, userId) {
+   const travel = await this.findById(travelId)
+   if (travel.users.find((u) => u.id === userId) || !userId) {
+      throw createError(
+         400,
+         'Такой участник здесь уже есть. Возможно кто-то добавил его до вас... или у нас двоится 👀 Обновите страницу, чтобы проверить.'
+      )
+   }
+   const update = { $push: { users: userId } }
+   return await this.findByIdAndUpdate(travelId, update, { new: true })
+}
+
+travelSchema.statics.updateTravel = async function (travelModel) {
+   const updateBeginDate = new Date(travelModel.beginDate)
+   const updateEndDate = new Date(travelModel.endDate)
    if (updateBeginDate > updateEndDate) {
-      next(
-         createError(
-            400,
-            'Дата начала не может быть больше даты окончания – жаль, но машину времени мы пока не разработали 🤖'
-         )
+      throw createError(
+         400,
+         'Дата начала не может быть больше даты окончания – жаль, но машину времени мы пока не разработали 🤖'
       )
    } else {
-      for (const cardModel of this._update.cards) {
+      for (const cardModel of travelModel.cards) {
          const card = await CardModel.findById(cardModel._id)
          if (
             (card.beginDate && new Date(card.beginDate) < updateBeginDate) ||
             (card.endDate && new Date(card.endDate) > updateEndDate)
          ) {
-            next(
-               createError(
-                  400,
-                  'Даты путешествия изменены успешно, рекомендуем проверить даты в карточках, чтобы точно ничего не перепутать 😥'
-               )
+            throw createError(
+               400,
+               'Даты путешествия изменены успешно, рекомендуем проверить даты в карточках, чтобы точно ничего не перепутать 😥'
             )
          }
       }
    }
-   next()
-})
+   return await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
+}
+
+travelSchema.post('findOne', errorHandler.ErrorTravelHandler)
+travelSchema.post('findOne', statusHandler)
+travelSchema.post('findOne', populateHandler.travelToClient)
 travelSchema.post('findOneAndUpdate', errorHandler.ErrorTravelHandler)
 travelSchema.post('findOneAndUpdate', statusHandler)
 travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
