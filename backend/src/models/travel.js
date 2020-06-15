@@ -26,6 +26,12 @@ const travelSchema = new Schema({
       enum: travelStatusesValues,
       description: 'Статус поездки',
    },
+   owner: {
+      type: mongoose.ObjectId,
+      description: 'ID создателя поездки',
+      required: true,
+      ref: 'User',
+   },
    users: [
       {
          type: mongoose.ObjectId,
