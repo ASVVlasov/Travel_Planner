@@ -31,6 +31,7 @@ router.put(
       user._id = req.user._id
       delete user.contacts
       delete user.travels
+      delete user.email
       const updatedUser = JSON.parse(
          JSON.stringify(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
       )
