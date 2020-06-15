@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const EnumCardTypes = require('./types/enumCardTypes.js')
 const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
-const createError = require('http-errors')
+const Errors = require('./types/errors')
 const cardTypes = Object.values(EnumCardTypes)
 const FileModel = require('./file.js')
 const TravelModel = require('./travel.js')
@@ -91,7 +91,7 @@ const cardSchema = new Schema({
 cardSchema.statics.getCardsByCardType = async function (type, travelId) {
    type = EnumCardTypes[type]
    if (!type) {
-      throw createError(400, 'cardType required')
+      throw Errors.cardError.notFoundError
    }
    const cards = await this.find({ type, travelId })
    // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
@@ -136,6 +136,21 @@ cardSchema.statics.deleteCards = async function (travelId) {
       await this.findOneAndRemove({ _id: card.id })
    }
 }
+cardSchema.statics.pushUser = async function (cardId, userId) {
+   const card = await this.findById(cardId)
+   if (card.payers.find((p) => p.user === userId)) {
+      throw Errors.userError.duplicateUser
+   }
+   let newPayer = new PayerModel({
+      user: userId,
+      cardId: cardId,
+      isPayer: false,
+      hasPayed: false,
+   })
+   await newPayer.save()
+   let update = { $push: { payers: newPayer._id } }
+   return await this.findByIdAndUpdate(cardId, update, { new: true })
+}
 cardSchema.statics.removeUser = async function (travelId, userId) {
    const cards = await this.find({ travelId })
    for (const card of cards) {
@@ -163,10 +178,10 @@ cardSchema.post('findOneAndRemove', async function (doc, next) {
    await FileModel.deleteFiles(doc.files)
    next()
 })
-cardSchema.post('findOneAndUpdate', ErrorHandler.ErrorHandler)
+cardSchema.post('findOneAndUpdate', ErrorHandler.ErrorCardHandler)
 cardSchema.post('findOneAndUpdate', PopulateHandler.cardToClient)
 cardSchema.post('findOne', PopulateHandler.cardToClient)
-cardSchema.post('save', ErrorHandler.ErrorHandler)
+cardSchema.post('save', ErrorHandler.ErrorCardHandler)
 cardSchema.post('save', PopulateHandler.cardToClient)
 
 module.exports = mongoose.model('Card', cardSchema)

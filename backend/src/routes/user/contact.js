@@ -19,11 +19,11 @@ router.post(
       const user = await UserModel.findOne({ email })
       if (user) {
          if (req.user.contacts.find((c) => c.id === user.id)) {
-            throw createError(400, 'Такой пользователь уже есть в контактах')
+            throw createError(400, 'Такой пользователь уже есть в контактах', { type: 'error' })
          }
          res.json(user)
       } else {
-         throw createError(404, 'Пользователь не найден')
+         throw createError(400, 'Пользователь не найден', { type: 'error' })
       }
    })
 )

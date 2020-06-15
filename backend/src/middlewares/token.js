@@ -1,11 +1,15 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const Errors = require('../models/types/errors')
 
 const save = async (req, res) => {
    const { email, password } = req.body
    const user = await User.findOne({
       email,
    })
+   if (!user) {
+      throw Errors.authError.emailNotFoundError
+   }
    if (user && user.comparePassword(password)) {
       const plainUser = JSON.parse(JSON.stringify(user))
       delete plainUser.password

@@ -7,15 +7,7 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      let newPayer = new PayerModel({
-         user: userId,
-         cardId: cardId,
-         isPayer: false,
-         hasPayed: false,
-      })
-      await newPayer.save()
-      let update = { $push: { payers: newPayer._id } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
+      res.json(await CardModel.pushUser(cardId, userId))
    })
 )
 router.delete(

@@ -1,6 +1,7 @@
 const passport = require('passport')
 const Strategy = require('passport-local').Strategy
 const UserModel = require('../models/user')
+const Errors = require('../models/types/errors')
 
 passport.use(
    new Strategy(
@@ -10,8 +11,11 @@ passport.use(
       },
       async (email, password, done) => {
          const user = await UserModel.findOne({ email })
+         if (!user) {
+            return done(Errors.authError.emailNotFoundError, false)
+         }
          if (!user || !user.comparePassword(password)) {
-            return done(null, false) // error, not auth
+            return done(Errors.authError.passwordWrongError, false) // error, not auth
          }
          const plainUser = JSON.parse(JSON.stringify(user))
          delete plainUser.password

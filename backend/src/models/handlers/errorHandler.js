@@ -3,7 +3,7 @@ const Errors = require('../types/errors')
 
 const ErrorHandler = function (error, doc, next) {
    if (error) {
-      next(createError(error.status, error.message))
+      next(createError(error.status, error.message, { type: error.type }))
    } else {
       next()
    }
@@ -13,12 +13,7 @@ const ErrorTravelHandler = function (error, doc, next) {
       if (error.name === 'CastError') {
          switch (error.path) {
             case '_id': {
-               next(createError(404, Errors.travelError.notFound))
-               break
-            }
-            case 'beginDate':
-            case 'endDate': {
-               next(createError(400, Errors.travelError.dateError + ` {${error.path}}`))
+               next(Errors.travelError.notFoundError)
                break
             }
          }
@@ -29,4 +24,20 @@ const ErrorTravelHandler = function (error, doc, next) {
    }
 }
 
-module.exports = { ErrorHandler, ErrorTravelHandler }
+const ErrorCardHandler = function (error, doc, next) {
+   if (error) {
+      if (error.name === 'CastError') {
+         switch (error.path) {
+            case '_id': {
+               next(Errors.cardError.notFoundError)
+               break
+            }
+         }
+      }
+      ErrorHandler(error, doc, next)
+   } else {
+      next()
+   }
+}
+
+module.exports = { ErrorHandler, ErrorTravelHandler, ErrorCardHandler }
