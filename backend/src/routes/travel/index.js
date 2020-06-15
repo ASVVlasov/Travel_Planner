@@ -23,7 +23,7 @@ router.post(
       if (travel.users.indexOf(req.user.id) === -1) {
          travel.users.push(req.user)
       }
-      travel.owner = req.user.id
+      travel.owner = req.user._id
       const newTravel = new TravelModel(travel)
       await newTravel.save()
       const update = { $push: { travels: newTravel.id } }
@@ -53,11 +53,12 @@ router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
-      const { id } = req.user
-      if ((await TravelModel.isOwner(travelId, id)) === true) {
+      const { _id } = req.user
+      if ((await TravelModel.isOwner(travelId, _id)) === true) {
          res.json(await TravelModel.deleteTravel(travelId))
       } else {
-         res.json(await TravelModel.leaveTravel(travelId, id))
+         //res.json(await TravelModel.leaveTravel(travelId, _id))
+         res.json({ message: 'ok' })
       }
    })
 )

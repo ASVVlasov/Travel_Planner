@@ -53,7 +53,7 @@ const travelSchema = new Schema({
 })
 
 travelSchema.statics.isOwner = async function (travelId, userId) {
-   return (await this.findById(travelId)).owner === userId
+   return (await this.findById(travelId)).owner.toString() === userId
 }
 travelSchema.statics.leaveTravel = async function (travelId, userId) {
    let travel = await this.findById(travelId)
@@ -68,8 +68,12 @@ travelSchema.statics.leaveTravel = async function (travelId, userId) {
    }
 }
 travelSchema.statics.deleteTravel = async function (travelId) {
+   let travel = await this.findById(travelId)
+   for (const user of travel.users) {
+      await UserModel.findByIdAndUpdate(user._id, { $pull: { travels: travelId } })
+   }
    await CardModel.deleteCards(travelId)
-   res.json(await this.findByIdAndRemove(travelId))
+   return await this.findByIdAndRemove(travelId)
 }
 
 travelSchema.post('findOne', statusHandler)
