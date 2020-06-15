@@ -95,6 +95,8 @@ export default class CardForm extends Component {
                      type="datetime"
                      name="beginDate"
                      value={beginDate}
+                     beginDate={beginDate}
+                     endDate={endDate}
                      styles={styles.input_beginDate}
                      onChange={this.handleChange}
                   />
@@ -117,6 +119,7 @@ export default class CardForm extends Component {
                            type="datetime"
                            name="endDate"
                            styles={styles.input_endDate}
+                           beginDate={beginDate}
                            value={endDate}
                            onChange={this.handleChange}
                         />

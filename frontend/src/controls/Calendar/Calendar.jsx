@@ -32,8 +32,8 @@ export class Calendar extends React.Component {
    setDateCalendar = (startDate, endDate) => {
       const travel = { ...this.props.travel }
 
-      let convertedBeginDate = startDate ? startDate.toISOString() : startDate
-      let convertedEndDate = endDate ? endDate.toISOString() : endDate
+      const convertedBeginDate = startDate ? startDate.toISOString() : startDate
+      const convertedEndDate = endDate ? endDate.toISOString() : endDate
 
       travel.beginDate = convertedBeginDate
       travel.endDate = convertedEndDate
@@ -42,24 +42,26 @@ export class Calendar extends React.Component {
    }
 
    render() {
-      let stringBeginDate = this.props.travel.beginDate
-      let stringEndDate = this.props.travel.endDate
+      const stringBeginDate = this.props.travel.beginDate
+      const stringEndDate = this.props.travel.endDate
 
-      let convertedBeginDate = stringBeginDate
+      const convertedBeginDate = stringBeginDate
          ? moment(stringBeginDate)
          : stringBeginDate
 
-      let convertedEndDate = stringEndDate
+      const convertedEndDate = stringEndDate
          ? moment(stringEndDate)
          : stringEndDate
 
       let amountOfDays = 0
-      for (
-         let i = convertedBeginDate;
-         i <= convertedEndDate;
-         i = i + 24 * 60 * 60 * 1000
-      ) {
-         amountOfDays++
+      if (convertedBeginDate && convertedEndDate) {
+         for (
+            let i = convertedBeginDate;
+            i <= convertedEndDate;
+            i = i + 24 * 60 * 60 * 1000
+         ) {
+            amountOfDays++
+         }
       }
 
       return (
