@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const travelStatuses = require('./types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
+const CardModel = require('./card')
+const UserModel = require('./user')
 const errorHandler = require('./handlers/errorHandler')
 const statusHandler = require('./handlers/statusHandler')
 const populateHandler = require('./handlers/populateHandler')
@@ -49,6 +51,27 @@ const travelSchema = new Schema({
       },
    ],
 })
+
+travelSchema.statics.isOwner = async function (travelId, userId) {
+   return (await this.findById(travelId)).owner === userId
+}
+travelSchema.statics.leaveTravel = async function (travelId, userId) {
+   let travel = await this.findById(travelId)
+   if (travel.status === travelStatuses.ARCHIVE) {
+      res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
+   } else {
+      travel.users.pull(userId)
+      travel.save()
+      await CardModel.removeUser(travelId, userId)
+      await UserModel.findByIdAndUpdate(userId, { $pull: { travels: travelId } })
+      res.json(travel)
+   }
+}
+travelSchema.statics.deleteTravel = async function (travelId) {
+   await CardModel.deleteCards(travelId)
+   res.json(await this.findByIdAndRemove(travelId))
+}
+
 travelSchema.post('findOne', statusHandler)
 travelSchema.post('findOne', populateHandler.travelToClient)
 travelSchema.post('findOneAndUpdate', statusHandler)
