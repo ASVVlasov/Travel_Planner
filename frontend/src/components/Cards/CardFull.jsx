@@ -208,8 +208,11 @@ class CardFull extends Component {
 
    setCostFormat = (number) => {
       if (number) {
+         number = number.toString()
+         if (number.length > 1 && number.charAt(0) === '0') {
+            number = number.slice(1)
+         }
          return number
-            .toString()
             .split(' ')
             .join('')
             .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
