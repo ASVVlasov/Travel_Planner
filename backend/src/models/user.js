@@ -76,11 +76,11 @@ userSchema.pre('save', function (next) {
    next()
 })
 
-userSchema.post('findOne', ErrorHandler)
+userSchema.post('findOne', ErrorHandler.ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
-userSchema.post('findOneAndUpdate', ErrorHandler)
+userSchema.post('findOneAndUpdate', ErrorHandler.ErrorHandler)
 userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
-userSchema.post('save', ErrorHandler)
+userSchema.post('save', ErrorHandler.ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
 
 userSchema.plugin(UniqueValidator)
