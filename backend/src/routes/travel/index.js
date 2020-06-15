@@ -57,8 +57,7 @@ router.delete(
       if ((await TravelModel.isOwner(travelId, _id)) === true) {
          res.json(await TravelModel.deleteTravel(travelId))
       } else {
-         //res.json(await TravelModel.leaveTravel(travelId, _id))
-         res.json({ message: 'ok' })
+         res.json(await TravelModel.leaveTravel(travelId, _id))
       }
    })
 )

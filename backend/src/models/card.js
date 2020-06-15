@@ -5,8 +5,7 @@ const PopulateHandler = require('./handlers/populateHandler')
 const ErrorHandler = require('./handlers/errorHandler')
 const createError = require('http-errors')
 const cardTypes = Object.values(EnumCardTypes)
-const FileModel = require('./file.js')
-const TravelModel = require('./travel.js')
+const FileModel = require('./file')
 const PayerModel = require('./payer')
 
 const cardSchema = new Schema({
@@ -138,18 +137,21 @@ cardSchema.statics.deleteCards = async function (travelId) {
 }
 cardSchema.statics.removeUser = async function (travelId, userId) {
    const cards = await this.find({ travelId })
+   const cardIds = []
    for (const card of cards) {
       if (card.payers.length === 1 && card.payers[0].user.id == userId) {
+         cardIds.push(card._id)
          await this.findByIdAndRemove(card._id)
-         let update = { $pull: { cards: card._id } }
-         await TravelModel.findByIdAndUpdate(travelId, update)
       } else {
-         let payerId = (await PayerModel.findOne({ cardId: card._id, user: userId })).id
-         const update = { $pull: { payers: payerId } }
-         await this.findByIdAndUpdate(card._id, update, { new: true })
+         let payer = await PayerModel.findOne({ cardId: card._id, user: userId })
+         if (!!payer) {
+            const update = { $pull: { payers: payer.id } }
+            await this.findByIdAndUpdate(card._id, update, { new: true })
+            cardIds.push(card._id)
+         }
       }
    }
-   await PayerModel.deletePayerCards(userId, cards)
+   await PayerModel.deletePayerCards(userId, cardIds)
 }
 // Hooks
 cardSchema.post('find', async function (docs, next) {
