@@ -6,15 +6,6 @@ const avatarRouter = require('./avatar')
 
 router.use('/contact', contactRouter)
 router.use('/avatar', avatarRouter)
-// Эммигрировал в auth/signup.js
-// router.post(
-//    '/',
-//    asyncHandler(async (req, res) => {
-//       let newUser = await UserModel.create(req.body)
-//       res.json(newUser)
-//    })
-// )
-
 router.get(
    '/',
    asyncHandler(async (req, res) => {

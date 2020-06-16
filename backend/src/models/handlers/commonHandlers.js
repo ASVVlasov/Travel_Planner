@@ -2,7 +2,7 @@ const createError = require('http-errors')
 const Errors = require('../types/errors')
 
 const compareDates = function (prevDate, nextDate) {
-   if (!prevDate || nextDate) {
+   if (!prevDate || !nextDate) {
       return false
    }
    let prev, next

@@ -8,16 +8,19 @@ const ErrorHandler = function (error, doc, next) {
       next()
    }
 }
-const ErrorTravelHandler = function (error, doc, next) {
-   if (error) {
-      if (error.name === 'CastError') {
-         switch (error.path) {
-            case '_id': {
-               next(Errors.travelError.notFoundError)
-               break
-            }
+const ErrorByModel = function (error, message) {
+   if (error.name === 'CastError') {
+      switch (error.path) {
+         case '_id': {
+            next(message.notFoundError)
+            break
          }
       }
+   }
+}
+const ErrorTravelHandler = function (error, doc, next) {
+   if (error) {
+      ErrorByModel(Errors.travelError)
       ErrorHandler(error, doc, next)
    } else {
       next()
@@ -26,14 +29,7 @@ const ErrorTravelHandler = function (error, doc, next) {
 
 const ErrorCardHandler = function (error, doc, next) {
    if (error) {
-      if (error.name === 'CastError') {
-         switch (error.path) {
-            case '_id': {
-               next(Errors.cardError.notFoundError)
-               break
-            }
-         }
-      }
+      ErrorByModel(Errors.cardError)
       ErrorHandler(error, doc, next)
    } else {
       next()

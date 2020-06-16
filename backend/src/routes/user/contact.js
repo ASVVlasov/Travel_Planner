@@ -2,6 +2,7 @@ const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
 const UserModel = require('../../models/user')
 const createError = require('http-errors')
+const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
@@ -19,11 +20,11 @@ router.post(
       const user = await UserModel.findOne({ email })
       if (user) {
          if (req.user.contacts.find((c) => c.id === user.id)) {
-            throw createError(400, 'Такой пользователь уже есть в контактах', { type: 'error' })
+            throw Errors.userError.duplicateUser
          }
          res.json(user)
       } else {
-         throw createError(400, 'Пользователь не найден', { type: 'error' })
+         throw Errors.userError.notFoundError
       }
    })
 )

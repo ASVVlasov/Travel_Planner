@@ -14,7 +14,7 @@ passport.use(
          if (!user) {
             return done(Errors.authError.emailNotFoundError, false)
          }
-         if (!user || !user.comparePassword(password)) {
+         if (!user.comparePassword(password)) {
             return done(Errors.authError.passwordWrongError, false) // error, not auth
          }
          const plainUser = JSON.parse(JSON.stringify(user))

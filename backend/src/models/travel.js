@@ -73,6 +73,8 @@ travelSchema.statics.updateTravel = async function (travelModel) {
       //    }
       // }
    }
+   delete travelModel.cards
+   delete travelModel.users
    return await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
 }
 
