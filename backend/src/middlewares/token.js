@@ -17,6 +17,8 @@ const save = async (req, res) => {
       res.cookie('token', tokenValue, {
          maxAge: 30 * 24 * 3600 * 1000,
       })
+   } else {
+      throw Errors.authError.passwordWrongError
    }
 }
 
