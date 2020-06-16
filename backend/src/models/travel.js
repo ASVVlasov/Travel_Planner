@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const travelStatuses = require('./types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
-const errorHandler = require('./handlers/errorHandler')
-const statusHandler = require('./handlers/statusHandler')
-const populateHandler = require('./handlers/populateHandler')
+const ErrorHandler = require('./handlers/errorHandler')
+const StatusHandler = require('./handlers/statusHandler')
+const PopulateHandler = require('./handlers/populateHandler')
 
 const travelSchema = new Schema({
    title: {
@@ -43,13 +43,14 @@ const travelSchema = new Schema({
       },
    ],
 })
-travelSchema.post('findOne', statusHandler)
-travelSchema.post('findOne', populateHandler.travelToClient)
-travelSchema.post('findOneAndUpdate', statusHandler)
-travelSchema.post('findOneAndUpdate', errorHandler)
-travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
-travelSchema.post('save', statusHandler)
-travelSchema.post('save', errorHandler)
-travelSchema.post('save', populateHandler.travelToClient)
+
+travelSchema.post('findOne', PopulateHandler.travelToClient)
+travelSchema.post('findOne', StatusHandler.handleTravel)
+travelSchema.post('findOneAndUpdate', ErrorHandler)
+travelSchema.post('findOneAndUpdate', PopulateHandler.travelToClient)
+travelSchema.post('findOneAndUpdate', StatusHandler.handleTravel)
+travelSchema.post('save', ErrorHandler)
+travelSchema.post('save', PopulateHandler.travelToClient)
+travelSchema.post('save', StatusHandler.handleTravel)
 
 module.exports = mongoose.model('Travel', travelSchema)

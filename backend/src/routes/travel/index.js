@@ -21,13 +21,13 @@ router.post(
    asyncHandler(async (req, res) => {
       const travel = { ...req.body }
       if (travel.users.indexOf(req.user.id) === -1) {
-         travel.users.push(req.user)
+         travel.users.push(req.user._id)
       }
       const newTravel = new TravelModel(travel)
       await newTravel.save()
-      const update = { $push: { travels: newTravel.id } }
+      const update = { $push: { travels: newTravel._id } }
       for (const user of newTravel.users) {
-         await UserModel.findByIdAndUpdate(user.id, update)
+         await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
       res.json(newTravel)
    })
@@ -56,7 +56,7 @@ router.delete(
       if (travel.status === travelStatuses.ARCHIVE) {
          res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
       } else {
-         travel.users.pull(req.user.id)
+         travel.users.pull(req.user._id)
          travel.save()
          if (!travel.users.length) {
             await CardModel.deleteCards(travelId)
@@ -64,7 +64,7 @@ router.delete(
          } else {
             await CardModel.removeUser(travelId, req.user.id)
          }
-         await UserModel.findByIdAndUpdate(req.user.id, { $pull: { travels: travelId } })
+         await UserModel.findByIdAndUpdate(req.user._id, { $pull: { travels: travelId } })
          res.json(travel)
       }
    })
