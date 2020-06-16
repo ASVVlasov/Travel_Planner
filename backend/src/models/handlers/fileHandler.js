@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
 const fs = require('fs')
 const { promisify } = require('util')
-const createError = require('http-errors')
+const Errors = require('../types/errors')
 
 AWS.config.update({
    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -28,7 +28,7 @@ const fileHandler = {
       return new Promise((resolve, reject) => {
          s3.putObject(putParams, async (err, data) => {
             if (err) {
-               throw createError(500, err)
+               throw Errors.fileError.addFileError
             } else {
                await unlinkFile(file.path)
                resolve(true)
@@ -45,7 +45,7 @@ const fileHandler = {
       return new Promise((resolve, reject) => {
          s3.getObject(getParams, function (err, data) {
             if (err) {
-               throw createError(500, err)
+               throw Errors.fileError.getFileError
             } else {
                resolve(data)
             }
@@ -60,7 +60,7 @@ const fileHandler = {
       return new Promise((resolve, reject) => {
          s3.deleteObject(getParams, function (err, data) {
             if (err) {
-               throw createError(500, err)
+               throw Errors.fileError.deleteFileError
             } else {
                resolve(true)
             }

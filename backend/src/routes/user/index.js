@@ -6,15 +6,6 @@ const avatarRouter = require('./avatar')
 
 router.use('/contact', contactRouter)
 router.use('/avatar', avatarRouter)
-// Эммигрировал в auth/signup.js
-// router.post(
-//    '/',
-//    asyncHandler(async (req, res) => {
-//       let newUser = await UserModel.create(req.body)
-//       res.json(newUser)
-//    })
-// )
-
 router.get(
    '/',
    asyncHandler(async (req, res) => {
@@ -31,6 +22,7 @@ router.put(
       user._id = req.user._id
       delete user.contacts
       delete user.travels
+      delete user.email
       const updatedUser = JSON.parse(
          JSON.stringify(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
       )
