@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const travelStatuses = require('./types/enumTravelStatuses.js')
 const travelStatusesValues = Object.values(travelStatuses)
 const errorHandler = require('./handlers/errorHandler')
-const statusHandler = require('./handlers/statusHandler')
+const StatusHandler = require('./handlers/statusHandler')
 const populateHandler = require('./handlers/populateHandler')
 const commonHandlers = require('./handlers/commonHandlers')
 const Errors = require('./types/errors')
@@ -79,10 +79,8 @@ travelSchema.statics.updateTravel = async function (travelModel) {
 }
 
 travelSchema.post('findOne', errorHandler.ErrorTravelHandler)
-travelSchema.post('findOne', statusHandler)
 travelSchema.post('findOne', populateHandler.travelToClient)
 travelSchema.post('findOneAndUpdate', errorHandler.ErrorTravelHandler)
-travelSchema.post('findOneAndUpdate', statusHandler)
 travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
 travelSchema.pre('save', function (next) {
    if (commonHandlers.compareDates(this.endDate, this.beginDate)) {
@@ -91,8 +89,10 @@ travelSchema.pre('save', function (next) {
       next()
    }
 })
-travelSchema.post('save', statusHandler)
 travelSchema.post('save', errorHandler.ErrorTravelHandler)
 travelSchema.post('save', populateHandler.travelToClient)
+travelSchema.post('findOne', StatusHandler.handleTravel)
+travelSchema.post('findOneAndUpdate', StatusHandler.handleTravel)
+travelSchema.post('save', StatusHandler.handleTravel)
 
 module.exports = mongoose.model('Travel', travelSchema)
