@@ -54,10 +54,11 @@ router.delete(
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
       const { _id } = req.user
-      if ((await TravelModel.isOwner(travelId, _id)) === true) {
-         res.json(await TravelModel.deleteTravel(travelId))
+      let travel = await TravelModel.findById(travelId)
+      if (await TravelModel.isOwner(travel, _id)) {
+         res.json(await TravelModel.deleteTravel(travel))
       } else {
-         res.json(await TravelModel.leaveTravel(travelId, _id))
+         res.json(await TravelModel.leaveTravel(travel, _id))
       }
    })
 )

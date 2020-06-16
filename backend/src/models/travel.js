@@ -52,12 +52,11 @@ const travelSchema = new Schema({
    ],
 })
 
-travelSchema.statics.isOwner = async function (travelId, userId) {
-   return (await this.findById(travelId)).owner.toString() === userId
+travelSchema.statics.isOwner = async function (travel, userId) {
+   return travel.owner.toString() === userId
 }
 
-travelSchema.statics.leaveTravel = async function (travelId, userId) {
-   let travel = await this.findById(travelId)
+travelSchema.statics.leaveTravel = async function (travel, userId) {
    if (travel.status === travelStatuses.ARCHIVE) {
       return { message: 'Поездка прошла, поэтому вы не можете ее покинуть.' }
    } else {
@@ -69,8 +68,7 @@ travelSchema.statics.leaveTravel = async function (travelId, userId) {
       return travel
    }
 }
-travelSchema.statics.deleteTravel = async function (travelId) {
-   let travel = await this.findById(travelId)
+travelSchema.statics.deleteTravel = async function (travel) {
    for (const user of travel.users) {
       await UserModel.findByIdAndUpdate(user._id, { $pull: { travels: travelId } })
    }
