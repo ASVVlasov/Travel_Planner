@@ -1,5 +1,6 @@
-import { isLoading, hadError } from '../fetch/actions'
+import { hadError } from '../fetch/actions'
 import { authError } from '../auth/actions'
+import { push } from 'connected-react-router'
 
 export const fetchRequest = {
    get: (url, actions) => fetchData(url, actions),
@@ -18,9 +19,11 @@ export const fetchRequest = {
 }
 
 const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
-   dispatch(isLoading())
+   const [loadingAction, successAction, errorAction] = actions
 
-   const [successAction, errorAction] = actions
+   if (loadingAction) {
+      dispatch(loadingAction())
+   }
 
    try {
       const res = await fetch(url, {
@@ -33,9 +36,11 @@ const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
       if (!res.ok) {
          if (res.status === 401 || res.status === 403) {
             dispatch(authError())
+         } else if (res.status === 404) {
+            dispatch(push('/404'))
          } else {
             const error = await res.json()
-            throw new Error(error.message)
+            throw error
          }
       }
       const data = await res.json()
