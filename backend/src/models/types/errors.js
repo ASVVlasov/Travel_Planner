@@ -64,11 +64,6 @@ const fileError = {
    ),
 }
 
-const feedbackError = {
-   notFoundError: createError(404, 'Комментарий не найден', { type: ErrorType.ERROR }),
-   isEmptyError: createError(400, 'Вы забыли написать комментарий', { type: ErrorType.WARNING }),
-}
-
 const commonError = createError(
    500,
    'Похоже, возникли проблемы со связью.\n' +
@@ -83,5 +78,4 @@ module.exports = {
    commonError,
    userError,
    fileError,
-   feedbackError,
 }
