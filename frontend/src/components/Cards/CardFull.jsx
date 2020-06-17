@@ -95,8 +95,19 @@ class CardFull extends Component {
       deleteFile({ fileId, cardId: card._id })
    }
 
-   handleChange = (event) => {
-      this.setState({ [event.target.name]: event.target.value })
+   handleChange = (event, isNumber) => {
+      let value = event.target.value
+
+      const re = new RegExp(/^\d+( \d+)*$/)
+      const lastCharacter = value.charAt(value.length - 1)
+      const oldValue = this.state.cost
+      value = isNumber
+         ? re.test(value) || lastCharacter === ''
+            ? value
+            : oldValue
+         : value
+
+      this.setState({ [event.target.name]: value })
    }
 
    updateCard = (changedArea, newValue) => {
@@ -494,8 +505,12 @@ class CardFull extends Component {
                            type="text"
                            value={this.setCostFormat(this.state.cost)}
                            ref={this.costInput}
-                           onChange={this.handleChange}
-                           onKeyDown={this.handleChange}
+                           onChange={(event) => {
+                              this.handleChange(event, true)
+                           }}
+                           onKeyDown={(event) => {
+                              this.handleChange(event, true)
+                           }}
                            onBlur={(e) => {
                               this.updateCard(
                                  e.target.name,
