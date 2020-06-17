@@ -24,7 +24,7 @@ router.post(
          travel.users.push(req.user)
       }
       travel.owner = req.user._id
-      const newTravel = new TravelModel(travel)
+      const newTravel = await TravelModel.create(travel)
       const update = { $push: { travels: newTravel.id } }
       for (const user of newTravel.users) {
          await UserModel.findByIdAndUpdate(user.id, update)
