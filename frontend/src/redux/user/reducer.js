@@ -9,18 +9,14 @@ import {
    CLEAR_CONTACTS_SEARCH,
    FETCH_LOADING,
    FETCH_ERROR,
-   REGISTRATION_ERROR,
    LOGIN_SUCCESS,
-   LOGIN_ERROR,
    LOGOUT_SUCCESS,
    LOGOUT_ERROR,
    UNAUTHORIZED,
 } from '../types'
 
 const initialState = {
-   regError: '',
    auth: false,
-   authError: '',
    user: {},
    newContacts: [],
    reqError: '',
@@ -88,8 +84,6 @@ export default function userReducer(state = initialState, action) {
       case FETCH_LOADING: {
          return {
             ...state,
-            regError: '',
-            authError: '',
             reqError: '',
          }
       }
@@ -99,8 +93,7 @@ export default function userReducer(state = initialState, action) {
             reqError: action.payload.message,
          }
       }
-      case REGISTRATION_ERROR:
-      case LOGIN_ERROR:
+
       case LOGIN_SUCCESS:
       case LOGOUT_SUCCESS:
       case LOGOUT_ERROR:
