@@ -3,6 +3,7 @@ const CardSwagger = require('./card.swagger.js')
 const TravelSwagger = require('./travel.swagger.js')
 const UserSwagger = require('./user.swagger.js')
 const AuthSwagger = require('./auth.swagger.js')
+const FeedbackSwagger = require('./feedback.swagger.js')
 
 /* Add-ons */
 const authParams = {
@@ -58,6 +59,10 @@ const swaggerDocument = {
       {
          name: 'auth',
          description: 'Authorization operations',
+      },
+      {
+         name: 'feedback',
+         description: 'Feedback operations',
       },
    ],
    paths: {
@@ -118,6 +123,9 @@ const swaggerDocument = {
       },
       '/logout': {
          get: AuthSwagger.logoutUser,
+      },
+      '/feedback': {
+         post: FeedbackSwagger.createFeedback,
       },
    },
    components: {
