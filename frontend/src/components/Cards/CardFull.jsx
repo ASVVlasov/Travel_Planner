@@ -19,6 +19,7 @@ import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
 import UserPicker from '../../controls/UserPicker/UserPicker'
+import Confirm from '../../controls/Confirm/Confirm'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -41,6 +42,7 @@ class CardFull extends Component {
       cost: 0,
       isCardFormOpen: false,
       isUserPickerOpen: false,
+      isModalConfirmOpen: false,
       userPickerPosition: {},
    }
 
@@ -510,10 +512,7 @@ class CardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           if (window.confirm('Вы подтверждаете удаление?')) {
-                              deleteCard(_id)
-                           }
-                           toClose()
+                           this.openForm('ModalConfirm')
                         }}
                         text="Удалить карточку"
                         type="delete"
@@ -537,6 +536,13 @@ class CardFull extends Component {
                   payers={payers}
                   cardId={card._id}
                   type={'card'}
+               />
+            )}
+            {this.state.isModalConfirmOpen && (
+               <Confirm
+                  onClose={() => this.closeForm('ModalConfirm')}
+                  act={() => deleteCard(_id)}
+                  type="deleteCard"
                />
             )}
          </ModalBase>
