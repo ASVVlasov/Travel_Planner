@@ -57,6 +57,7 @@ travelSchema.statics.isOwner = async function (travel, userId) {
 }
 
 travelSchema.statics.leaveTravel = async function (travel, userId) {
+   const travelId = travel._id
    if (travel.status === travelStatuses.ARCHIVE) {
       return { message: 'Поездка прошла, поэтому вы не можете ее покинуть.' }
    } else {
@@ -69,6 +70,7 @@ travelSchema.statics.leaveTravel = async function (travel, userId) {
    }
 }
 travelSchema.statics.deleteTravel = async function (travel) {
+   const travelId = travel._id
    for (const user of travel.users) {
       await UserModel.findByIdAndUpdate(user._id, { $pull: { travels: travelId } })
    }
