@@ -10,6 +10,10 @@ const feedbackSchema = new Schema({
       description: 'Пользователь, оставивший комментарий',
       ref: 'User',
    },
+   date: {
+      type: Date,
+      description: 'Дата комментария',
+   },
    comment: {
       type: String,
       required: true,
@@ -18,14 +22,7 @@ const feedbackSchema = new Schema({
 })
 
 feedbackSchema.pre('save', function (next) {
-   if (this.comment === '') {
-      next(Errors.feedbackError.isEmptyError)
-   } else {
-      next()
-   }
+   this.date = new Date()
 })
-
-feedbackSchema.post('findOne', ErrorHandler.ErrorFeedbackHandler)
-feedbackSchema.post('save', ErrorHandler.ErrorFeedbackHandler)
 
 module.exports = mongoose.model('Feedback', feedbackSchema)
