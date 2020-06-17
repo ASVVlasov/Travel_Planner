@@ -25,7 +25,7 @@ feedbackSchema.pre('save', function (next) {
    }
 })
 
-feedbackSchema.post('findOne', ErrorHandler.ErrorHandler)
-feedbackSchema.post('save', ErrorHandler.ErrorHandler)
+feedbackSchema.post('findOne', ErrorHandler.ErrorFeedbackHandler)
+feedbackSchema.post('save', ErrorHandler.ErrorFeedbackHandler)
 
 module.exports = mongoose.model('Feedback', feedbackSchema)
