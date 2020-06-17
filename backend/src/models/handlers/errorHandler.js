@@ -36,4 +36,13 @@ const ErrorCardHandler = function (error, doc, next) {
    }
 }
 
-module.exports = { ErrorHandler, ErrorTravelHandler, ErrorCardHandler }
+const ErrorFeedbackHandler = function (error, doc, next) {
+   if (error) {
+      ErrorByModel(Errors.feedbackError)
+      ErrorHandler(error, doc, next)
+   } else {
+      next()
+   }
+}
+
+module.exports = { ErrorHandler, ErrorTravelHandler, ErrorCardHandler, ErrorFeedbackHandler }
