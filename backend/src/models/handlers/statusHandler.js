@@ -19,7 +19,7 @@ const StatusHandler = {
    },
    handleUser: async function (doc, next) {
       if (doc) {
-         for (const travel of doc.travels.length) {
+         for (const travel of doc.travels) {
             updateStatus(travel)
          }
       }
