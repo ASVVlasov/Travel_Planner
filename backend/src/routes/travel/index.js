@@ -21,13 +21,13 @@ router.post(
    asyncHandler(async (req, res) => {
       const travel = { ...req.body }
       if (travel.users.indexOf(req.user.id) === -1) {
-         travel.users.push(req.user)
+         travel.users.push(req.user._id)
       }
       travel.owner = req.user._id
       const newTravel = await TravelModel.create(travel)
       const update = { $push: { travels: newTravel.id } }
       for (const user of newTravel.users) {
-         await UserModel.findByIdAndUpdate(user.id, update)
+         await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
       res.json(newTravel)
    })
@@ -41,9 +41,7 @@ router.put(
       if (travelStatusesValues.indexOf(travelModel.status) === -1) {
          delete travelModel.status
       }
-      delete travelModel.cards
-      delete travelModel.users
-      res.json(await TravelModel.findByIdAndUpdate(travelModel._id, travelModel, { new: true }))
+      res.json(await TravelModel.updateTravel(travelModel))
    })
 )
 

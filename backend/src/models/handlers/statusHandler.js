@@ -1,13 +1,30 @@
 const travelStatuses = require('../types/enumTravelStatuses.js')
 
-const StatusHandler = function (doc, next) {
+function updateStatus(doc) {
+   if (!doc) {
+      return
+   }
    const today = new Date()
    today.setHours(0, 0, 0, 0)
-   if (Date.parse(doc.endDate) < today) {
+   if (doc.status !== travelStatuses.ARCHIVE && Date.parse(doc.endDate) < today) {
       doc.status = travelStatuses.ARCHIVE
       doc.save()
    }
-   next()
+}
+
+const StatusHandler = {
+   handleTravel: function (doc, next) {
+      updateStatus(doc)
+      next()
+   },
+   handleUser: async function (doc, next) {
+      if (doc) {
+         for (const travel of doc.travels) {
+            updateStatus(travel)
+         }
+      }
+      next()
+   },
 }
 
 module.exports = StatusHandler

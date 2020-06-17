@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
+const StatusHandler = require('./handlers/statusHandler')
 const ErrorHandler = require('./handlers/errorHandler')
 const UniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcryptjs')
@@ -76,12 +77,15 @@ userSchema.pre('save', function (next) {
    next()
 })
 
-userSchema.post('findOne', ErrorHandler)
+userSchema.post('findOne', StatusHandler.handleUser)
+userSchema.post('findOne', ErrorHandler.ErrorHandler)
 userSchema.post('findOne', PopulateHandler.userToClient)
-userSchema.post('findOneAndUpdate', ErrorHandler)
+userSchema.post('findOneAndUpdate', ErrorHandler.ErrorHandler)
 userSchema.post('findOneAndUpdate', PopulateHandler.userToClient)
-userSchema.post('save', ErrorHandler)
+userSchema.post('findOneAndUpdate', StatusHandler.handleUser)
+userSchema.post('save', ErrorHandler.ErrorHandler)
 userSchema.post('save', PopulateHandler.userToClient)
+userSchema.post('save', StatusHandler.handleUser)
 
 userSchema.plugin(UniqueValidator)
 
