@@ -23,9 +23,9 @@ router.post(
       if (travel.users.indexOf(req.user.id) === -1) {
          travel.users.push(req.user._id)
       }
-      const newTravel = new TravelModel(travel)
-      await newTravel.save()
-      const update = { $push: { travels: newTravel._id } }
+      travel.owner = req.user._id
+      const newTravel = await TravelModel.create(travel)
+      const update = { $push: { travels: newTravel.id } }
       for (const user of newTravel.users) {
          await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
@@ -50,20 +50,12 @@ router.delete(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
+      const { _id } = req.user
       let travel = await TravelModel.findById(travelId)
-      if (travel.status === travelStatuses.ARCHIVE) {
-         res.json({ message: 'Поездка прошла, поэтому вы не можете ее покинуть.' })
+      if (await TravelModel.isOwner(travel, _id)) {
+         res.json(await TravelModel.deleteTravel(travel))
       } else {
-         travel.users.pull(req.user._id)
-         travel.save()
-         if (!travel.users.length) {
-            await CardModel.deleteCards(travelId)
-            travel = await TravelModel.findByIdAndRemove(travelId)
-         } else {
-            await CardModel.removeUser(travelId, req.user.id)
-         }
-         await UserModel.findByIdAndUpdate(req.user._id, { $pull: { travels: travelId } })
-         res.json(travel)
+         res.json(await TravelModel.leaveTravel(travel, _id))
       }
    })
 )
