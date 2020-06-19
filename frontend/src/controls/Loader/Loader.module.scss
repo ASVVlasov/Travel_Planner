@@ -94,6 +94,7 @@
       background-color: $color-background-light;
    }
    &_smallDark, &_smallLight {
+      height: 50%;
       background-color: transparent;
       position: absolute;
    }
