@@ -16,6 +16,7 @@ import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
+import Loader from '../../controls/Loader/Loader'
 
 class UserForm extends Component {
    static propTypes = {
@@ -59,7 +60,7 @@ class UserForm extends Component {
    }
 
    render() {
-      const { onClose, avatar, deleteAvatar } = this.props
+      const { onClose, avatar, deleteAvatar, avatarIsLoading } = this.props
       const { email, nickName, name, surname } = this.state
 
       return (
@@ -99,18 +100,21 @@ class UserForm extends Component {
                         className={styles.avatar}
                         onClick={() => this.avatarInput.current.click()}
                      >
-                        {!avatar ? (
+                        {avatarIsLoading && <Loader type="smallLight" />}
+                        {!avatar && !avatarIsLoading ? (
                            <AddIcon
                               className={`${styles.icon} ${styles.icon__upload}`}
                            />
                         ) : (
                            <>
                               <img src={this.FILE_URL + avatar} alt="" />
-                              <div className={styles.avatar__hover}>
-                                 <EditIcon
-                                    className={`${styles.icon} ${styles.icon__upload} ${styles.icon__upload_edit}`}
-                                 />
-                              </div>
+                              {!avatarIsLoading && (
+                                 <div className={styles.avatar__hover}>
+                                    <EditIcon
+                                       className={`${styles.icon} ${styles.icon__upload} ${styles.icon__upload_edit}`}
+                                    />
+                                 </div>
+                              )}
                            </>
                         )}
                         <input
@@ -163,7 +167,10 @@ class UserForm extends Component {
    }
 }
 
+const mapStateToProps = ({ userReducer }) => ({
+   avatarIsLoading: userReducer.avatarIsLoading,
+})
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ updateUserInfo, uploadAvatar, deleteAvatar }, dispatch)
 
-export default connect(null, mapDispatchToProps)(UserForm)
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm)
