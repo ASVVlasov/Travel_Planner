@@ -1,4 +1,5 @@
 import {
+   GET_USER_LOADING,
    GET_USER_SUCCESS,
    UPDATE_USER_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
@@ -7,25 +8,29 @@ import {
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
-   FETCH_LOADING,
-   FETCH_ERROR,
    LOGIN_SUCCESS,
    LOGOUT_SUCCESS,
    LOGOUT_ERROR,
    UNAUTHORIZED,
+   USER_AVATAR_LOADING,
+   USER_AVATAR_ERROR,
 } from '../types'
 
 const initialState = {
    auth: false,
+   userIsLoading: false,
+   avatarIsLoading: false,
    user: {},
    newContacts: [],
-   reqError: '',
 }
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
+      case GET_USER_LOADING: {
+         return { ...state, userIsLoading: true }
+      }
       case GET_USER_SUCCESS: {
-         return { ...state, user: action.payload }
+         return { ...state, user: action.payload, userIsLoading: false }
       }
       case UPDATE_USER_SUCCESS: {
          return {
@@ -35,6 +40,19 @@ export default function userReducer(state = initialState, action) {
                travels: state.user.travels,
                contacts: state.user.contacts,
             },
+            avatarIsLoading: false,
+         }
+      }
+      case USER_AVATAR_LOADING: {
+         return {
+            ...state,
+            avatarIsLoading: true,
+         }
+      }
+      case USER_AVATAR_ERROR: {
+         return {
+            ...state,
+            avatarIsLoading: false,
          }
       }
       case CREATE_TRAVEL_SUCCESS: {
@@ -65,7 +83,6 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             newContacts: [...state.newContacts, action.payload],
-            reqError: '',
          }
       }
       case UPDATE_CONTACTS_SUCCESS: {
@@ -78,19 +95,6 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             newContacts: [],
-            reqError: '',
-         }
-      }
-      case FETCH_LOADING: {
-         return {
-            ...state,
-            reqError: '',
-         }
-      }
-      case FETCH_ERROR: {
-         return {
-            ...state,
-            reqError: action.payload.message,
          }
       }
 
