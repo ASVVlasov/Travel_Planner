@@ -80,9 +80,14 @@ export default function userReducer(state = initialState, action) {
          }
       }
       case SEARCH_CONTACT_SUCCESS: {
+         const duplicate = state.newContacts.find(
+            (nc) => nc._id === action.payload._id
+         )
          return {
             ...state,
-            newContacts: [...state.newContacts, action.payload],
+            newContacts: !duplicate
+               ? [...state.newContacts, action.payload]
+               : state.newContacts,
          }
       }
       case UPDATE_CONTACTS_SUCCESS: {
