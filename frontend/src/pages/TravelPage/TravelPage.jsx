@@ -43,7 +43,7 @@ class TravelPage extends React.Component {
                   </div>
                </div>
             ) : (
-               <Loader />
+               <Loader type="big" />
             )}
          </>
       )

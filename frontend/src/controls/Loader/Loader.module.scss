@@ -85,7 +85,7 @@
 }
 
 .bg {
-   &_big {
+   &_big, &_smallDark, &_smallLight {
       width: 100%;
       height: 100vh;
       display: flex;
@@ -93,21 +93,27 @@
       align-items: center;
       background-color: $color-background-light;
    }
-   &_small {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: $color-background-light;
+   &_smallDark, &_smallLight {
+      background-color: transparent;
+      position: absolute;
    }
 }
 
 .loader {
    &_big {
-      @include splitValues(1, 1);
+      @include splitValues(1, 1)
    }
-   &_small{
+   &_smallDark, &_smallLight {
       @include splitValues(2, 1.2);
+   }
+   &_big, &_smallDark {
+      & div {
+         background: $color-secondary-main;
+      }
+   }
+   &_smallLight {
+      & div {
+         background: $color-white;
+      }
    }
 }

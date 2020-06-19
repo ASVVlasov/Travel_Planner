@@ -35,7 +35,7 @@ class UserPage extends React.Component {
                   <UserFooter />
                </div>
             ) : (
-               <Loader />
+               <Loader type="big" />
             )}
          </>
       )
