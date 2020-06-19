@@ -24,7 +24,7 @@ router.post(
          }
          res.json(user)
       } else {
-         throw Errors.userError.notFoundError
+         res.json(await UserModel.invite(email))
       }
    })
 )

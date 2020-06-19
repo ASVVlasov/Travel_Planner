@@ -9,6 +9,7 @@ const authenticateMiddleware = require('../middlewares/authentication')
 const auth = require('./auth/signin')
 const register = require('./auth/signup')
 const logout = require('./auth/logout')
+
 router.use('/signup', register)
 router.use('/signin', auth)
 router.use(authenticateMiddleware)

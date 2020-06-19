@@ -3,6 +3,7 @@ const router = express.Router()
 const passport = require('../../middlewares/passport')
 const cookieHandler = require('../../middlewares/cookieHandler')
 const AsyncHandler = require('express-async-handler')
+
 router.post(
    '/',
    // Установка куки по "Запомнить меня!"
@@ -10,7 +11,7 @@ router.post(
    // Авторизация по паспорту
    AsyncHandler(passport.authenticate),
    (req, res) => {
-      res.json({ auth: true })
+      res.json(req.user)
    }
 )
 
