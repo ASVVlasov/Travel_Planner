@@ -23,25 +23,10 @@ const save = async (req, res) => {
 }
 
 const check = async (req, res) => {
-   return new Promise((resolve, reject) => {
-      if (!req.cookies) {
-         let err = JSON.stringify({
-            message: 'Токен отсутствует',
-         })
-         reject(err)
-      }
-      jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY, (err, payload) => {
-         if (err) {
-            let err = JSON.stringify({
-               message: 'Неправильный токен',
-            })
-            reject(err)
-         }
-         let user = payload
-         delete user.iat
-         resolve(user)
-      })
-   })
+   if (!req.cookies) {
+      throw Errors.authError.tokenNotFoundError
+   }
+   return jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY)
 }
 
 module.exports = {
