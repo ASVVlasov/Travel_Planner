@@ -1,6 +1,7 @@
 const passport = require('passport')
 const Strategy = require('passport-local').Strategy
 const UserModel = require('../models/user')
+const RegistrationModel = require('../models/registration')
 const Errors = require('../models/types/errors')
 
 passport.use(
@@ -19,6 +20,10 @@ passport.use(
          }
          const plainUser = JSON.parse(JSON.stringify(user))
          delete plainUser.password
+         const regUser = await RegistrationModel.findOne({ user: user.id })
+         if (regUser) {
+            return done(Errors.authError.regUserError, false)
+         }
          done(null, plainUser) // req.user
       }
    )
