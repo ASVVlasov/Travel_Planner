@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import { Route } from 'react-router-dom'
 import { getTravel, getBudget } from '../../redux/travel/operations'
+import { getUserInfo } from '../../redux/user/operations'
 
 import styles from './TravelPage.module.scss'
 import Header from '../../components/Header/Header'
@@ -24,6 +25,7 @@ class TravelPage extends React.Component {
    componentDidMount() {
       this.props.getTravel(this.props.match.params.travelId)
       this.props.getBudget(this.props.match.params.travelId)
+      this.props.getUserInfo()
    }
 
    render() {
@@ -54,6 +56,6 @@ const mapStateToProps = ({ travelReducer }) => ({
    travel: travelReducer.travel,
 })
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getTravel, getBudget }, dispatch)
+   bindActionCreators({ getTravel, getBudget, getUserInfo }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TravelPage)

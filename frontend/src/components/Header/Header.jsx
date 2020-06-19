@@ -20,6 +20,7 @@ import Confirm from '../../controls/Confirm/Confirm'
 class Header extends React.Component {
    static propTypes = {
       travel: PropTypes.object.isRequired,
+      user: PropTypes.object.isRequired,
    }
    constructor(props) {
       super(props)
@@ -28,7 +29,6 @@ class Header extends React.Component {
          isHeaderMenuOpen: false,
          isModalConfirmOpen: false,
          userPickerPosition: {},
-         travelDeleted: false,
       }
       document.addEventListener('click', this.handleClickOutside, false)
    }
@@ -75,14 +75,11 @@ class Header extends React.Component {
       this.props.changeStatusTravel(travel)
    }
 
-   deleteTrip = async () => {
+   deleteTrip = () => {
       this.showHeaderMenu()
 
       const travelId = this.props.travel._id
-      await this.props.deleteTravel(travelId)
-      this.setState({
-         travelDeleted: true,
-      })
+      this.props.deleteTravel(travelId)
    }
 
    mapUsersToRender = () => {
@@ -142,12 +139,20 @@ class Header extends React.Component {
    }
 
    render() {
-      if (this.state.travelDeleted) {
+      const mainUser = this.props.user
+      const validTravel = !!mainUser.travels.find(
+         (travel) => travel._id === this.props.travel._id
+      )
+      if (!validTravel) {
          return <Redirect to={'/profile/travels'} />
       }
 
       const users = this.props.travel.users
-      let travelersAdded = users && users.length > 1
+      const travelersAdded = users && users.length > 1
+      const typeConfirm =
+         this.props.travel.owner === mainUser._id
+            ? 'deleteTravel'
+            : 'leaveTravel'
 
       return (
          <header className={styles.header}>
@@ -223,7 +228,9 @@ class Header extends React.Component {
                         className={styles.headerMenu__deleteTrip}
                         onClick={() => this.openForm('ModalConfirm')}
                      >
-                        Удалить поездку
+                        {this.props.travel.owner === mainUser._id
+                           ? 'Удалить поездку'
+                           : 'Покинуть поездку'}
                      </button>
                   </div>
                )}
@@ -232,7 +239,7 @@ class Header extends React.Component {
                <Confirm
                   onClose={() => this.closeForm('ModalConfirm')}
                   act={this.deleteTrip}
-                  type="deleteTravel"
+                  type={typeConfirm}
                />
             )}
          </header>
