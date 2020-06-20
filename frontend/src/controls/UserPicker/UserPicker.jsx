@@ -12,6 +12,7 @@ import {
 } from '../../redux/travel/operations'
 
 import ModalBase from '../ModalBase/ModalBase'
+import Confirm from '../Confirm/Confirm'
 import { ReactComponent as AddIcon } from '../../assets/images/icons/plus.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/images/icons/cross.svg'
 
@@ -32,10 +33,24 @@ class UserPicker extends Component {
       deleteTraveler: PropTypes.func.isRequired,
    }
 
+   state = {
+      isModalConfirmOpen: false,
+      userIdToDelete: '',
+      userNameToDelete: '',
+   }
+
    //TODO remove
    AVATAR_URL = window.location.port
       ? 'http://localhost:3300/user/avatar/'
       : window.location.origin + '/user/avatar/'
+
+   openForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: true })
+   }
+
+   closeForm = (formName) => {
+      this.setState({ [`is${formName}Open`]: false })
+   }
 
    addUserHandler = async (userId) => {
       const {
@@ -61,15 +76,30 @@ class UserPicker extends Component {
          travelId,
          deletePayer,
          getBudget,
-         deleteTraveler,
+         users,
       } = this.props
       if (type === 'card') {
          deletePayer({ cardId, userId })
          getBudget(travelId)
       } else {
-         deleteTraveler({ travelId, userId })
+         const userDel = users.find((user) => user._id === userId)
+         const userNameToDelete = this.getUserName(userDel)
+
+         this.setState({
+            userIdToDelete: userId,
+            userNameToDelete: userNameToDelete,
+         })
+         this.openForm('ModalConfirm')
       }
    }
+   deletionViaConfirm = () => {
+      const { travelId, deleteTraveler } = this.props
+      const userId = this.state.userIdToDelete
+
+      deleteTraveler({ travelId, userId })
+      this.closeForm('ModalConfirm')
+   }
+
    getUserName = (user, isAvatarName = false) => {
       const { nickName, surname, name } = user
       if (isAvatarName) {
@@ -135,6 +165,14 @@ class UserPicker extends Component {
          <ModalBase toClose={onClose}>
             <div className={styles.picker} style={position}>
                {this.usersRender(allUsers, chosenUsers)}
+               {this.state.isModalConfirmOpen && (
+                  <Confirm
+                     onClose={() => this.closeForm('ModalConfirm')}
+                     act={this.deletionViaConfirm}
+                     type="deleteTraveler"
+                     userNameToDelete={this.state.userNameToDelete}
+                  />
+               )}
             </div>
          </ModalBase>
       )
