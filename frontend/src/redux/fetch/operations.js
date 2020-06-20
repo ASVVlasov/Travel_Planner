@@ -18,7 +18,9 @@ export const fetchRequest = {
       fetchData(url, actions, body, 'POST', {}),
 }
 
-const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
+export const fetchData = (url, actions, body, method, headers) => async (
+   dispatch
+) => {
    const [loadingAction, successAction, errorAction] = actions
 
    if (loadingAction) {
@@ -38,6 +40,9 @@ const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
             dispatch(authError())
          } else if (res.status === 404) {
             dispatch(push('/404'))
+         } else if (res.status === 500 && res.type === 'basic') {
+            const err = { type: 'error' }
+            throw err
          } else {
             const error = await res.json()
             throw error
@@ -46,6 +51,7 @@ const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
       const data = await res.json()
       dispatch(successAction(data))
    } catch (error) {
+      error.argsForRequest = { url, actions, body, method, headers }
       errorAction ? dispatch(errorAction(error)) : dispatch(hadError(error))
    }
 }
