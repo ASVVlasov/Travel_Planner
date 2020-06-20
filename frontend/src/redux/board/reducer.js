@@ -3,13 +3,12 @@ import {
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
    DELETE_CARD_SUCCESS,
-   FETCH_LOADING,
-   FETCH_ERROR,
    GET_BOARD_FILTER,
    SET_USER_FILTER,
    SET_TAB_FILTER,
    SET_HISTORY_FILTER,
    GET_CARDS_FILTER,
+   GET_BOARD_LOADING,
 } from '../types'
 
 const initialState = {
@@ -19,19 +18,24 @@ const initialState = {
    tabFilter: 'all',
    userFilter: '',
    historyFilter: false,
-   isLoading: false,
-   failureLoading: false,
-   errorMessage: '',
+   isBoardLoading: false,
+   isCardLoading: false,
 }
 
 export default function boardReducer(state = initialState, action) {
    switch (action.type) {
+      case GET_BOARD_LOADING: {
+         return {
+            ...state,
+            isBoardLoading: true,
+         }
+      }
       case GET_BOARD_SUCCESS: {
          return {
             ...state,
             tabs: action.payload.tabs,
             cards: action.payload.cards,
-            isLoading: false,
+            isBoardLoading: false,
          }
       }
 
@@ -39,7 +43,7 @@ export default function boardReducer(state = initialState, action) {
          return {
             ...state,
             cards: [...state.cards, action.payload],
-            isLoading: false,
+            isCardLoading: false,
          }
       }
 
@@ -49,12 +53,12 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
-            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                action.payload,
                ...state.cards.slice(index + 1),
             ],
+            isCardLoading: false,
          }
       }
 
@@ -64,7 +68,6 @@ export default function boardReducer(state = initialState, action) {
          )
          return {
             ...state,
-            isLoading: false,
             cards: [
                ...state.cards.slice(0, index),
                ...state.cards.slice(index + 1),
@@ -115,23 +118,6 @@ export default function boardReducer(state = initialState, action) {
          return {
             ...state,
             currentCards: action.payload,
-         }
-      }
-
-      case FETCH_LOADING: {
-         return {
-            ...state,
-            isLoading: true,
-            failureLoading: false,
-            errorMessage: '',
-         }
-      }
-      case FETCH_ERROR: {
-         return {
-            ...state,
-            isLoading: false,
-            failureLoading: true,
-            errorMessage: action.payload,
          }
       }
 

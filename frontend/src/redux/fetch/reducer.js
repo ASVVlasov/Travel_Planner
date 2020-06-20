@@ -19,6 +19,9 @@ import {
    CLEAR_ERROR_SEARCH,
    UPDATE_CONTACTS_SUCCESS,
    UPDATE_CONTACTS_ERROR,
+   GET_BOARD_LOADING,
+   GET_BOARD_SUCCESS,
+   GET_BOARD_ERROR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -84,6 +87,20 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             contactSearchError: action.payload,
+         }
+      }
+
+      case GET_BOARD_LOADING:
+      case GET_BOARD_SUCCESS: {
+         return {
+            ...state,
+            boardError: undefined,
+         }
+      }
+      case GET_BOARD_ERROR: {
+         return {
+            ...state,
+            boardError: action.payload,
          }
       }
 
