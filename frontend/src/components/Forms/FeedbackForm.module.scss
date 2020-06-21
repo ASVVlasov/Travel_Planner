@@ -1,0 +1,66 @@
+@import "../../styles/colors", "../../styles/mixins";
+
+.form {
+    background: $color-background-light;
+    border-radius: 20px;
+    padding: 25px 30px 30px 30px;
+    display: flex;
+    width: 620px;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 300;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    &__title {
+        @include Title-2-SemiBold;
+        color: $color-secondary-main;
+    }
+
+    &__caption {
+        @include Caption-1-Regular;
+        color: $color-primary-light;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    &__comment {
+        background: $color-white;
+        color:$color-secondary-light;
+        @include Text-Regular;
+        border: 1px solid $color-secondary-light;
+        box-sizing: border-box;
+        border-radius: 10px;
+        width: 100%;
+        min-height: 150px;
+        resize: none;
+        padding: 15px 22px;
+        margin-bottom: 50px;
+        &::placeholder{
+        color:$color-secondary-light;
+        @include Text-Regular;
+        }
+        &:focus{
+            outline: none;
+        }
+    }
+
+    &__actions {
+        margin-left: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.icon__close {
+    @include IconLight(30px);
+    opacity: 0.5;
+}
