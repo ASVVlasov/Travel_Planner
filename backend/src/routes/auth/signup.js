@@ -21,6 +21,19 @@ router
          res.json(plainUser)
       })
    )
+   .get(
+      '/:linkId',
+      asyncHandler(async (req, res, next) => {
+         const invite = await RegistrationModel.findById(req.params.linkId)
+         if (!invite) {
+            throw Errors.authError.notFoundError
+         }
+         const user = await UserModel.findById(invite.user)
+         const plainUser = JSON.parse(JSON.stringify(user))
+         delete plainUser.password
+         res.json(plainUser)
+      })
+   )
    .post(
       '/',
       asyncHandler(async (req, res, next) => {
