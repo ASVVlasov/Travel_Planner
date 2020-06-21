@@ -6,10 +6,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 30px 120px;
-    &__feedback{
+    &__links{
+        display: flex;
+        justify-content: space-between;
+    }
+    &__link{
         color: $color-secondary-main;
         cursor: pointer;
         text-decoration: underline;
+        margin-right: 40px;
     }
 }
 

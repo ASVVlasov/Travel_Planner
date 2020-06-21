@@ -39,8 +39,11 @@ class UserFooter extends React.Component {
                   }}
                />
             )}
-            <div className={styles.footer__feedback} onClick={this.openModal}>
-               Оставить отзыв или предложение
+            <div className={styles.footer__links}>
+               <span className={styles.footer__link} onClick={this.openModal}>
+                  Оставить отзыв или предложение
+               </span>
+               <span className={styles.footer__link}>Поддержать проект</span>
             </div>
             {this.state.isModalOpen && (
                <FeedbackForm onClose={this.closeModal} />
