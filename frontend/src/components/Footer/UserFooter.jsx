@@ -39,7 +39,7 @@ class UserFooter extends React.Component {
                   }}
                />
             )}
-            <div className={styles.footer__links}>
+            <div className={styles.footer__linkList}>
                <span className={styles.footer__link} onClick={this.openModal}>
                   Оставить отзыв или предложение
                </span>
