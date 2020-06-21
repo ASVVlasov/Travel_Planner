@@ -15,6 +15,7 @@ import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
 import Calendar from '../../controls/Calendar/Calendar'
 import UserPicker from '../../controls/UserPicker/UserPicker'
 import Button from '../../controls/Button/Button'
+import Confirm from '../../controls/Confirm/Confirm'
 
 class Header extends React.Component {
    static propTypes = {
@@ -25,6 +26,7 @@ class Header extends React.Component {
       this.state = {
          isUserPickerOpen: false,
          isHeaderMenuOpen: false,
+         isModalConfirmOpen: false,
          userPickerPosition: {},
          travelDeleted: false,
       }
@@ -75,13 +77,12 @@ class Header extends React.Component {
 
    deleteTrip = async () => {
       this.showHeaderMenu()
-      if (window.confirm('Вы подтверждаете удаление?')) {
-         const travelId = this.props.travel._id
-         await this.props.deleteTravel(travelId)
-         this.setState({
-            travelDeleted: true,
-         })
-      }
+
+      const travelId = this.props.travel._id
+      await this.props.deleteTravel(travelId)
+      this.setState({
+         travelDeleted: true,
+      })
    }
 
    mapUsersToRender = () => {
@@ -220,13 +221,20 @@ class Header extends React.Component {
                      <div className={styles.headerMenu__line}></div>
                      <button
                         className={styles.headerMenu__deleteTrip}
-                        onClick={this.deleteTrip}
+                        onClick={() => this.openForm('ModalConfirm')}
                      >
                         Удалить поездку
                      </button>
                   </div>
                )}
             </div>
+            {this.state.isModalConfirmOpen && (
+               <Confirm
+                  onClose={() => this.closeForm('ModalConfirm')}
+                  act={this.deleteTrip}
+                  type="deleteTravel"
+               />
+            )}
          </header>
       )
    }
