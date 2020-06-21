@@ -7,12 +7,24 @@ import { connect } from 'react-redux'
 import { setHistoryFilter } from '../../redux/board/actions'
 
 import Switch from '../../controls/Switch/Switch.jsx'
+import FeedbackForm from '../Forms/FeedbackForm'
 import { withRouter } from 'react-router-dom'
 
 class UserFooter extends React.Component {
    static propTypes = {
       filter: PropTypes.bool,
       setHistoryFilter: PropTypes.func.isRequired,
+   }
+   state = {
+      isModalOpen: false,
+   }
+
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
+
+   closeModal = () => {
+      this.setState({ isModalOpen: false })
    }
 
    render() {
@@ -26,6 +38,12 @@ class UserFooter extends React.Component {
                      this.props.setHistoryFilter(value)
                   }}
                />
+            )}
+            <div className={styles.footer__feedback} onClick={this.openModal}>
+               Оставить отзыв или предложение
+            </div>
+            {this.state.isModalOpen && (
+               <FeedbackForm onClose={this.closeModal} />
             )}
          </footer>
       )
