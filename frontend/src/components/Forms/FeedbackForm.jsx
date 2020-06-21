@@ -25,7 +25,7 @@ class FeedbackForm extends Component {
    }
 
    submit = () => {
-      this.props.sendFeedback(this.state.comment)
+      this.props.sendFeedback({ comment: this.state.comment })
       this.props.onClose()
    }
 
