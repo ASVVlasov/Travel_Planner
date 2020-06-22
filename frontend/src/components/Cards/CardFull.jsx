@@ -20,6 +20,7 @@ import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
 import UserPicker from '../../controls/UserPicker/UserPicker'
 import Confirm from '../../controls/Confirm/Confirm'
+import Loader from '../../controls/Loader/Loader'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -35,6 +36,7 @@ class CardFull extends Component {
       changePayerStatus: PropTypes.func.isRequired,
       getBudget: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
+      isFileLoading: PropTypes.bool,
    }
 
    state = {
@@ -275,7 +277,7 @@ class CardFull extends Component {
    }
 
    render() {
-      const { toClose, deleteCard, card, getBudget } = this.props
+      const { toClose, deleteCard, card, getBudget, isFileLoading } = this.props
 
       const {
          _id,
@@ -432,6 +434,7 @@ class CardFull extends Component {
                         />
                      </div>
                      {this.filesToRender()}
+                     {isFileLoading && <Loader type="smallDark" />}
                   </section>
 
                   <section className={styles.card__comments}>
@@ -565,8 +568,9 @@ class CardFull extends Component {
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
+const mapStateToProps = ({ userReducer, boardReducer }) => ({
    userId: userReducer.user._id,
+   isFileLoading: boardReducer.isFileLoading,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
