@@ -22,6 +22,22 @@ import {
    GET_BOARD_LOADING,
    GET_BOARD_SUCCESS,
    GET_BOARD_ERROR,
+   ADD_CARD_LOADING,
+   ADD_CARD_SUCCESS,
+   ADD_CARD_ERROR,
+   CHANGE_CARD_LOADING,
+   CHANGE_CARD_SUCCESS,
+   CHANGE_CARD_ERROR,
+   DELETE_CARD_SUCCESS,
+   DELETE_CARD_ERROR,
+   CARD_FILE_LOADING,
+   CARD_FILE_ERROR,
+   ADD_PAYER_LOADING,
+   ADD_PAYER_ERROR,
+   DELETE_PAYER_LOADING,
+   DELETE_PAYER_ERROR,
+   SET_PAYER_LOADING,
+   SET_PAYER_ERROR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -101,6 +117,33 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             boardError: action.payload,
+         }
+      }
+
+      case ADD_CARD_LOADING:
+      case ADD_CARD_SUCCESS:
+      case CHANGE_CARD_LOADING:
+      case CHANGE_CARD_SUCCESS:
+      case DELETE_CARD_SUCCESS:
+      case CARD_FILE_LOADING:
+      case ADD_PAYER_LOADING:
+      case DELETE_PAYER_LOADING:
+      case SET_PAYER_LOADING: {
+         return {
+            ...state,
+            cardError: undefined,
+         }
+      }
+      case ADD_CARD_ERROR:
+      case CHANGE_CARD_ERROR:
+      case DELETE_CARD_ERROR:
+      case CARD_FILE_ERROR:
+      case ADD_PAYER_ERROR:
+      case DELETE_PAYER_ERROR:
+      case SET_PAYER_ERROR: {
+         return {
+            ...state,
+            cardError: action.payload,
          }
       }
 

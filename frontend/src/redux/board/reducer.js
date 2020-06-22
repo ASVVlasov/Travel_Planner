@@ -1,4 +1,5 @@
 import {
+   GET_BOARD_LOADING,
    GET_BOARD_SUCCESS,
    ADD_CARD_SUCCESS,
    CHANGE_CARD_SUCCESS,
@@ -8,7 +9,7 @@ import {
    SET_TAB_FILTER,
    SET_HISTORY_FILTER,
    GET_CARDS_FILTER,
-   GET_BOARD_LOADING,
+   CARD_FILE_LOADING,
 } from '../types'
 
 const initialState = {
@@ -19,7 +20,7 @@ const initialState = {
    userFilter: '',
    historyFilter: false,
    isBoardLoading: false,
-   isCardLoading: false,
+   isFileLoading: false,
 }
 
 export default function boardReducer(state = initialState, action) {
@@ -30,6 +31,7 @@ export default function boardReducer(state = initialState, action) {
             isBoardLoading: true,
          }
       }
+
       case GET_BOARD_SUCCESS: {
          return {
             ...state,
@@ -43,8 +45,11 @@ export default function boardReducer(state = initialState, action) {
          return {
             ...state,
             cards: [...state.cards, action.payload],
-            isCardLoading: false,
          }
+      }
+
+      case CARD_FILE_LOADING: {
+         return { ...state, isFileLoading: true }
       }
 
       case CHANGE_CARD_SUCCESS: {
@@ -58,7 +63,7 @@ export default function boardReducer(state = initialState, action) {
                action.payload,
                ...state.cards.slice(index + 1),
             ],
-            isCardLoading: false,
+            isFileLoading: false,
          }
       }
 
