@@ -38,6 +38,21 @@ import {
    DELETE_PAYER_ERROR,
    SET_PAYER_LOADING,
    SET_PAYER_ERROR,
+   GET_BUDGET_LOADING,
+   GET_BUDGET_SUCCESS,
+   GET_BUDGET_ERROR,
+   GET_TRAVEL_LOADING,
+   GET_TRAVEL_SUCCESS,
+   GET_TRAVEL_ERROR,
+   CHANGE_TRAVEL_LOADING,
+   CHANGE_TRAVEL_SUCCESS,
+   CHANGE_TRAVEL_ERROR,
+   CREATE_TRAVEL_LOADING,
+   CREATE_TRAVEL_SUCCESS,
+   CREATE_TRAVEL_ERROR,
+   DELETE_TRAVEL_LOADING,
+   DELETE_TRAVEL_SUCCESS,
+   DELETE_TRAVEL_ERROR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -144,6 +159,43 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             cardError: action.payload,
+         }
+      }
+
+      case GET_BUDGET_LOADING:
+      case GET_BUDGET_SUCCESS: {
+         return {
+            ...state,
+            budgetError: undefined,
+         }
+      }
+      case GET_BUDGET_ERROR: {
+         return {
+            ...state,
+            budgetError: action.payload,
+         }
+      }
+
+      case GET_TRAVEL_LOADING:
+      case GET_TRAVEL_SUCCESS:
+      case CHANGE_TRAVEL_LOADING:
+      case CHANGE_TRAVEL_SUCCESS:
+      case CREATE_TRAVEL_LOADING:
+      case CREATE_TRAVEL_SUCCESS:
+      case DELETE_TRAVEL_LOADING:
+      case DELETE_TRAVEL_SUCCESS: {
+         return {
+            ...state,
+            travelError: undefined,
+         }
+      }
+      case GET_TRAVEL_ERROR:
+      case CHANGE_TRAVEL_ERROR:
+      case CREATE_TRAVEL_ERROR:
+      case DELETE_TRAVEL_ERROR: {
+         return {
+            ...state,
+            travelError: action.payload,
          }
       }
 
