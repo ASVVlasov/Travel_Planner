@@ -39,9 +39,7 @@ class UserPage extends React.Component {
             ) : (
                <Loader type="big" />
             )}
-            {userError && (
-               <Alert type={userError.type} alertText={userError.message} />
-            )}
+            {userError && <Alert {...userError} errName="userError" />}
          </>
       )
    }
