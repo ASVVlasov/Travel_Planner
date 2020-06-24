@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Alert.module.scss'
 
 import { fetchData } from '../../redux/fetch/operations'
+import { clearError } from '../../redux/fetch/actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -33,6 +34,7 @@ class Alert extends Component {
 
    toClose = () => {
       this.setState({ shown: false })
+      this.props.clearError(this.props.errName)
    }
 
    repeatLastRequest = () => {
@@ -82,6 +84,7 @@ class Alert extends Component {
 
 Alert.propTypes = {
    type: PropTypes.oneOf(['success', 'warning', 'error']).isRequired,
+   errName: PropTypes.string.isRequired,
    message: function (props, propName, componentName) {
       if (props.type === 'warning' && props[propName] === undefined) {
          return new Error(
@@ -107,8 +110,9 @@ Alert.propTypes = {
       }
    },
    fetchData: PropTypes.func.isRequired,
+   clearError: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ fetchData }, dispatch)
+   bindActionCreators({ fetchData, clearError }, dispatch)
 export default connect(null, mapDispatchToProps)(Alert)
