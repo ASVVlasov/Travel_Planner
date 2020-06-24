@@ -53,6 +53,7 @@ import {
    DELETE_TRAVEL_LOADING,
    DELETE_TRAVEL_SUCCESS,
    DELETE_TRAVEL_ERROR,
+   FETCH_ERROR_CLEAR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -196,6 +197,13 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             travelError: action.payload,
+         }
+      }
+
+      case FETCH_ERROR_CLEAR: {
+         return {
+            ...state,
+            ...action.payload,
          }
       }
 
