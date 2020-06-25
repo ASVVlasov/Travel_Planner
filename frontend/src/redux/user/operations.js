@@ -3,6 +3,7 @@ import {
    updateUserSuccess,
    searchContactSuccess,
    updateContactsSuccess,
+   getInvitedEmailSuccess,
 } from './actions'
 import { fetchRequest } from '../fetch/operations'
 
@@ -29,3 +30,6 @@ export const addContact = (contactId) =>
 
 export const deleteContact = (contactId) =>
    fetchRequest.delete(CONTACT_URL, [updateContactsSuccess], contactId)
+
+export const getInvitedEmail = (linkId) =>
+   fetchRequest.get('/signup/' + linkId, [getInvitedEmailSuccess])

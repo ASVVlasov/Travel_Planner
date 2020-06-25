@@ -11,6 +11,11 @@ import {
 export const register = (newUser) =>
    fetchRequest.post('/signup', [regSuccess, regError], newUser)
 
+export const registerByInvitation = (newUser) =>
+   fetchRequest.post('/signup/' + newUser.linkId, [regSuccess, regError], {
+      password: newUser.password,
+   })
+
 export const login = (authInfo) =>
    fetchRequest.post('/signin', [loginSuccess, loginError], authInfo)
 
