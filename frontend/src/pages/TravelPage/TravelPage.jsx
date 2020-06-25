@@ -13,14 +13,13 @@ import Board from '../../components/Board/Board'
 import Footer from '../../components/Footer/Footer'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Loader from '../../controls/Loader/Loader'
+import Alert from '../../controls/Alert/Alert'
 
 class TravelPage extends React.Component {
    static propTypes = {
       getTravel: PropTypes.func.isRequired,
       travel: PropTypes.object.isRequired,
    }
-
-   isPropsReceived = (object) => Object.keys(object).length
 
    componentDidMount() {
       this.props.getTravel(this.props.match.params.travelId)
@@ -32,28 +31,50 @@ class TravelPage extends React.Component {
       const {
          match: { path },
          travel,
+         isLoading,
+         boardError,
+         cardError,
+         travelError,
+         budgetError,
       } = this.props
       return (
          <>
-            {this.isPropsReceived(travel) ? (
+            {isLoading ? (
+               <Loader type="big" />
+            ) : (
                <div className={styles.travelPage}>
-                  <Header users={travel.users} />
+                  <Header travel={travel} />
                   <Route path={`${path}/:board/:tab`} component={Board} />
                   <Footer travelId={travel._id} />
                   <div className={styles.travelPage__sidebarWrap}>
                      <Route path={path} component={Sidebar} />
                   </div>
                </div>
-            ) : (
-               <Loader />
+            )}
+            {boardError && boardError.type && (
+               <Alert {...boardError} errName="boardError" />
+            )}
+            {cardError && cardError.type && (
+               <Alert {...cardError} errName="cardError" />
+            )}
+            {travelError && travelError.type && (
+               <Alert {...travelError} errName="travelError" />
+            )}
+            {budgetError && budgetError.type && (
+               <Alert {...budgetError} errName="budgetError" />
             )}
          </>
       )
    }
 }
 
-const mapStateToProps = ({ travelReducer }) => ({
+const mapStateToProps = ({ travelReducer, fetchReducer }) => ({
    travel: travelReducer.travel,
+   isLoading: travelReducer.travelIsLoading,
+   boardError: fetchReducer.boardError,
+   cardError: fetchReducer.cardError,
+   travelError: fetchReducer.travelError,
+   budgetError: fetchReducer.budgetError,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ getTravel, getBudget, getUserInfo }, dispatch)

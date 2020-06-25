@@ -247,8 +247,7 @@ class Header extends React.Component {
    }
 }
 
-const mapStateToProps = ({ travelReducer, userReducer }) => ({
-   travel: travelReducer.travel,
+const mapStateToProps = ({ userReducer }) => ({
    user: userReducer.user,
 })
 

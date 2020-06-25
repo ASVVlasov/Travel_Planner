@@ -11,39 +11,42 @@ import UserHeader from '../../components/Header/UserHeader'
 import UserBoard from '../../components/Board/UserBoard'
 import UserFooter from '../../components/Footer/UserFooter'
 import Loader from '../../controls/Loader/Loader'
+import Alert from '../../controls/Alert/Alert'
 
 class UserPage extends React.Component {
    static propTypes = {
       getUserInfo: PropTypes.func.isRequired,
+      isLoading: PropTypes.bool.isRequired,
       user: PropTypes.object.isRequired,
    }
-
-   isPropsReceived = (object) => Object.keys(object).length
 
    componentDidMount() {
       this.props.getUserInfo()
    }
 
    render() {
-      const { match, user } = this.props
+      const { match, user, isLoading, userError } = this.props
       return (
          <>
-            {this.isPropsReceived(user) ? (
+            {isLoading ? (
+               <Loader type="big" />
+            ) : (
                <div className={styles.userPage}>
                   <UserHeader user={user} />
                   <Route path={match.path} component={UserBoard} />
                   <UserFooter />
                </div>
-            ) : (
-               <Loader />
             )}
+            {userError && <Alert {...userError} errName="userError" />}
          </>
       )
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
+const mapStateToProps = ({ userReducer, fetchReducer }) => ({
+   isLoading: userReducer.userIsLoading,
    user: userReducer.user,
+   userError: fetchReducer.userError,
 })
 
 const mapDispatchToProps = (dispatch) =>

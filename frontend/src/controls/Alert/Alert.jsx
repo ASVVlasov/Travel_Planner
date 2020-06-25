@@ -2,32 +2,45 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Alert.module.scss'
 
+import { fetchData } from '../../redux/fetch/operations'
+import { clearError } from '../../redux/fetch/actions'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import Button from '../Button/Button'
 
-export default class Alert extends Component {
+class Alert extends Component {
    state = {
       shown: false,
       success: {
          title: 'Все получилось!',
-         text: this.props.alertText || 'Данные успешно сохранены, отвечаем 😎',
+         text: this.props.message || 'Данные успешно сохранены, отвечаем 😎',
          style: styles.alert_success,
       },
       warning: {
          title: 'Тут такое дело...',
-         text: this.props.alertText,
+         text: this.props.message,
          style: styles.alert_warning,
       },
       error: {
          title: 'Что-то пошло не так...',
          text:
-            'Похоже, возникли проблемы со связью. Чтобы не потерять внесенные изменения, рекомендуем повторить отправку данных.',
+            this.props.message ||
+            'Похоже, возникли проблемы с сервером. Чтобы не потерять внесенные изменения, рекомендуем повторить отправку данных.',
          style: styles.alert_error,
       },
    }
 
    toClose = () => {
       this.setState({ shown: false })
+      this.props.clearError(this.props.errName)
+   }
+
+   repeatLastRequest = () => {
+      const { url, actions, body, method, headers } = this.props.argsForRequest
+      this.props.fetchData(url, actions, body, method, headers)
+      this.toClose()
    }
 
    componentDidMount = () => {
@@ -59,10 +72,7 @@ export default class Alert extends Component {
                         styleView="outline"
                         size="small"
                         kind="error"
-                        onClick={() => {
-                           this.props.requestForRepeat()
-                           this.toClose()
-                        }}
+                        onClick={this.repeatLastRequest}
                      />
                   )}
                </div>
@@ -74,7 +84,8 @@ export default class Alert extends Component {
 
 Alert.propTypes = {
    type: PropTypes.oneOf(['success', 'warning', 'error']).isRequired,
-   alertText: function (props, propName, componentName) {
+   errName: PropTypes.string.isRequired,
+   message: function (props, propName, componentName) {
       if (props.type === 'warning' && props[propName] === undefined) {
          return new Error(
             `The prop \`${propName}\` is marked as required in \`${componentName}\` with type \`${props.type}\`, but its value is \`undefined\`.`
@@ -85,17 +96,23 @@ Alert.propTypes = {
          )
       }
    },
-   requestForRepeat: function (props, propName, componentName) {
+   argsForRequest: function (props, propName, componentName) {
       if (props.type === 'error') {
          if (props[propName] === undefined) {
             return new Error(
                `The prop \`${propName}\` is marked as required in \`${componentName}\` with type \`${props.type}\`, but its value is \`undefined\`.`
             )
-         } else if (typeof props[propName] !== 'function') {
+         } else if (typeof props[propName] !== 'object') {
             return new Error(
-               `Invalid prop \`${propName}\` supplied to \`${componentName}\` with type \`${props.type}\`, expected \`function\`\`.`
+               `Invalid prop \`${propName}\` supplied to \`${componentName}\` with type \`${props.type}\`, expected \`object\`\`.`
             )
          }
       }
    },
+   fetchData: PropTypes.func.isRequired,
+   clearError: PropTypes.func.isRequired,
 }
+
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ fetchData, clearError }, dispatch)
+export default connect(null, mapDispatchToProps)(Alert)
