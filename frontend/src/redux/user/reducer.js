@@ -1,5 +1,4 @@
 import {
-   GET_USER_LOADING,
    GET_USER_SUCCESS,
    UPDATE_USER_SUCCESS,
    CREATE_TRAVEL_SUCCESS,
@@ -18,7 +17,7 @@ import {
 
 const initialState = {
    auth: false,
-   userIsLoading: false,
+   userIsLoading: true,
    avatarIsLoading: false,
    user: {},
    newContacts: [],
@@ -26,9 +25,6 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
-      case GET_USER_LOADING: {
-         return { ...state, userIsLoading: true }
-      }
       case GET_USER_SUCCESS: {
          return { ...state, user: action.payload, userIsLoading: false }
       }

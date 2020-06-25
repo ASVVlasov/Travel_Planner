@@ -29,7 +29,7 @@ class TravelPage extends React.Component {
       const {
          match: { path },
          travel,
-         isTravelLoading,
+         isLoading,
          boardError,
          cardError,
          travelError,
@@ -37,17 +37,17 @@ class TravelPage extends React.Component {
       } = this.props
       return (
          <>
-            {!isTravelLoading ? (
+            {isLoading ? (
+               <Loader type="big" />
+            ) : (
                <div className={styles.travelPage}>
-                  <Header users={travel.users} />
+                  <Header travel={travel} />
                   <Route path={`${path}/:board/:tab`} component={Board} />
                   <Footer travelId={travel._id} />
                   <div className={styles.travelPage__sidebarWrap}>
                      <Route path={path} component={Sidebar} />
                   </div>
                </div>
-            ) : (
-               <Loader type="big" />
             )}
             {boardError && boardError.type && (
                <Alert {...boardError} errName="boardError" />
@@ -68,7 +68,7 @@ class TravelPage extends React.Component {
 
 const mapStateToProps = ({ travelReducer, fetchReducer }) => ({
    travel: travelReducer.travel,
-   isTravelLoading: travelReducer.isTravelLoading,
+   isLoading: travelReducer.travelIsLoading,
    boardError: fetchReducer.boardError,
    cardError: fetchReducer.cardError,
    travelError: fetchReducer.travelError,

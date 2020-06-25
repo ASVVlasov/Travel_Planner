@@ -20,8 +20,6 @@ class UserPage extends React.Component {
       user: PropTypes.object.isRequired,
    }
 
-   isPropsReceived = (object) => Object.keys(object).length
-
    componentDidMount() {
       this.props.getUserInfo()
    }
@@ -30,14 +28,14 @@ class UserPage extends React.Component {
       const { match, user, isLoading, userError } = this.props
       return (
          <>
-            {!isLoading && this.isPropsReceived(user) ? (
+            {isLoading ? (
+               <Loader type="big" />
+            ) : (
                <div className={styles.userPage}>
                   <UserHeader user={user} />
                   <Route path={match.path} component={UserBoard} />
                   <UserFooter />
                </div>
-            ) : (
-               <Loader type="big" />
             )}
             {userError && <Alert {...userError} errName="userError" />}
          </>
