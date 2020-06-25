@@ -5,11 +5,15 @@ import styles from './Loader.module.scss'
 export default class Loader extends React.Component {
    static propTypes = {
       type: PropTypes.oneOf(['big', 'smallDark', 'smallLight']),
+      inlineStyles: PropTypes.object,
    }
    render() {
-      const type = this.props.type
+      const { type, inlineStyles } = this.props
       return (
-         <div className={type === 'big' ? styles.bg_big : styles[`bg_${type}`]}>
+         <div
+            className={type === 'big' ? styles.bg_big : styles[`bg_${type}`]}
+            style={inlineStyles}
+         >
             <div
                className={
                   type === 'big' ? styles.loader_big : styles[`loader_${type}`]

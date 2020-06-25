@@ -100,7 +100,12 @@ class UserForm extends Component {
                         className={styles.avatar}
                         onClick={() => this.avatarInput.current.click()}
                      >
-                        {avatarIsLoading && <Loader type="smallLight" />}
+                        {avatarIsLoading && (
+                           <Loader
+                              type="smallLight"
+                              inlineStyles={{ position: 'absolute' }}
+                           />
+                        )}
                         {!avatar && !avatarIsLoading ? (
                            <AddIcon
                               className={`${styles.icon} ${styles.icon__upload}`}
