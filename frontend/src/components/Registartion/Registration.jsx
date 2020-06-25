@@ -5,7 +5,12 @@ import { NavLink } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { register, login } from '../../redux/auth/operations'
+import {
+   register,
+   registerByInvitation,
+   login,
+} from '../../redux/auth/operations'
+import { getInvitedEmail } from '../../redux/user/operations'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
@@ -69,7 +74,14 @@ class Registration extends Component {
       const password = this.state.password
       const email = this.state.email.toLowerCase()
 
-      await this.props.register({ email, password })
+      const linkId = this.props.match.params.linkId
+      if (linkId) {
+         this.setState({ email: this.props.invitedUser.email })
+         await this.props.registerByInvitation({ linkId, password })
+      } else {
+         await this.props.register({ email, password })
+      }
+
       if (this.props.regError) {
          // TODO: Сделать вывод соолбщения об ошибке
          alert('Пользователь с таким адресом уже существует')
@@ -97,13 +109,20 @@ class Registration extends Component {
    mapTabsToRender = () =>
       this.state.tabs.map((tab) => (
          <NavLink
-            to={`${tab._id}`}
+            to={tab._id === 'signin' ? '/home/signin' : '/home/signup'}
             className={styles.tabs__link}
             activeClassName={styles.tabs__link_active}
             children={tab.title}
             key={tab._id}
          />
       ))
+
+   componentDidMount = () => {
+      const linkId = this.props.match.params.linkId
+      if (linkId) {
+         this.props.getInvitedEmail(linkId)
+      }
+   }
 
    render() {
       const {
@@ -114,6 +133,9 @@ class Registration extends Component {
          tabs,
       } = this.state
       const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
+
+      const linkId = this.props.match.params.linkId
+      const invitedEmail = linkId ? this.props.invitedUser.email : ''
 
       return (
          <div className={styles.form}>
@@ -126,7 +148,8 @@ class Registration extends Component {
                label={tab.emailLabel}
                hintLabel={tab.emailHintLabel}
                errorLabel={email && emailErrorLabel}
-               value={email}
+               value={invitedEmail ? invitedEmail : email}
+               disabled={invitedEmail ? true : false}
                onChange={this.handleChange}
                onBlur={(e) => this.emailIsValid(e.target.value)}
             />
@@ -158,7 +181,7 @@ class Registration extends Component {
                onClick={tab.btnOnClick}
                text={tab.btnText}
                disabled={
-                  !email ||
+                  (!email && !invitedEmail) ||
                   !password ||
                   !!emailErrorLabel ||
                   !!passwordErrorLabel
@@ -171,9 +194,13 @@ class Registration extends Component {
 const mapStateToProps = ({ userReducer }) => ({
    regError: userReducer.regError,
    authError: userReducer.authError,
+   invitedUser: userReducer.invitedUser,
 })
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ register, login, push }, dispatch)
+   bindActionCreators(
+      { register, login, push, getInvitedEmail, registerByInvitation },
+      dispatch
+   )
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration)

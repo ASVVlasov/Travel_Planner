@@ -13,6 +13,7 @@ class MainRouter extends React.Component {
       if (!this.props.auth) {
          return (
             <Switch>
+               <Route path="/home/:tab/:linkId" component={HomePage} />
                <Route path="/home/:tab" component={HomePage} />
                <Redirect to="/home/signin" />
             </Switch>
