@@ -1,5 +1,5 @@
 import {
-   GET_PAYER_BUDGET,
+   GET_BUDGET_SUCCESS,
    GET_TRAVEL_SUCCESS,
    CHANGE_TRAVEL_SUCCESS,
 } from '../types'
@@ -7,11 +7,12 @@ import {
 const initialState = {
    budget: {},
    travel: {},
+   travelIsLoading: true,
 }
 
 export default function travelReducer(state = initialState, action) {
    switch (action.type) {
-      case GET_PAYER_BUDGET: {
+      case GET_BUDGET_SUCCESS: {
          return {
             ...state,
             budget: action.payload,
@@ -22,6 +23,7 @@ export default function travelReducer(state = initialState, action) {
          return {
             ...state,
             travel: action.payload,
+            travelIsLoading: false,
          }
       }
 

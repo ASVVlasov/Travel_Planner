@@ -19,8 +19,8 @@ class Registration extends Component {
    static propTypes = {
       register: PropTypes.func,
       login: PropTypes.func,
-      regError: PropTypes.string,
-      authError: PropTypes.string,
+      regError: PropTypes.object,
+      authError: PropTypes.object,
    }
 
    state = {
@@ -29,7 +29,6 @@ class Registration extends Component {
       rememberMe: false,
       emailErrorLabel: '',
       passwordErrorLabel: '',
-      signInError: '',
       tabs: [
          {
             _id: 'signin',
@@ -82,10 +81,7 @@ class Registration extends Component {
          await this.props.register({ email, password })
       }
 
-      if (this.props.regError) {
-         // TODO: Сделать вывод соолбщения об ошибке
-         alert('Пользователь с таким адресом уже существует')
-      } else {
+      if (!this.props.regError) {
          this.props.push('/home/signin')
       }
    }
@@ -94,14 +90,8 @@ class Registration extends Component {
       const { password, rememberMe } = this.state
       const email = this.state.email.toLowerCase()
 
-      this.setState({ signInError: '' })
-
       await this.props.login({ email, password, rememberMe })
-
-      if (this.props.authError) {
-         // TODO: Сделать вывод соолбщения об ошибке
-         alert('Введен неправильный логин/пароль')
-      } else {
+      if (!this.props.authError) {
          this.props.push('/profile/travels')
       }
    }
@@ -134,6 +124,7 @@ class Registration extends Component {
       } = this.state
       const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
 
+      console.log(this.props.invitedUser.email)
       const linkId = this.props.match.params.linkId
       const invitedEmail = linkId ? this.props.invitedUser.email : ''
 
@@ -191,9 +182,9 @@ class Registration extends Component {
       )
    }
 }
-const mapStateToProps = ({ userReducer }) => ({
-   regError: userReducer.regError,
-   authError: userReducer.authError,
+const mapStateToProps = ({ fetchReducer, userReducer }) => ({
+   regError: fetchReducer.registerError,
+   authError: fetchReducer.loginError,
    invitedUser: userReducer.invitedUser,
 })
 

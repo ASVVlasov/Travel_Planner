@@ -7,32 +7,29 @@ import {
    SEARCH_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
-   FETCH_LOADING,
-   FETCH_ERROR,
-   REGISTRATION_ERROR,
    LOGIN_SUCCESS,
-   LOGIN_ERROR,
    LOGOUT_SUCCESS,
    LOGOUT_ERROR,
    UNAUTHORIZED,
+   USER_AVATAR_LOADING,
+   USER_AVATAR_ERROR,
    GET_INVITED_EMAIL_SUCCESS,
    REGISTRATION_SUCCESS,
 } from '../types'
 
 const initialState = {
-   regError: '',
    auth: false,
-   authError: '',
+   userIsLoading: true,
+   avatarIsLoading: false,
    user: {},
    newContacts: [],
-   reqError: '',
    invitedUser: '',
 }
 
 export default function userReducer(state = initialState, action) {
    switch (action.type) {
       case GET_USER_SUCCESS: {
-         return { ...state, user: action.payload }
+         return { ...state, user: action.payload, userIsLoading: false }
       }
       case UPDATE_USER_SUCCESS: {
          return {
@@ -42,6 +39,19 @@ export default function userReducer(state = initialState, action) {
                travels: state.user.travels,
                contacts: state.user.contacts,
             },
+            avatarIsLoading: false,
+         }
+      }
+      case USER_AVATAR_LOADING: {
+         return {
+            ...state,
+            avatarIsLoading: true,
+         }
+      }
+      case USER_AVATAR_ERROR: {
+         return {
+            ...state,
+            avatarIsLoading: false,
          }
       }
       case CREATE_TRAVEL_SUCCESS: {
@@ -69,10 +79,14 @@ export default function userReducer(state = initialState, action) {
          }
       }
       case SEARCH_CONTACT_SUCCESS: {
+         const duplicate = state.newContacts.find(
+            (nc) => nc._id === action.payload._id
+         )
          return {
             ...state,
-            newContacts: [...state.newContacts, action.payload],
-            reqError: '',
+            newContacts: !duplicate
+               ? [...state.newContacts, action.payload]
+               : state.newContacts,
          }
       }
       case UPDATE_CONTACTS_SUCCESS: {
@@ -85,25 +99,9 @@ export default function userReducer(state = initialState, action) {
          return {
             ...state,
             newContacts: [],
-            reqError: '',
          }
       }
-      case FETCH_LOADING: {
-         return {
-            ...state,
-            regError: '',
-            authError: '',
-            reqError: '',
-         }
-      }
-      case FETCH_ERROR: {
-         return {
-            ...state,
-            reqError: action.payload.message,
-         }
-      }
-      case REGISTRATION_ERROR:
-      case LOGIN_ERROR:
+
       case LOGIN_SUCCESS:
       case LOGOUT_SUCCESS:
       case LOGOUT_ERROR:
