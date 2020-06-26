@@ -15,7 +15,6 @@ import {
    UPDATE_CONTACTS_ERROR,
    CLEAR_CONTACTS_SEARCH,
    CLEAR_ERROR_SEARCH,
-   GET_INVITED_EMAIL_SUCCESS,
 } from '../types'
 
 export const getUserLoading = () => ({
@@ -82,11 +81,3 @@ export const clearContactSearch = () => ({
 export const clearErrorSearch = () => ({
    type: CLEAR_ERROR_SEARCH,
 })
-
-export const getInvitedEmailSuccess = (email) => {
-   console.log('email', email)
-   return {
-      type: GET_INVITED_EMAIL_SUCCESS,
-      payload: email,
-   }
-}

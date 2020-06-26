@@ -7,10 +7,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
    register,
+   getInvitedEmail,
    registerByInvitation,
    login,
 } from '../../redux/auth/operations'
-import { getInvitedEmail } from '../../redux/user/operations'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
@@ -75,7 +75,7 @@ class Registration extends Component {
 
       const linkId = this.props.match.params.linkId
       if (linkId) {
-         this.setState({ email: this.props.invitedUser.email })
+         this.setState({ email: this.props.invitedEmail })
          await this.props.registerByInvitation({ linkId, password })
       } else {
          await this.props.register({ email, password })
@@ -124,9 +124,8 @@ class Registration extends Component {
       } = this.state
       const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
 
-      console.log(this.props.invitedUser.email)
       const linkId = this.props.match.params.linkId
-      const invitedEmail = linkId ? this.props.invitedUser.email : ''
+      const invitedEmail = linkId ? this.props.invitedEmail : ''
 
       return (
          <div className={styles.form}>
@@ -182,10 +181,10 @@ class Registration extends Component {
       )
    }
 }
-const mapStateToProps = ({ fetchReducer, userReducer }) => ({
+const mapStateToProps = ({ fetchReducer, authReducer }) => ({
    regError: fetchReducer.registerError,
    authError: fetchReducer.loginError,
-   invitedUser: userReducer.invitedUser,
+   invitedEmail: authReducer.invitedEmail,
 })
 
 const mapDispatchToProps = (dispatch) =>

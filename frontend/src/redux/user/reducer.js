@@ -13,8 +13,6 @@ import {
    UNAUTHORIZED,
    USER_AVATAR_LOADING,
    USER_AVATAR_ERROR,
-   GET_INVITED_EMAIL_SUCCESS,
-   REGISTRATION_SUCCESS,
 } from '../types'
 
 const initialState = {
@@ -23,7 +21,6 @@ const initialState = {
    avatarIsLoading: false,
    user: {},
    newContacts: [],
-   invitedUser: '',
 }
 
 export default function userReducer(state = initialState, action) {
@@ -119,12 +116,6 @@ export default function userReducer(state = initialState, action) {
                travels: action.payload,
             },
          }
-      }
-      case GET_INVITED_EMAIL_SUCCESS: {
-         return { ...state, invitedUser: action.payload }
-      }
-      case REGISTRATION_SUCCESS: {
-         return { ...state, invitedUser: '' }
       }
       default:
          return state

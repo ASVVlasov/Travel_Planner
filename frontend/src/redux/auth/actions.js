@@ -1,4 +1,7 @@
 import {
+   GET_INVITED_EMAIL_LOADING,
+   GET_INVITED_EMAIL_SUCCESS,
+   GET_INVITED_EMAIL_ERROR,
    REGISTRATION_LOADING,
    REGISTRATION_SUCCESS,
    REGISTRATION_ERROR,
@@ -9,6 +12,18 @@ import {
    LOGOUT_ERROR,
    UNAUTHORIZED,
 } from '../types'
+
+export const getInvitedEmailLoading = () => ({
+   type: GET_INVITED_EMAIL_LOADING,
+})
+export const getInvitedEmailSuccess = (email) => ({
+   type: GET_INVITED_EMAIL_SUCCESS,
+   payload: email,
+})
+export const getInvitedEmailError = (err) => ({
+   type: GET_INVITED_EMAIL_ERROR,
+   payload: err,
+})
 
 export const regLoading = () => ({
    type: REGISTRATION_LOADING,

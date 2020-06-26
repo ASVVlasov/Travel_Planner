@@ -12,7 +12,6 @@ import {
    searchContactError,
    updateContactsSuccess,
    updateContactsError,
-   getInvitedEmailSuccess,
 } from './actions'
 import { fetchRequest } from '../fetch/operations'
 
@@ -64,10 +63,3 @@ export const deleteContact = (contactId) =>
       [null, updateContactsSuccess, updateContactsError],
       contactId
    )
-
-export const getInvitedEmail = (linkId) =>
-   fetchRequest.get('/signup/' + linkId, [
-      getUserLoading,
-      getInvitedEmailSuccess,
-      getUserError,
-   ])
