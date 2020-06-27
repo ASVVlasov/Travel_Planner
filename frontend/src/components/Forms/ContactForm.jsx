@@ -9,7 +9,7 @@ import {
    addContact,
    deleteContact,
 } from '../../redux/user/operations'
-import { clearContactSearch } from '../../redux/user/actions'
+import { clearContactSearch, clearErrorSearch } from '../../redux/user/actions'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
@@ -26,7 +26,7 @@ class ContactForm extends Component {
       clearContactSearch: PropTypes.func,
       contacts: PropTypes.arrayOf(PropTypes.object),
       newContacts: PropTypes.arrayOf(PropTypes.object),
-      reqError: PropTypes.string,
+      searchError: PropTypes.object,
    }
 
    state = {
@@ -70,17 +70,16 @@ class ContactForm extends Component {
 
    clear = () => {
       this.props.clearContactSearch()
+      this.props.clearErrorSearch()
       this.setState({ search: '' })
    }
 
    componentWillUnmount() {
-      if (this.props.reqError) {
-         this.props.clearContactSearch()
-      }
+      this.props.clearErrorSearch()
    }
 
    render() {
-      const { onClose, contacts, newContacts, reqError } = this.props
+      const { onClose, contacts, newContacts, searchError } = this.props
 
       return (
          <ModalBase toClose={onClose}>
@@ -109,13 +108,13 @@ class ContactForm extends Component {
                   />
                </div>
 
-               {reqError && (
+               {searchError && (
                   <div className={`${styles.result} ${styles.result_wrong}`}>
                      <span
                         className={styles.result__error}
-                        children={reqError}
+                        children={searchError.message}
                      />
-                     {reqError.includes('не найден') && (
+                     {searchError.message.includes('не найден') && (
                         <p className={styles.result__description}>
                            Проверьте правильность введенного адреса.
                            <br />
@@ -137,14 +136,20 @@ class ContactForm extends Component {
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
+const mapStateToProps = ({ userReducer, fetchReducer }) => ({
    contacts: userReducer.user.contacts,
    newContacts: userReducer.newContacts,
-   reqError: userReducer.reqError,
+   searchError: fetchReducer.contactSearchError,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
-      { searchContact, addContact, deleteContact, clearContactSearch },
+      {
+         searchContact,
+         addContact,
+         deleteContact,
+         clearContactSearch,
+         clearErrorSearch,
+      },
       dispatch
    )
 

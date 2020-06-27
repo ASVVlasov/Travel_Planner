@@ -1,6 +1,8 @@
 import {
+   REGISTRATION_LOADING,
    REGISTRATION_SUCCESS,
    REGISTRATION_ERROR,
+   LOGIN_LOADING,
    LOGIN_SUCCESS,
    LOGIN_ERROR,
    LOGOUT_SUCCESS,
@@ -8,21 +10,27 @@ import {
    UNAUTHORIZED,
 } from '../types'
 
+export const regLoading = () => ({
+   type: REGISTRATION_LOADING,
+})
 export const regSuccess = () => ({
    type: REGISTRATION_SUCCESS,
 })
 export const regError = (err) => ({
    type: REGISTRATION_ERROR,
-   payload: { regError: err.message },
+   payload: err,
 })
 
+export const loginLoading = () => ({
+   type: LOGIN_LOADING,
+})
 export const loginSuccess = () => ({
    type: LOGIN_SUCCESS,
    payload: { auth: true },
 })
 export const loginError = (err) => ({
    type: LOGIN_ERROR,
-   payload: { authError: err.message },
+   payload: err,
 })
 
 export const logoutSuccess = () => ({

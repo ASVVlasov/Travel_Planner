@@ -15,18 +15,20 @@ import HeaderTitle from '../../controls/HeaderTitle/HeaderTitle'
 import Calendar from '../../controls/Calendar/Calendar'
 import UserPicker from '../../controls/UserPicker/UserPicker'
 import Button from '../../controls/Button/Button'
+import Confirm from '../../controls/Confirm/Confirm'
 
 class Header extends React.Component {
    static propTypes = {
       travel: PropTypes.object.isRequired,
+      user: PropTypes.object.isRequired,
    }
    constructor(props) {
       super(props)
       this.state = {
          isUserPickerOpen: false,
          isHeaderMenuOpen: false,
+         isModalConfirmOpen: false,
          userPickerPosition: {},
-         travelDeleted: false,
       }
       document.addEventListener('click', this.handleClickOutside, false)
    }
@@ -73,15 +75,11 @@ class Header extends React.Component {
       this.props.changeStatusTravel(travel)
    }
 
-   deleteTrip = async () => {
+   deleteTrip = () => {
       this.showHeaderMenu()
-      if (window.confirm('Вы подтверждаете удаление?')) {
-         const travelId = this.props.travel._id
-         await this.props.deleteTravel(travelId)
-         this.setState({
-            travelDeleted: true,
-         })
-      }
+
+      const travelId = this.props.travel._id
+      this.props.deleteTravel(travelId)
    }
 
    mapUsersToRender = () => {
@@ -141,12 +139,20 @@ class Header extends React.Component {
    }
 
    render() {
-      if (this.state.travelDeleted) {
+      const mainUser = this.props.user
+      const validTravel = !!mainUser.travels.find(
+         (travel) => travel._id === this.props.travel._id
+      )
+      if (!validTravel) {
          return <Redirect to={'/profile/travels'} />
       }
 
       const users = this.props.travel.users
-      let travelersAdded = users && users.length > 1
+      const travelersAdded = users && users.length > 1
+      const typeConfirm =
+         this.props.travel.owner === mainUser._id
+            ? 'deleteTravel'
+            : 'leaveTravel'
 
       return (
          <header className={styles.header}>
@@ -220,20 +226,28 @@ class Header extends React.Component {
                      <div className={styles.headerMenu__line}></div>
                      <button
                         className={styles.headerMenu__deleteTrip}
-                        onClick={this.deleteTrip}
+                        onClick={() => this.openForm('ModalConfirm')}
                      >
-                        Удалить поездку
+                        {this.props.travel.owner === mainUser._id
+                           ? 'Удалить поездку'
+                           : 'Покинуть поездку'}
                      </button>
                   </div>
                )}
             </div>
+            {this.state.isModalConfirmOpen && (
+               <Confirm
+                  onClose={() => this.closeForm('ModalConfirm')}
+                  act={this.deleteTrip}
+                  type={typeConfirm}
+               />
+            )}
          </header>
       )
    }
 }
 
-const mapStateToProps = ({ travelReducer, userReducer }) => ({
-   travel: travelReducer.travel,
+const mapStateToProps = ({ userReducer }) => ({
    user: userReducer.user,
 })
 
