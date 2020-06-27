@@ -10,6 +10,7 @@ import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import CardFormContainer from '../../containers/CardFormContainer'
 import CardShort from '../Cards/CardShort'
+import FeedbackForm from '../Forms/FeedbackForm'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import { setTabFilter } from '../../redux/board/actions'
@@ -108,10 +109,33 @@ class Board extends Component {
                   ]}
                />
             )}
+            {this.props.match.params.board !== 'todo' &&
+               this.state.isModalOpen && (
+                  <CardFormContainer onClose={this.closeModal} />
+               )}
 
-            {this.state.isModalOpen && (
-               <CardFormContainer onClose={this.closeModal} />
+            {this.props.match.params.board === 'todo' && (
+               <div className={styles.board__main}>
+                  <span className={styles.board__text}>
+                     Раздел находится в разработке
+                  </span>
+                  <br></br>
+                  <span className={styles.board__text}>Самое время&nbsp;</span>
+                  <span
+                     className={styles.board__text_link}
+                     onClick={this.openModal}
+                  >
+                     отправить предложения и пожелания
+                  </span>
+                  <span className={styles.board__text}>
+                     &nbsp;по функционалу
+                  </span>
+               </div>
             )}
+            {this.props.match.params.board === 'todo' &&
+               this.state.isModalOpen && (
+                  <FeedbackForm onClose={this.closeModal} />
+               )}
          </div>
       )
    }
