@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './footer.module.scss'
 import Switch from '../../controls/Switch/Switch.jsx'
+import FeedbackForm from '../Forms/FeedbackForm'
 import { ReactComponent as Tune } from '../../assets/images/icons/tune.svg'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
@@ -19,6 +20,20 @@ class Footer extends React.Component {
 
    state = {
       filter: false,
+      isModalOpen: false,
+      feedbackHintShown: false,
+   }
+
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
+
+   closeModal = () => {
+      this.setState({ isModalOpen: false })
+   }
+
+   FeedbackHintClick = () => {
+      this.setState({ feedbackHintShown: !this.state.feedbackHintShown })
    }
 
    changeFilter = (value) => {
@@ -76,8 +91,39 @@ class Footer extends React.Component {
                      </div>
                   </div>
                </div>
-               <Tune className={styles.footer__settingsBtn} />
+               <Tune
+                  className={styles.footer__settingsBtn}
+                  onClick={this.FeedbackHintClick}
+               />
             </div>
+            <div
+               className={
+                  (this.state.feedbackHintShown
+                     ? styles.footer__feedback_show
+                     : styles.footer__feedback_hide) +
+                  ' ' +
+                  styles.footer__feedback
+               }
+            >
+               <span className={styles.footer__text}>
+                  Здесь будет подробный расчет бюджета
+               </span>
+               <br />
+               <span className={styles.footer__text}>Самое время&nbsp;</span>
+               <span
+                  className={
+                     styles.footer__text + ' ' + styles.footer__text_link
+                  }
+                  onClick={this.openModal}
+               >
+                  отправить пожелания
+               </span>
+               <br />
+               <span className={styles.footer__text}>по функционалу</span>
+            </div>
+            {this.state.isModalOpen && (
+               <FeedbackForm onClose={this.closeModal} />
+            )}
          </footer>
       )
    }
