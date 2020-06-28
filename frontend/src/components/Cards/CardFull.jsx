@@ -19,6 +19,8 @@ import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
 import CardFormContainer from '../../containers/CardFormContainer'
 import UserPicker from '../../controls/UserPicker/UserPicker'
+import Confirm from '../../controls/Confirm/Confirm'
+import Loader from '../../controls/Loader/Loader'
 
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
 import { ReactComponent as EditIcon } from '../../assets/images/icons/pencil.svg'
@@ -34,6 +36,7 @@ class CardFull extends Component {
       changePayerStatus: PropTypes.func.isRequired,
       getBudget: PropTypes.func.isRequired,
       card: PropTypes.object.isRequired,
+      isFileLoading: PropTypes.bool,
    }
 
    state = {
@@ -41,6 +44,7 @@ class CardFull extends Component {
       cost: 0,
       isCardFormOpen: false,
       isUserPickerOpen: false,
+      isModalConfirmOpen: false,
       userPickerPosition: {},
    }
 
@@ -93,8 +97,19 @@ class CardFull extends Component {
       deleteFile({ fileId, cardId: card._id })
    }
 
-   handleChange = (event) => {
-      this.setState({ [event.target.name]: event.target.value })
+   handleChange = (event, isNumber) => {
+      let value = event.target.value
+
+      const re = new RegExp(/^\d+( \d+)*$/)
+      const lastCharacter = value.charAt(value.length - 1)
+      const oldValue = this.state.cost
+      value = isNumber
+         ? re.test(value) || lastCharacter === ''
+            ? value
+            : oldValue
+         : value
+
+      this.setState({ [event.target.name]: value })
    }
 
    updateCard = (changedArea, newValue) => {
@@ -262,7 +277,7 @@ class CardFull extends Component {
    }
 
    render() {
-      const { toClose, deleteCard, card, getBudget } = this.props
+      const { toClose, deleteCard, card, getBudget, isFileLoading } = this.props
 
       const {
          _id,
@@ -419,6 +434,7 @@ class CardFull extends Component {
                         />
                      </div>
                      {this.filesToRender()}
+                     {isFileLoading && <Loader type="smallDark" />}
                   </section>
 
                   <section className={styles.card__comments}>
@@ -492,8 +508,12 @@ class CardFull extends Component {
                            type="text"
                            value={this.setCostFormat(this.state.cost)}
                            ref={this.costInput}
-                           onChange={this.handleChange}
-                           onKeyDown={this.handleChange}
+                           onChange={(event) => {
+                              this.handleChange(event, true)
+                           }}
+                           onKeyDown={(event) => {
+                              this.handleChange(event, true)
+                           }}
                            onBlur={(e) => {
                               this.updateCard(
                                  e.target.name,
@@ -510,10 +530,7 @@ class CardFull extends Component {
                   <div className={styles.card__actions}>
                      <Button
                         onClick={() => {
-                           if (window.confirm('Вы подтверждаете удаление?')) {
-                              deleteCard(_id)
-                           }
-                           toClose()
+                           this.openForm('ModalConfirm')
                         }}
                         text="Удалить карточку"
                         type="delete"
@@ -539,13 +556,21 @@ class CardFull extends Component {
                   type={'card'}
                />
             )}
+            {this.state.isModalConfirmOpen && (
+               <Confirm
+                  onClose={() => this.closeForm('ModalConfirm')}
+                  act={() => deleteCard(_id)}
+                  type="deleteCard"
+               />
+            )}
          </ModalBase>
       )
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
+const mapStateToProps = ({ userReducer, boardReducer }) => ({
    userId: userReducer.user._id,
+   isFileLoading: boardReducer.isFileLoading,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(

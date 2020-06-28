@@ -1,5 +1,6 @@
-import { isLoading, hadError } from '../fetch/actions'
+import { hadError } from '../fetch/actions'
 import { authError } from '../auth/actions'
+import { push } from 'connected-react-router'
 
 export const fetchRequest = {
    get: (url, actions) => fetchData(url, actions),
@@ -16,10 +17,14 @@ export const fetchRequest = {
       fetchData(url, actions, body, 'POST', {}),
 }
 
-const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
-   dispatch(isLoading())
+export const fetchData = (url, actions, body, method, headers) => async (
+   dispatch
+) => {
+   const [loadingAction, successAction, errorAction] = actions
 
-   const [successAction, errorAction] = actions
+   if (loadingAction) {
+      dispatch(loadingAction())
+   }
 
    try {
       const res = await fetch(url, {
@@ -32,14 +37,20 @@ const fetchData = (url, actions, body, method, headers) => async (dispatch) => {
       if (!res.ok) {
          if (res.status === 401 || res.status === 403) {
             dispatch(authError())
+         } else if (res.status === 404) {
+            dispatch(push('/404'))
+         } else if (res.status === 500 && res.type === 'basic') {
+            const err = { type: 'error' }
+            throw err
          } else {
             const error = await res.json()
-            throw new Error(error.message)
+            throw error
          }
       }
       const data = await res.json()
       dispatch(successAction(data))
    } catch (error) {
+      error.argsForRequest = { url, actions, body, method, headers }
       errorAction ? dispatch(errorAction(error)) : dispatch(hadError(error))
    }
 }

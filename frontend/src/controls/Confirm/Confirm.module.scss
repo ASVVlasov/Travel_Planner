@@ -1,0 +1,53 @@
+@import '../../styles/colors', '../../styles/mixins';
+
+.confirm {
+    background: $color-white;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 300;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    &_deleteTravel {
+        width: 520px;
+    }
+    &_leaveTravel {
+        width: 520px;
+    }
+    &_deleteTraveler {
+        width: 610px;
+    }
+    &_deleteCard {
+        width: 470px;
+    }
+    &__content {
+        margin-bottom: 15px;
+    }
+    & h1 {
+        @include Title-2-SemiBold;
+        margin-bottom: 35px;
+    }
+    & p {
+        @include Text-Regular;
+        margin-bottom: 20px;
+        & span {
+            @include Text-Bold;
+            color: $color-error-dark;
+        }
+    }
+    &__buttonBlock {
+        display: flex;
+        justify-content: flex-end;
+        & button {
+            margin-left: 20px;
+        }
+        & button:nth-child(2) {
+            opacity: 1;
+            background-color: $color-error-dark;
+        }
+    }
+}

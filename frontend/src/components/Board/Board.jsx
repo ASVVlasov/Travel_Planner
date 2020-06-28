@@ -11,6 +11,7 @@ import Button from '../../controls/Button/Button'
 import CardFormContainer from '../../containers/CardFormContainer'
 import CardShort from '../Cards/CardShort'
 import FeedbackForm from '../Forms/FeedbackForm'
+import Loader from '../../controls/Loader/Loader'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
 import { setTabFilter } from '../../redux/board/actions'
@@ -36,8 +37,8 @@ class Board extends Component {
       this.setState({ isModalOpen: false })
    }
 
-   mapTabsToRender = () => {
-      return this.props.tabs.map((tab) => (
+   mapTabsToRender = () =>
+      this.props.tabs.map((tab) => (
          <NavLink
             exact
             to={`${tab._id}`}
@@ -47,15 +48,13 @@ class Board extends Component {
             key={tab._id}
          />
       ))
-   }
 
-   mapCardsToRender = () => {
-      return this.props.cards.map((card) => (
+   mapCardsToRender = () =>
+      this.props.cards.map((card) => (
          <div key={card._id} className={styles.board__card}>
             <CardShort {...card} />
          </div>
       ))
-   }
 
    componentDidMount() {
       const {
@@ -86,17 +85,18 @@ class Board extends Component {
    }
 
    render() {
+      const { cards, isBoardLoading, match } = this.props
       return (
          <div className={styles.board}>
             <div className={styles.board__controlPanel}>
                <nav children={this.mapTabsToRender()} />
 
-               {this.props.cards.length > 2 && (
+               {cards.length > 2 && (
                   <Button onClick={this.openModal} text="+" type="action" />
                )}
             </div>
-
-            {this.props.match.params.board !== 'todo' && (
+            {isBoardLoading && <Loader type="smallDark" />}
+            {match.params.board !== 'todo' && !isBoardLoading && (
                <BoardSlider
                   className={styles.board__cards}
                   slides={[
@@ -144,9 +144,7 @@ class Board extends Component {
 const mapStateToProps = ({ boardReducer }) => ({
    tabs: boardReducer.tabs,
    cards: boardReducer.currentCards,
-   isLoading: boardReducer.isLoading,
-   failureLoading: boardReducer.failureLoading,
-   errorMessage: boardReducer.errorMessage,
+   isBoardLoading: boardReducer.isBoardLoading,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ getBoard, setTabFilter }, dispatch)
