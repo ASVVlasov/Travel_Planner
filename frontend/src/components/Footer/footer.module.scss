@@ -67,15 +67,18 @@
         border-radius: 10px;
         bottom: 94px;
         text-align: center;
-        transition-property: right;
-        transition-duration: 1s;
+        opacity: 0;
+        transition-property: opacity;
+        transition-duration: 0.5s;
+        right: 0px;
 
         &_show {
-            right: 0px;
+            opacity: 1;
         }
 
         &_hide {
-            right: -450px;
+            visibility: hidden;
+            opacity: 0;
         }
     }
 
