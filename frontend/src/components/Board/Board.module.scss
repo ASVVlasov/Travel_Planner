@@ -47,14 +47,15 @@
       text-align: center;
    }
 
-   &__text {
+   &__text{
       color: $color-primary-light;
-
-      &_link {
+      & span {
          color: $color-secondary-main;
          cursor: pointer;
          text-decoration: underline;
       }
-
+   }
+   &__text, &__text span{
+      @include Subtitle-1-Regular;
    }
 }

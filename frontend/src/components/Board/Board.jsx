@@ -116,20 +116,15 @@ class Board extends Component {
 
             {this.props.match.params.board === 'todo' && (
                <div className={styles.board__main}>
-                  <span className={styles.board__text}>
+                  <p className={styles.board__text}>
                      Раздел находится в разработке
-                  </span>
-                  <br></br>
-                  <span className={styles.board__text}>Самое время&nbsp;</span>
-                  <span
-                     className={styles.board__text_link}
-                     onClick={this.openModal}
-                  >
-                     отправить предложения и пожелания
-                  </span>
-                  <span className={styles.board__text}>
+                     <br />
+                     Самое время&nbsp;
+                     <span onClick={this.openModal}>
+                        отправить предложения и пожелания
+                     </span>
                      &nbsp;по функционалу
-                  </span>
+                  </p>
                </div>
             )}
             {this.props.match.params.board === 'todo' &&
