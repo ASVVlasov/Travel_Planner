@@ -93,19 +93,18 @@ travelSchema.statics.updateTravel = async function (travelModel) {
    if (commonHandlers.compareDates(travelModel.endDate, travelModel.beginDate)) {
       throw Errors.travelError.dateError
    } else {
-      // TODO обсудить как сделать
-      // for (const cardModel of travelModel.cards) {
-      //    const card = await CardModel.findById(cardModel._id)
-      //    if (
-      //       commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
-      //       commonHandlers.compareDates(card.endDate, travelModel.endDate)
-      //    ) {
-      //       throw createError(
-      //          400,
-      //          'Даты путешествия изменены успешно, рекомендуем проверить даты в карточках, чтобы точно ничего не перепутать 😥'
-      //       )
-      //    }
-      // }
+      for (const cardModel of travelModel.cards) {
+         const card = await CardModel.findById(cardModel._id)
+         if (
+            commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
+            commonHandlers.compareDates(card.endDate, travelModel.endDate)
+         ) {
+            delete travelModel.cards
+            delete travelModel.users
+            await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
+            throw Errors.travelError.dateCompareError
+         }
+      }
    }
    delete travelModel.cards
    delete travelModel.users
