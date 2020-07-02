@@ -24,8 +24,8 @@ class FeedbackForm extends Component {
       this.setState({ [event.target.name]: event.target.value })
    }
 
-   submit = () => {
-      this.props.sendFeedback({ comment: this.state.comment })
+   submit = async () => {
+      await this.props.sendFeedback({ comment: this.state.comment })
       this.props.onClose()
    }
 
