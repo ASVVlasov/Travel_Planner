@@ -15,4 +15,13 @@ const compareDates = function (prevDate, nextDate) {
    return prev < next
 }
 
-module.exports = { compareDates }
+const passwordGenerator = function (length) {
+   let password = ''
+   const Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()/_+='
+   for (let i = 0; i < length; i++) {
+      password += Alphabet[Math.floor(Math.random() * Alphabet.length)]
+   }
+   return password
+}
+
+module.exports = { compareDates, passwordGenerator }

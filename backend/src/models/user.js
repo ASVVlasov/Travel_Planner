@@ -2,14 +2,17 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PopulateHandler = require('./handlers/populateHandler')
 const StatusHandler = require('./handlers/statusHandler')
+const CommonHandler = require('./handlers/commonHandlers')
 const ErrorHandler = require('./handlers/errorHandler')
+const RegistrationModel = require('./registration')
 const UniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcryptjs')
+const nodeMailer = require('nodemailer')
+const EmailText = require('./types/email')
 
 const userSchema = new Schema({
    password: {
       type: String,
-      required: true,
       description: 'Пароль путешественника',
    },
    avatar: {
@@ -66,11 +69,50 @@ const userSchema = new Schema({
 userSchema.methods.comparePassword = function (candidate) {
    return bcrypt.compareSync(candidate, this.password)
 }
+
+userSchema.statics.invite = async function (email) {
+   const inviteUser = {
+      email,
+      password: '',
+   }
+   const newUser = await this.create(inviteUser)
+   inviteUser.user = newUser.id
+   const registrationModel = await RegistrationModel.create(inviteUser)
+   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id))
+   return newUser
+}
+userSchema.statics.createUser = async function (userModel) {
+   const regUserInfo = {
+      email: userModel.email,
+      password: userModel.password,
+   }
+   const newUser = await this.create(userModel)
+   regUserInfo.user = newUser.id
+   const registrationModel = await RegistrationModel.create(regUserInfo)
+   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id))
+   return newUser
+}
+userSchema.statics.sendEmail = async function (email, html) {
+   const transporter = nodeMailer.createTransport({
+      service: process.env.EMAIL_SERVICE,
+      auth: {
+         user: process.env.EMAIL_LOGIN,
+         pass: process.env.EMAIL_PASSWORD,
+      },
+   })
+
+   await transporter.sendMail({
+      from: `"Admin TravelPlanner"${process.env.EMAIL_LOGIN}`,
+      to: email,
+      subject: 'Добро пожаловать в TravelPlanner ✔',
+      html,
+   })
+}
 userSchema.pre('save', function (next) {
    if (!this.nickName) {
       this.nickName = this.email.split('@')[0]
    }
-   if (this.isModified('password')) {
+   if (this.isModified('password') && this.password !== '') {
       const salt = bcrypt.genSaltSync(+process.env.SALT_ROUNDS)
       this.password = bcrypt.hashSync(this.password, salt)
    }
