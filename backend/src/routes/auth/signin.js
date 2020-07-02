@@ -18,7 +18,7 @@ router.post(
 )
 router.post(
    '/:linkId',
-   asyncHandler(async (req, res, next) => {
+   AsyncHandler(async (req, res, next) => {
       const invite = await RegistrationModel.findById(req.params.linkId)
       if (!invite) {
          throw Errors.authError.notFoundError
