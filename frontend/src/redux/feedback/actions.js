@@ -5,5 +5,5 @@ export const feedbackSuccess = () => ({
 })
 export const feedbackError = (err) => ({
    type: FEEDBACK_ERROR,
-   payload: { regError: err.message },
+   payload: { feedbackError: err.message },
 })
