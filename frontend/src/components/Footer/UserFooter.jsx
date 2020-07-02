@@ -30,6 +30,15 @@ class UserFooter extends React.Component {
    render() {
       return (
          <footer className={styles.footer}>
+            <div className={styles.footer__linkList}>
+               <span className={styles.footer__link} onClick={this.openModal}>
+                  Оставить отзыв или предложение
+               </span>
+               {/* <span className={styles.footer__link}>Поддержать проект</span> */}
+            </div>
+            {this.state.isModalOpen && (
+               <FeedbackForm onClose={this.closeModal} />
+            )}
             {this.props.match.params.tab === 'travels' && (
                <Switch
                   labelText="показать историю"
@@ -38,15 +47,6 @@ class UserFooter extends React.Component {
                      this.props.setHistoryFilter(value)
                   }}
                />
-            )}
-            <div className={styles.footer__linkList}>
-               <span className={styles.footer__link} onClick={this.openModal}>
-                  Оставить отзыв или предложение
-               </span>
-               <span className={styles.footer__link}>Поддержать проект</span>
-            </div>
-            {this.state.isModalOpen && (
-               <FeedbackForm onClose={this.closeModal} />
             )}
          </footer>
       )
