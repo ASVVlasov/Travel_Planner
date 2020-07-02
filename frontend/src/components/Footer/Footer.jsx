@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getBudget } from '../../redux/travel/operations'
 import { setUserFilter } from '../../redux/board/actions'
+import classNames from 'classnames'
 
 class Footer extends React.Component {
    static propTypes = {
@@ -97,29 +98,19 @@ class Footer extends React.Component {
                />
             </div>
             <div
-               className={
-                  (this.state.feedbackHintShown
-                     ? styles.footer__feedback_show
-                     : styles.footer__feedback_hide) +
-                  ' ' +
-                  styles.footer__feedback
-               }
+               className={classNames(
+                  styles.footer__feedback,
+                  this.state.feedbackHintShown && styles.footer__feedback_show
+               )}
             >
-               <span className={styles.footer__text}>
+               <p className={styles.footer__text}>
                   Здесь будет подробный расчет бюджета
-               </span>
-               <br />
-               <span className={styles.footer__text}>Самое время&nbsp;</span>
-               <span
-                  className={
-                     styles.footer__text + ' ' + styles.footer__text_link
-                  }
-                  onClick={this.openModal}
-               >
-                  отправить пожелания
-               </span>
-               <br />
-               <span className={styles.footer__text}>по функционалу</span>
+                  <br />
+                  Самое время&nbsp;
+                  <span onClick={this.openModal}>отправить пожелания</span>
+                  <br />
+                  по функционалу
+               </p>
             </div>
             {this.state.isModalOpen && (
                <FeedbackForm onClose={this.closeModal} />
