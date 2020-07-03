@@ -10,6 +10,7 @@ import {
    getInvitedEmail,
    registerByInvitation,
    login,
+   emailConfirmation,
 } from '../../redux/auth/operations'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
@@ -108,9 +109,14 @@ class Registration extends Component {
       ))
 
    componentDidMount = () => {
+      const { tabs } = this.state
+      const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
       const linkId = this.props.match.params.linkId
-      if (linkId) {
+
+      if (tab._id === 'signup' && linkId) {
          this.props.getInvitedEmail(linkId)
+      } else if (linkId) {
+         this.props.emailConfirmation(linkId)
       }
    }
 
@@ -125,7 +131,8 @@ class Registration extends Component {
       const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
 
       const linkId = this.props.match.params.linkId
-      const invitedEmail = linkId ? this.props.invitedEmail : ''
+      const invitedEmail =
+         tab._id === 'signup' && linkId ? this.props.invitedEmail : ''
 
       return (
          <div className={styles.form}>
@@ -138,8 +145,8 @@ class Registration extends Component {
                label={tab.emailLabel}
                hintLabel={tab.emailHintLabel}
                errorLabel={email && emailErrorLabel}
-               value={invitedEmail ? invitedEmail : email}
-               disabled={invitedEmail ? true : false}
+               value={!invitedEmail ? email : invitedEmail}
+               disabled={!invitedEmail ? false : true}
                onChange={this.handleChange}
                onBlur={(e) => this.emailIsValid(e.target.value)}
             />
@@ -189,7 +196,14 @@ const mapStateToProps = ({ fetchReducer, authReducer }) => ({
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
-      { register, login, push, getInvitedEmail, registerByInvitation },
+      {
+         register,
+         login,
+         push,
+         getInvitedEmail,
+         registerByInvitation,
+         emailConfirmation,
+      },
       dispatch
    )
 
