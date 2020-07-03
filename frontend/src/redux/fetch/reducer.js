@@ -2,6 +2,9 @@ import {
    GET_INVITED_EMAIL_LOADING,
    GET_INVITED_EMAIL_SUCCESS,
    GET_INVITED_EMAIL_ERROR,
+   EMAIL_CONFIRMATION_LOADING,
+   EMAIL_CONFIRMATION_SUCCESS,
+   EMAIL_CONFIRMATION_ERROR,
    REGISTRATION_LOADING,
    REGISTRATION_SUCCESS,
    REGISTRATION_ERROR,
@@ -72,6 +75,20 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             invitationError: action.payload,
+         }
+      }
+
+      case EMAIL_CONFIRMATION_LOADING:
+      case EMAIL_CONFIRMATION_SUCCESS: {
+         return {
+            ...state,
+            emailConfirmationError: undefined,
+         }
+      }
+      case EMAIL_CONFIRMATION_ERROR: {
+         return {
+            ...state,
+            emailConfirmationError: action.payload,
          }
       }
 

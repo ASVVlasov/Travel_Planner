@@ -3,6 +3,9 @@ import {
    getInvitedEmailLoading,
    getInvitedEmailSuccess,
    getInvitedEmailError,
+   emailConfirmationLoading,
+   emailConfirmationSuccess,
+   emailConfirmationError,
    regLoading,
    regSuccess,
    regError,
@@ -30,6 +33,13 @@ export const getInvitedEmail = (linkId) =>
       getInvitedEmailLoading,
       getInvitedEmailSuccess,
       getInvitedEmailError,
+   ])
+
+export const emailConfirmation = (linkId) =>
+   fetchRequest.post('/signin/' + linkId, [
+      emailConfirmationLoading,
+      emailConfirmationSuccess,
+      emailConfirmationError,
    ])
 
 export const login = (authInfo) =>
