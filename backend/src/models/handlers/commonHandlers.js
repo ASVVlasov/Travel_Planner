@@ -5,11 +5,12 @@ const compareDates = function (prevDate, nextDate) {
    if (!prevDate || !nextDate) {
       return false
    }
-   let prev, next
-   if (typeof prevDate === 'string') {
+   let prev = prevDate,
+      next = nextDate
+   if (typeof prev === 'string') {
       prev = new Date(prevDate)
    }
-   if (typeof nextDate === 'string') {
+   if (typeof next === 'string') {
       next = new Date(nextDate)
    }
    return prev < next
