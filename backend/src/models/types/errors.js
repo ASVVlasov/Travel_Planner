@@ -22,6 +22,11 @@ const userError = {
       { type: ErrorType.WARNING }
    ),
    notFoundError: createError(400, 'Пользователь не найден', { type: ErrorType.ERROR }),
+   restoreSentError: createError(
+      400,
+      'Сообщение для восстановления пароля уже было вам направлено. Возможно оно еще не дошло или уже затерялось среди других писем. Проверьте почту, пожалуйста!',
+      { type: ErrorType.WARNING }
+   ),
 }
 
 const cardError = {

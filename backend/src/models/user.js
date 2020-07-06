@@ -9,6 +9,7 @@ const UniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcryptjs')
 const nodeMailer = require('nodemailer')
 const EmailText = require('./types/email')
+const Errors = require('./types/errors')
 
 const userSchema = new Schema({
    password: {
@@ -81,6 +82,25 @@ userSchema.statics.invite = async function (email) {
    await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id))
    return newUser
 }
+
+userSchema.statics.restorePassword = async function (email) {
+   const forgetfulUser = await this.findOne({ email })
+   if (!forgetfulUser) {
+      throw Errors.userError.notFoundError
+   }
+   const alreadyExist = await RegistrationModel.findOne({ user: forgetfulUser })
+   if (alreadyExist) {
+      throw Errors.userError.restoreSentError
+   }
+   const registrationModel = await RegistrationModel.create({
+      email: forgetfulUser.email,
+      password: '',
+      user: forgetfulUser,
+   })
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id))
+   return forgetfulUser
+}
+
 userSchema.statics.createUser = async function (userModel) {
    const regUserInfo = {
       email: userModel.email,
