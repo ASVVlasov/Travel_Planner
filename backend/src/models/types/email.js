@@ -8,7 +8,7 @@ module.exports = {
       `<b>Привет!</b><br/>
         Мы рады приветствовать Вас на нашем сервисе планирования путешествий<br/>
         Осталось сделать всего один шаг - подтвердить почту по ссылке - 
-        <strong> http://localhost:3000/#/home/signup/${linkId}</strong>`,
+        <strong> http://localhost:3000/#/home/signin/${linkId}</strong>`,
    forgotHTML: (linkId) =>
       `<b>Привет!</b><br/>
       Это письмо пришло вам потому, что вы забыли пароль<br/>

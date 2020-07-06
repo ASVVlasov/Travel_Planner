@@ -1,5 +1,11 @@
 import { fetchRequest } from '../fetch/operations'
 import {
+   getInvitedEmailLoading,
+   getInvitedEmailSuccess,
+   getInvitedEmailError,
+   emailConfirmationLoading,
+   emailConfirmationSuccess,
+   emailConfirmationError,
    regLoading,
    regSuccess,
    regError,
@@ -12,6 +18,29 @@ import {
 
 export const register = (newUser) =>
    fetchRequest.post('/signup', [regLoading, regSuccess, regError], newUser)
+
+export const registerByInvitation = (newUser) =>
+   fetchRequest.post(
+      '/signup/' + newUser.linkId,
+      [regLoading, regSuccess, regError],
+      {
+         password: newUser.password,
+      }
+   )
+
+export const getInvitedEmail = (linkId) =>
+   fetchRequest.get('/signup/' + linkId, [
+      getInvitedEmailLoading,
+      getInvitedEmailSuccess,
+      getInvitedEmailError,
+   ])
+
+export const emailConfirmation = (linkId) =>
+   fetchRequest.post('/signin/' + linkId, [
+      emailConfirmationLoading,
+      emailConfirmationSuccess,
+      emailConfirmationError,
+   ])
 
 export const login = (authInfo) =>
    fetchRequest.post(
