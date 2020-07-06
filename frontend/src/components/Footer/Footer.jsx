@@ -18,11 +18,14 @@ class Footer extends React.Component {
       getBudget: PropTypes.func.isRequired,
       setUserFilter: PropTypes.func.isRequired,
    }
-
-   state = {
-      filter: false,
-      isModalOpen: false,
-      feedbackHintShown: false,
+   constructor(props) {
+      super(props)
+      this.state = {
+         filter: false,
+         isModalOpen: false,
+         feedbackHintShown: false,
+      }
+      document.addEventListener('click', this.handleClick, false)
    }
 
    openModal = () => {
@@ -33,8 +36,17 @@ class Footer extends React.Component {
       this.setState({ isModalOpen: false })
    }
 
-   FeedbackHintClick = () => {
-      this.setState({ feedbackHintShown: !this.state.feedbackHintShown })
+   handleClick = (e) => {
+      const feedbackHint = document.getElementById('feedbackHint')
+      const budgetTune = document.getElementById('budgetTune')
+      const path = e.path || (e.composedPath && e.composedPath())
+
+      if (!path.includes(feedbackHint)) {
+         this.setState({ feedbackHintShown: false })
+      }
+      if (path.includes(budgetTune)) {
+         this.setState({ feedbackHintShown: true })
+      }
    }
 
    changeFilter = (value) => {
@@ -92,16 +104,14 @@ class Footer extends React.Component {
                      </div>
                   </div>
                </div>
-               <Tune
-                  className={styles.footer__settingsBtn}
-                  onClick={this.FeedbackHintClick}
-               />
+               <Tune className={styles.footer__settingsBtn} id="budgetTune" />
             </div>
             <div
                className={classNames(
                   styles.footer__feedback,
                   this.state.feedbackHintShown && styles.footer__feedback_show
                )}
+               id="feedbackHint"
             >
                <p className={styles.footer__text}>
                   Здесь будет подробный расчет бюджета
