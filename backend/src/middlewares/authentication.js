@@ -1,19 +1,14 @@
 const token = require('./token')
+const Errors = require('../models/types/errors')
+const asyncHandler = require('express-async-handler')
 
-const authenticate = async (req, res, next) => {
+const authenticate = asyncHandler(async (req, res, next) => {
    if (!!req.user) {
       next() // Сначала сессия
    } else {
-      token
-         .check(req, res)
-         .then((user) => {
-            req.user = user
-            next() // Потом токен
-         })
-         .catch((err) => {
-            res.status(403).send(err)
-         })
+      req.user = await token.check(req, res)
+      next()
    }
-}
+})
 
 module.exports = authenticate

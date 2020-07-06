@@ -9,7 +9,7 @@ const errorMiddleware = (error, req, res, next) => {
          message: error.message,
       })
    } else {
-      res.send(Errors.commonError)
+      res.json(Errors.commonError)
    }
 }
 module.exports = errorMiddleware
