@@ -51,7 +51,7 @@ class Board extends Component {
    mapCardsToRender = () =>
       this.props.cards.map((card) => (
          <div key={card._id} className={styles.board__card}>
-            <CardShort {...card} />
+            <CardShort card={card} travel={this.props.travel} />
          </div>
       ))
 
@@ -117,10 +117,11 @@ class Board extends Component {
    }
 }
 
-const mapStateToProps = ({ boardReducer }) => ({
+const mapStateToProps = ({ boardReducer, travelReducer }) => ({
    tabs: boardReducer.tabs,
    cards: boardReducer.currentCards,
    isBoardLoading: boardReducer.isBoardLoading,
+   travel: travelReducer.travel,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ getBoard, setTabFilter }, dispatch)

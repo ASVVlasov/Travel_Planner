@@ -39,6 +39,25 @@ export class Calendar extends React.Component {
       travel.endDate = convertedEndDate
 
       this.props.changeTravel(travel)
+      this.setState({ startDate, endDate })
+   }
+
+   componentDidMount = () => {
+      const stringBeginDate = this.props.travel.beginDate
+      const stringEndDate = this.props.travel.endDate
+
+      const convertedBeginDate = stringBeginDate
+         ? moment(stringBeginDate)
+         : stringBeginDate
+
+      const convertedEndDate = stringEndDate
+         ? moment(stringEndDate)
+         : stringEndDate
+
+      this.setState({
+         startDate: convertedBeginDate,
+         endDate: convertedEndDate,
+      })
    }
 
    render() {
@@ -67,9 +86,9 @@ export class Calendar extends React.Component {
       return (
          <div className={styles.calendar}>
             <DateRangePicker
-               startDate={convertedBeginDate} // momentPropTypes.momentObj or null,
+               startDate={this.state.startDate} // momentPropTypes.momentObj or null,
                startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-               endDate={convertedEndDate} // momentPropTypes.momentObj or null,
+               endDate={this.state.endDate} // momentPropTypes.momentObj or null,
                endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
                onDatesChange={({ startDate, endDate }) =>
                   this.setDateCalendar(startDate, endDate)

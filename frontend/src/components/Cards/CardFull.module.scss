@@ -194,6 +194,9 @@ h2 {
       &_currentDate {
          color: $color-success-main;
       }
+      &_dateBeyondTravel {
+         color: $color-warning-main;
+      }
    }
 }
 
