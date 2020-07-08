@@ -97,7 +97,7 @@ travelSchema.statics.updateTravel = async function (travelModel) {
          const card = await CardModel.findById(cardModel._id)
          if (
             commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
-            commonHandlers.compareDates(card.endDate, travelModel.endDate)
+            commonHandlers.compareDates(travelModel.endDate, card.endDate)
          ) {
             delete travelModel.cards
             delete travelModel.users
