@@ -47,6 +47,11 @@ export const changeTravelSuccess = (updTravel) => ({
    type: CHANGE_TRAVEL_SUCCESS,
    payload: { ...updTravel },
 })
+//TODO remove changeTravelLocal
+export const changeTravelLocal = (updTravel) => ({
+   type: CHANGE_TRAVEL_SUCCESS,
+   payload: { ...updTravel },
+})
 export const changeTravelError = (err) => ({
    type: CHANGE_TRAVEL_ERROR,
    payload: err,
