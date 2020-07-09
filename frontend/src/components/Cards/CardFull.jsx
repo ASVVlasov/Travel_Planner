@@ -398,6 +398,7 @@ class CardFull extends Component {
                                             styles.route__date_currentDate
                                       )
                                     : classNames(
+                                         styles.route__date,
                                          styles.route__date_dateBeyondTravel
                                       )
                               }
@@ -422,6 +423,7 @@ class CardFull extends Component {
                                             styles.route__date_currentDate
                                       )
                                     : classNames(
+                                         styles.route__date,
                                          styles.route__date_dateBeyondTravel
                                       )
                               }

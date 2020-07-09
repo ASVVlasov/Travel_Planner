@@ -56,24 +56,24 @@ export default class CardShort extends Component {
    startDateIsWithinTheTravelPeriod = () => {
       const { card, travel } = this.props
       const travelBeginDate = new Date(travel.beginDate).setHours(0, 0, 0, 0)
+      const travelEndDate = new Date(travel.endDate).setHours(0, 0, 0, 0)
       const cardBeginDate = new Date(card.beginDate).setHours(0, 0, 0, 0)
 
-      if (card.beginDate && cardBeginDate < travelBeginDate) {
-         return false
-      } else {
-         return true
-      }
+      return !(
+         (card.beginDate && cardBeginDate < travelBeginDate) ||
+         (card.beginDate && cardBeginDate > travelEndDate)
+      )
    }
    endDateIsWithinTheTravelPeriod = () => {
       const { card, travel } = this.props
+      const travelBeginDate = new Date(travel.beginDate).setHours(0, 0, 0, 0)
       const travelEndDate = new Date(travel.endDate).setHours(0, 0, 0, 0)
       const cardEndDate = new Date(card.endDate).setHours(0, 0, 0, 0)
 
-      if (card.endDate && cardEndDate > travelEndDate) {
-         return false
-      } else {
-         return true
-      }
+      return !(
+         (card.endDate && cardEndDate > travelEndDate) ||
+         (card.endDate && cardEndDate < travelBeginDate)
+      )
    }
 
    getUserName = (user, isAvatarName = false) => {
@@ -237,6 +237,7 @@ export default class CardShort extends Component {
                                             styles.route__date_currentDate
                                       )
                                     : classNames(
+                                         styles.route__date,
                                          styles.route__date_dateBeyondTravel
                                       )
                               }
@@ -262,6 +263,7 @@ export default class CardShort extends Component {
                                             styles.route__date_currentDate
                                       )
                                     : classNames(
+                                         styles.route__date,
                                          styles.route__date_dateBeyondTravel
                                       )
                               }
