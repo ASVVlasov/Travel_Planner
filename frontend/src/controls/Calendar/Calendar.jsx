@@ -5,7 +5,7 @@ import './Calendar.css'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravel } from '../../redux/travel/operations'
+import { getTravel, changeTravel } from '../../redux/travel/operations'
 import { changeTravelLocal } from '../../redux/travel/actions' //TODO remove changeTravelLocal
 
 import 'react-dates/initialize'
@@ -33,32 +33,22 @@ export class Calendar extends React.Component {
    setDateCalendar = (startDate, endDate) => {
       const travel = { ...this.props.travel }
 
-      const convertedBeginDate = startDate ? startDate.toISOString() : startDate
-      const convertedEndDate = endDate ? endDate.toISOString() : endDate
-
-      travel.beginDate = convertedBeginDate
-      travel.endDate = convertedEndDate
+      travel.beginDate = startDate ? startDate.toISOString() : startDate
+      travel.endDate = endDate ? endDate.toISOString() : endDate
 
       this.props.changeTravelLocal(travel) //TODO remove changeTravelLocal
       this.props.changeTravel(travel)
       this.setState({ startDate, endDate })
    }
 
-   componentDidMount = () => {
+   componentDidMount = async () => {
+      await this.props.getTravel(this.props.travel._id)
       const stringBeginDate = this.props.travel.beginDate
       const stringEndDate = this.props.travel.endDate
 
-      const convertedBeginDate = stringBeginDate
-         ? moment(stringBeginDate)
-         : stringBeginDate
-
-      const convertedEndDate = stringEndDate
-         ? moment(stringEndDate)
-         : stringEndDate
-
       this.setState({
-         startDate: convertedBeginDate,
-         endDate: convertedEndDate,
+         startDate: stringBeginDate ? moment(stringBeginDate) : stringBeginDate,
+         endDate: stringEndDate ? moment(stringEndDate) : stringEndDate,
       })
    }
 
@@ -112,9 +102,7 @@ export class Calendar extends React.Component {
    }
 }
 
-const mapStateToProps = ({ travelReducer }) => ({
-   travel: travelReducer.travel,
-})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ getTravel, changeTravel, changeTravelLocal }, dispatch) //TODO remove changeTravelLocal
