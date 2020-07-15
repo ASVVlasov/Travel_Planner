@@ -7,7 +7,6 @@ export const fetchRequest = {
 
    post: (url, actions, body) =>
       fetchData(url, actions, JSON.stringify(body), 'POST'),
-
    put: (url, actions, body) =>
       fetchData(url, actions, JSON.stringify(body), 'PUT'),
 

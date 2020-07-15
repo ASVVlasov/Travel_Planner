@@ -3,7 +3,22 @@
 .footer{
     min-height: 84px;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
     padding: 30px 120px;
+    &__linkList{
+        display: flex;
+        justify-content: space-between;
+    }
+    &__link{
+        color: $color-secondary-main;
+        cursor: pointer;
+        text-decoration: underline;
+        margin-right: 40px;
+        &:last-child{
+            margin-right: 0px;
+        }
+    }
 }
+

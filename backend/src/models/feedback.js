@@ -21,8 +21,4 @@ const feedbackSchema = new Schema({
    },
 })
 
-feedbackSchema.pre('save', function (next) {
-   this.date = new Date()
-})
-
 module.exports = mongoose.model('Feedback', feedbackSchema)

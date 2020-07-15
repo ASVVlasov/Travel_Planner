@@ -10,6 +10,7 @@ import BoardSlider from './BoardSlider'
 import Button from '../../controls/Button/Button'
 import CardFormContainer from '../../containers/CardFormContainer'
 import CardShort from '../Cards/CardShort'
+import FeedbackForm from '../Forms/FeedbackForm'
 import Loader from '../../controls/Loader/Loader'
 
 import { ReactComponent as PlusIcon } from '../../assets/images/icons/plus.svg'
@@ -108,10 +109,28 @@ class Board extends Component {
                   ]}
                />
             )}
+            {this.props.match.params.board !== 'todo' &&
+               this.state.isModalOpen && (
+                  <CardFormContainer onClose={this.closeModal} />
+               )}
 
-            {this.state.isModalOpen && (
-               <CardFormContainer onClose={this.closeModal} />
+            {this.props.match.params.board === 'todo' && (
+               <div className={styles.board__main}>
+                  <p className={styles.board__text}>
+                     Раздел находится в разработке
+                     <br />
+                     Самое время&nbsp;
+                     <span onClick={this.openModal}>
+                        отправить предложения и пожелания
+                     </span>
+                     &nbsp;по функционалу
+                  </p>
+               </div>
             )}
+            {this.props.match.params.board === 'todo' &&
+               this.state.isModalOpen && (
+                  <FeedbackForm onClose={this.closeModal} />
+               )}
          </div>
       )
    }

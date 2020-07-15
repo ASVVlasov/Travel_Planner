@@ -1,12 +1,14 @@
 import React from 'react'
 import styles from './footer.module.scss'
 import Switch from '../../controls/Switch/Switch.jsx'
+import FeedbackForm from '../Forms/FeedbackForm'
 import { ReactComponent as Tune } from '../../assets/images/icons/tune.svg'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getBudget } from '../../redux/travel/operations'
 import { setUserFilter } from '../../redux/board/actions'
+import classNames from 'classnames'
 
 class Footer extends React.Component {
    static propTypes = {
@@ -16,9 +18,35 @@ class Footer extends React.Component {
       getBudget: PropTypes.func.isRequired,
       setUserFilter: PropTypes.func.isRequired,
    }
+   constructor(props) {
+      super(props)
+      this.state = {
+         filter: false,
+         isModalOpen: false,
+         feedbackHintShown: false,
+      }
+      document.addEventListener('click', this.handleClick, false)
+   }
 
-   state = {
-      filter: false,
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
+
+   closeModal = () => {
+      this.setState({ isModalOpen: false })
+   }
+
+   handleClick = (e) => {
+      const feedbackHint = document.getElementById('feedbackHint')
+      const budgetTune = document.getElementById('budgetTune')
+      const path = e.path || (e.composedPath && e.composedPath())
+
+      if (!path.includes(feedbackHint)) {
+         this.setState({ feedbackHintShown: false })
+      }
+      if (path.includes(budgetTune)) {
+         this.setState({ feedbackHintShown: true })
+      }
    }
 
    changeFilter = (value) => {
@@ -76,8 +104,27 @@ class Footer extends React.Component {
                      </div>
                   </div>
                </div>
-               <Tune className={styles.footer__settingsBtn} />
+               <Tune className={styles.footer__settingsBtn} id="budgetTune" />
             </div>
+            <div
+               className={classNames(
+                  styles.footer__feedback,
+                  this.state.feedbackHintShown && styles.footer__feedback_show
+               )}
+               id="feedbackHint"
+            >
+               <p className={styles.footer__text}>
+                  Здесь будет подробный расчет бюджета
+                  <br />
+                  Самое время&nbsp;
+                  <span onClick={this.openModal}>отправить пожелания</span>
+                  <br />
+                  по функционалу
+               </p>
+            </div>
+            {this.state.isModalOpen && (
+               <FeedbackForm onClose={this.closeModal} />
+            )}
          </footer>
       )
    }

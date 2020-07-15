@@ -7,8 +7,10 @@ router.post(
    asyncHandler(async (req, res) => {
       const feedback = { ...req.body }
       feedback.user = req.user._id
-      const newFeedback = new FeedbackModel(feedback)
-      await newFeedback.save()
+      feedback.date = new Date()
+      const newFeedback = await FeedbackModel.create(feedback)
       res.json(newFeedback)
    })
 )
+
+module.exports = router

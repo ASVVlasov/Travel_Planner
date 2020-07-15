@@ -4,38 +4,58 @@
    height: 100%;
    min-height: 525px;
    padding: 45px 0 10px 0;
-}
 
-.board__controlPanel {
-   height: 42px;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 0 120px;
-}
-
-.board__tabsLink {
-   display: inline-block;
-   margin-right: 40px;
-   @include Title-1-SemiBold ;
-   color: $color-secondary-light;
-   text-decoration: none;
-   &_active {
-      color: $color-secondary-main;
+   &__controlPanel {
+      height: 42px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 120px;
    }
-}
 
-.board__card {
-   cursor: pointer;
-}
+   &__tabsLink {
+      display: inline-block;
+      margin-right: 40px;
+      @include Title-1-SemiBold;
+      color: $color-secondary-light;
+      text-decoration: none;
 
-.board__card_add {
-   border: none;
-   outline: none;
-   cursor: pointer;
-   svg {
-      width: 45px;
-      fill: $color-secondary-light;
-      opacity: 0.3;
+      &_active {
+         color: $color-secondary-main;
+      }
+   }
+
+   &__card {
+      cursor: pointer;
+
+      &_add {
+         border: none;
+         outline: none;
+         cursor: pointer;
+
+         svg {
+            width: 45px;
+            fill: $color-secondary-light;
+            opacity: 0.3;
+         }
+
+      }
+   }
+
+   &__main {
+      padding: 216px 120px 0px 120px;
+      text-align: center;
+   }
+
+   &__text{
+      color: $color-primary-light;
+      & span {
+         color: $color-secondary-main;
+         cursor: pointer;
+         text-decoration: underline;
+      }
+   }
+   &__text, &__text span{
+      @include Subtitle-1-Regular;
    }
 }
