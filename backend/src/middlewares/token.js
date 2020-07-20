@@ -23,7 +23,7 @@ const save = async (req, res) => {
 }
 
 const check = async (req, res) => {
-   if (!req.cookies) {
+   if (!req.cookies.token) {
       throw Errors.authError.tokenNotFoundError
    }
    return jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY)
