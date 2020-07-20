@@ -24,8 +24,16 @@ router.post(
          }
          res.json(user)
       } else {
-         res.json(await UserModel.invite(email))
+         throw Errors.userError.notFoundError
       }
+   })
+)
+
+router.post(
+   '/invite',
+   asyncHandler(async (req, res) => {
+      const { email } = req.body
+      res.json(await UserModel.invite(email))
    })
 )
 
