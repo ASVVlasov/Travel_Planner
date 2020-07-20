@@ -5,7 +5,8 @@ import './Calendar.css'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changeTravel } from '../../redux/travel/operations'
+import { getTravel, changeTravel } from '../../redux/travel/operations'
+import { changeTravelLocal } from '../../redux/travel/actions' //TODO remove changeTravelLocal
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -32,13 +33,23 @@ export class Calendar extends React.Component {
    setDateCalendar = (startDate, endDate) => {
       const travel = { ...this.props.travel }
 
-      const convertedBeginDate = startDate ? startDate.toISOString() : startDate
-      const convertedEndDate = endDate ? endDate.toISOString() : endDate
+      travel.beginDate = startDate ? startDate.toISOString() : startDate
+      travel.endDate = endDate ? endDate.toISOString() : endDate
 
-      travel.beginDate = convertedBeginDate
-      travel.endDate = convertedEndDate
-
+      this.props.changeTravelLocal(travel) //TODO remove changeTravelLocal
       this.props.changeTravel(travel)
+      this.setState({ startDate, endDate })
+   }
+
+   componentDidMount = async () => {
+      await this.props.getTravel(this.props.travel._id)
+      const stringBeginDate = this.props.travel.beginDate
+      const stringEndDate = this.props.travel.endDate
+
+      this.setState({
+         startDate: stringBeginDate ? moment(stringBeginDate) : stringBeginDate,
+         endDate: stringEndDate ? moment(stringEndDate) : stringEndDate,
+      })
    }
 
    render() {
@@ -67,9 +78,9 @@ export class Calendar extends React.Component {
       return (
          <div className={styles.calendar}>
             <DateRangePicker
-               startDate={convertedBeginDate} // momentPropTypes.momentObj or null,
+               startDate={this.state.startDate} // momentPropTypes.momentObj or null,
                startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-               endDate={convertedEndDate} // momentPropTypes.momentObj or null,
+               endDate={this.state.endDate} // momentPropTypes.momentObj or null,
                endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
                onDatesChange={({ startDate, endDate }) =>
                   this.setDateCalendar(startDate, endDate)
@@ -91,11 +102,9 @@ export class Calendar extends React.Component {
    }
 }
 
-const mapStateToProps = ({ travelReducer }) => ({
-   travel: travelReducer.travel,
-})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ changeTravel }, dispatch)
+   bindActionCreators({ getTravel, changeTravel, changeTravelLocal }, dispatch) //TODO remove changeTravelLocal
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

@@ -34,11 +34,11 @@ export const getTravel = (travelId) =>
       getTravelError,
    ])
 
-export const changeTravel = (title) =>
+export const changeTravel = (travel) =>
    fetchRequest.put(
       MAIN_URL,
       [changeTravelLoading, changeTravelSuccess, changeTravelError],
-      title
+      travel
    )
 
 export const createTravel = (travelData) =>

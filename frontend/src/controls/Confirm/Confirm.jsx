@@ -91,6 +91,7 @@ export default class Confirm extends React.Component {
    render() {
       const { onClose, act, type } = this.props
       const style = this.state[type].style
+      let confirmationButtonText = 'Удалить'
       let information
 
       switch (type) {
@@ -100,6 +101,7 @@ export default class Confirm extends React.Component {
          }
          case 'leaveTravel': {
             information = this.leaveTravelText
+            confirmationButtonText = 'Покинуть'
             break
          }
          case 'deleteTraveler': {
@@ -122,7 +124,11 @@ export default class Confirm extends React.Component {
                {information()}
                <div className={styles.confirm__buttonBlock}>
                   <Button onClick={onClose} type="cancel" text="Отмена" />
-                  <Button onClick={act} type="delete" text="Удалить" />
+                  <Button
+                     onClick={act}
+                     type="delete"
+                     text={confirmationButtonText}
+                  />
                </div>
             </div>
          </ModalBase>

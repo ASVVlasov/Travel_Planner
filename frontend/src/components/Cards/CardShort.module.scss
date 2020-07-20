@@ -97,6 +97,9 @@
          @include Caption-1-SemiBold;
          color: $color-success-main;
       }
+      &_dateBeyondTravel {
+         color: $color-warning-main;
+      }
    }
 }
 

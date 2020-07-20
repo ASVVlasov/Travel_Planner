@@ -389,12 +389,19 @@ class CardFull extends Component {
                            />
 
                            <span
-                              className={classNames(
-                                 styles.route__date,
-                                 start === today &&
-                                    unexpiredCard &&
-                                    styles.route__date_currentDate
-                              )}
+                              className={
+                                 this.props.startDateWithinTravelDates
+                                    ? classNames(
+                                         styles.route__date,
+                                         start === today &&
+                                            unexpiredCard &&
+                                            styles.route__date_currentDate
+                                      )
+                                    : classNames(
+                                         styles.route__date,
+                                         styles.route__date_dateBeyondTravel
+                                      )
+                              }
                               children={this.convertDate(beginDate)}
                            />
                         </div>
@@ -407,12 +414,19 @@ class CardFull extends Component {
                               children={endPoint || captions.endPoint}
                            />
                            <span
-                              className={classNames(
-                                 styles.route__date,
-                                 finish === today &&
-                                    unexpiredCard &&
-                                    styles.route__date_currentDate
-                              )}
+                              className={
+                                 this.props.endDateWithinTravelDates
+                                    ? classNames(
+                                         styles.route__date,
+                                         finish === today &&
+                                            unexpiredCard &&
+                                            styles.route__date_currentDate
+                                      )
+                                    : classNames(
+                                         styles.route__date,
+                                         styles.route__date_dateBeyondTravel
+                                      )
+                              }
                               children={this.convertDate(endDate)}
                            />
                         </div>

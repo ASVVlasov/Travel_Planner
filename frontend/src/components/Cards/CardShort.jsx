@@ -53,6 +53,29 @@ export default class CardShort extends Component {
       }
    }
 
+   startDateIsWithinTheTravelPeriod = () => {
+      const { card, travel } = this.props
+      const travelBeginDate = new Date(travel.beginDate).setHours(0, 0, 0, 0)
+      const travelEndDate = new Date(travel.endDate).setHours(0, 0, 0, 0)
+      const cardBeginDate = new Date(card.beginDate).setHours(0, 0, 0, 0)
+
+      return !(
+         (card.beginDate && cardBeginDate < travelBeginDate) ||
+         (card.beginDate && cardBeginDate > travelEndDate)
+      )
+   }
+   endDateIsWithinTheTravelPeriod = () => {
+      const { card, travel } = this.props
+      const travelBeginDate = new Date(travel.beginDate).setHours(0, 0, 0, 0)
+      const travelEndDate = new Date(travel.endDate).setHours(0, 0, 0, 0)
+      const cardEndDate = new Date(card.endDate).setHours(0, 0, 0, 0)
+
+      return !(
+         (card.endDate && cardEndDate > travelEndDate) ||
+         (card.endDate && cardEndDate < travelBeginDate)
+      )
+   }
+
    getUserName = (user, isAvatarName = false) => {
       const { nickName, surname, name } = user
       if (isAvatarName) {
@@ -66,7 +89,7 @@ export default class CardShort extends Component {
    }
 
    avatarsToRender = () => {
-      return this.props.payers.map((payer) => {
+      return this.props.card.payers.map((payer) => {
          const { user } = payer
          return (
             <div
@@ -98,7 +121,7 @@ export default class CardShort extends Component {
          endDate,
          files,
          payers,
-      } = this.props
+      } = this.props.card
 
       const routeDefaultCaptions = [
          {
@@ -205,12 +228,19 @@ export default class CardShort extends Component {
                               children={beginPoint || captions.beginPoint}
                            />
                            <span
-                              className={classNames(
-                                 styles.route__date,
-                                 start === today &&
-                                    unexpiredCard &&
-                                    styles.route__date_currentDate
-                              )}
+                              className={
+                                 this.startDateIsWithinTheTravelPeriod()
+                                    ? classNames(
+                                         styles.route__date,
+                                         start === today &&
+                                            unexpiredCard &&
+                                            styles.route__date_currentDate
+                                      )
+                                    : classNames(
+                                         styles.route__date,
+                                         styles.route__date_dateBeyondTravel
+                                      )
+                              }
                               children={this.convertDate(beginDate)}
                            />
                         </div>
@@ -224,12 +254,19 @@ export default class CardShort extends Component {
                            />
                            {/* TODO edit location of dates */}
                            <span
-                              className={classNames(
-                                 styles.route__date,
-                                 finish === today &&
-                                    unexpiredCard &&
-                                    styles.route__date_currentDate
-                              )}
+                              className={
+                                 this.endDateIsWithinTheTravelPeriod()
+                                    ? classNames(
+                                         styles.route__date,
+                                         finish === today &&
+                                            unexpiredCard &&
+                                            styles.route__date_currentDate
+                                      )
+                                    : classNames(
+                                         styles.route__date,
+                                         styles.route__date_dateBeyondTravel
+                                      )
+                              }
                               children={this.convertDate(endDate)}
                            />
                         </div>
@@ -246,7 +283,9 @@ export default class CardShort extends Component {
             {this.state.fullInfoOpened && (
                <CardFull
                   toClose={this.closeFullInfo}
-                  card={{ ...this.props }}
+                  card={{ ...this.props.card }}
+                  startDateWithinTravelDates={this.startDateIsWithinTheTravelPeriod()}
+                  endDateWithinTravelDates={this.endDateIsWithinTheTravelPeriod()}
                />
             )}
          </>
