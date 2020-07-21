@@ -22,6 +22,9 @@ import {
    SEARCH_CONTACT_LOADING,
    SEARCH_CONTACT_SUCCESS,
    SEARCH_CONTACT_ERROR,
+   INVITE_CONTACT_LOADING,
+   INVITE_CONTACT_SUCCESS,
+   INVITE_CONTACT_ERROR,
    CLEAR_ERROR_SEARCH,
    UPDATE_CONTACTS_SUCCESS,
    UPDATE_CONTACTS_ERROR,
@@ -153,6 +156,21 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             contactSearchError: action.payload,
+         }
+      }
+
+      case INVITE_CONTACT_LOADING:
+      case INVITE_CONTACT_SUCCESS: {
+         return {
+            ...state,
+            contactSearchError: undefined,
+            contactInviteError: undefined,
+         }
+      }
+      case INVITE_CONTACT_ERROR: {
+         return {
+            ...state,
+            contactInviteError: action.payload,
          }
       }
 
