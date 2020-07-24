@@ -11,6 +11,9 @@ import {
    SEARCH_CONTACT_LOADING,
    SEARCH_CONTACT_SUCCESS,
    SEARCH_CONTACT_ERROR,
+   INVITE_CONTACT_LOADING,
+   INVITE_CONTACT_SUCCESS,
+   INVITE_CONTACT_ERROR,
    UPDATE_CONTACTS_SUCCESS,
    UPDATE_CONTACTS_ERROR,
    CLEAR_CONTACTS_SEARCH,
@@ -63,6 +66,18 @@ export const searchContactSuccess = (contact) => ({
 })
 export const searchContactError = (err) => ({
    type: SEARCH_CONTACT_ERROR,
+   payload: err,
+})
+
+export const inviteСontactLoading = () => ({
+   type: INVITE_CONTACT_LOADING,
+})
+export const inviteСontactSuccess = (contact) => ({
+   type: INVITE_CONTACT_SUCCESS,
+   payload: contact,
+})
+export const inviteСontactError = (err) => ({
+   type: INVITE_CONTACT_ERROR,
    payload: err,
 })
 

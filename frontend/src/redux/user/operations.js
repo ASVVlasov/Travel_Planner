@@ -10,6 +10,9 @@ import {
    searchContactLoading,
    searchContactSuccess,
    searchContactError,
+   inviteСontactLoading,
+   inviteСontactSuccess,
+   inviteСontactError,
    updateContactsSuccess,
    updateContactsError,
 } from './actions'
@@ -47,6 +50,13 @@ export const searchContact = (email) =>
    fetchRequest.post(
       CONTACT_URL + '/search',
       [searchContactLoading, searchContactSuccess, searchContactError],
+      email
+   )
+
+export const inviteСontact = (email) =>
+   fetchRequest.post(
+      CONTACT_URL + '/invite',
+      [inviteСontactLoading, inviteСontactSuccess, inviteСontactError],
       email
    )
 

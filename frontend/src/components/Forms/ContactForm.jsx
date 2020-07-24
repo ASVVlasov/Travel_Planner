@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
    searchContact,
+   inviteСontact,
    addContact,
    deleteContact,
 } from '../../redux/user/operations'
@@ -16,11 +17,13 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as SearchIcon } from '../../assets/images/icons/search.svg'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
+import Alert from '../../controls/Alert/Alert'
 
 class ContactForm extends Component {
    static propTypes = {
       onClose: PropTypes.func.isRequired,
       searchContact: PropTypes.func,
+      inviteСontact: PropTypes.func,
       addContact: PropTypes.func,
       deleteContact: PropTypes.func,
       clearContactSearch: PropTypes.func,
@@ -31,6 +34,8 @@ class ContactForm extends Component {
 
    state = {
       search: '',
+      invitedContact: '',
+      InvitationSent: false,
    }
 
    handleChange = (e) =>
@@ -42,7 +47,21 @@ class ContactForm extends Component {
       }
    }
 
-   searchContact = () => this.props.searchContact({ email: this.state.search })
+   searchContact = () => {
+      this.setState({
+         invitedContact: this.state.search,
+         InvitationSent: false,
+      })
+      this.props.searchContact({ email: this.state.search })
+   }
+
+   inviteСontact = async () => {
+      const { contacts, newContacts } = this.props
+      await this.props.inviteСontact({ email: this.state.search })
+      await this.searchContact()
+      this.setState({ InvitationSent: true })
+      this.mapContactsToRender(newContacts, contacts)
+   }
 
    mapContactsToRender = (newContacts, contacts) =>
       newContacts.map((nc) => (
@@ -115,12 +134,28 @@ class ContactForm extends Component {
                         children={searchError.message}
                      />
                      {searchError.message.includes('не найден') && (
-                        <p className={styles.result__description}>
-                           Проверьте правильность введенного адреса.
-                           <br />
-                           Если все верно, возможно друг еще не пользуется
-                           сервисом &mdash; поделитесь с ним нашей ссылкой
-                        </p>
+                        <div>
+                           <p className={styles.result__description}>
+                              Проверьте правильность введенного адреса.
+                              <br />
+                              Если все верно, возможно друг еще не пользуется
+                              сервисом &mdash; отправьте ему приглашение на
+                              почту
+                           </p>
+                           <div className={styles.result}>
+                              <span
+                                 className={styles.result__user}
+                                 children={this.state.invitedContact}
+                              />
+                              {this.state.invitedContact && (
+                                 <button
+                                    className={styles.result__button}
+                                    children="пригласить"
+                                    onClick={() => this.inviteСontact()}
+                                 />
+                              )}
+                           </div>
+                        </div>
                      )}
                   </div>
                )}
@@ -131,6 +166,11 @@ class ContactForm extends Component {
                   <Button text="Очистить" type="cancel" onClick={this.clear} />
                </div>
             </div>
+            {this.state.InvitationSent && (
+               <Alert
+                  {...{ type: 'success', message: 'Приглашение отправлено!' }}
+               />
+            )}
          </ModalBase>
       )
    }
@@ -145,6 +185,7 @@ const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
       {
          searchContact,
+         inviteСontact,
          addContact,
          deleteContact,
          clearContactSearch,
