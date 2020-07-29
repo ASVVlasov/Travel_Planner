@@ -71,7 +71,7 @@ userSchema.methods.comparePassword = function (candidate) {
    return bcrypt.compareSync(candidate, this.password)
 }
 
-userSchema.statics.invite = async function (email) {
+userSchema.statics.invite = async function (email, req) {
    const inviteUser = {
       email,
       password: '',
@@ -79,11 +79,11 @@ userSchema.statics.invite = async function (email) {
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
    const registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id))
+   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.host))
    return newUser
 }
 
-userSchema.statics.restorePassword = async function (email) {
+userSchema.statics.restorePassword = async function (email, req) {
    const forgetfulUser = await this.findOne({ email })
    if (!forgetfulUser) {
       throw Errors.userError.notFoundError
@@ -97,11 +97,11 @@ userSchema.statics.restorePassword = async function (email) {
       password: '',
       user: forgetfulUser,
    })
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id))
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.host))
    return forgetfulUser
 }
 
-userSchema.statics.createUser = async function (userModel) {
+userSchema.statics.createUser = async function (userModel, req) {
    const regUserInfo = {
       email: userModel.email,
       password: userModel.password,
@@ -109,7 +109,7 @@ userSchema.statics.createUser = async function (userModel) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id))
+   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.host))
    return newUser
 }
 userSchema.statics.sendEmail = async function (email, html) {

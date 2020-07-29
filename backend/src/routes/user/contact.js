@@ -33,7 +33,7 @@ router.post(
    '/invite',
    asyncHandler(async (req, res) => {
       const { email } = req.body
-      res.json(await UserModel.invite(email))
+      res.json(await UserModel.invite(email, req))
    })
 )
 
