@@ -243,12 +243,18 @@ export default function fetchReducer(state = {}, action) {
          }
       }
       case GET_TRAVEL_ERROR:
-      case CHANGE_TRAVEL_ERROR:
       case CREATE_TRAVEL_ERROR:
       case DELETE_TRAVEL_ERROR: {
          return {
             ...state,
             travelError: action.payload,
+         }
+      }
+
+      case CHANGE_TRAVEL_ERROR: {
+         return {
+            ...state,
+            travelError: action.payload.message,
          }
       }
 
