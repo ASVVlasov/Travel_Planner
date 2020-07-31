@@ -138,7 +138,7 @@ cardSchema.statics.deleteCards = async function (travelId) {
 }
 cardSchema.statics.pushUser = async function (cardId, userId) {
    const card = await this.findById(cardId)
-   if (card.payers.find((p) => p.user === userId)) {
+   if (card.payers.find((p) => p.user.id === userId)) {
       throw Errors.userError.duplicateUser
    }
    let newPayer = new PayerModel({
