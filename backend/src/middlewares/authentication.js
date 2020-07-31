@@ -7,6 +7,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
       next() // Сначала сессия
    } else {
       req.user = await token.check(req, res)
+      if (!req.user) throw Errors.authError.wrongTokenError
       next()
    }
 })
