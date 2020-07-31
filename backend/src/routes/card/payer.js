@@ -8,10 +8,8 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      let travel = req.user.travels.find((travel) => {
-         return travel.cards.find((card) => card === cardId)
-      })
-      if (travel.users.find((user) => user._id === userId)) {
+      let reqTravel = req.user.travels.find((travel) => !!travel.cards.find((card) => card === cardId))
+      if (reqTravel.users.find((user) => user._id === userId)) {
          res.json(await CardModel.pushUser(cardId, userId))
       } else {
          throw Errors.travelError.userMissingError

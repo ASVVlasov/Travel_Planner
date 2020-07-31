@@ -16,6 +16,10 @@ const travelError = {
    userMissingError: createError(400, 'Такого участника нет в путешествии! Возможно его еще не добавили?', {
       type: ErrorType.ERROR,
    }),
+   cantLeaveError: createError(400, 'Нельзя покинуть поездку которая уже прошла', { type: ErrorType.ERROR }),
+   ownerLeaveError: createError(400, 'Вы не можете покинуть поездку, лишь удалить ее совсем... 😥', {
+      type: ErrorType.ERROR,
+   }),
 }
 
 const userError = {

@@ -58,16 +58,18 @@ travelSchema.statics.isOwner = async function (travel, userId) {
    return travel.owner.toString() === userId
 }
 
-travelSchema.statics.leaveTravel = async function (travel, userId) {
-   const travelId = travel._id
+travelSchema.statics.leaveTravel = async function (travelId, userId) {
+   let travel = await this.findById(travelId)
    if (travel.status === travelStatuses.ARCHIVE) {
-      return { message: 'Поездка прошла, поэтому вы не можете ее покинуть.' }
+      throw Errors.travelError.cantLeaveError
+   } else if (travel.owner == userId) {
+      throw Errors.travelError.ownerLeaveError
    } else {
       await CardModel.removeUser(travelId, userId)
       travel.cards = travel.cards.filter((card) => !(card.payers.length === 1 && card.payers[0].user.id === userId))
       await UserModel.findByIdAndUpdate(userId, { $pull: { travels: travelId } })
       travel.users.pull(userId)
-      travel.save()
+      await travel.save()
       return travel
    }
 }
