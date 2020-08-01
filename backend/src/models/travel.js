@@ -101,19 +101,14 @@ travelSchema.statics.updateTravel = async function (travelModel) {
          ) {
             delete travelModel.cards
             delete travelModel.users
-            const newTravel = await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
-            return {
-               data: newTravel,
-               message: Errors.travelError.dateCompareError,
-            }
+            await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
+            throw Errors.travelError.dateCompareError
          }
       }
    }
    delete travelModel.cards
    delete travelModel.users
-   return {
-      data: await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true }),
-   }
+   return await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
 }
 
 travelSchema.post('findOne', errorHandler.ErrorTravelHandler)
