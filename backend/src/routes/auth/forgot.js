@@ -6,7 +6,8 @@ router.post(
    '/',
    asyncHandler(async (req, res, next) => {
       const user = await UserModel.restorePassword(req.body.email)
-      res.json(JSON.parse(JSON.stringify(user)))
+      req.data = JSON.parse(JSON.stringify(user))
+      next()
    })
 )
 module.exports = router

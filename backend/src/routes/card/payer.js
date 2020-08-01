@@ -5,40 +5,44 @@ const CardModel = require('../../models/card')
 
 router.post(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { cardId, userId } = req.body
-      res.json(await CardModel.pushUser(cardId, userId))
+      req.data = await CardModel.pushUser(cardId, userId)
+      next()
    })
 )
 router.delete(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { cardId, userId } = req.body
-      let filter = { user: userId, cardId: cardId }
-      let deletedPayer = await PayerModel.findOneAndDelete(filter)
-      let update = { $pull: { payers: deletedPayer._id } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
+      const filter = { user: userId, cardId: cardId }
+      const deletedPayer = await PayerModel.findOneAndDelete(filter)
+      const update = { $pull: { payers: deletedPayer._id } }
+      req.data = await CardModel.findByIdAndUpdate(cardId, update, { new: true })
+      next()
    })
 )
 
 router.put(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const payer = req.body
       if (payer.isPayer) {
          payer.hasPayed = true
       }
       await PayerModel.findOneAndUpdate({ _id: payer._id }, payer, { new: true })
 
-      res.json(await CardModel.findById(payer.cardId))
+      req.data = await CardModel.findById(payer.cardId)
+      next()
    })
 )
 
 router.get(
    '/summary/:travelId',
-   asyncHandler(async (req, res) => {
-      let { travelId } = req.params
-      res.json(await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id }))
+   asyncHandler(async (req, res, next) => {
+      const { travelId } = req.params
+      req.data = await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id })
+      next()
    })
 )
 

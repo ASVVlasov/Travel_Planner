@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler')
 
 router.get(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       let currentUser = req.user
       await token
          .check(req, res)
@@ -17,7 +17,8 @@ router.get(
          .catch((err) => {})
       req.logout()
       res.clearCookie('connect.sid')
-      res.json({ success: true })
+      req.data = { success: true }
+      next()
    })
 )
 

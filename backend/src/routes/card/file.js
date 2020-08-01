@@ -7,29 +7,31 @@ const asyncHandler = require('express-async-handler')
 router.post(
    '/',
    fileMiddleware,
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { cardId } = req.body
-      let files = await FileModel.createFiles(req.files)
-      let update = { $push: { files: { $each: files } } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
+      const files = await FileModel.createFiles(req.files)
+      const update = { $push: { files: { $each: files } } }
+      req.data = await CardModel.findByIdAndUpdate(cardId, update, { new: true })
+      next()
    })
 )
 router.get(
    '/:fileId',
    asyncHandler(async (req, res) => {
       const { fileId } = req.params
-      let file = await FileModel.getFile(fileId)
+      const file = await FileModel.getFile(fileId)
       res.setHeader('Content-Disposition', file.ContentDisposition)
       res.send(file.Body)
    })
 )
 router.delete(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { cardId, fileId } = req.body
       await FileModel.deleteFiles([fileId])
-      let update = { $pull: { files: fileId } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
+      const update = { $pull: { files: fileId } }
+      req.data = await CardModel.findByIdAndUpdate(cardId, update, { new: true })
+      next()
    })
 )
 

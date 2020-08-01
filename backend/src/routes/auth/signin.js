@@ -12,8 +12,9 @@ router.post(
    cookieHandler,
    // Авторизация по паспорту
    AsyncHandler(passport.authenticate),
-   (req, res) => {
-      res.json(req.user)
+   (req, res, next) => {
+      req.data = req.user
+      next()
    }
 )
 router.post(
@@ -27,7 +28,8 @@ router.post(
       const user = await UserModel.findById(invite.user)
       const plainUser = JSON.parse(JSON.stringify(user))
       delete plainUser.password
-      res.json(plainUser)
+      req.data = plainUser
+      next()
    })
 )
 

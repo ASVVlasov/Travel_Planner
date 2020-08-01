@@ -11,14 +11,15 @@ router.use('/user', userRouter)
 
 router.get(
    '/:travelId',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { travelId } = req.params
-      res.json(await TravelModel.findOne({ _id: travelId }))
+      req.data = await TravelModel.findOne({ _id: travelId })
+      next()
    })
 )
 router.post(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const travel = { ...req.body }
       if (travel.users.indexOf(req.user.id) === -1) {
          travel.users.push(req.user._id)
@@ -29,34 +30,37 @@ router.post(
       for (const user of newTravel.users) {
          await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
-      res.json(newTravel)
+      req.data = newTravel
+      next()
    })
 )
 
 router.put(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const travelModel = req.body
       // Если travelModel.status не входит в массив возможных значений
       if (travelStatusesValues.indexOf(travelModel.status) === -1) {
          delete travelModel.status
       }
-      res.json(await TravelModel.updateTravel(travelModel))
+      req.data = await TravelModel.updateTravel(travelModel)
+      next()
    })
 )
 
 // TODO remove child files of cards
 router.delete(
    '/:travelId',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { travelId } = req.params
       const { _id } = req.user
       let travel = await TravelModel.findById(travelId)
       if (await TravelModel.isOwner(travel, _id)) {
-         res.json(await TravelModel.deleteTravel(travel))
+         req.data = await TravelModel.deleteTravel(travel)
       } else {
-         res.json(await TravelModel.leaveTravel(travel, _id))
+         req.data = await TravelModel.leaveTravel(travel, _id)
       }
+      next()
    })
 )
 module.exports = router

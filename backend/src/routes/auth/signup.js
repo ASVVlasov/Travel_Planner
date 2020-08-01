@@ -18,7 +18,8 @@ router
          await RegistrationModel.findByIdAndDelete(invite.id)
          const plainUser = JSON.parse(JSON.stringify(user))
          delete plainUser.password
-         res.json(plainUser)
+         req.data = plainUser
+         next()
       })
    )
    .get(
@@ -31,7 +32,8 @@ router
          const user = await UserModel.findById(invite.user)
          const plainUser = JSON.parse(JSON.stringify(user))
          delete plainUser.password
-         res.json(plainUser)
+         req.data = plainUser
+         next()
       })
    )
    .post(
@@ -42,7 +44,8 @@ router
             throw Errors.authError.emailExistError
          }
          await UserModel.createUser(req.body, req)
-         res.json({ success: true })
+         req.data = { success: true }
+         next()
       })
    )
 module.exports = router
