@@ -90,6 +90,13 @@ const commonError = createError(
    { type: ErrorType.ERROR }
 )
 
+const success = {
+   authSuccess: {
+      message: 'Для завершения регистрации пройдите по ссылке из письма, которое мы отправили вам на почту 📫️',
+      type: ErrorType.SUCCESS,
+   },
+}
+
 module.exports = {
    travelError,
    cardError,
@@ -97,4 +104,5 @@ module.exports = {
    commonError,
    userError,
    fileError,
+   success,
 }
