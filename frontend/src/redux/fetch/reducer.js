@@ -167,18 +167,24 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case INVITE_CONTACT_LOADING:
-      case INVITE_CONTACT_SUCCESS: {
+      case INVITE_CONTACT_LOADING: {
          return {
             ...state,
             contactSearchError: undefined,
-            contactInviteError: undefined,
+            contactInviteAlert: undefined,
          }
       }
+      case INVITE_CONTACT_SUCCESS: {
+         return {
+            ...state,
+            contactInviteAlert: action.alert,
+         }
+      }
+
       case INVITE_CONTACT_ERROR: {
          return {
             ...state,
-            contactInviteError: action.payload,
+            contactInviteAlert: action.payload,
          }
       }
 

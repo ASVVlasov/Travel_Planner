@@ -72,9 +72,10 @@ export const searchContactError = (err) => ({
 export const inviteСontactLoading = () => ({
    type: INVITE_CONTACT_LOADING,
 })
-export const inviteСontactSuccess = ({ data: contact }) => ({
+export const inviteСontactSuccess = ({ data: updUserInfo, ...alert }) => ({
    type: INVITE_CONTACT_SUCCESS,
-   payload: contact,
+   payload: updUserInfo.contacts,
+   alert,
 })
 export const inviteСontactError = (err) => ({
    type: INVITE_CONTACT_ERROR,

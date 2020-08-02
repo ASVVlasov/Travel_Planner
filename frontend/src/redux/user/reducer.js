@@ -5,6 +5,7 @@ import {
    GET_TRAVELS_FILTER,
    DELETE_TRAVEL_SUCCESS,
    SEARCH_CONTACT_SUCCESS,
+   INVITE_CONTACT_SUCCESS,
    UPDATE_CONTACTS_SUCCESS,
    CLEAR_CONTACTS_SEARCH,
    LOGIN_SUCCESS,
@@ -86,7 +87,8 @@ export default function userReducer(state = initialState, action) {
                : state.newContacts,
          }
       }
-      case UPDATE_CONTACTS_SUCCESS: {
+      case UPDATE_CONTACTS_SUCCESS:
+      case INVITE_CONTACT_SUCCESS: {
          return {
             ...state,
             user: { ...state.user, contacts: action.payload },
