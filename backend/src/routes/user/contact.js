@@ -6,7 +6,7 @@ const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
-   asyncHandler(async (req, res) => {
+   asyncHandler(async (req, res, next) => {
       const { userId } = req.body
       const update = { $push: { contacts: userId } }
       req.data = await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
