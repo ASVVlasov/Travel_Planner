@@ -36,6 +36,8 @@ router.post(
    asyncHandler(async (req, res, next) => {
       const { email } = req.body
       req.data = await UserModel.invite(email, req)
+      req.message = 'Друг получит приглашение на указанную почту, а пока мы добавили его в ваши контакты 😌'
+      req.type = 'success'
       next()
    })
 )

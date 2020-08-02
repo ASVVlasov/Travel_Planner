@@ -79,7 +79,7 @@ userSchema.statics.invite = async function (email, req) {
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
    const registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.host))
+   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer))
    return newUser
 }
 
@@ -97,7 +97,7 @@ userSchema.statics.restorePassword = async function (email, req) {
       password: '',
       user: forgetfulUser,
    })
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.host))
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
    return forgetfulUser
 }
 
