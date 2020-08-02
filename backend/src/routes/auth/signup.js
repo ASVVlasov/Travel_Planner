@@ -44,7 +44,8 @@ router
             throw Errors.authError.emailExistError
          }
          await UserModel.createUser(req.body, req)
-         req.data = Errors.success.authSuccess
+         req.message = Errors.success.authSuccess.message
+         req.type = Errors.success.authSuccess.type
          next()
       })
    )

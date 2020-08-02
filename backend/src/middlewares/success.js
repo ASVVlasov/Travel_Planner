@@ -1,9 +1,8 @@
-const successMiddleware = (req, res, next) => {
+const successMiddleware = (req, res) => {
    res.json({
-      message: '',
-      type: '',
+      message: req.message,
+      type: req.type,
       data: req.data,
    })
-   next()
 }
 module.exports = successMiddleware

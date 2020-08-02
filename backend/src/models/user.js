@@ -109,7 +109,7 @@ userSchema.statics.createUser = async function (userModel, req) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.host))
+   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer))
    return newUser
 }
 userSchema.statics.sendEmail = async function (email, html) {
