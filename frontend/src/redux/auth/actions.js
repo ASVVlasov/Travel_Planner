@@ -19,7 +19,7 @@ import {
 export const getInvitedEmailLoading = () => ({
    type: GET_INVITED_EMAIL_LOADING,
 })
-export const getInvitedEmailSuccess = (email) => ({
+export const getInvitedEmailSuccess = ({ data: email }) => ({
    type: GET_INVITED_EMAIL_SUCCESS,
    payload: email,
 })

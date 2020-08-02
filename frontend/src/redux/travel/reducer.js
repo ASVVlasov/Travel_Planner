@@ -30,7 +30,7 @@ export default function travelReducer(state = initialState, action) {
       case CHANGE_TRAVEL_SUCCESS: {
          return {
             ...state,
-            travel: action.payload.data,
+            travel: action.payload,
          }
       }
 

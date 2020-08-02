@@ -48,11 +48,7 @@ export const fetchData = (url, actions, body, method, headers) => async (
          }
       }
       const data = await res.json()
-      if (data.message) {
-         dispatch(errorAction(data))
-      } else {
-         dispatch(successAction(data))
-      }
+      dispatch(successAction(data))
    } catch (error) {
       error.argsForRequest = { url, actions, body, method, headers }
       errorAction ? dispatch(errorAction(error)) : dispatch(hadError(error))

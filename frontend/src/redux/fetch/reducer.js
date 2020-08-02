@@ -63,6 +63,9 @@ import {
    DELETE_TRAVEL_SUCCESS,
    DELETE_TRAVEL_ERROR,
    FETCH_ERROR_CLEAR,
+   FEEDBACK_LOADING,
+   FEEDBACK_SUCCESS,
+   FEEDBACK_ERROR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -232,7 +235,7 @@ export default function fetchReducer(state = {}, action) {
       case GET_TRAVEL_LOADING:
       case GET_TRAVEL_SUCCESS:
       case CHANGE_TRAVEL_LOADING:
-      case CHANGE_TRAVEL_SUCCESS:
+      // case CHANGE_TRAVEL_SUCCESS:
       case CREATE_TRAVEL_LOADING:
       case CREATE_TRAVEL_SUCCESS:
       case DELETE_TRAVEL_LOADING:
@@ -254,7 +257,27 @@ export default function fetchReducer(state = {}, action) {
       case CHANGE_TRAVEL_ERROR: {
          return {
             ...state,
-            travelError: action.payload.message,
+            travelError: action.payload,
+         }
+      }
+      case CHANGE_TRAVEL_SUCCESS: {
+         return {
+            ...state,
+            travelError: action.alert,
+         }
+      }
+
+      case FEEDBACK_LOADING:
+      case FEEDBACK_SUCCESS: {
+         return {
+            ...state,
+            feedbackError: undefined,
+         }
+      }
+      case FEEDBACK_ERROR: {
+         return {
+            ...state,
+            feedbackError: action.payload,
          }
       }
 
