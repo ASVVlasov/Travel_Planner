@@ -20,6 +20,8 @@ router
          delete plainUser.password
          res.json({
             data: plainUser,
+            message: Errors.success.authSuccess.message,
+            type: Errors.success.authSuccess.type,
          })
       })
    )
