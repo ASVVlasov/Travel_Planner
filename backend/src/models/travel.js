@@ -58,12 +58,14 @@ travelSchema.statics.isOwner = async function (travel, userId) {
    return travel.owner.toString() === userId
 }
 
+travelSchema.statics.hasUser = function (userId) {
+   return this.users.find((user) => user._id === userId)
+}
+
 travelSchema.statics.leaveTravel = async function (travelId, userId) {
    let travel = await this.findById(travelId)
    if (travel.status === travelStatuses.ARCHIVE) {
       throw Errors.travelError.cantLeaveError
-   } else if (travel.owner == userId) {
-      throw Errors.travelError.ownerLeaveError
    } else {
       await CardModel.removeUser(travelId, userId)
       travel.cards = travel.cards.filter((card) => !(card.payers.length === 1 && card.payers[0].user.id === userId))
