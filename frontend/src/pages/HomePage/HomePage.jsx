@@ -11,7 +11,7 @@ import connect from 'react-redux/es/connect/connect'
 
 class HomePage extends React.Component {
    render() {
-      const { match, registerError, loginError } = this.props
+      const { match, registerAlert, loginError } = this.props
 
       return (
          <>
@@ -22,8 +22,8 @@ class HomePage extends React.Component {
                </div>
                <Route path={match.path} component={Registration} />
             </div>
-            {registerError && (
-               <Alert {...registerError} errName="registerError" />
+            {registerAlert && (
+               <Alert {...registerAlert} errName="registerAlert" />
             )}
             {loginError && <Alert {...loginError} errName="loginError" />}
          </>
@@ -32,7 +32,7 @@ class HomePage extends React.Component {
 }
 
 const mapStateToProps = ({ fetchReducer }) => ({
-   registerError: fetchReducer.registerError,
+   registerAlert: fetchReducer.registerAlert,
    loginError: fetchReducer.loginError,
 })
 

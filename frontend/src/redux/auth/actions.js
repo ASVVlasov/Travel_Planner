@@ -42,8 +42,9 @@ export const emailConfirmationError = (err) => ({
 export const regLoading = () => ({
    type: REGISTRATION_LOADING,
 })
-export const regSuccess = () => ({
+export const regSuccess = ({ type, message }) => ({
    type: REGISTRATION_SUCCESS,
+   alert: { type, message },
 })
 export const regError = (err) => ({
    type: REGISTRATION_ERROR,

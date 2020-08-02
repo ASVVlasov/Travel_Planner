@@ -98,17 +98,22 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case REGISTRATION_LOADING:
+      case REGISTRATION_LOADING: {
+         return {
+            ...state,
+            registerAlert: undefined,
+         }
+      }
       case REGISTRATION_SUCCESS: {
          return {
             ...state,
-            registerError: undefined,
+            registerAlert: action.alert,
          }
       }
       case REGISTRATION_ERROR: {
          return {
             ...state,
-            registerError: action.payload,
+            registerAlert: action.payload,
          }
       }
 
@@ -235,7 +240,6 @@ export default function fetchReducer(state = {}, action) {
       case GET_TRAVEL_LOADING:
       case GET_TRAVEL_SUCCESS:
       case CHANGE_TRAVEL_LOADING:
-      // case CHANGE_TRAVEL_SUCCESS:
       case CREATE_TRAVEL_LOADING:
       case CREATE_TRAVEL_SUCCESS:
       case DELETE_TRAVEL_LOADING:
