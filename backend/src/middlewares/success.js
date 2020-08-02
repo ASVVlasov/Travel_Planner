@@ -1,7 +1,7 @@
 const successMiddleware = (req, res) => {
    res.json({
       message: req.message,
-      type: req.type,
+      type: 'success',
       data: req.data,
    })
 }

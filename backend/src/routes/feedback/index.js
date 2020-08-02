@@ -9,6 +9,7 @@ router.post(
       feedback.user = req.user._id
       feedback.date = new Date()
       req.data = await FeedbackModel.create(feedback)
+      req.message = 'Мы получили ваше сообщение — спасибо за обратную связь, она помогает нам развиваться ‍🎓‍'
       next()
    })
 )
