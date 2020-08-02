@@ -19,7 +19,12 @@ router.delete(
    '/',
    asyncHandler(async (req, res) => {
       const { travelId, userId } = req.body
-      res.json(await TravelModel.leaveTravel(travelId, userId))
+      let travel = await TravelModel.findById(travelId)
+      if (await TravelModel.isOwner(travel, userId)) {
+         res.json(await TravelModel.deleteTravel(travel))
+      } else {
+         res.json(await TravelModel.leaveTravel(travel, userId))
+      }
    })
 )
 
