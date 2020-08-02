@@ -8,8 +8,6 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { userId } = req.body
-      console.log('userId- ', userId, ' type- ', typeof userId)
-
       if (req.user.contacts.find((contact) => contact._id === userId)) {
          throw Errors.userError.duplicateUser
       } else {
