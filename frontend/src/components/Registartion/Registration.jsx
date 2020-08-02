@@ -15,6 +15,7 @@ import {
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
 import Switch from '../../controls/Switch/Switch'
+import ResetForm from '../Forms/ResetForm'
 
 class Registration extends Component {
    static propTypes = {
@@ -25,6 +26,7 @@ class Registration extends Component {
    }
 
    state = {
+      isModalOpen: false,
       email: '',
       password: '',
       rememberMe: false,
@@ -97,6 +99,14 @@ class Registration extends Component {
       }
    }
 
+   openModal = () => {
+      this.setState({ isModalOpen: true })
+   }
+
+   closeModal = () => {
+      this.setState({ isModalOpen: false })
+   }
+
    mapTabsToRender = () =>
       this.state.tabs.map((tab) => (
          <NavLink
@@ -137,6 +147,7 @@ class Registration extends Component {
       return (
          <div className={styles.form}>
             <nav className={styles.tabs} children={this.mapTabsToRender()} />
+            {this.state.isModalOpen && <ResetForm onClose={this.closeModal} />}
             <InputControl
                type="text"
                name="email"
@@ -174,16 +185,26 @@ class Registration extends Component {
                   }}
                />
             )}
-            <Button
-               onClick={tab.btnOnClick}
-               text={tab.btnText}
-               disabled={
-                  (!email && !invitedEmail) ||
-                  !password ||
-                  !!emailErrorLabel ||
-                  !!passwordErrorLabel
-               }
-            />
+            <div className={styles.footer}>
+               <Button
+                  onClick={tab.btnOnClick}
+                  text={tab.btnText}
+                  disabled={
+                     (!email && !invitedEmail) ||
+                     !password ||
+                     !!emailErrorLabel ||
+                     !!passwordErrorLabel
+                  }
+               />
+               {this.props.match.params.tab === 'signin' && (
+                  <span
+                     className={styles.footer__link}
+                     onClick={this.openModal}
+                  >
+                     Забыли пароль?
+                  </span>
+               )}
+            </div>
          </div>
       )
    }
