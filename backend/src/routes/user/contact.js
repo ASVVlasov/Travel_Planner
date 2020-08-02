@@ -35,10 +35,10 @@ router.post(
    '/invite',
    asyncHandler(async (req, res, next) => {
       const { email } = req.body
-      req.data = await UserModel.invite(email, req)
-      req.message = 'Друг получит приглашение на указанную почту, а пока мы добавили его в ваши контакты 😌'
+      await UserModel.invite(email, req)
       const update = { $push: { contacts: req.data._id } }
-      await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
+      req.data = await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
+      req.message = 'Друг получит приглашение на указанную почту, а пока мы добавили его в ваши контакты 😌'
       next()
    })
 )
