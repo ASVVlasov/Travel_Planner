@@ -37,6 +37,8 @@ router.post(
       const { email } = req.body
       req.data = await UserModel.invite(email, req)
       req.message = 'Друг получит приглашение на указанную почту, а пока мы добавили его в ваши контакты 😌'
+      const update = { $push: { contacts: req.data._id } }
+      await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
       next()
    })
 )
