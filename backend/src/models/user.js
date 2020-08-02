@@ -114,7 +114,9 @@ userSchema.statics.createUser = async function (userModel, req) {
 }
 userSchema.statics.sendEmail = async function (email, html) {
    const transporter = nodeMailer.createTransport({
-      service: process.env.EMAIL_SERVICE,
+      host: 'smtp.mail.ru',
+      port: 465,
+      secure: true,
       auth: {
          user: process.env.EMAIL_LOGIN,
          pass: process.env.EMAIL_PASSWORD,
@@ -122,7 +124,7 @@ userSchema.statics.sendEmail = async function (email, html) {
    })
 
    await transporter.sendMail({
-      from: `"Admin TravelPlanner"${process.env.EMAIL_LOGIN}`,
+      from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
       to: email,
       subject: 'Добро пожаловать в TravelPlanner ✔',
       html,
