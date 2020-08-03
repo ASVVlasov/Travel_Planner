@@ -93,6 +93,7 @@ cardSchema.statics.getCardsByCardType = async function (type, travelId) {
       throw Errors.cardError.notFoundError
    }
    const cards = await this.find({ type, travelId })
+   if (!cards.length) throw Errors.cardError.notFoundError
    // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
    const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
    return {
@@ -137,7 +138,7 @@ cardSchema.statics.deleteCards = async function (travelId) {
 }
 cardSchema.statics.pushUser = async function (cardId, userId) {
    const card = await this.findById(cardId)
-   if (card.payers.find((p) => p.user === userId)) {
+   if (card.payers.find((p) => p.user.id === userId)) {
       throw Errors.userError.duplicateUser
    }
    let newPayer = new PayerModel({

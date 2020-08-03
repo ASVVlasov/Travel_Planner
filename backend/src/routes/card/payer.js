@@ -1,13 +1,21 @@
 const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
+const TravelModel = require('../../models/travel')
 const PayerModel = require('../../models/payer')
 const CardModel = require('../../models/card')
+const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      res.json(await CardModel.pushUser(cardId, userId))
+      const card = await CardModel.findById(cardId)
+      const travel = await TravelModel.findById(card.travelId)
+      if (TravelModel.hasUser(userId)) {
+         res.json(await CardModel.pushUser(cardId, userId))
+      } else {
+         throw Errors.commonError
+      }
    })
 )
 router.delete(
