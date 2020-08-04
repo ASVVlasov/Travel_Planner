@@ -15,7 +15,7 @@ class Alert extends Component {
       shown: false,
       success: {
          title: 'Все получилось!',
-         text: this.props.message || 'Данные успешно сохранены, отвечаем 😎',
+         text: this.props.message,
          style: styles.alert_success,
       },
       warning: {
@@ -43,8 +43,16 @@ class Alert extends Component {
       this.toClose()
    }
 
+   autoHide = (time) => {
+      setTimeout(() => {
+         this.toClose()
+      }, time)
+   }
+
    componentDidMount = () => {
-      this.setState({ shown: true })
+      if (this.props.type === 'success' && !this.props.message) {
+         return
+      } else this.setState({ shown: true })
    }
 
    render() {
@@ -75,6 +83,9 @@ class Alert extends Component {
                         onClick={this.repeatLastRequest}
                      />
                   )}
+                  {this.props.type === 'success' &&
+                     this.props.autoHideIn &&
+                     this.autoHide(this.props.autoHideIn)}
                </div>
             ) : null}
          </>
@@ -111,6 +122,7 @@ Alert.propTypes = {
    },
    fetchData: PropTypes.func.isRequired,
    clearError: PropTypes.func.isRequired,
+   autoHideIn: PropTypes.number,
 }
 
 const mapDispatchToProps = (dispatch) =>
