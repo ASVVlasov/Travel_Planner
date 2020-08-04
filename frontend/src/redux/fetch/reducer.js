@@ -277,17 +277,22 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case FEEDBACK_LOADING:
+      case FEEDBACK_LOADING: {
+         return {
+            ...state,
+            feedbackAlert: undefined,
+         }
+      }
       case FEEDBACK_SUCCESS: {
          return {
             ...state,
-            feedbackError: undefined,
+            feedbackAlert: action.alert,
          }
       }
       case FEEDBACK_ERROR: {
          return {
             ...state,
-            feedbackError: action.payload,
+            feedbackAlert: action.payload,
          }
       }
 

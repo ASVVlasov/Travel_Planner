@@ -9,10 +9,12 @@ import { sendFeedback } from '../../redux/feedback/operations.js'
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
+import Alert from '../../controls/Alert/Alert'
 
 class FeedbackForm extends Component {
    static propTypes = {
       sendFeedback: PropTypes.func.isRequired,
+      feedbackAlert: PropTypes.object,
       onClose: PropTypes.func.isRequired,
    }
 
@@ -26,11 +28,11 @@ class FeedbackForm extends Component {
 
    submit = async () => {
       await this.props.sendFeedback({ comment: this.state.comment })
-      this.props.onClose()
+      this.setState({ comment: '' })
    }
 
    render() {
-      const { onClose } = this.props
+      const { onClose, feedbackAlert } = this.props
       const { comment } = this.state
 
       return (
@@ -66,12 +68,23 @@ class FeedbackForm extends Component {
                   />
                </div>
             </div>
+            {feedbackAlert && (
+               <Alert
+                  {...feedbackAlert}
+                  errName="feedbackAlert"
+                  autoHideIn={5000}
+               />
+            )}
          </ModalBase>
       )
    }
 }
 
+const mapStateToProps = ({ fetchReducer }) => ({
+   feedbackAlert: fetchReducer.feedbackAlert,
+})
+
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators({ sendFeedback }, dispatch)
 
-export default connect(null, mapDispatchToProps)(FeedbackForm)
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackForm)
