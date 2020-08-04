@@ -162,7 +162,11 @@ class ContactForm extends Component {
             </div>
 
             {inviteAlert && (
-               <Alert {...inviteAlert} errName="contactInviteAlert" />
+               <Alert
+                  {...inviteAlert}
+                  errName="contactInviteAlert"
+                  autoHideIn={5000}
+               />
             )}
          </ModalBase>
       )
