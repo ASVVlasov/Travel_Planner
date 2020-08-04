@@ -7,28 +7,26 @@ const asyncHandler = require('express-async-handler')
 router.post(
    '/',
    fileMiddleware,
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       let [file] = await FileModel.createFiles(req.files)
       let update = { avatar: file }
-      req.data = await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
-      next()
+      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
    })
 )
 router.get(
    '/:fileId',
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       const { fileId } = req.params
       res.send((await FileModel.getFile(fileId)).Body)
    })
 )
 router.delete(
    '/',
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       const fileId = (await UserModel.findById(req.user._id)).avatar
       await FileModel.deleteFiles([fileId])
       let update = { avatar: null }
-      req.data = await UserModel.findByIdAndUpdate(req.user._id, update, { new: true })
-      next()
+      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
    })
 )
 

@@ -7,7 +7,7 @@ const RegistrationModel = require('../../models/registration')
 router
    .post(
       '/:linkId',
-      asyncHandler(async (req, res, next) => {
+      asyncHandler(async (req, res) => {
          const invite = await RegistrationModel.findById(req.params.linkId)
          if (!invite) {
             throw Errors.authError.notFoundError
@@ -27,7 +27,7 @@ router
    )
    .get(
       '/:linkId',
-      asyncHandler(async (req, res, next) => {
+      asyncHandler(async (req, res) => {
          const invite = await RegistrationModel.findById(req.params.linkId)
          if (!invite) {
             throw Errors.authError.notFoundError
@@ -42,7 +42,7 @@ router
    )
    .post(
       '/',
-      asyncHandler(async (req, res, next) => {
+      asyncHandler(async (req, res) => {
          const user = await UserModel.findOne({ email: req.body.email })
          if (user) {
             throw Errors.authError.emailExistError

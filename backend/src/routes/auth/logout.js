@@ -17,8 +17,7 @@ router.get(
          .catch((err) => {})
       req.logout()
       res.clearCookie('connect.sid')
-      req.data = { success: true }
-      next()
+      res.json({ data: { success: true } })
    })
 )
 

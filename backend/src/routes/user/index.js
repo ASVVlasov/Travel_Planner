@@ -8,17 +8,16 @@ router.use('/contact', contactRouter)
 router.use('/avatar', avatarRouter)
 router.get(
    '/',
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       const user = JSON.parse(JSON.stringify(await UserModel.findById(req.user._id)))
       delete user.password
-      req.data = user
-      next()
+      res.json({ data: user })
    })
 )
 
 router.put(
    '/',
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       const user = { ...req.body }
       user._id = req.user._id
       delete user.contacts
@@ -28,14 +27,13 @@ router.put(
          JSON.stringify(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
       )
       delete updatedUser.password
-      req.data = updatedUser
-      next()
+      res.json({ data: updatedUser })
    })
 )
 
 router.delete(
    '/',
-   asyncHandler(async (req, res, next) => {
+   asyncHandler(async (req, res) => {
       // TODO: выпилить selfId после добавления авторизации. Сейчас заведомо сфейлится
       const { selfId } = null
       let deletedUser
@@ -46,8 +44,7 @@ router.delete(
       //TODO: Удаление пользователя из всех travel, cards, payer
       // либо замена его на dummyUser - по решению общего собрания
       // Либо вообще запретить удаление пользователей. Пусть будут вечными! %)
-      req.data = deletedUser
-      next()
+      res.json({ data: deletedUser })
    })
 )
 
