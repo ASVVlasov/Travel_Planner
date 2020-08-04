@@ -23,7 +23,11 @@ class HomePage extends React.Component {
                <Route path={match.path} component={Registration} />
             </div>
             {registerAlert && (
-               <Alert {...registerAlert} errName="registerAlert" />
+               <Alert
+                  {...registerAlert}
+                  errName="registerAlert"
+                  autoHideIn={5000}
+               />
             )}
             {loginError && <Alert {...loginError} errName="loginError" />}
          </>
