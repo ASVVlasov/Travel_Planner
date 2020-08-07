@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
 const FeedbackModel = require('../../models/feedback')
+const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
@@ -10,7 +11,7 @@ router.post(
       feedback.date = new Date()
       res.json({
          data: await FeedbackModel.create(feedback),
-         message: 'Мы получили ваше сообщение — спасибо за обратную связь, она помогает нам развиваться ‍🎓‍',
+         ...Errors.success.feedbackSuccess,
       })
    })
 )

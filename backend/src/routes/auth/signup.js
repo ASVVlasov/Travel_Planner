@@ -48,10 +48,7 @@ router
             throw Errors.authError.emailExistError
          }
          await UserModel.createUser(req.body, req)
-         res.json({
-            message: Errors.success.authSuccess.message,
-            type: Errors.success.authSuccess.type,
-         })
+         res.json(Errors.success.signupSuccess)
       })
    )
 module.exports = router

@@ -41,7 +41,7 @@ router.post(
       const update = { $push: { contacts: invitedUser._id } }
       res.json({
          data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }),
-         message: 'Друг получит приглашение на указанную почту, а пока мы добавили его в ваши контакты 😌',
+         ...Errors.success.inviteSuccess,
       })
    })
 )
