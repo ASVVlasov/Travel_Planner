@@ -30,12 +30,11 @@ class ContactForm extends Component {
       contacts: PropTypes.arrayOf(PropTypes.object),
       newContacts: PropTypes.arrayOf(PropTypes.object),
       searchError: PropTypes.object,
+      inviteAlert: PropTypes.object,
    }
 
    state = {
       search: '',
-      invitedContact: '',
-      InvitationSent: false,
    }
 
    handleChange = (e) =>
@@ -47,21 +46,9 @@ class ContactForm extends Component {
       }
    }
 
-   searchContact = () => {
-      this.setState({
-         invitedContact: this.state.search,
-         InvitationSent: false,
-      })
-      this.props.searchContact({ email: this.state.search })
-   }
+   searchContact = () => this.props.searchContact({ email: this.state.search })
 
-   inviteСontact = async () => {
-      const { contacts, newContacts } = this.props
-      await this.props.inviteСontact({ email: this.state.search })
-      await this.searchContact()
-      this.setState({ InvitationSent: true })
-      this.mapContactsToRender(newContacts, contacts)
-   }
+   inviteСontact = () => this.props.inviteСontact({ email: this.state.search })
 
    mapContactsToRender = (newContacts, contacts) =>
       newContacts.map((nc) => (
@@ -87,6 +74,19 @@ class ContactForm extends Component {
          </div>
       ))
 
+   mapInviteContactToRender = () => (
+      <div className={styles.result}>
+         <span className={styles.result__user} children={this.state.search} />
+         {this.state.search && (
+            <button
+               className={styles.result__button}
+               children="пригласить"
+               onClick={this.inviteСontact}
+            />
+         )}
+      </div>
+   )
+
    clear = () => {
       this.props.clearContactSearch()
       this.props.clearErrorSearch()
@@ -98,7 +98,13 @@ class ContactForm extends Component {
    }
 
    render() {
-      const { onClose, contacts, newContacts, searchError } = this.props
+      const {
+         onClose,
+         contacts,
+         newContacts,
+         searchError,
+         inviteAlert,
+      } = this.props
 
       return (
          <ModalBase toClose={onClose}>
@@ -142,19 +148,7 @@ class ContactForm extends Component {
                               сервисом &mdash; отправьте ему приглашение на
                               почту
                            </p>
-                           <div className={styles.result}>
-                              <span
-                                 className={styles.result__user}
-                                 children={this.state.invitedContact}
-                              />
-                              {this.state.invitedContact && (
-                                 <button
-                                    className={styles.result__button}
-                                    children="пригласить"
-                                    onClick={() => this.inviteСontact()}
-                                 />
-                              )}
-                           </div>
+                           {this.mapInviteContactToRender()}
                         </div>
                      )}
                   </div>
@@ -166,9 +160,12 @@ class ContactForm extends Component {
                   <Button text="Очистить" type="cancel" onClick={this.clear} />
                </div>
             </div>
-            {this.state.InvitationSent && (
+
+            {inviteAlert && (
                <Alert
-                  {...{ type: 'success', message: 'Приглашение отправлено!' }}
+                  {...inviteAlert}
+                  errName="contactInviteAlert"
+                  autoHideIn={5000}
                />
             )}
          </ModalBase>
@@ -180,6 +177,7 @@ const mapStateToProps = ({ userReducer, fetchReducer }) => ({
    contacts: userReducer.user.contacts,
    newContacts: userReducer.newContacts,
    searchError: fetchReducer.contactSearchError,
+   inviteAlert: fetchReducer.contactInviteAlert,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(

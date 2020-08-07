@@ -23,7 +23,7 @@ import {
 export const getUserLoading = () => ({
    type: GET_USER_LOADING,
 })
-export const getUserSuccess = (userInfo) => ({
+export const getUserSuccess = ({ data: userInfo }) => ({
    type: GET_USER_SUCCESS,
    payload: userInfo,
 })
@@ -35,7 +35,7 @@ export const getUserError = (err) => ({
 export const updateUserLoading = () => ({
    type: UPDATE_USER_LOADING,
 })
-export const updateUserSuccess = (updUserInfo) => ({
+export const updateUserSuccess = ({ data: updUserInfo }) => ({
    type: UPDATE_USER_SUCCESS,
    payload: updUserInfo,
 })
@@ -60,7 +60,7 @@ export const getTravelsFilter = (sortTravels) => ({
 export const searchContactLoading = () => ({
    type: SEARCH_CONTACT_LOADING,
 })
-export const searchContactSuccess = (contact) => ({
+export const searchContactSuccess = ({ data: contact }) => ({
    type: SEARCH_CONTACT_SUCCESS,
    payload: contact,
 })
@@ -72,16 +72,17 @@ export const searchContactError = (err) => ({
 export const inviteСontactLoading = () => ({
    type: INVITE_CONTACT_LOADING,
 })
-export const inviteСontactSuccess = (contact) => ({
+export const inviteСontactSuccess = ({ data: updUserInfo, ...alert }) => ({
    type: INVITE_CONTACT_SUCCESS,
-   payload: contact,
+   payload: updUserInfo.contacts,
+   alert,
 })
 export const inviteСontactError = (err) => ({
    type: INVITE_CONTACT_ERROR,
    payload: err,
 })
 
-export const updateContactsSuccess = (updUserInfo) => ({
+export const updateContactsSuccess = ({ data: updUserInfo }) => ({
    type: UPDATE_CONTACTS_SUCCESS,
    payload: updUserInfo.contacts,
 })

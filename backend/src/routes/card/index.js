@@ -14,7 +14,7 @@ router.post(
       const { travelId } = req.body
       const newCard = await CardModel.create(req.body)
       await TravelModel.findByIdAndUpdate(travelId, { $push: { cards: newCard.id } })
-      res.json(newCard)
+      res.json({ data: newCard })
    })
 )
 router.put(
@@ -24,7 +24,7 @@ router.put(
       delete card.users
       delete card.files
       delete card.payers
-      res.json(await CardModel.findByIdAndUpdate(card._id, card, { new: true }))
+      res.json({ data: await CardModel.findByIdAndUpdate(card._id, card, { new: true }) })
    })
 )
 router.delete(
@@ -33,14 +33,14 @@ router.delete(
       const { cardId } = req.params
       let deletedCard = await CardModel.findByIdAndRemove(cardId)
       await TravelModel.findByIdAndUpdate(deletedCard.travelId, { $pull: { cards: cardId } })
-      res.json(deletedCard)
+      res.json({ data: deletedCard })
    })
 )
 router.get(
    '/:cardType/:travelId',
    asyncHandler(async (req, res) => {
       const { cardType, travelId } = req.params
-      res.json(await CardModel.getCardsByCardType(cardType, travelId))
+      res.json({ data: await CardModel.getCardsByCardType(cardType, travelId) })
    })
 )
 

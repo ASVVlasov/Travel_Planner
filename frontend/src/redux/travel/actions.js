@@ -19,7 +19,7 @@ import {
 export const getBudgetLoading = () => ({
    type: GET_BUDGET_LOADING,
 })
-export const getBudgetSuccess = (summary) => ({
+export const getBudgetSuccess = ({ data: summary }) => ({
    type: GET_BUDGET_SUCCESS,
    payload: summary,
 })
@@ -31,7 +31,7 @@ export const getBudgetError = (err) => ({
 export const getTravelLoading = () => ({
    type: GET_TRAVEL_LOADING,
 })
-export const getTravelSuccess = (data) => ({
+export const getTravelSuccess = ({ data }) => ({
    type: GET_TRAVEL_SUCCESS,
    payload: { ...data },
 })
@@ -43,14 +43,10 @@ export const getTravelError = (err) => ({
 export const changeTravelLoading = () => ({
    type: CHANGE_TRAVEL_LOADING,
 })
-export const changeTravelSuccess = (updTravel) => ({
+export const changeTravelSuccess = ({ data: updTravel, ...alert }) => ({
    type: CHANGE_TRAVEL_SUCCESS,
    payload: { ...updTravel },
-})
-//TODO remove changeTravelLocal
-export const changeTravelLocal = (updTravel) => ({
-   type: CHANGE_TRAVEL_SUCCESS,
-   payload: { ...updTravel },
+   alert,
 })
 export const changeTravelError = (err) => ({
    type: CHANGE_TRAVEL_ERROR,
@@ -60,7 +56,7 @@ export const changeTravelError = (err) => ({
 export const createTravelLoading = () => ({
    type: CREATE_TRAVEL_LOADING,
 })
-export const createTravelSuccess = (newTravel) => ({
+export const createTravelSuccess = ({ data: newTravel }) => ({
    type: CREATE_TRAVEL_SUCCESS,
    payload: newTravel,
 })
@@ -72,7 +68,7 @@ export const createTravelError = (err) => ({
 export const deleteTravelLoading = () => ({
    type: DELETE_TRAVEL_LOADING,
 })
-export const deleteTravelSuccess = (delTravel) => ({
+export const deleteTravelSuccess = ({ data: delTravel }) => ({
    type: DELETE_TRAVEL_SUCCESS,
    payload: delTravel,
 })

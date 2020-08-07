@@ -11,7 +11,7 @@ router.post(
       const { travelId, userId } = req.body
       const travel = await TravelModel.pushUser(travelId, userId)
       await UserModel.findByIdAndUpdate(userId, { $push: { travels: travelId } })
-      res.json(travel)
+      res.json({ data: travel })
    })
 )
 
@@ -21,9 +21,9 @@ router.delete(
       const { travelId, userId } = req.body
       let travel = await TravelModel.findById(travelId)
       if (await TravelModel.isOwner(travel, userId)) {
-         res.json(await TravelModel.deleteTravel(travel))
+         res.json({ data: await TravelModel.deleteTravel(travel) })
       } else {
-         res.json(await TravelModel.leaveTravel(travel, userId))
+         res.json({ data: await TravelModel.leaveTravel(travel, userId) })
       }
    })
 )

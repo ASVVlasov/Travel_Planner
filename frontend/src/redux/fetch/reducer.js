@@ -63,6 +63,9 @@ import {
    DELETE_TRAVEL_SUCCESS,
    DELETE_TRAVEL_ERROR,
    FETCH_ERROR_CLEAR,
+   FEEDBACK_LOADING,
+   FEEDBACK_SUCCESS,
+   FEEDBACK_ERROR,
 } from '../types'
 
 export default function fetchReducer(state = {}, action) {
@@ -95,17 +98,22 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case REGISTRATION_LOADING:
+      case REGISTRATION_LOADING: {
+         return {
+            ...state,
+            registerAlert: undefined,
+         }
+      }
       case REGISTRATION_SUCCESS: {
          return {
             ...state,
-            registerError: undefined,
+            registerAlert: action.alert,
          }
       }
       case REGISTRATION_ERROR: {
          return {
             ...state,
-            registerError: action.payload,
+            registerAlert: action.payload,
          }
       }
 
@@ -159,18 +167,24 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case INVITE_CONTACT_LOADING:
-      case INVITE_CONTACT_SUCCESS: {
+      case INVITE_CONTACT_LOADING: {
          return {
             ...state,
             contactSearchError: undefined,
-            contactInviteError: undefined,
+            contactInviteAlert: undefined,
          }
       }
+      case INVITE_CONTACT_SUCCESS: {
+         return {
+            ...state,
+            contactInviteAlert: action.alert,
+         }
+      }
+
       case INVITE_CONTACT_ERROR: {
          return {
             ...state,
-            contactInviteError: action.payload,
+            contactInviteAlert: action.payload,
          }
       }
 
@@ -232,7 +246,6 @@ export default function fetchReducer(state = {}, action) {
       case GET_TRAVEL_LOADING:
       case GET_TRAVEL_SUCCESS:
       case CHANGE_TRAVEL_LOADING:
-      case CHANGE_TRAVEL_SUCCESS:
       case CREATE_TRAVEL_LOADING:
       case CREATE_TRAVEL_SUCCESS:
       case DELETE_TRAVEL_LOADING:
@@ -243,12 +256,43 @@ export default function fetchReducer(state = {}, action) {
          }
       }
       case GET_TRAVEL_ERROR:
-      case CHANGE_TRAVEL_ERROR:
       case CREATE_TRAVEL_ERROR:
       case DELETE_TRAVEL_ERROR: {
          return {
             ...state,
             travelError: action.payload,
+         }
+      }
+
+      case CHANGE_TRAVEL_ERROR: {
+         return {
+            ...state,
+            travelError: action.payload,
+         }
+      }
+      case CHANGE_TRAVEL_SUCCESS: {
+         return {
+            ...state,
+            travelError: action.alert,
+         }
+      }
+
+      case FEEDBACK_LOADING: {
+         return {
+            ...state,
+            feedbackAlert: undefined,
+         }
+      }
+      case FEEDBACK_SUCCESS: {
+         return {
+            ...state,
+            feedbackAlert: action.alert,
+         }
+      }
+      case FEEDBACK_ERROR: {
+         return {
+            ...state,
+            feedbackAlert: action.payload,
          }
       }
 
