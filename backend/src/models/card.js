@@ -93,7 +93,6 @@ cardSchema.statics.getCardsByCardType = async function (type, travelId) {
       throw Errors.cardError.notFoundError
    }
    const cards = await this.find({ type, travelId })
-   if (!cards.length) throw Errors.cardError.notFoundError
    // Получаем все CategoryId которые есть у карт типа type, принадлежащих доске travelId
    const categoryIds = [...new Set(cards.filter((card) => card.category).map((card) => card.category.id))]
    return {
