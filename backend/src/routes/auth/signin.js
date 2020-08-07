@@ -5,6 +5,7 @@ const cookieHandler = require('../../middlewares/cookieHandler')
 const AsyncHandler = require('express-async-handler')
 const RegistrationModel = require('../../models/registration')
 const UserModel = require('../../models/user')
+const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
