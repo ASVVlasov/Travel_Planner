@@ -34,7 +34,7 @@
     "connected-react-router": "^6.8.0",
     "date-fns": "^2.14.0",
     "history": "^4.10.1",
-    "node-sass": "^4.14.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-datepicker": "^2.16.0",
