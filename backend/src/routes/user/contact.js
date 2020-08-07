@@ -8,8 +8,12 @@ router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { userId } = req.body
-      const update = { $push: { contacts: userId } }
-      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
+      if (req.user.contacts.find((contact) => contact._id === userId)) {
+         throw Errors.userError.duplicateUser
+      } else {
+         const update = { $push: { contacts: userId } }
+         res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
+      }
    })
 )
 
@@ -19,7 +23,7 @@ router.post(
       const { email } = req.body
       const user = await UserModel.findOne({ email })
       if (user) {
-         if (req.user.contacts.find((c) => c.id === user.id)) {
+         if (req.user.contacts.find((c) => c._id === user.id)) {
             throw Errors.userError.duplicateUser
          }
          res.json({ data: user })
@@ -46,8 +50,12 @@ router.delete(
    '/',
    asyncHandler(async (req, res) => {
       const { userId } = req.body
-      let update = { $pull: { contacts: userId } }
-      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
+      if (!req.user.contacts.find((user) => user === userId)) {
+         throw Errors.userError.notFoundError
+      } else {
+         let update = { $pull: { contacts: userId } }
+         res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
+      }
    })
 )
 

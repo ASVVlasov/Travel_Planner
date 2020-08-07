@@ -20,13 +20,10 @@ router.delete(
    asyncHandler(async (req, res) => {
       const { travelId, userId } = req.body
       let travel = await TravelModel.findById(travelId)
-      if (travel.status === travelStatuses.ARCHIVE) {
-         res.json({ data: travel })
+      if (await TravelModel.isOwner(travel, userId)) {
+         res.json({ data: await TravelModel.deleteTravel(travel) })
       } else {
-         await UserModel.findByIdAndUpdate(userId, { $pull: { travels: travelId } })
-         travel.users.pull(userId)
-         await travel.save()
-         res.json({ data: travel })
+         res.json({ data: await TravelModel.leaveTravel(travel, userId) })
       }
    })
 )
