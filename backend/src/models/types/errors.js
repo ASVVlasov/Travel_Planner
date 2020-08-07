@@ -58,6 +58,13 @@ const authError = {
    regUserError: createError(400, 'Вы должны сначала подтвердить свою почту прежде чем пользоваться приложением', {
       type: ErrorType.ERROR,
    }),
+   regEmailSentError: createError(
+      400,
+      'Что-то пошло не так. Возможно такой почты не существует или сервер почты временно недоступен. Проверьте еще раз введенный e-mail адрес и попробуйте снова',
+      {
+         type: ErrorType.ERROR,
+      }
+   ),
    notFoundError: createError(404, 'Подтверждение по почте недоступно, попробуйте запросить его снова', {
       type: ErrorType.ERROR,
    }),

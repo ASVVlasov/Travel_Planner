@@ -123,11 +123,28 @@ userSchema.statics.sendEmail = async function (email, html) {
       },
    })
 
-   await transporter.sendMail({
-      from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
-      to: email,
-      subject: 'Добро пожаловать в TravelPlanner ✔',
-      html,
+   return new Promise((resolve, reject) => {
+      transporter.sendMail(
+         {
+            from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
+            to: email,
+            subject: 'Добро пожаловать в TravelPlanner ✔',
+            html,
+         },
+         async (error, response) => {
+            if (error) {
+               console.log(error)
+               await this.findOneAndRemove({ email: email })
+               if (error.responseCode === 550) {
+                  reject(Errors.authError.regEmailSentError)
+               } else {
+                  reject(error)
+               }
+            }
+            console.log(response)
+            resolve(response)
+         }
+      )
    })
 }
 userSchema.pre('save', function (next) {
