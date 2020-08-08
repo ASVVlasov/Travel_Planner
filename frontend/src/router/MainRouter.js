@@ -7,12 +7,14 @@ import UserPage from '../pages/UserPage/UserPage'
 import TravelPage from '../pages/TravelPage/TravelPage'
 import HomePage from '../pages/HomePage/HomePage'
 import PageNotFound from '../pages/PageNotFound/PageNotFound'
+import ChangePasswordPage from '../pages/ChangePasswordPage/ChangePasswordPage'
 
 class MainRouter extends React.Component {
    render() {
       if (!this.props.auth) {
          return (
             <Switch>
+               <Route path="/restore/:linkId" component={ChangePasswordPage} />
                <Route path="/home/:tab/:linkId" component={HomePage} />
                <Route path="/home/:tab" component={HomePage} />
                <Redirect to="/home/signin" />
