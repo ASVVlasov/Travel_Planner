@@ -19,7 +19,7 @@ import {
 export const getInvitedEmailLoading = () => ({
    type: GET_INVITED_EMAIL_LOADING,
 })
-export const getInvitedEmailSuccess = (email) => ({
+export const getInvitedEmailSuccess = ({ data: email }) => ({
    type: GET_INVITED_EMAIL_SUCCESS,
    payload: email,
 })
@@ -42,8 +42,9 @@ export const emailConfirmationError = (err) => ({
 export const regLoading = () => ({
    type: REGISTRATION_LOADING,
 })
-export const regSuccess = () => ({
+export const regSuccess = ({ type, message }) => ({
    type: REGISTRATION_SUCCESS,
+   alert: { type, message },
 })
 export const regError = (err) => ({
    type: REGISTRATION_ERROR,

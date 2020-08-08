@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
    searchContact,
+   inviteСontact,
    addContact,
    deleteContact,
 } from '../../redux/user/operations'
@@ -16,17 +17,20 @@ import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg
 import { ReactComponent as SearchIcon } from '../../assets/images/icons/search.svg'
 import InputControl from '../../controls/Input/InputControl'
 import Button from '../../controls/Button/Button'
+import Alert from '../../controls/Alert/Alert'
 
 class ContactForm extends Component {
    static propTypes = {
       onClose: PropTypes.func.isRequired,
       searchContact: PropTypes.func,
+      inviteСontact: PropTypes.func,
       addContact: PropTypes.func,
       deleteContact: PropTypes.func,
       clearContactSearch: PropTypes.func,
       contacts: PropTypes.arrayOf(PropTypes.object),
       newContacts: PropTypes.arrayOf(PropTypes.object),
       searchError: PropTypes.object,
+      inviteAlert: PropTypes.object,
    }
 
    state = {
@@ -43,6 +47,8 @@ class ContactForm extends Component {
    }
 
    searchContact = () => this.props.searchContact({ email: this.state.search })
+
+   inviteСontact = () => this.props.inviteСontact({ email: this.state.search })
 
    mapContactsToRender = (newContacts, contacts) =>
       newContacts.map((nc) => (
@@ -68,6 +74,19 @@ class ContactForm extends Component {
          </div>
       ))
 
+   mapInviteContactToRender = () => (
+      <div className={styles.result}>
+         <span className={styles.result__user} children={this.state.search} />
+         {this.state.search && (
+            <button
+               className={styles.result__button}
+               children="пригласить"
+               onClick={this.inviteСontact}
+            />
+         )}
+      </div>
+   )
+
    clear = () => {
       this.props.clearContactSearch()
       this.props.clearErrorSearch()
@@ -79,7 +98,13 @@ class ContactForm extends Component {
    }
 
    render() {
-      const { onClose, contacts, newContacts, searchError } = this.props
+      const {
+         onClose,
+         contacts,
+         newContacts,
+         searchError,
+         inviteAlert,
+      } = this.props
 
       return (
          <ModalBase toClose={onClose}>
@@ -115,12 +140,16 @@ class ContactForm extends Component {
                         children={searchError.message}
                      />
                      {searchError.message.includes('не найден') && (
-                        <p className={styles.result__description}>
-                           Проверьте правильность введенного адреса.
-                           <br />
-                           Если все верно, возможно друг еще не пользуется
-                           сервисом &mdash; поделитесь с ним нашей ссылкой
-                        </p>
+                        <div>
+                           <p className={styles.result__description}>
+                              Проверьте правильность введенного адреса.
+                              <br />
+                              Если все верно, возможно друг еще не пользуется
+                              сервисом &mdash; отправьте ему приглашение на
+                              почту
+                           </p>
+                           {this.mapInviteContactToRender()}
+                        </div>
                      )}
                   </div>
                )}
@@ -131,6 +160,14 @@ class ContactForm extends Component {
                   <Button text="Очистить" type="cancel" onClick={this.clear} />
                </div>
             </div>
+
+            {inviteAlert && (
+               <Alert
+                  {...inviteAlert}
+                  errName="contactInviteAlert"
+                  autoHideIn={5000}
+               />
+            )}
          </ModalBase>
       )
    }
@@ -140,11 +177,13 @@ const mapStateToProps = ({ userReducer, fetchReducer }) => ({
    contacts: userReducer.user.contacts,
    newContacts: userReducer.newContacts,
    searchError: fetchReducer.contactSearchError,
+   inviteAlert: fetchReducer.contactInviteAlert,
 })
 const mapDispatchToProps = (dispatch) =>
    bindActionCreators(
       {
          searchContact,
+         inviteСontact,
          addContact,
          deleteContact,
          clearContactSearch,

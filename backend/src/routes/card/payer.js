@@ -1,23 +1,31 @@
 const router = require('express').Router()
 const asyncHandler = require('express-async-handler')
+const TravelModel = require('../../models/travel')
 const PayerModel = require('../../models/payer')
 const CardModel = require('../../models/card')
+const Errors = require('../../models/types/errors')
 
 router.post(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      res.json(await CardModel.pushUser(cardId, userId))
+      const card = await CardModel.findById(cardId)
+      const travel = await TravelModel.findById(card.travelId)
+      if (TravelModel.hasUser(userId)) {
+         res.json({ data: await CardModel.pushUser(cardId, userId) })
+      } else {
+         throw Errors.commonError
+      }
    })
 )
 router.delete(
    '/',
    asyncHandler(async (req, res) => {
       const { cardId, userId } = req.body
-      let filter = { user: userId, cardId: cardId }
-      let deletedPayer = await PayerModel.findOneAndDelete(filter)
-      let update = { $pull: { payers: deletedPayer._id } }
-      res.json(await CardModel.findByIdAndUpdate(cardId, update, { new: true }))
+      const filter = { user: userId, cardId: cardId }
+      const deletedPayer = await PayerModel.findOneAndDelete(filter)
+      const update = { $pull: { payers: deletedPayer._id } }
+      res.json({ data: await CardModel.findByIdAndUpdate(cardId, update, { new: true }) })
    })
 )
 
@@ -30,15 +38,15 @@ router.put(
       }
       await PayerModel.findOneAndUpdate({ _id: payer._id }, payer, { new: true })
 
-      res.json(await CardModel.findById(payer.cardId))
+      res.json({ data: await CardModel.findById(payer.cardId) })
    })
 )
 
 router.get(
    '/summary/:travelId',
    asyncHandler(async (req, res) => {
-      let { travelId } = req.params
-      res.json(await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id }))
+      const { travelId } = req.params
+      res.json({ data: await CardModel.summaryForPays({ travelId: travelId, userId: req.user._id }) })
    })
 )
 

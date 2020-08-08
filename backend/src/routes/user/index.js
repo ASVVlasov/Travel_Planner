@@ -11,7 +11,7 @@ router.get(
    asyncHandler(async (req, res) => {
       const user = JSON.parse(JSON.stringify(await UserModel.findById(req.user._id)))
       delete user.password
-      res.json(user)
+      res.json({ data: user })
    })
 )
 
@@ -27,7 +27,7 @@ router.put(
          JSON.stringify(await UserModel.findByIdAndUpdate(req.user._id, user, { new: true }))
       )
       delete updatedUser.password
-      res.json(updatedUser)
+      res.json({ data: updatedUser })
    })
 )
 
@@ -44,7 +44,7 @@ router.delete(
       //TODO: Удаление пользователя из всех travel, cards, payer
       // либо замена его на dummyUser - по решению общего собрания
       // Либо вообще запретить удаление пользователей. Пусть будут вечными! %)
-      res.json(deletedUser)
+      res.json({ data: deletedUser })
    })
 )
 

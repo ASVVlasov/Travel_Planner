@@ -11,7 +11,7 @@ import {
 export const getBoardLoading = () => ({
    type: GET_BOARD_LOADING,
 })
-export const getBoardSuccess = (tabs) => ({
+export const getBoardSuccess = ({ data: tabs }) => ({
    type: GET_BOARD_SUCCESS,
    payload: tabs,
 })

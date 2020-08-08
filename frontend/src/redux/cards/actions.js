@@ -21,7 +21,7 @@ import {
 export const createCardLoading = () => ({
    type: ADD_CARD_LOADING,
 })
-export const createCardSuccess = (newCard) => ({
+export const createCardSuccess = ({ data: newCard }) => ({
    type: ADD_CARD_SUCCESS,
    payload: newCard,
 })
@@ -33,7 +33,7 @@ export const createCardError = (err) => ({
 export const changeCardLoading = () => ({
    type: CHANGE_CARD_LOADING,
 })
-export const changeCardSuccess = (updCard) => ({
+export const changeCardSuccess = ({ data: updCard }) => ({
    type: CHANGE_CARD_SUCCESS,
    payload: updCard,
 })
@@ -42,7 +42,7 @@ export const changeCardError = (err) => ({
    payload: err,
 })
 
-export const deleteCardSuccess = (delCard) => ({
+export const deleteCardSuccess = ({ data: delCard }) => ({
    type: DELETE_CARD_SUCCESS,
    payload: delCard._id,
 })

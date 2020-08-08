@@ -10,7 +10,7 @@ router.post(
    asyncHandler(async (req, res) => {
       let [file] = await FileModel.createFiles(req.files)
       let update = { avatar: file }
-      res.json(await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }))
+      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
    })
 )
 router.get(
@@ -26,7 +26,7 @@ router.delete(
       const fileId = (await UserModel.findById(req.user._id)).avatar
       await FileModel.deleteFiles([fileId])
       let update = { avatar: null }
-      res.json(await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }))
+      res.json({ data: await UserModel.findByIdAndUpdate(req.user._id, update, { new: true }) })
    })
 )
 

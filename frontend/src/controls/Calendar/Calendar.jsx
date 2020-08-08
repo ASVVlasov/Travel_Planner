@@ -36,7 +36,6 @@ export class Calendar extends React.Component {
       travel.beginDate = startDate ? startDate.toISOString() : startDate
       travel.endDate = endDate ? endDate.toISOString() : endDate
 
-      this.props.changeTravelLocal(travel) //TODO remove changeTravelLocal
       this.props.changeTravel(travel)
       this.setState({ startDate, endDate })
    }
@@ -105,6 +104,6 @@ export class Calendar extends React.Component {
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ getTravel, changeTravel, changeTravelLocal }, dispatch) //TODO remove changeTravelLocal
+   bindActionCreators({ getTravel, changeTravel }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

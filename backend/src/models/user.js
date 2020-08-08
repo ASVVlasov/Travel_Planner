@@ -71,7 +71,7 @@ userSchema.methods.comparePassword = function (candidate) {
    return bcrypt.compareSync(candidate, this.password)
 }
 
-userSchema.statics.invite = async function (email) {
+userSchema.statics.invite = async function (email, req) {
    const inviteUser = {
       email,
       password: '',
@@ -79,11 +79,11 @@ userSchema.statics.invite = async function (email) {
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
    const registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id))
+   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer))
    return newUser
 }
 
-userSchema.statics.restorePassword = async function (email) {
+userSchema.statics.restorePassword = async function (email, req) {
    const forgetfulUser = await this.findOne({ email })
    if (!forgetfulUser) {
       throw Errors.userError.notFoundError
@@ -97,11 +97,11 @@ userSchema.statics.restorePassword = async function (email) {
       password: '',
       user: forgetfulUser,
    })
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id))
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
    return forgetfulUser
 }
 
-userSchema.statics.createUser = async function (userModel) {
+userSchema.statics.createUser = async function (userModel, req) {
    const regUserInfo = {
       email: userModel.email,
       password: userModel.password,
@@ -109,23 +109,42 @@ userSchema.statics.createUser = async function (userModel) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id))
+   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer))
    return newUser
 }
 userSchema.statics.sendEmail = async function (email, html) {
    const transporter = nodeMailer.createTransport({
-      service: process.env.EMAIL_SERVICE,
+      host: 'smtp.mail.ru',
+      port: 465,
+      secure: true,
       auth: {
          user: process.env.EMAIL_LOGIN,
          pass: process.env.EMAIL_PASSWORD,
       },
    })
 
-   await transporter.sendMail({
-      from: `"Admin TravelPlanner"${process.env.EMAIL_LOGIN}`,
-      to: email,
-      subject: 'Добро пожаловать в TravelPlanner ✔',
-      html,
+   return new Promise((resolve, reject) => {
+      transporter.sendMail(
+         {
+            from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
+            to: email,
+            subject: 'Добро пожаловать в TravelPlanner ✔',
+            html,
+         },
+         async (error, response) => {
+            if (error) {
+               console.log(error)
+               await this.findOneAndRemove({ email: email })
+               if (error.responseCode === 550) {
+                  reject(Errors.authError.regEmailSentError)
+               } else {
+                  reject(error)
+               }
+            }
+            console.log(response)
+            resolve(response)
+         }
+      )
    })
 }
 userSchema.pre('save', function (next) {

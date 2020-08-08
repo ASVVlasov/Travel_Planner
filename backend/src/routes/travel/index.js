@@ -13,7 +13,7 @@ router.get(
    '/:travelId',
    asyncHandler(async (req, res) => {
       const { travelId } = req.params
-      res.json(await TravelModel.findOne({ _id: travelId }))
+      res.json({ data: await TravelModel.findOne({ _id: travelId }) })
    })
 )
 router.post(
@@ -29,7 +29,7 @@ router.post(
       for (const user of newTravel.users) {
          await UserModel.findByIdAndUpdate(user._id, update, { new: true })
       }
-      res.json(newTravel)
+      res.json({ data: newTravel })
    })
 )
 
@@ -41,7 +41,7 @@ router.put(
       if (travelStatusesValues.indexOf(travelModel.status) === -1) {
          delete travelModel.status
       }
-      res.json(await TravelModel.updateTravel(travelModel))
+      res.json({ data: await TravelModel.updateTravel(travelModel) })
    })
 )
 
@@ -53,9 +53,9 @@ router.delete(
       const { _id } = req.user
       let travel = await TravelModel.findById(travelId)
       if (await TravelModel.isOwner(travel, _id)) {
-         res.json(await TravelModel.deleteTravel(travel))
+         res.json({ data: await TravelModel.deleteTravel(travel) })
       } else {
-         res.json(await TravelModel.leaveTravel(travel, _id))
+         res.json({ data: await TravelModel.leaveTravel(travel, _id) })
       }
    })
 )
