@@ -4,16 +4,17 @@ import styles from './ResetForm.module.scss'
 
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { sendFeedback } from '../../redux/feedback/operations.js'
+import { passwordChangeRequest } from '../../redux/auth/operations'
 
 import ModalBase from '../../controls/ModalBase/ModalBase'
 import Button from '../../controls/Button/Button'
 import InputControl from '../../controls/Input/InputControl'
 import { ReactComponent as CloseIcon } from '../../assets/images/icons/cross.svg'
+import Alert from '../../controls/Alert/Alert'
 
 class FeedbackForm extends Component {
    static propTypes = {
-      sendFeedback: PropTypes.func.isRequired,
+      passwordChangeRequest: PropTypes.func.isRequired,
       onClose: PropTypes.func.isRequired,
    }
 
@@ -36,16 +37,17 @@ class FeedbackForm extends Component {
    }
 
    submit = async () => {
-      await this.props.sendFeedback({ comment: this.state.comment })
-      this.props.onClose()
+      await this.props.passwordChangeRequest(this.state.email)
    }
    emailValidate = async (value) => {
       const reg = new RegExp(/^[\w._-]+@[\w._-]+(\.[a-z]{2,6})$/i)
-       await this.setState((prevState) => { return { prevState.isValid = reg.test(value) } })
+      await this.setState((prevState) => {
+         return (prevState.isValid = reg.test(value))
+      })
    }
 
    render() {
-      const { onClose } = this.props
+      const { onClose, passwordChangeRequestAlert } = this.props
       const {
          isValid,
          emailPlaceholder,
@@ -91,12 +93,23 @@ class FeedbackForm extends Component {
                   />
                </div>
             </div>
+            {passwordChangeRequestAlert && (
+               <Alert
+                  {...passwordChangeRequestAlert}
+                  errName="passwordChangeRequestAlert"
+                  autoHideIn={5000}
+               />
+            )}
          </ModalBase>
       )
    }
 }
 
-const mapDispatchToProps = (dispatch) =>
-   bindActionCreators({ sendFeedback }, dispatch)
+const mapStateToProps = ({ fetchReducer }) => ({
+   passwordChangeRequestAlert: fetchReducer.passwordChangeRequestAlert,
+})
 
-export default connect(null, mapDispatchToProps)(FeedbackForm)
+const mapDispatchToProps = (dispatch) =>
+   bindActionCreators({ passwordChangeRequest }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackForm)
