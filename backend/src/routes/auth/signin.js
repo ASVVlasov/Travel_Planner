@@ -28,8 +28,12 @@ router.post(
       const user = await UserModel.findById(invite.user)
       const plainUser = JSON.parse(JSON.stringify(user))
       delete plainUser.password
-      res.json({ data: plainUser })
-   })
+      res.json({
+         data: plainUser,
+         message: Errors.success.confirmSuccess.message,
+         type: Errors.success.confirmSuccess.type,
+      })
+})
 )
 
 module.exports = router
