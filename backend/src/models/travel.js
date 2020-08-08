@@ -58,8 +58,8 @@ travelSchema.statics.isOwner = async function (travel, userId) {
    return travel.owner.toString() === userId
 }
 
-travelSchema.statics.hasUser = function (userId) {
-   return this.users.find((user) => user._id === userId)
+travelSchema.statics.hasUser = function (travel, userId) {
+   return travel.users.find((user) => user.id === userId)
 }
 
 travelSchema.statics.leaveTravel = async function (travelId, userId) {

@@ -11,7 +11,7 @@ router.post(
       const { cardId, userId } = req.body
       const card = await CardModel.findById(cardId)
       const travel = await TravelModel.findById(card.travelId)
-      if (TravelModel.hasUser(userId)) {
+      if (TravelModel.hasUser(travel, userId)) {
          res.json({ data: await CardModel.pushUser(cardId, userId) })
       } else {
          throw Errors.commonError
