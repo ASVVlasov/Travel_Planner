@@ -133,7 +133,6 @@ userSchema.statics.sendEmail = async function (email, html) {
          },
          async (error, response) => {
             if (error) {
-               console.log(error)
                await this.findOneAndRemove({ email: email })
                if (error.responseCode === 550) {
                   reject(Errors.authError.regEmailSentError)
@@ -141,7 +140,6 @@ userSchema.statics.sendEmail = async function (email, html) {
                   reject(error)
                }
             }
-            console.log(response)
             resolve(response)
          }
       )

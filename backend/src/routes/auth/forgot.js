@@ -6,7 +6,7 @@ const Errors = require('../../models/types/errors')
 router.post(
    '/',
    asyncHandler(async (req, res) => {
-      const user = await UserModel.restorePassword(req.body.email)
+      const user = await UserModel.restorePassword(req.body.email, req)
       res.json({ data: JSON.parse(JSON.stringify(user)), ...Errors.success.forgotSuccess })
    })
 )
