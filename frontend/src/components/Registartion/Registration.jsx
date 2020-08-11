@@ -22,6 +22,8 @@ class Registration extends Component {
       login: PropTypes.func,
       regError: PropTypes.object,
       authError: PropTypes.object,
+      invitedEmail: PropTypes.string,
+      confirmedEmail: PropTypes.string,
    }
 
    state = {
@@ -115,8 +117,17 @@ class Registration extends Component {
 
       if (tab._id === 'signup' && linkId) {
          this.props.getInvitedEmail(linkId)
-      } else if (linkId) {
+      } else if (tab._id === 'signin' && linkId) {
          this.props.emailConfirmation(linkId)
+      }
+   }
+   componentDidUpdate = (prevProps) => {
+      const { invitedEmail, confirmedEmail } = this.props
+      if (
+         prevProps.invitedEmail !== invitedEmail ||
+         prevProps.confirmedEmail !== confirmedEmail
+      ) {
+         this.setState({ email: invitedEmail || confirmedEmail })
       }
    }
 
@@ -128,11 +139,9 @@ class Registration extends Component {
          passwordErrorLabel,
          tabs,
       } = this.state
-      const tab = tabs.find((tab) => tab._id === this.props.match.params.tab)
+      const { invitedEmail, confirmedEmail, match } = this.props
 
-      const linkId = this.props.match.params.linkId
-      const invitedEmail =
-         tab._id === 'signup' && linkId ? this.props.invitedEmail : ''
+      const tab = tabs.find((tab) => tab._id === match.params.tab)
 
       return (
          <div className={styles.form}>
@@ -145,8 +154,8 @@ class Registration extends Component {
                label={tab.emailLabel}
                hintLabel={tab.emailHintLabel}
                errorLabel={email && emailErrorLabel}
-               value={!invitedEmail ? email : invitedEmail}
-               disabled={!invitedEmail ? false : true}
+               value={email}
+               disabled={!!invitedEmail || !!confirmedEmail}
                onChange={this.handleChange}
                onBlur={(e) => this.emailIsValid(e.target.value)}
             />
@@ -178,7 +187,7 @@ class Registration extends Component {
                onClick={tab.btnOnClick}
                text={tab.btnText}
                disabled={
-                  (!email && !invitedEmail) ||
+                  !email ||
                   !password ||
                   !!emailErrorLabel ||
                   !!passwordErrorLabel
@@ -192,6 +201,7 @@ const mapStateToProps = ({ fetchReducer, authReducer }) => ({
    regError: fetchReducer.registerError,
    authError: fetchReducer.loginError,
    invitedEmail: authReducer.invitedEmail,
+   confirmedEmail: authReducer.confirmedEmail,
 })
 
 const mapDispatchToProps = (dispatch) =>

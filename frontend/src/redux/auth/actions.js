@@ -31,8 +31,10 @@ export const getInvitedEmailError = (err) => ({
 export const emailConfirmationLoading = () => ({
    type: EMAIL_CONFIRMATION_LOADING,
 })
-export const emailConfirmationSuccess = () => ({
+export const emailConfirmationSuccess = ({ data: user, message, type }) => ({
    type: EMAIL_CONFIRMATION_SUCCESS,
+   payload: user,
+   alert: { type, message },
 })
 export const emailConfirmationError = (err) => ({
    type: EMAIL_CONFIRMATION_ERROR,
