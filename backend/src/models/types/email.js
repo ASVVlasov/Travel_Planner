@@ -14,5 +14,5 @@ module.exports = {
       Это письмо пришло вам потому, что вы забыли пароль<br/>
       Если вы его не забывали или уже вспомнили - просто проигнорируйте это письмо!<br/>
       А для восстановления пароля пройдите по ссылке -
-      <a href="${host}#/home/forgot/${linkId}"> ${host}#/home/forgot/${linkId}</a>`,
+      <a href="${host}#/restore/${linkId}"> ${host}#/restore/${linkId}</a>`,
 }

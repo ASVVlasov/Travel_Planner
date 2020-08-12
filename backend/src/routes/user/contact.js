@@ -50,7 +50,7 @@ router.delete(
    '/',
    asyncHandler(async (req, res) => {
       const { userId } = req.body
-      if (!req.user.contacts.find((user) => user === userId)) {
+      if (!req.user.contacts.find((user) => user._id === userId)) {
          throw Errors.userError.notFoundError
       } else {
          let update = { $pull: { contacts: userId } }
