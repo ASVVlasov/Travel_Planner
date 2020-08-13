@@ -6,7 +6,6 @@ import './Calendar.css'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getTravel, changeTravel } from '../../redux/travel/operations'
-import { changeTravelLocal } from '../../redux/travel/actions' //TODO remove changeTravelLocal
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
