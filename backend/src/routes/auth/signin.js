@@ -19,21 +19,21 @@ router.post(
 )
 router.post(
    '/:linkId',
-   AsyncHandler(async (req, res) => {
+   AsyncHandler(async (req, res, next) => {
       const invite = await RegistrationModel.findById(req.params.linkId)
       if (!invite) {
          throw Errors.authError.notFoundError
       }
-      await RegistrationModel.findByIdAndDelete(invite.id)
       const user = await UserModel.findById(invite.user)
+      await RegistrationModel.findByIdAndDelete(invite.id)
       const plainUser = JSON.parse(JSON.stringify(user))
       delete plainUser.password
+      req.user = plainUser
       res.json({
-         data: plainUser,
-         message: Errors.success.confirmSuccess.message,
-         type: Errors.success.confirmSuccess.type,
+         data: req.user,
+         ...Errors.success.confirmSuccess,
       })
-})
+   })
 )
 
 module.exports = router

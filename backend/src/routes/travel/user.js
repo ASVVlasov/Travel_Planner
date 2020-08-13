@@ -23,7 +23,7 @@ router.delete(
       if (await TravelModel.isOwner(travel, userId)) {
          res.json({ data: await TravelModel.deleteTravel(travel) })
       } else {
-         res.json({ data: await TravelModel.leaveTravel(travel, userId) })
+         res.json({ data: await TravelModel.leaveTravel(travelId, userId) })
       }
    })
 )
