@@ -89,8 +89,9 @@ export const authError = () => ({
 export const passwordChangeRequestLoading = () => ({
    type: PASSWORD_CHANGE_REQUEST_LOADING,
 })
-export const passwordChangeRequestSuccess = () => ({
+export const passwordChangeRequestSuccess = ({ type, message }) => ({
    type: PASSWORD_CHANGE_REQUEST_SUCCESS,
+   alert: { type, message },
 })
 export const passwordChangeRequestError = (err) => ({
    type: PASSWORD_CHANGE_REQUEST_ERROR,
@@ -112,9 +113,9 @@ export const getEmailPasswordChangeError = (err) => ({
 export const passwordChangeLoading = () => ({
    type: PASSWORD_CHANGE_LOADING,
 })
-export const passwordChangeSuccess = (status) => ({
+export const passwordChangeSuccess = ({ type, message }) => ({
    type: PASSWORD_CHANGE_SUCCESS,
-   payload: status,
+   alert: { type, message },
 })
 export const passwordChangeError = (err) => ({
    type: PASSWORD_CHANGE_ERROR,

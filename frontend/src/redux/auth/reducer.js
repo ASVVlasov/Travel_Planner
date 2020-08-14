@@ -7,7 +7,7 @@ import {
 
 const initialState = {
    invitedEmail: '',
-   EmailPasswordChange: '',
+   emailPasswordChange: '',
 }
 
 export default function authReducer(state = initialState, action) {
@@ -19,10 +19,10 @@ export default function authReducer(state = initialState, action) {
          return { ...state, invitedEmail: '' }
       }
       case GET_EMAIL_PASSWORD_CHANGE_SUCCESS: {
-         return { ...state, EmailPasswordChange: action.payload.email }
+         return { ...state, emailPasswordChange: action.payload.data.email }
       }
       case PASSWORD_CHANGE_SUCCESS: {
-         return { ...state, EmailPasswordChange: '' }
+         return { ...state, emailPasswordChange: '' }
       }
       default:
          return state
