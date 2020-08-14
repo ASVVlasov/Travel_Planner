@@ -46,6 +46,12 @@ class FeedbackForm extends Component {
       })
    }
 
+   closeTheForm = () => {
+      setTimeout(() => {
+         this.props.onClose()
+      }, 5100)
+   }
+
    render() {
       const { onClose, passwordChangeRequestAlert } = this.props
       const {
@@ -100,6 +106,9 @@ class FeedbackForm extends Component {
                   autoHideIn={5000}
                />
             )}
+            {passwordChangeRequestAlert &&
+               passwordChangeRequestAlert.type === 'success' &&
+               this.closeTheForm()}
          </ModalBase>
       )
    }
