@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
+import { push } from 'connected-react-router'
 
 import styles from './ChangePasswordPage.module.scss'
 
@@ -20,7 +21,8 @@ class ChangePasswordPage extends React.Component {
    static propTypes = {
       getEmailPasswordChange: PropTypes.func,
       passwordChange: PropTypes.func,
-      EmailPasswordChange: PropTypes.string,
+      emailPasswordChange: PropTypes.string,
+      passwordChangeAlert: PropTypes.object,
    }
 
    state = {
@@ -46,6 +48,13 @@ class ChangePasswordPage extends React.Component {
          linkId: linkId,
          password: this.state.password,
       })
+      this.setState({ password: '' })
+   }
+
+   redirect = () => {
+      setTimeout(() => {
+         this.props.push('/home/signin')
+      }, 5100)
    }
 
    componentDidMount = () => {
@@ -57,7 +66,7 @@ class ChangePasswordPage extends React.Component {
 
    render() {
       const { password, passwordErrorLabel } = this.state
-      const { EmailPasswordChange } = this.props
+      const { emailPasswordChange, passwordChangeAlert } = this.props
 
       return (
          <>
@@ -73,7 +82,7 @@ class ChangePasswordPage extends React.Component {
                      name="email"
                      styles={styles.page__emailInput}
                      label={'Почта'}
-                     value={EmailPasswordChange}
+                     value={emailPasswordChange}
                      disabled={true}
                   />
                   <InputControl
@@ -92,7 +101,7 @@ class ChangePasswordPage extends React.Component {
                         onClick={this.changePassword}
                         text={'Сменить'}
                         disabled={
-                           !EmailPasswordChange ||
+                           !emailPasswordChange ||
                            !password ||
                            !!passwordErrorLabel
                         }
@@ -100,13 +109,24 @@ class ChangePasswordPage extends React.Component {
                   </div>
                </div>
             </div>
+            {passwordChangeAlert && (
+               <Alert
+                  {...passwordChangeAlert}
+                  errName="passwordChangeAlert"
+                  autoHideIn={5000}
+               />
+            )}
+            {passwordChangeAlert &&
+               passwordChangeAlert.type === 'success' &&
+               this.redirect()}
          </>
       )
    }
 }
 
-const mapStateToProps = ({ authReducer }) => ({
-   EmailPasswordChange: authReducer.EmailPasswordChange,
+const mapStateToProps = ({ authReducer, fetchReducer }) => ({
+   emailPasswordChange: authReducer.emailPasswordChange,
+   passwordChangeAlert: fetchReducer.passwordChangeAlert,
 })
 
 const mapDispatchToProps = (dispatch) =>
@@ -114,6 +134,7 @@ const mapDispatchToProps = (dispatch) =>
       {
          getEmailPasswordChange,
          passwordChange,
+         push,
       },
       dispatch
    )
