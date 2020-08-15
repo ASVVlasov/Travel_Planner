@@ -14,6 +14,15 @@ import {
    LOGOUT_SUCCESS,
    LOGOUT_ERROR,
    UNAUTHORIZED,
+   PASSWORD_CHANGE_REQUEST_LOADING,
+   PASSWORD_CHANGE_REQUEST_SUCCESS,
+   PASSWORD_CHANGE_REQUEST_ERROR,
+   PASSWORD_CHANGE_LOADING,
+   PASSWORD_CHANGE_SUCCESS,
+   PASSWORD_CHANGE_ERROR,
+   GET_EMAIL_PASSWORD_CHANGE_LOADING,
+   GET_EMAIL_PASSWORD_CHANGE_SUCCESS,
+   GET_EMAIL_PASSWORD_CHANGE_ERROR,
 } from '../types'
 
 export const getInvitedEmailLoading = () => ({
@@ -77,4 +86,40 @@ export const logoutError = () => ({
 export const authError = () => ({
    type: UNAUTHORIZED,
    payload: { auth: false },
+})
+
+export const passwordChangeRequestLoading = () => ({
+   type: PASSWORD_CHANGE_REQUEST_LOADING,
+})
+export const passwordChangeRequestSuccess = ({ type, message }) => ({
+   type: PASSWORD_CHANGE_REQUEST_SUCCESS,
+   alert: { type, message },
+})
+export const passwordChangeRequestError = (err) => ({
+   type: PASSWORD_CHANGE_REQUEST_ERROR,
+   payload: err,
+})
+
+export const getEmailPasswordChangeLoading = () => ({
+   type: GET_EMAIL_PASSWORD_CHANGE_LOADING,
+})
+export const getEmailPasswordChangeSuccess = (email) => ({
+   type: GET_EMAIL_PASSWORD_CHANGE_SUCCESS,
+   payload: email,
+})
+export const getEmailPasswordChangeError = (err) => ({
+   type: GET_EMAIL_PASSWORD_CHANGE_ERROR,
+   payload: err,
+})
+
+export const passwordChangeLoading = () => ({
+   type: PASSWORD_CHANGE_LOADING,
+})
+export const passwordChangeSuccess = ({ type, message }) => ({
+   type: PASSWORD_CHANGE_SUCCESS,
+   alert: { type, message },
+})
+export const passwordChangeError = (err) => ({
+   type: PASSWORD_CHANGE_ERROR,
+   payload: err,
 })
