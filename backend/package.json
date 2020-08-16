@@ -28,6 +28,7 @@
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.2.1",
+    "mjml": "^4.6.3",
     "mongoose": "^5.9.10",
     "mongoose-to-swagger": "^1.0.3",
     "mongoose-unique-validator": "^2.0.3",
