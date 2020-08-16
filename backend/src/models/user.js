@@ -88,16 +88,15 @@ userSchema.statics.restorePassword = async function (email, req) {
    if (!forgetfulUser) {
       throw Errors.userError.notFoundError
    }
-   const alreadyExist = await RegistrationModel.findOne({ user: forgetfulUser })
-   if (alreadyExist) {
-      throw Errors.userError.restoreSentError
+   let registrationModel = await RegistrationModel.findOne({ user: forgetfulUser })
+   if (!registrationModel) {
+      registrationModel = await RegistrationModel.create({
+         email: forgetfulUser.email,
+         password: '',
+         user: forgetfulUser,
+      })
    }
-   const registrationModel = await RegistrationModel.create({
-      email: forgetfulUser.email,
-      password: '',
-      user: forgetfulUser,
-   })
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer), true)
    return forgetfulUser
 }
 
@@ -112,7 +111,7 @@ userSchema.statics.createUser = async function (userModel, req) {
    await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer))
    return newUser
 }
-userSchema.statics.sendEmail = async function (email, html) {
+userSchema.statics.sendEmail = async function (email, html, removeUser = false) {
    const transporter = nodeMailer.createTransport({
       host: 'smtp.mail.ru',
       port: 465,
@@ -133,7 +132,9 @@ userSchema.statics.sendEmail = async function (email, html) {
          },
          async (error, response) => {
             if (error) {
-               await this.findOneAndRemove({ email: email })
+               if (removeUser) {
+                  await this.findOneAndRemove({ email: email })
+               }
                if (error.responseCode === 550) {
                   reject(Errors.authError.regEmailSentError)
                } else {
