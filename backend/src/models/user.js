@@ -78,8 +78,12 @@ userSchema.statics.invite = async function (email, req) {
    }
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
-   const registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer))
+   let registrationModel = await RegistrationModel.findOne({ user: inviteUser })
+   if (registrationModel) {
+      await registrationModel.delete()
+   }
+   registrationModel = await RegistrationModel.create(inviteUser)
+   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer), true)
    return newUser
 }
 
@@ -96,7 +100,7 @@ userSchema.statics.restorePassword = async function (email, req) {
          user: forgetfulUser,
       })
    }
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer), true)
+   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
    return forgetfulUser
 }
 
@@ -108,7 +112,7 @@ userSchema.statics.createUser = async function (userModel, req) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer))
+   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer), true)
    return newUser
 }
 userSchema.statics.sendEmail = async function (email, html, removeUser = false) {
@@ -133,7 +137,10 @@ userSchema.statics.sendEmail = async function (email, html, removeUser = false) 
          async (error, response) => {
             if (error) {
                if (removeUser) {
-                  await this.findOneAndRemove({ email: email })
+                  const user = this.findOne({ email })
+                  const registration = RegistrationModel.findOne({ user })
+                  await user.delete()
+                  await registration.delete()
                }
                if (error.responseCode === 550) {
                   reject(Errors.authError.regEmailSentError)
