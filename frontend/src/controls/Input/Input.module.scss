@@ -29,7 +29,7 @@
     @include FormInput;
     width: 100%;
     &:disabled {
-      background-color: transparent;
+      background-color: $color-background-light;
       color: $color-secondary-light;
     }
   }

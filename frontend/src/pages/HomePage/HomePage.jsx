@@ -11,7 +11,12 @@ import connect from 'react-redux/es/connect/connect'
 
 class HomePage extends React.Component {
    render() {
-      const { match, registerAlert, loginError } = this.props
+      const {
+         match,
+         registerAlert,
+         loginError,
+         emailConfirmationAlert,
+      } = this.props
 
       return (
          <>
@@ -30,6 +35,13 @@ class HomePage extends React.Component {
                />
             )}
             {loginError && <Alert {...loginError} errName="loginError" />}
+            {emailConfirmationAlert && (
+               <Alert
+                  {...emailConfirmationAlert}
+                  errName="emailConfirmationAlert"
+                  autoHideIn={5000}
+               />
+            )}
          </>
       )
    }
@@ -38,6 +50,7 @@ class HomePage extends React.Component {
 const mapStateToProps = ({ fetchReducer }) => ({
    registerAlert: fetchReducer.registerAlert,
    loginError: fetchReducer.loginError,
+   emailConfirmationAlert: fetchReducer.emailConfirmationAlert,
 })
 
 export default connect(mapStateToProps)(HomePage)

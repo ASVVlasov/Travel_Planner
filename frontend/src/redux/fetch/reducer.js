@@ -90,17 +90,22 @@ export default function fetchReducer(state = {}, action) {
          }
       }
 
-      case EMAIL_CONFIRMATION_LOADING:
+      case EMAIL_CONFIRMATION_LOADING: {
+         return {
+            ...state,
+            emailConfirmationAlert: undefined,
+         }
+      }
       case EMAIL_CONFIRMATION_SUCCESS: {
          return {
             ...state,
-            emailConfirmationError: undefined,
+            emailConfirmationAlert: action.alert,
          }
       }
       case EMAIL_CONFIRMATION_ERROR: {
          return {
             ...state,
-            emailConfirmationError: action.payload,
+            emailConfirmationAlert: action.payload,
          }
       }
 
