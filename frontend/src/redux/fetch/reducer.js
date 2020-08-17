@@ -11,6 +11,12 @@ import {
    LOGIN_LOADING,
    LOGIN_SUCCESS,
    LOGIN_ERROR,
+   PASSWORD_CHANGE_REQUEST_LOADING,
+   PASSWORD_CHANGE_REQUEST_SUCCESS,
+   PASSWORD_CHANGE_REQUEST_ERROR,
+   PASSWORD_CHANGE_LOADING,
+   PASSWORD_CHANGE_SUCCESS,
+   PASSWORD_CHANGE_ERROR,
    GET_USER_LOADING,
    GET_USER_SUCCESS,
    GET_USER_ERROR,
@@ -133,6 +139,44 @@ export default function fetchReducer(state = {}, action) {
          return {
             ...state,
             loginError: action.payload,
+         }
+      }
+
+      case PASSWORD_CHANGE_REQUEST_LOADING: {
+         return {
+            ...state,
+            passwordChangeRequestAlert: undefined,
+         }
+      }
+      case PASSWORD_CHANGE_REQUEST_SUCCESS: {
+         return {
+            ...state,
+            passwordChangeRequestAlert: action.alert,
+         }
+      }
+      case PASSWORD_CHANGE_REQUEST_ERROR: {
+         return {
+            ...state,
+            passwordChangeRequestAlert: action.payload,
+         }
+      }
+
+      case PASSWORD_CHANGE_LOADING: {
+         return {
+            ...state,
+            passwordChangeAlert: undefined,
+         }
+      }
+      case PASSWORD_CHANGE_SUCCESS: {
+         return {
+            ...state,
+            passwordChangeAlert: action.alert,
+         }
+      }
+      case PASSWORD_CHANGE_ERROR: {
+         return {
+            ...state,
+            passwordChangeAlert: action.payload,
          }
       }
 

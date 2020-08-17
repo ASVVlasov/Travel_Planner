@@ -1,12 +1,15 @@
 import {
-   EMAIL_CONFIRMATION_SUCCESS,
    GET_INVITED_EMAIL_SUCCESS,
+   EMAIL_CONFIRMATION_SUCCESS,
    LOGIN_SUCCESS,
+   GET_EMAIL_PASSWORD_CHANGE_SUCCESS,
+   PASSWORD_CHANGE_SUCCESS,
 } from '../types'
 
 const initialState = {
    invitedEmail: '',
    confirmedEmail: '',
+   emailPasswordChange: '',
 }
 
 export default function authReducer(state = initialState, action) {
@@ -21,6 +24,12 @@ export default function authReducer(state = initialState, action) {
 
       case LOGIN_SUCCESS: {
          return { ...state, confirmedEmail: '', invitedEmail: '' }
+      }
+      case GET_EMAIL_PASSWORD_CHANGE_SUCCESS: {
+         return { ...state, emailPasswordChange: action.payload.data.email }
+      }
+      case PASSWORD_CHANGE_SUCCESS: {
+         return { ...state, emailPasswordChange: '' }
       }
       default:
          return state

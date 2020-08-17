@@ -6,6 +6,15 @@ import {
    emailConfirmationLoading,
    emailConfirmationSuccess,
    emailConfirmationError,
+   passwordChangeRequestLoading,
+   passwordChangeRequestSuccess,
+   passwordChangeRequestError,
+   getEmailPasswordChangeLoading,
+   getEmailPasswordChangeSuccess,
+   getEmailPasswordChangeError,
+   passwordChangeLoading,
+   passwordChangeSuccess,
+   passwordChangeError,
    regLoading,
    regSuccess,
    regError,
@@ -51,3 +60,32 @@ export const login = (authInfo) =>
 
 export const logout = () =>
    fetchRequest.get('/logout', [null, logoutSuccess, logoutError])
+
+export const passwordChangeRequest = (email) =>
+   fetchRequest.post(
+      '/auth/forgot',
+      [
+         passwordChangeRequestLoading,
+         passwordChangeRequestSuccess,
+         passwordChangeRequestError,
+      ],
+      {
+         email: email,
+      }
+   )
+
+export const getEmailPasswordChange = (linkId) =>
+   fetchRequest.get('/auth/signup/' + linkId, [
+      getEmailPasswordChangeLoading,
+      getEmailPasswordChangeSuccess,
+      getEmailPasswordChangeError,
+   ])
+
+export const passwordChange = (linkIdAndPassword) =>
+   fetchRequest.post(
+      '/auth/signup/' + linkIdAndPassword.linkId,
+      [passwordChangeLoading, passwordChangeSuccess, passwordChangeError],
+      {
+         password: linkIdAndPassword.password,
+      }
+   )
