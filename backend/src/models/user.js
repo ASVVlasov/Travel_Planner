@@ -83,7 +83,14 @@ userSchema.statics.invite = async function (email, req) {
       await registrationModel.delete()
    }
    registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer), true)
+   const { nickName, surname, name } = req.user
+   const requester = name || surname ? `${name} ${surname}`.trim() : nickName
+   await this.sendEmail(
+      newUser.email,
+      '🙋‍♀️🙋‍♂️ Ваш друг приглашает вас в путешествие!',
+      EmailText.inviteHTML(registrationModel.id, req.headers.referer, requester),
+      true
+   )
    return newUser
 }
 
@@ -100,7 +107,11 @@ userSchema.statics.restorePassword = async function (email, req) {
          user: forgetfulUser,
       })
    }
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
+   await this.sendEmail(
+      forgetfulUser.email,
+      '🔓 Запрос на смену пароля',
+      EmailText.forgotHTML(registrationModel.id, req.headers.referer)
+   )
    return forgetfulUser
 }
 
@@ -112,10 +123,15 @@ userSchema.statics.createUser = async function (userModel, req) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer), true)
+   await this.sendEmail(
+      newUser.email,
+      '🎉 Добро пожаловать в TravelKeeper!',
+      EmailText.registrationHTML(registrationModel.id, req.headers.referer),
+      true
+   )
    return newUser
 }
-userSchema.statics.sendEmail = async function (email, html, removeUser = false) {
+userSchema.statics.sendEmail = async function (email, subject, html, removeUser = false) {
    const transporter = nodeMailer.createTransport({
       host: 'smtp.mail.ru',
       port: 465,
@@ -129,9 +145,9 @@ userSchema.statics.sendEmail = async function (email, html, removeUser = false) 
    return new Promise((resolve, reject) => {
       transporter.sendMail(
          {
-            from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
+            from: `Сервис TravelKeeper <${process.env.EMAIL_LOGIN}>`,
             to: email,
-            subject: 'Добро пожаловать в TravelPlanner ✔',
+            subject,
             html,
          },
          async (error, response) => {
