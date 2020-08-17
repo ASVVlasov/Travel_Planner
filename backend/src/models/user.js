@@ -78,7 +78,7 @@ userSchema.statics.invite = async function (email, req) {
    }
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
-   let registrationModel = await RegistrationModel.findOne({ user: inviteUser })
+   let registrationModel = await RegistrationModel.findOne({ user: newUser })
    if (registrationModel) {
       await registrationModel.delete()
    }
