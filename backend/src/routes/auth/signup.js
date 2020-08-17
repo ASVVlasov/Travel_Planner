@@ -43,8 +43,14 @@ router
       '/',
       asyncHandler(async (req, res) => {
          const user = await UserModel.findOne({ email: req.body.email })
+         const registration = await RegistrationModel.findOne({ user })
          if (user) {
-            throw Errors.authError.emailExistError
+            if (registration) {
+               await user.delete()
+               await registration.delete()
+            } else {
+               throw Errors.authError.emailExistError
+            }
          }
          await UserModel.createUser(req.body, req)
          res.json(Errors.success.signupSuccess)
