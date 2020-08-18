@@ -74,15 +74,17 @@ class Alert extends Component {
                   </header>
                   <p className={styles.alert__body} children={typeAttr.text} />
 
-                  {this.props.type === 'error' && (
-                     <Button
-                        text="Повторить"
-                        styleView="outline"
-                        size="small"
-                        kind="error"
-                        onClick={this.repeatLastRequest}
-                     />
-                  )}
+                  {this.props.type === 'error' &&
+                     (!this.props.message ||
+                        this.props.message.includes('повторить')) && (
+                        <Button
+                           text="Повторить"
+                           styleView="outline"
+                           size="small"
+                           kind="error"
+                           onClick={this.repeatLastRequest}
+                        />
+                     )}
                   {this.props.type === 'success' &&
                      this.props.autoHideIn &&
                      this.autoHide(this.props.autoHideIn)}

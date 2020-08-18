@@ -78,8 +78,19 @@ userSchema.statics.invite = async function (email, req) {
    }
    const newUser = await this.create(inviteUser)
    inviteUser.user = newUser.id
-   const registrationModel = await RegistrationModel.create(inviteUser)
-   await this.sendEmail(newUser.email, EmailText.inviteHTML(registrationModel.id, req.headers.referer))
+   let registrationModel = await RegistrationModel.findOne({ user: newUser })
+   if (registrationModel) {
+      await registrationModel.delete()
+   }
+   registrationModel = await RegistrationModel.create(inviteUser)
+   const { nickName, surname, name } = req.user
+   const requester = name || surname ? `${name} ${surname}`.trim() : nickName
+   await this.sendEmail(
+      newUser.email,
+      '🙋‍♀️🙋‍♂️ Ваш друг приглашает вас в путешествие!',
+      EmailText.inviteHTML(registrationModel.id, req.headers.referer, requester),
+      true
+   )
    return newUser
 }
 
@@ -88,16 +99,19 @@ userSchema.statics.restorePassword = async function (email, req) {
    if (!forgetfulUser) {
       throw Errors.userError.notFoundError
    }
-   const alreadyExist = await RegistrationModel.findOne({ user: forgetfulUser })
-   if (alreadyExist) {
-      throw Errors.userError.restoreSentError
+   let registrationModel = await RegistrationModel.findOne({ user: forgetfulUser })
+   if (!registrationModel) {
+      registrationModel = await RegistrationModel.create({
+         email: forgetfulUser.email,
+         password: '',
+         user: forgetfulUser,
+      })
    }
-   const registrationModel = await RegistrationModel.create({
-      email: forgetfulUser.email,
-      password: '',
-      user: forgetfulUser,
-   })
-   await this.sendEmail(forgetfulUser.email, EmailText.forgotHTML(registrationModel.id, req.headers.referer))
+   await this.sendEmail(
+      forgetfulUser.email,
+      '🔓 Запрос на смену пароля',
+      EmailText.forgotHTML(registrationModel.id, req.headers.referer)
+   )
    return forgetfulUser
 }
 
@@ -109,10 +123,15 @@ userSchema.statics.createUser = async function (userModel, req) {
    const newUser = await this.create(userModel)
    regUserInfo.user = newUser.id
    const registrationModel = await RegistrationModel.create(regUserInfo)
-   await this.sendEmail(newUser.email, EmailText.registrationHTML(registrationModel.id, req.headers.referer))
+   await this.sendEmail(
+      newUser.email,
+      '🎉 Добро пожаловать в TravelKeeper!',
+      EmailText.registrationHTML(registrationModel.id, req.headers.referer),
+      true
+   )
    return newUser
 }
-userSchema.statics.sendEmail = async function (email, html) {
+userSchema.statics.sendEmail = async function (email, subject, html, removeUser = false) {
    const transporter = nodeMailer.createTransport({
       host: 'smtp.mail.ru',
       port: 465,
@@ -126,14 +145,19 @@ userSchema.statics.sendEmail = async function (email, html) {
    return new Promise((resolve, reject) => {
       transporter.sendMail(
          {
-            from: `Сервис TravelPlanner <${process.env.EMAIL_LOGIN}>`,
+            from: `Сервис TravelKeeper <${process.env.EMAIL_LOGIN}>`,
             to: email,
-            subject: 'Добро пожаловать в TravelPlanner ✔',
+            subject,
             html,
          },
          async (error, response) => {
             if (error) {
-               await this.findOneAndRemove({ email: email })
+               if (removeUser) {
+                  const user = this.findOne({ email })
+                  const registration = RegistrationModel.findOne({ user })
+                  await user.delete()
+                  await registration.delete()
+               }
                if (error.responseCode === 550) {
                   reject(Errors.authError.regEmailSentError)
                } else {
