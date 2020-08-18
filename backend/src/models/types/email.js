@@ -11,6 +11,7 @@ const createEmail = (host, pictureUrl, link, mainText, btnText) =>
    mjml2html(
       `<mjml>
          <mj-head>
+            <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
             <mj-style>
                .mainText div {
                   font-family: "Montserrat" !important;
