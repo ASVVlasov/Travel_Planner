@@ -83,7 +83,7 @@ export const getEmailPasswordChange = (linkId) =>
 
 export const passwordChange = (linkIdAndPassword) =>
    fetchRequest.post(
-      '/auth/signup/' + linkIdAndPassword.linkId,
+      '/auth/forgot/' + linkIdAndPassword.linkId,
       [passwordChangeLoading, passwordChangeSuccess, passwordChangeError],
       {
          password: linkIdAndPassword.password,

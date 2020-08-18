@@ -199,7 +199,7 @@ class Registration extends Component {
                   onClick={tab.btnOnClick}
                   text={tab.btnText}
                   disabled={
-                     (!email && !invitedEmail) ||
+                     !email ||
                      !password ||
                      !!emailErrorLabel ||
                      !!passwordErrorLabel
