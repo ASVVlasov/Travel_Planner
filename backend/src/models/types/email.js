@@ -11,10 +11,12 @@ const createEmail = (host, pictureUrl, link, mainText, btnText) =>
    mjml2html(
       `<mjml>
          <mj-head>
-            <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
+            <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat" />
+            <mj-attributes>
+               <mj-all font-family="Montserrat, Helvetica, Arial, sans-serif" />
+            </mj-attributes>
             <mj-style>
                .mainText div {
-                  font-family: "Montserrat" !important;
                   font-size: 14px !important;
                   line-height: 20px !important;
                   color: #0A3268 !important;
@@ -25,7 +27,6 @@ const createEmail = (host, pictureUrl, link, mainText, btnText) =>
                   border-radius: 10px !important;
                }
                .actionBtn a {
-                  font-family: "Montserrat" !important;
                   font-size: 18px !important;
                   font-weight: 600 !important;
                   line-height: 22px !important;
@@ -34,7 +35,6 @@ const createEmail = (host, pictureUrl, link, mainText, btnText) =>
                   padding: 10px 33px !important;
                }
                .secondaryText div {
-                  font-family: "Montserrat" !important;
                   font-size: 12px !important;
                   line-height: 16px !important;
                   color: #91AED4 !important;
