@@ -97,16 +97,19 @@ travelSchema.statics.updateTravel = async function (travelModel) {
    if (commonHandlers.compareDates(travelModel.endDate, travelModel.beginDate)) {
       throw Errors.travelError.dateError
    } else {
-      for (const cardModel of travelModel.cards) {
-         const card = await CardModel.findById(cardModel._id)
-         if (
-            commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
-            commonHandlers.compareDates(travelModel.endDate, card.endDate)
-         ) {
-            delete travelModel.cards
-            delete travelModel.users
-            await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
-            throw Errors.travelError.dateCompareError
+      let oldTravel = await this.findById(travelModel._id)
+      if (commonHandlers.travelCardsChanged(oldTravel.cards, travelModel.cards)) {
+         for (const cardModel of travelModel.cards) {
+            const card = await CardModel.findById(cardModel._id)
+            if (
+               commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
+               commonHandlers.compareDates(travelModel.endDate, card.endDate)
+            ) {
+               delete travelModel.cards
+               delete travelModel.users
+               await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
+               throw Errors.travelError.dateCompareError
+            }
          }
       }
    }
