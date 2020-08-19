@@ -15,6 +15,19 @@ const compareDates = function (prevDate, nextDate) {
    }
    return prev < next
 }
+const travelCardsChanged = function (oldCards, newCards) {
+   if (oldCards.length !== newCards.length) return true
+   let isDifferent = oldCards.find((old, i) => {
+      let oldBegin = typeof old.beginDate === 'string' ? new Date(old.beginDate) : old.beginDate
+      let newBegin = typeof (newCards[i].beginDate === 'string')
+         ? new Date(newCards[i].beginDate)
+         : newCards[i].beginDate
+      let oldEnd = typeof old.endDate === 'string' ? new Date(old.endDate) : old.endDate
+      let newEnd = typeof (newCards[i].endDate === 'string') ? new Date(newCards[i].endDate) : newCards[i].endDate
+      return oldBegin - newBegin || oldEnd - newEnd
+   })
+   return isDifferent
+}
 
 const passwordGenerator = function (length) {
    let password = ''
@@ -25,4 +38,8 @@ const passwordGenerator = function (length) {
    return password
 }
 
-module.exports = { compareDates, passwordGenerator }
+module.exports = {
+   compareDates,
+   travelCardsChanged,
+   passwordGenerator,
+}
