@@ -1,32 +1,31 @@
 const createError = require('http-errors')
 const Errors = require('../types/errors')
 
-const compareDates = function (prevDate, nextDate) {
-   if (!prevDate || !nextDate) {
-      return false
-   }
-   let prev = prevDate,
-      next = nextDate
-   if (typeof prev === 'string') {
-      prev = new Date(prevDate)
-   }
-   if (typeof next === 'string') {
-      next = new Date(nextDate)
-   }
-   return prev < next
-}
-const travelCardsChanged = function (oldCards, newCards) {
-   if (oldCards.length !== newCards.length) return true
-   let isDifferent = oldCards.find((old, i) => {
-      let oldBegin = typeof old.beginDate === 'string' ? new Date(old.beginDate) : old.beginDate
-      let newBegin = typeof (newCards[i].beginDate === 'string')
-         ? new Date(newCards[i].beginDate)
-         : newCards[i].beginDate
-      let oldEnd = typeof old.endDate === 'string' ? new Date(old.endDate) : old.endDate
-      let newEnd = typeof (newCards[i].endDate === 'string') ? new Date(newCards[i].endDate) : newCards[i].endDate
-      return oldBegin - newBegin || oldEnd - newEnd
-   })
-   return isDifferent
+const Dates = {
+   _convert: function (prevDate, nextDate) {
+      let prev = prevDate,
+         next = nextDate
+      if (typeof prev === 'string') {
+         prev = new Date(prevDate)
+      }
+      if (typeof next === 'string') {
+         next = new Date(nextDate)
+      }
+      return { prev, next }
+   },
+   compare: function (prevDate, nextDate) {
+      if (!prevDate || !nextDate) {
+         return false
+      }
+      const { prev, next } = this._convert(prevDate, nextDate)
+      prev.setHours(0, 0, 0, 0)
+      next.setHours(0, 0, 0, 0)
+      return prev < next
+   },
+   isEqual: function (prevDate, nextDate) {
+      const { prev, next } = this._convert(prevDate, nextDate)
+      return !(prev - next)
+   },
 }
 
 const passwordGenerator = function (length) {
@@ -39,7 +38,6 @@ const passwordGenerator = function (length) {
 }
 
 module.exports = {
-   compareDates,
-   travelCardsChanged,
+   Dates,
    passwordGenerator,
 }
