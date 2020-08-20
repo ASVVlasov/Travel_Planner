@@ -4,9 +4,11 @@ function updateStatus(doc) {
    if (!doc) {
       return
    }
-   const today = new Date()
-   today.setHours(0, 0, 0, 0)
-   if (doc.status !== travelStatuses.ARCHIVE && Date.parse(doc.endDate) < today) {
+   let today = new Date()
+   today.setUTCHours(0, 0, 0, 0)
+   const endDate = new Date(doc.endDate)
+   endDate.setUTCHours(0, 0, 0, 0)
+   if (doc.status !== travelStatuses.ARCHIVE && endDate < today) {
       doc.status = travelStatuses.ARCHIVE
       doc.save()
    }
