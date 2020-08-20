@@ -62,7 +62,10 @@ export class HeaderTitle extends React.Component {
    }
 
    render() {
-      const { title } = this.props.travel
+      const title =
+         this.props.travel.title.length <= 80
+            ? this.props.travel.title
+            : this.props.travel.title.substr(0, 77) + '...'
       let inputSize = 5
       if (title) {
          inputSize = this.state.inputSize || title.length
@@ -74,7 +77,7 @@ export class HeaderTitle extends React.Component {
                type="text"
                value={this.state.isInEditMode ? this.state.value : title}
                ref={this.headerInput}
-               maxLength="30"
+               maxLength="80"
                size={inputSize > 5 ? inputSize : 5}
                onKeyUp={(e) => this.handleKeyUp(e, e.target.value)}
                onChange={(e) => this.handleChange(e)}
