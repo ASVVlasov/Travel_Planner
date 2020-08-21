@@ -276,6 +276,22 @@ class CardFull extends Component {
       return name || surname ? `${name} ${surname}`.trim() : nickName
    }
 
+   setMaximumTextLength = (text, indexA, indexB) => {
+      if (indexA || indexB) {
+         // call with parameters (example): this.setMaximumTextLength(text, 0, 40)
+         if (text.length > indexB) {
+            return text.substring(indexA, indexB) + '...'
+         } else {
+            return text
+         }
+      } else if (text.length > 75) {
+         // default call (example): this.setMaximumTextLength(text)
+         return text.substring(0, 75) + '...'
+      } else {
+         return text
+      }
+   }
+
    render() {
       const { toClose, deleteCard, card, getBudget, isFileLoading } = this.props
 
@@ -319,7 +335,8 @@ class CardFull extends Component {
             <div className={styles.card}>
                <div className={styles.card__header}>
                   <span className={styles.card__breadcrumbs}>
-                     {type} / <strong>{title}</strong>
+                     {type} /{' '}
+                     <strong>{this.setMaximumTextLength(title)}</strong>
                   </span>
                   <CloseIcon
                      className={classNames(styles.icons, styles.icons__close)}
@@ -342,7 +359,10 @@ class CardFull extends Component {
                            styles.card__companyName,
                            !company && styles.defaultCaptions
                         )}
-                        children={company || captions.company}
+                        children={
+                           this.setMaximumTextLength(company, 0, 40) ||
+                           captions.company
+                        }
                      />
 
                      <div className={styles.schema}>
@@ -385,7 +405,10 @@ class CardFull extends Component {
                                  styles.route__place,
                                  !beginPoint && styles.defaultCaptions
                               )}
-                              children={beginPoint || captions.beginPoint}
+                              children={
+                                 this.setMaximumTextLength(beginPoint) ||
+                                 captions.beginPoint
+                              }
                            />
 
                            <span
@@ -411,7 +434,10 @@ class CardFull extends Component {
                                  styles.route__place,
                                  !endPoint && styles.defaultCaptions
                               )}
-                              children={endPoint || captions.endPoint}
+                              children={
+                                 this.setMaximumTextLength(endPoint) ||
+                                 captions.endPoint
+                              }
                            />
                            <span
                               className={
