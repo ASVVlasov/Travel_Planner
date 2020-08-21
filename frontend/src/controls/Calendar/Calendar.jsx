@@ -39,24 +39,16 @@ export class Calendar extends React.Component {
       this.setState({ startDate, endDate })
    }
 
-   static getDerivedStateFromProps(props, state) {
-      if (
-         props.travel.beginDate !== state.startDate ||
-         props.travel.endDate !== state.endDate
-      ) {
-         const stringBeginDate = props.travel.beginDate
-         const stringEndDate = props.travel.endDate
-         return {
-            ...state,
-            ...{
-               startDate: stringBeginDate
-                  ? moment(stringBeginDate)
-                  : stringBeginDate,
-               endDate: stringEndDate ? moment(stringEndDate) : stringEndDate,
-            },
-         }
-      }
-      return null
+   componentDidMount = async () => {
+      await this.props.getTravel(this.props.travelId)
+
+      const stringBeginDate = this.props.travel.beginDate
+      const stringEndDate = this.props.travel.endDate
+
+      this.setState({
+         startDate: stringBeginDate ? moment(stringBeginDate) : stringBeginDate,
+         endDate: stringEndDate ? moment(stringEndDate) : stringEndDate,
+      })
    }
 
    render() {

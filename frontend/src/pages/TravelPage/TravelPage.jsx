@@ -43,7 +43,10 @@ class TravelPage extends React.Component {
                <Loader type="big" />
             ) : (
                <div className={styles.travelPage}>
-                  <Header travel={travel} />
+                  <Header
+                     travel={travel}
+                     travelId={this.props.match.params.travelId}
+                  />
                   <Route path={`${path}/:board/:tab`} component={Board} />
                   <Footer travelId={travel._id} />
                   <div className={styles.travelPage__sidebarWrap}>
