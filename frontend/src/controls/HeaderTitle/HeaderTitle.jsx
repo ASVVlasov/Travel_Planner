@@ -65,7 +65,7 @@ export class HeaderTitle extends React.Component {
       const title =
          this.props.travel.title.length <= 80
             ? this.props.travel.title
-            : this.props.travel.title.substr(0, 77) + '...'
+            : this.props.travel.title.substring(0, 77) + '...'
       let inputSize = 5
       if (title) {
          inputSize = this.state.inputSize || title.length
