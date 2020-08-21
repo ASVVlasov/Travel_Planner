@@ -18,6 +18,7 @@ a {
       @include Title-1-SemiBold;
       color: $color-primary-main;
       margin-bottom: 10px;
+      word-break: break-all;
    }
    &__dates {
       margin-bottom: 25px;
