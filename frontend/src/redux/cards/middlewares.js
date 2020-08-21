@@ -43,6 +43,7 @@ export default (store) => (next) => (action) => {
          )
 
          sortByTime(activeCards)
+         sortByTime(cardsWithoutDate)
          sortByTime(archivalCards)
 
          sortCards = activeCards.concat(cardsWithoutDate, archivalCards)
