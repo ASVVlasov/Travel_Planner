@@ -73,17 +73,24 @@ travelSchema.statics.cardOutdated = function (travel, card) {
    return Dates.compare(card.beginDate, travel.beginDate) || Dates.compare(travel.endDate, card.endDate)
 }
 
-travelSchema.statics.leaveTravel = async function (travelId, userId) {
-   let travel = await this.findById(travelId)
+travelSchema.statics.leaveTravel = async function (travel, userId) {
    if (travel.status === travelStatuses.ARCHIVE) {
       throw Errors.travelError.cantLeaveError
    } else {
-      await CardModel.removeUser(travelId, userId)
-      travel.cards = travel.cards.filter((card) => !(card.payers.length === 1 && card.payers[0].user.id === userId))
-      await UserModel.findByIdAndUpdate(userId, { $pull: { travels: travelId } })
-      travel.users.pull(userId)
-      await travel.save()
-      return travel
+      const cardIds = []
+      travel.cards.forEach((card) => {
+         if (card.payers.length === 1 && !!card.payers.find((payer) => payer.user.id == userId)) {
+            cardIds.push(card._id)
+         }
+      })
+      await UserModel.findByIdAndUpdate(userId, { $pull: { travels: travel._id } })
+      await CardModel.removeUser(travel._id, userId)
+      let update = {
+         $pull: { users: userId },
+      }
+      await this.findByIdAndUpdate(travel._id, update, { new: true })
+      update = { $pullAll: { cards: cardIds } }
+      return await this.findByIdAndUpdate(travel._id, update, { new: true })
    }
 }
 travelSchema.statics.deleteTravel = async function (travel) {
