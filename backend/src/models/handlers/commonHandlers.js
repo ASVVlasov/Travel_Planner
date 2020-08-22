@@ -18,8 +18,8 @@ const Dates = {
          return false
       }
       const { prev, next } = this._convert(prevDate, nextDate)
-      prev.setHours(0, 0, 0, 0)
-      next.setHours(0, 0, 0, 0)
+      prev.setUTCHours(0, 0, 0, 0)
+      next.setUTCHours(0, 0, 0, 0)
       return prev < next
    },
    isEqual: function (prevDate, nextDate) {
