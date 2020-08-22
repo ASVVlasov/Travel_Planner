@@ -68,15 +68,6 @@ travelSchema.statics.dateChanged = function (oldTravel, newTravel) {
       !Dates.isEqual(oldTravel.beginDate, newTravel.beginDate) || !Dates.isEqual(oldTravel.endDate, newTravel.endDate)
    )
 }
-travelSchema.statics.cardsChanged = function (oldTravel, newTravel) {
-   const oldCards = oldTravel.cards
-   const newCards = newTravel.cards
-   if (oldCards.length !== newCards.length) return true
-   let res = oldCards.find((old, i) => {
-      return !Dates.isEqual(old.beginDate, newCards[i].beginDate) || !Dates.isEqual(old.endDate, newCards[i].endDate)
-   })
-   return res
-}
 
 travelSchema.statics.cardOutdated = function (travel, card) {
    return Dates.compare(card.beginDate, travel.beginDate) || Dates.compare(travel.endDate, card.endDate)
@@ -118,7 +109,7 @@ travelSchema.statics.updateTravel = async function (travelModel) {
       throw Errors.travelError.dateError
    } else {
       let oldTravel = await this.findById(travelModel._id)
-      if (this.cardsChanged(oldTravel, travelModel) || this.dateChanged(oldTravel, travelModel)) {
+      if (this.dateChanged(oldTravel, travelModel)) {
          for (const cardModel of travelModel.cards) {
             const card = await CardModel.findById(cardModel._id)
             if (this.cardOutdated(travelModel, card)) {
