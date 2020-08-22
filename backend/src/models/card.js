@@ -7,6 +7,7 @@ const Errors = require('./types/errors')
 const cardTypes = Object.values(EnumCardTypes)
 const FileModel = require('./file')
 const PayerModel = require('./payer')
+const payer = require('./payer')
 
 const cardSchema = new Schema({
    travelId: {
@@ -152,21 +153,18 @@ cardSchema.statics.pushUser = async function (cardId, userId) {
 }
 cardSchema.statics.removeUser = async function (travelId, userId) {
    const cards = await this.find({ travelId })
-   const cardIds = []
    for (const card of cards) {
-      if (card.payers.length === 1 && card.payers[0].user.id == userId) {
-         cardIds.push(card._id)
-         await this.findByIdAndRemove(card._id)
-      } else {
-         let payer = await PayerModel.findOne({ cardId: card._id, user: userId })
-         if (!!payer) {
+      const payer = card.payers.find((payer) => payer.user.id == userId)
+      if (payer) {
+         await PayerModel.findByIdAndRemove(payer)
+         if (card.payers.length === 1) {
+            await this.findByIdAndRemove(card._id)
+         } else {
             const update = { $pull: { payers: payer.id } }
             await this.findByIdAndUpdate(card._id, update, { new: true })
-            cardIds.push(card._id)
          }
       }
    }
-   await PayerModel.deletePayerCards(userId, cardIds)
 }
 // Hooks
 cardSchema.post('find', async function (docs, next) {
