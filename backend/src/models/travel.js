@@ -8,6 +8,7 @@ const errorHandler = require('./handlers/errorHandler')
 const StatusHandler = require('./handlers/statusHandler')
 const populateHandler = require('./handlers/populateHandler')
 const commonHandlers = require('./handlers/commonHandlers')
+const Dates = commonHandlers.Dates
 const Errors = require('./types/errors')
 
 const travelSchema = new Schema({
@@ -72,7 +73,8 @@ travelSchema.statics.cardOutdated = function (travel, card) {
    return Dates.compare(card.beginDate, travel.beginDate) || Dates.compare(travel.endDate, card.endDate)
 }
 
-travelSchema.statics.leaveTravel = async function (travel, userId) {
+travelSchema.statics.leaveTravel = async function (travelId, userId) {
+   let travel = await this.findById(travelId)
    if (travel.status === travelStatuses.ARCHIVE) {
       throw Errors.travelError.cantLeaveError
    } else {
@@ -111,19 +113,19 @@ travelSchema.statics.pushUser = async function (travelId, userId) {
 }
 
 travelSchema.statics.updateTravel = async function (travelModel) {
-   if (commonHandlers.compareDates(travelModel.endDate, travelModel.beginDate)) {
+   if (Dates.compare(travelModel.endDate, travelModel.beginDate)) {
       throw Errors.travelError.dateError
    } else {
-      for (const cardModel of travelModel.cards) {
-         const card = await CardModel.findById(cardModel._id)
-         if (
-            commonHandlers.compareDates(card.beginDate, travelModel.beginDate) ||
-            commonHandlers.compareDates(travelModel.endDate, card.endDate)
-         ) {
-            delete travelModel.cards
-            delete travelModel.users
-            await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
-            throw Errors.travelError.dateCompareError
+      let oldTravel = await this.findById(travelModel._id)
+      if (this.dateChanged(oldTravel, travelModel)) {
+         for (const cardModel of travelModel.cards) {
+            const card = await CardModel.findById(cardModel._id)
+            if (this.cardOutdated(travelModel, card)) {
+               delete travelModel.cards
+               delete travelModel.users
+               await this.findByIdAndUpdate(travelModel._id, travelModel, { new: true })
+               throw Errors.travelError.dateCompareError
+            }
          }
       }
    }
@@ -137,7 +139,7 @@ travelSchema.post('findOne', populateHandler.travelToClient)
 travelSchema.post('findOneAndUpdate', errorHandler.ErrorTravelHandler)
 travelSchema.post('findOneAndUpdate', populateHandler.travelToClient)
 travelSchema.pre('save', function (next) {
-   if (commonHandlers.compareDates(this.endDate, this.beginDate)) {
+   if (Dates.compare(this.endDate, this.beginDate)) {
       next(Errors.travelError.dateError)
    } else {
       next()

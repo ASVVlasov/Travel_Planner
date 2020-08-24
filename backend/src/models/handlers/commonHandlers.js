@@ -1,19 +1,31 @@
 const createError = require('http-errors')
 const Errors = require('../types/errors')
 
-const compareDates = function (prevDate, nextDate) {
-   if (!prevDate || !nextDate) {
-      return false
-   }
-   let prev = prevDate,
-      next = nextDate
-   if (typeof prev === 'string') {
-      prev = new Date(prevDate)
-   }
-   if (typeof next === 'string') {
-      next = new Date(nextDate)
-   }
-   return prev < next
+const Dates = {
+   _convert: function (prevDate, nextDate) {
+      let prev = prevDate,
+         next = nextDate
+      if (typeof prev === 'string') {
+         prev = new Date(prevDate)
+      }
+      if (typeof next === 'string') {
+         next = new Date(nextDate)
+      }
+      return { prev, next }
+   },
+   compare: function (prevDate, nextDate) {
+      if (!prevDate || !nextDate) {
+         return false
+      }
+      const { prev, next } = this._convert(prevDate, nextDate)
+      prev.setUTCHours(0, 0, 0, 0)
+      next.setUTCHours(0, 0, 0, 0)
+      return prev < next
+   },
+   isEqual: function (prevDate, nextDate) {
+      const { prev, next } = this._convert(prevDate, nextDate)
+      return !(prev - next)
+   },
 }
 
 const passwordGenerator = function (length) {
@@ -25,4 +37,7 @@ const passwordGenerator = function (length) {
    return password
 }
 
-module.exports = { compareDates, passwordGenerator }
+module.exports = {
+   Dates,
+   passwordGenerator,
+}
