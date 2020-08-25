@@ -110,21 +110,6 @@ export default class CardShort extends Component {
       })
    }
 
-   setMaximumTextLength = (text, indexA, indexB) => {
-      if (indexA || indexB) {
-         // call with parameters (example): this.setMaximumTextLength(text, 0, 40)
-         if (text.length > indexB) {
-            return text.substring(indexA, indexB) + '...'
-         } else {
-            return text
-         }
-      } else if (text.length > 75) {
-         // default call (example): this.setMaximumTextLength(text)
-         return text.substring(0, 75) + '...'
-      } else {
-         return text
-      }
-   }
    render() {
       const {
          title,
@@ -180,19 +165,13 @@ export default class CardShort extends Component {
             >
                <div>
                   <div className={styles.card__header}>
-                     <h2
-                        className={styles.card__title}
-                        children={this.setMaximumTextLength(title)}
-                     />
+                     <h2 className={styles.card__title} children={title} />
                      <p
                         className={classNames(
                            styles.card__company,
                            !company && styles.defaultCaptions
                         )}
-                        children={
-                           this.setMaximumTextLength(company) ||
-                           captions.company
-                        }
+                        children={company || captions.company}
                      />
                   </div>
 
@@ -251,10 +230,7 @@ export default class CardShort extends Component {
                                  styles.route__place,
                                  !beginPoint && styles.defaultCaptions
                               )}
-                              children={
-                                 this.setMaximumTextLength(beginPoint) ||
-                                 captions.beginPoint
-                              }
+                              children={beginPoint || captions.beginPoint}
                            />
                            <span
                               className={
@@ -279,10 +255,7 @@ export default class CardShort extends Component {
                                  styles.route__place,
                                  !endPoint && styles.defaultCaptions
                               )}
-                              children={
-                                 this.setMaximumTextLength(endPoint) ||
-                                 captions.endPoint
-                              }
+                              children={endPoint || captions.endPoint}
                            />
                            {/* TODO edit location of dates */}
                            <span

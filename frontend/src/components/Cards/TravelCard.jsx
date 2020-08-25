@@ -61,21 +61,6 @@ export default class TravelCard extends Component {
          )
       })
 
-   setMaximumTextLength = (text, indexA, indexB) => {
-      if (indexA || indexB) {
-         // call with parameters (example): this.setMaximumTextLength(text, 0, 40)
-         if (text.length > indexB) {
-            return text.substring(indexA, indexB) + '...'
-         } else {
-            return text
-         }
-      } else if (text.length > 75) {
-         // default call (example): this.setMaximumTextLength(text)
-         return text.substring(0, 75) + '...'
-      } else {
-         return text
-      }
-   }
    render() {
       const {
          _id,
@@ -101,10 +86,7 @@ export default class TravelCard extends Component {
                      children={status.toLowerCase()}
                   />
                )}
-               <h2
-                  className={styles.card__title}
-                  children={this.setMaximumTextLength(title)}
-               />
+               <h2 className={styles.card__title} children={title} />
                <div className={styles.card__dates}>
                   <span
                      className={styles.date}

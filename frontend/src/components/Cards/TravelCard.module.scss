@@ -19,6 +19,17 @@ a {
       color: $color-primary-main;
       margin-bottom: 10px;
       word-break: break-all;
+      // limit the number of lines
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -moz-box;
+      -moz-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-clamp: 3;
+      box-orient: vertical;
+      // limit the number of lines
    }
    &__dates {
       margin-bottom: 25px;
