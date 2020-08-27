@@ -39,6 +39,28 @@
    font-weight: 500;
 }
 
+// limit the number of lines
+@mixin limitTheNumberOfLines ($NumberOfLines) {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -moz-box;
+   -moz-box-orient: vertical;
+   display: -webkit-box;
+   -webkit-line-clamp: $NumberOfLines;
+   -webkit-box-orient: vertical;
+   line-clamp: $NumberOfLines;
+   box-orient: vertical;
+}
+@mixin limitTheNumberOfLinesTo-1 {
+   @include limitTheNumberOfLines(1)
+}
+@mixin limitTheNumberOfLinesTo-2 {
+   @include limitTheNumberOfLines(2)
+}
+@mixin limitTheNumberOfLinesTo-3 {
+   @include limitTheNumberOfLines(3)
+}
+
 // Shadows for cards, forms, buttons 
 @mixin LightShadow {
    box-shadow: 1px 1px 10px change-color($color-secondary-light, $alpha: 0.15);

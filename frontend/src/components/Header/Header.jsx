@@ -147,7 +147,7 @@ class Header extends React.Component {
          return <Redirect to={'/profile/travels'} />
       }
 
-      const travel = this.props.travel
+      const { travel, travelId } = this.props
       const users = travel.users
       const travelersAdded = users && users.length > 1
       const typeConfirm =
@@ -163,16 +163,12 @@ class Header extends React.Component {
                </div>
             </Link>
 
-            <div className={styles['trip-data']}>
-               <div className={styles['trip-data__item']}>
-                  <div className={styles['trip-data__title-text']}>
-                     <HeaderTitle />
-                  </div>
+            <div className={styles.tripData}>
+               <div className={styles.tripData__headerTitle}>
+                  <HeaderTitle />
                </div>
-               <div className={styles['trip-data__item']}>
-                  <div className={styles['trip-data__period-text']}>
-                     <Calendar travel={travel} />
-                  </div>
+               <div className={styles.tripData__calendar}>
+                  <Calendar travel={travel} travelId={travelId} />
                </div>
             </div>
 

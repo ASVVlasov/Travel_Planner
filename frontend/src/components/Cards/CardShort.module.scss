@@ -13,12 +13,17 @@
    }
    &__title {
       margin-bottom: 6px;
+      margin-right: 20px;
       @include Title-2-SemiBold ;
       color: $color-primary-main;
+      word-break: break-all;
+      @include limitTheNumberOfLinesTo-3;
    }
    &__company {
       @include Subtitle-1-Regular;
       color: $color-primary-main;
+      word-break: break-all;
+      @include limitTheNumberOfLinesTo-3;
    }
    &__badges {
       display: flex;
@@ -87,6 +92,8 @@
       margin-bottom: 6px;
       @include Subtitle-1-Regular;
       color: $color-primary-main;
+      word-break: break-all;
+      @include limitTheNumberOfLinesTo-3;
    }
    &__date {
       display: block;

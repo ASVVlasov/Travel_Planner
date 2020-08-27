@@ -40,7 +40,8 @@ export class Calendar extends React.Component {
    }
 
    componentDidMount = async () => {
-      await this.props.getTravel(this.props.travel._id)
+      await this.props.getTravel(this.props.travelId)
+
       const stringBeginDate = this.props.travel.beginDate
       const stringEndDate = this.props.travel.endDate
 

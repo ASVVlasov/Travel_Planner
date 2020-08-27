@@ -146,7 +146,12 @@ export default class CardShort extends Component {
       const start = new Date(beginDate).toLocaleDateString()
       const finish = new Date(endDate).toLocaleDateString()
       const unexpiredCard =
-         new Date(endDate) > new Date() || finish !== '01.01.1970'
+         new Date(endDate) < new Date() &&
+         new Date(beginDate) < new Date() &&
+         today !== '01.01.1970' &&
+         finish !== '01.01.1970'
+            ? false
+            : true
 
       return (
          <>

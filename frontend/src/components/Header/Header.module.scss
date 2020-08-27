@@ -12,14 +12,20 @@
   @include IconBright(30px);
   cursor: pointer;
 }
-.trip-data {
+.tripData {
   @include Subtitle-1-Regular;
   color: $color-gray-2;
   flex: 1 1 auto;
   display: flex;
-  &__item {
+  &__headerTitle {
     display: flex;
     align-items: center;
+    margin: 0px 0px 0px 50px;
+  }
+  &__calendar {
+    display: flex;
+    align-items: center;
+    min-width: 405px;
     margin: 0px 0px 0px 50px;
   }
   &__title {

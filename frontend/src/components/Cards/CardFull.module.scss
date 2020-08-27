@@ -18,10 +18,13 @@
       width: 100%;
       position: relative;
       margin-bottom: 45px;
+      padding-right: 15px;
    }
    &__breadcrumbs {
       @include Subtitle-1-Regular;
+      @include limitTheNumberOfLinesTo-1;
       & strong {
+         word-break: break-all;
          @include Subtitle-1-SemiBold;
       }
    }
@@ -39,6 +42,8 @@
       @include Title-2-SemiBold;
       color: $color-secondary-main;
       margin-bottom: 20px;
+      word-break: break-all;
+      @include limitTheNumberOfLinesTo-2;
    }
    &__route {
       width: 62%;
@@ -173,11 +178,19 @@ h2 {
 }
 
 .route {
+   width: 294px;
+   height: 245px;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap-reverse;
+   justify-content: space-between;
    &__start {
-      margin-bottom: 100px;
+      margin-bottom: 10px;
+      max-height: 90px;
    }
    &__finish {
       margin-bottom: 40px;
+      max-height: 90px;
    }
    &__place {
       display: block;
@@ -185,6 +198,8 @@ h2 {
       margin-bottom: 6px;
       @include Subtitle-1-SemiBold;
       color: $color-primary-main;
+      word-break: break-all;
+      @include limitTheNumberOfLinesTo-3;
    }
    &__date {
       display: block;
