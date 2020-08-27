@@ -17,33 +17,13 @@
       @include Title-2-SemiBold ;
       color: $color-primary-main;
       word-break: break-all;
-      // limit the number of lines
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -moz-box;
-      -moz-box-orient: vertical;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      line-clamp: 3;
-      box-orient: vertical;
-      // limit the number of lines
+      @include limitTheNumberOfLinesTo-3;
    }
    &__company {
       @include Subtitle-1-Regular;
       color: $color-primary-main;
       word-break: break-all;
-      // limit the number of lines
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -moz-box;
-      -moz-box-orient: vertical;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      line-clamp: 3;
-      box-orient: vertical;
-      // limit the number of lines
+      @include limitTheNumberOfLinesTo-3;
    }
    &__badges {
       display: flex;
@@ -113,17 +93,7 @@
       @include Subtitle-1-Regular;
       color: $color-primary-main;
       word-break: break-all;
-      // limit the number of lines
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -moz-box;
-      -moz-box-orient: vertical;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      line-clamp: 3;
-      box-orient: vertical;
-      // limit the number of lines
+      @include limitTheNumberOfLinesTo-3;
    }
    &__date {
       display: block;
